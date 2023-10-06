@@ -1,11 +1,3 @@
-/**
- * Copyright (c) Baidu Inc. All rights reserved.
- *
- * This source code is licensed under the MIT license.
- * See LICENSE file in the project root for license information.
- *
- * @file 解析抽象节点属性
- */
 
 var kebab2camel = require('../util/kebab2camel');
 var boolAttrs = require('../browser/bool-attrs');

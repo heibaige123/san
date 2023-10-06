@@ -1,11 +1,3 @@
-/**
- * Copyright (c) Baidu Inc. All rights reserved.
- *
- * This source code is licensed under the MIT license.
- * See LICENSE file in the project root for license information.
- *
- * @file 创建节点的工厂方法
- */
 
 var Element = require('./element');
 var FragmentNode = require('./fragment-node');

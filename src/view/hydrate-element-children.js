@@ -1,11 +1,3 @@
-/**
- * Copyright (c) Baidu Inc. All rights reserved.
- *
- * This source code is licensed under the MIT license.
- * See LICENSE file in the project root for license information.
- *
- * @file 对元素的子节点进行反解
- */
 
 
 var DOMChildrenWalker = require('./dom-children-walker');

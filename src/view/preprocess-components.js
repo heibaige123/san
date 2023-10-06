@@ -1,11 +1,4 @@
-/**
- * Copyright (c) Baidu Inc. All rights reserved.
- *
- * This source code is licensed under the MIT license.
- * See LICENSE file in the project root for license information.
- *
- * @file 预处理组件的 components
- */
+
 
 var defineComponent = require('./define-component');
 var ComponentLoader = require('./component-loader');

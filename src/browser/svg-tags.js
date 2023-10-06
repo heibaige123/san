@@ -1,15 +1,8 @@
-/**
- * Copyright (c) Baidu Inc. All rights reserved.
- *
- * This source code is licensed under the MIT license.
- * See LICENSE file in the project root for license information.
- *
- * @file SVG标签表
- */
 
 
 /**
  * svgTags
+ * SVG标签表
  *
  * @see https://www.w3.org/TR/SVG/svgdtd.html 只取常用
  * @type {Object}

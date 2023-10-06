@@ -1,11 +1,3 @@
-/**
- * Copyright (c) Baidu Inc. All rights reserved.
- *
- * This source code is licensed under the MIT license.
- * See LICENSE file in the project root for license information.
- *
- * @file 元素节点类
- */
 
 
 var changeExprCompare = require('../runtime/change-expr-compare');

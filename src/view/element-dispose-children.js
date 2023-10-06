@@ -1,13 +1,4 @@
 /**
- * Copyright (c) Baidu Inc. All rights reserved.
- *
- * This source code is licensed under the MIT license.
- * See LICENSE file in the project root for license information.
- *
- * @file 销毁释放元素的子元素
- */
-
-/**
  * 销毁释放元素的子元素
  *
  * @param {Array=} children 子元素数组

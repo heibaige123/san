@@ -1,11 +1,4 @@
-/**
- * Copyright (c) Baidu Inc. All rights reserved.
- *
- * This source code is licensed under the MIT license.
- * See LICENSE file in the project root for license information.
- *
- * @file 创建模板组件类
- */
+
 
 var TemplateComponent = require('./template-component');
 var inherits = require('../util/inherits');

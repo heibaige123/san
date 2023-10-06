@@ -1,11 +1,3 @@
-/**
- * Copyright (c) Baidu Inc. All rights reserved.
- *
- * This source code is licensed under the MIT license.
- * See LICENSE file in the project root for license information.
- *
- * @file 将组件外部声明的 props 处理转换成 binds
- */
 
 var kebab2camel = require('../util/kebab2camel');
 var ExprType = require('../parser/expr-type');

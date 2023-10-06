@@ -1,11 +1,3 @@
-/**
- * Copyright (c) Baidu Inc. All rights reserved.
- *
- * This source code is licensed under the MIT license.
- * See LICENSE file in the project root for license information.
- *
- * @file text 节点类
- */
 
 var guid = require('../util/guid');
 var isBrowser = require('../browser/is-browser');

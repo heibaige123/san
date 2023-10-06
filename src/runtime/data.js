@@ -1,11 +1,4 @@
-/**
- * Copyright (c) Baidu Inc. All rights reserved.
- *
- * This source code is licensed under the MIT license.
- * See LICENSE file in the project root for license information.
- *
- * @file 数据类
- */
+
 
 var ExprType = require('../parser/expr-type');
 var evalExpr = require('./eval-expr');

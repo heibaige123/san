@@ -1,11 +1,4 @@
-/**
- * Copyright (c) Baidu Inc. All rights reserved.
- *
- * This source code is licensed under the MIT license.
- * See LICENSE file in the project root for license information.
- *
- * @file 解析组件的模板
- */
+
 
 var warn = require('../util/warn');
 var parseTemplate = require('../parser/parse-template');
