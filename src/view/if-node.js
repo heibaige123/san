@@ -1,11 +1,4 @@
-/**
- * Copyright (c) Baidu Inc. All rights reserved.
- *
- * This source code is licensed under the MIT license.
- * See LICENSE file in the project root for license information.
- *
- * @file if 指令节点类
- */
+
 
 var guid = require('../util/guid');
 var insertBefore = require('../browser/insert-before');

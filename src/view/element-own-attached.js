@@ -1,11 +1,4 @@
-/**
- * Copyright (c) Baidu Inc. All rights reserved.
- *
- * This source code is licensed under the MIT license.
- * See LICENSE file in the project root for license information.
- *
- * @file 完成元素 attached 后的行为
- */
+
 
 
 var empty = require('../util/empty');
