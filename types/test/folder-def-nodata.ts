@@ -39,7 +39,14 @@ const ComponentWithSlot = san.defineComponent({
     },
 
     // AutoComplete: template
-    template: "<div>" + '<x-folder isShow="true" s-ref="folder">' + '<b slot="head">{{head}}</b>' + '<strong slot="foot">{{foot}}</strong>' + "<u>{{content}}</u>" + "</x-folder>" + "</div>",
+    template:
+        "<div>" +
+        '<x-folder isShow="true" s-ref="folder">' +
+        '<b slot="head">{{head}}</b>' +
+        '<strong slot="foot">{{foot}}</strong>' +
+        "<u>{{content}}</u>" +
+        "</x-folder>" +
+        "</div>",
 });
 const slotComponent = new ComponentWithSlot({
     // AutoComplete: data

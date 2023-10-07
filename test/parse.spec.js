@@ -35,13 +35,17 @@ describe("parse", function () {
         var anode = san.parseTemplate('{{name}}<dd title="good job"');
         expect(anode.children.length).toBe(1);
         expect(anode.children[0].textExpr.segs.length).toBe(2);
-        expect(anode.children[0].textExpr.segs[1].value).toBe('<dd title="good job"');
+        expect(anode.children[0].textExpr.segs[1].value).toBe(
+            '<dd title="good job"'
+        );
     });
 
     it("template contain tag+attr like text", function () {
         var anode = san.parseTemplate('hello san<dd title="good job"');
         expect(anode.children.length).toBe(1);
-        expect(anode.children[0].textExpr.value).toBe('hello san<dd title="good job"');
+        expect(anode.children[0].textExpr.value).toBe(
+            'hello san<dd title="good job"'
+        );
     });
 
     it("template contain 1+ tag+attr like text", function () {

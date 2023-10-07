@@ -42,7 +42,11 @@ const Layer = san.defineComponent<{
 
     filters: {
         selectedClass(date: number, value: Date) {
-            return date === value.getDate() && this.data.get("viewMonth") === value.getMonth() && this.data.get("viewYear") === value.getFullYear() ? "selected" : "";
+            return date === value.getDate() &&
+                this.data.get("viewMonth") === value.getMonth() &&
+                this.data.get("viewYear") === value.getFullYear()
+                ? "selected"
+                : "";
         },
     },
 
@@ -63,7 +67,8 @@ const Layer = san.defineComponent<{
             dates.push("");
         }
         let nextMonth = new Date(viewYear, viewMonth + 1, 1);
-        let days = (nextMonth.getTime() - viewDate.getTime()) / 24 / 60 / 60 / 1000;
+        let days =
+            (nextMonth.getTime() - viewDate.getTime()) / 24 / 60 / 60 / 1000;
         for (let i = 1; i <= days; i++) {
             dates.push(i);
         }
@@ -102,7 +107,11 @@ const Layer = san.defineComponent<{
     },
 
     select(date: number) {
-        let newDate = new Date(this.data.get("viewYear"), this.data.get("viewMonth"), date);
+        let newDate = new Date(
+            this.data.get("viewYear"),
+            this.data.get("viewMonth"),
+            date
+        );
         this.data.set("value", newDate);
         this.fire("select", newDate);
 
@@ -142,7 +151,12 @@ export default san.defineComponent<{ value: Date }>({
 
         this._docClicker = (e: MouseEvent) => {
             let target = e.target as HTMLElement;
-            if (this.el && target !== this.el && $(target).closest(this.el).length === 0 && $(target).closest(this.layer.el).length === 0) {
+            if (
+                this.el &&
+                target !== this.el &&
+                $(target).closest(this.el).length === 0 &&
+                $(target).closest(this.layer.el).length === 0
+            ) {
                 this.hideLayer();
             }
         };

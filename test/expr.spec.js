@@ -208,7 +208,8 @@ describe("Expression", function () {
 
     it("tertiary when cond true", function () {
         var MyComponent = san.defineComponent({
-            template: "<b>{{a+b-c ? v1 + v2 : v3 + v4 | tobe('hello erik')}}</b>",
+            template:
+                "<b>{{a+b-c ? v1 + v2 : v3 + v4 | tobe('hello erik')}}</b>",
             filters: { tobe: tobeFilter },
             initData: function () {
                 return {
@@ -624,7 +625,8 @@ describe("Expression", function () {
 
     it("confuse a * b <= c + d ? a1 * b1 <= c1 + d1 ? xxx : xxxx : xxx", function () {
         var MyComponent = san.defineComponent({
-            template: "<b>{{val1 * val2 <= val3 + val4 ? va1 * va2 <= va3 + va4 ? '3' : yno: '1' | tobe('yno')}}</b>",
+            template:
+                "<b>{{val1 * val2 <= val3 + val4 ? va1 * va2 <= va3 + va4 ? '3' : yno: '1' | tobe('yno')}}</b>",
             filters: { tobe: tobeFilter },
             initData: function () {
                 return {
@@ -652,7 +654,8 @@ describe("Expression", function () {
 
     it("confuse a * b <= c + d ? a1 * b1 <= c1 + d1 ? xxx : xxxx : xxx", function () {
         var MyComponent = san.defineComponent({
-            template: "<b>{{val1 * val2 <= val3 + val4 ? va1 * va2 <= va3 + va4 ? '3' : yno: '1' | tobe('1')}}</b>",
+            template:
+                "<b>{{val1 * val2 <= val3 + val4 ? va1 * va2 <= va3 + va4 ? '3' : yno: '1' | tobe('1')}}</b>",
             filters: { tobe: tobeFilter },
             initData: function () {
                 return {
@@ -680,7 +683,8 @@ describe("Expression", function () {
 
     it("confuse a * b <= c + d ? a1 * b1 <= c1 + d1 ? xxx : xxxx : xxx", function () {
         var MyComponent = san.defineComponent({
-            template: "<b>{{val1 * val2 <= val3 + val4 ? '1' : va1 * va2 > va3 + va4 ? '3' : yno | tobe('3')}}</b>",
+            template:
+                "<b>{{val1 * val2 <= val3 + val4 ? '1' : va1 * va2 > va3 + va4 ? '3' : yno | tobe('3')}}</b>",
             filters: { tobe: tobeFilter },
             initData: function () {
                 return {
@@ -734,19 +738,27 @@ describe("Expression", function () {
                 val2: 4,
                 arr: [1, 2, 3, 4],
             },
-            parentData,
+            parentData
         );
 
         expect(san.evalExpr(san.parseExpr("val1+val2"), data)).toBe(7);
         expect(san.evalExpr(san.parseExpr("val3+val4"), data)).toBe(7);
 
-        expect(san.evalExpr(san.parseExpr("arr[val1] - arr[0] + 5"), data)).toBe(8);
-        expect(san.evalExpr(san.parseExpr("arr[val3] - arr[0] + 5"), data)).toBe(8);
+        expect(
+            san.evalExpr(san.parseExpr("arr[val1] - arr[0] + 5"), data)
+        ).toBe(8);
+        expect(
+            san.evalExpr(san.parseExpr("arr[val3] - arr[0] + 5"), data)
+        ).toBe(8);
 
         data.push("arr", 100);
 
-        expect(san.evalExpr(san.parseExpr("arr[val2]-arr[0]+5"), data)).toBe(104);
-        expect(san.evalExpr(san.parseExpr("arr[val4]-arr[0]+5"), data)).toBe(104);
+        expect(san.evalExpr(san.parseExpr("arr[val2]-arr[0]+5"), data)).toBe(
+            104
+        );
+        expect(san.evalExpr(san.parseExpr("arr[val4]-arr[0]+5"), data)).toBe(
+            104
+        );
     });
 
     it("method", function () {

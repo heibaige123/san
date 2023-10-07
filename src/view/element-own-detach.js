@@ -1,8 +1,6 @@
-
-
-var NodeType = require('./node-type');
-var handleError = require('../util/handle-error');
-var elementGetTransition = require('./element-get-transition');
+var NodeType = require("./node-type");
+var handleError = require("../util/handle-error");
+var elementGetTransition = require("./element-get-transition");
 
 /**
  * 将元素从页面上移除
@@ -18,9 +16,8 @@ function elementOwnDetach() {
 
         if (transition && transition.leave) {
             if (this._toPhase) {
-                this._toPhase('leaving');
-            }
-            else {
+                this._toPhase("leaving");
+            } else {
                 this.lifeCycle = LifeCycle.leaving;
             }
 
@@ -30,12 +27,13 @@ function elementOwnDetach() {
                     me._leave();
                 });
                 return;
-            }
-            catch (e) {
+            } catch (e) {
                 handleError(
-                    e, 
-                    this.nodeType === NodeType.CMPT ? this.parentComponent : this.owner, 
-                    'transitionLeave'
+                    e,
+                    this.nodeType === NodeType.CMPT
+                        ? this.parentComponent
+                        : this.owner,
+                    "transitionLeave"
                 );
             }
         }
@@ -43,6 +41,5 @@ function elementOwnDetach() {
 
     this._leave();
 }
-
 
 exports = module.exports = elementOwnDetach;

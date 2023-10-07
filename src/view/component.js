@@ -7,49 +7,47 @@
  * @file 组件类
  */
 
-var bind = require('../util/bind');
-var each = require('../util/each');
-var guid = require('../util/guid');
-var extend = require('../util/extend');
-var nextTick = require('../util/next-tick');
-var emitDevtool = require('../util/emit-devtool');
-var ExprType = require('../parser/expr-type');
-var parseExpr = require('../parser/parse-expr');
-var parseTemplate = require('../parser/parse-template');
-var unpackANode = require('../parser/unpack-anode');
-var removeEl = require('../browser/remove-el');
-var Data = require('../runtime/data');
-var evalExpr = require('../runtime/eval-expr');
-var changeExprCompare = require('../runtime/change-expr-compare');
-var DataChangeType = require('../runtime/data-change-type');
-var svgTags = require('../browser/svg-tags');
-var insertBefore = require('../browser/insert-before');
-var un = require('../browser/un');
-var preprocessComponents = require('./preprocess-components');
-var createNode = require('./create-node');
-var preheatEl = require('./preheat-el');
-var parseComponentTemplate = require('./parse-component-template');
-var preheatANode = require('./preheat-a-node');
-var LifeCycle = require('./life-cycle');
-var getANodeProp = require('./get-a-node-prop');
-var isDataChangeByElement = require('./is-data-change-by-element');
-var getEventListener = require('./get-event-listener');
-var hydrateElementChildren = require('./hydrate-element-children');
-var NodeType = require('./node-type');
-var styleProps = require('./style-props');
-var nodeSBindInit = require('./node-s-bind-init');
-var nodeSBindUpdate = require('./node-s-bind-update');
-var elementOwnAttached = require('./element-own-attached');
-var elementOwnDetach = require('./element-own-detach');
-var elementOwnDispose = require('./element-own-dispose');
-var warnEventListenMethod = require('./warn-event-listen-method');
-var elementDisposeChildren = require('./element-dispose-children');
-var createDataTypesChecker = require('../util/create-data-types-checker');
-var warn = require('../util/warn');
-var handleError = require('../util/handle-error');
-var DOMChildrenWalker = require('./dom-children-walker');
-
-
+var bind = require("../util/bind");
+var each = require("../util/each");
+var guid = require("../util/guid");
+var extend = require("../util/extend");
+var nextTick = require("../util/next-tick");
+var emitDevtool = require("../util/emit-devtool");
+var ExprType = require("../parser/expr-type");
+var parseExpr = require("../parser/parse-expr");
+var parseTemplate = require("../parser/parse-template");
+var unpackANode = require("../parser/unpack-anode");
+var removeEl = require("../browser/remove-el");
+var Data = require("../runtime/data");
+var evalExpr = require("../runtime/eval-expr");
+var changeExprCompare = require("../runtime/change-expr-compare");
+var DataChangeType = require("../runtime/data-change-type");
+var svgTags = require("../browser/svg-tags");
+var insertBefore = require("../browser/insert-before");
+var un = require("../browser/un");
+var preprocessComponents = require("./preprocess-components");
+var createNode = require("./create-node");
+var preheatEl = require("./preheat-el");
+var parseComponentTemplate = require("./parse-component-template");
+var preheatANode = require("./preheat-a-node");
+var LifeCycle = require("./life-cycle");
+var getANodeProp = require("./get-a-node-prop");
+var isDataChangeByElement = require("./is-data-change-by-element");
+var getEventListener = require("./get-event-listener");
+var hydrateElementChildren = require("./hydrate-element-children");
+var NodeType = require("./node-type");
+var styleProps = require("./style-props");
+var nodeSBindInit = require("./node-s-bind-init");
+var nodeSBindUpdate = require("./node-s-bind-update");
+var elementOwnAttached = require("./element-own-attached");
+var elementOwnDetach = require("./element-own-detach");
+var elementOwnDispose = require("./element-own-dispose");
+var warnEventListenMethod = require("./warn-event-listen-method");
+var elementDisposeChildren = require("./element-dispose-children");
+var createDataTypesChecker = require("../util/create-data-types-checker");
+var warn = require("../util/warn");
+var handleError = require("../util/handle-error");
+var DOMChildrenWalker = require("./dom-children-walker");
 
 /**
  * 组件类
@@ -57,23 +55,27 @@ var DOMChildrenWalker = require('./dom-children-walker');
  * @class
  * @param {Object} options 初始化参数
  */
-function Component(options) { // eslint-disable-line
+function Component(options) {
+    // eslint-disable-line
     // #[begin] error
     for (var key in Component.prototype) {
         if (this[key] !== Component.prototype[key]) {
             /* eslint-disable max-len */
-            warn('\`' + key + '\` is a reserved key of san components. Overriding this property may cause unknown exceptions.');
+            warn(
+                "`" +
+                    key +
+                    "` is a reserved key of san components. Overriding this property may cause unknown exceptions."
+            );
             /* eslint-enable max-len */
         }
     }
     // #[end]
 
-
     options = options || {};
     this.lifeCycle = LifeCycle.start;
     this.id = guid++;
 
-    if (typeof this.construct === 'function') {
+    if (typeof this.construct === "function") {
         this.construct(options);
     }
 
@@ -99,40 +101,40 @@ function Component(options) { // eslint-disable-line
     var parent = options.parent;
     if (parent) {
         this.parent = parent;
-        this.parentComponent = parent.nodeType === NodeType.CMPT
-            ? parent
-            : parent && parent.parentComponent;
-    }
-    else if (this.owner) {
+        this.parentComponent =
+            parent.nodeType === NodeType.CMPT
+                ? parent
+                : parent && parent.parentComponent;
+    } else if (this.owner) {
         this.parentComponent = this.owner;
         this.scope = this.owner.data;
     }
 
     this.sourceSlotNameProps = [];
     this.sourceSlots = {
-        named: {}
+        named: {},
     };
 
     // #[begin] devtool
-    this._toPhase('beforeCompile');
+    this._toPhase("beforeCompile");
     // #[end]
 
     var proto = clazz.prototype;
 
     // pre define components class
     /* istanbul ignore else  */
-    if (!proto.hasOwnProperty('_cmptReady')) {
+    if (!proto.hasOwnProperty("_cmptReady")) {
         preprocessComponents(clazz);
     }
 
     // compile
-    if (!proto.hasOwnProperty('aNode')) {
-        var aPack = clazz.aPack || proto.hasOwnProperty('aPack') && proto.aPack;
+    if (!proto.hasOwnProperty("aNode")) {
+        var aPack =
+            clazz.aPack || (proto.hasOwnProperty("aPack") && proto.aPack);
         if (aPack) {
             proto.aNode = unpackANode(aPack);
             clazz.aPack = proto.aPack = null;
-        }
-        else {
+        } else {
             proto.aNode = parseComponentTemplate(clazz);
         }
     }
@@ -140,13 +142,13 @@ function Component(options) { // eslint-disable-line
     preheatANode(proto.aNode, this);
 
     this.tagName = proto.aNode.tagName;
-    this.source = typeof options.source === 'string'
-        ? parseTemplate(options.source).children[0]
-        : options.source;
+    this.source =
+        typeof options.source === "string"
+            ? parseTemplate(options.source).children[0]
+            : options.source;
 
     preheatANode(this.source);
     proto.aNode._i++;
-
 
     // #[begin] hydrate
     // 组件反解，读取注入的组件数据
@@ -157,32 +159,58 @@ function Component(options) { // eslint-disable-line
         }
 
         if (firstCommentNode && firstCommentNode.nodeType === 8) {
-            var stumpMatch = firstCommentNode.data.match(/^\s*s-data:([\s\S]+)?$/);
+            var stumpMatch = firstCommentNode.data.match(
+                /^\s*s-data:([\s\S]+)?$/
+            );
             if (stumpMatch) {
                 var stumpText = stumpMatch[1];
-                
+
                 // fill component data
                 // #[begin] allua
-                options.data = (new Function('return '
-                    + stumpText
-                        .replace(/^[\s\n]*/, '')
-                        .replace(
-                            /"(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2})\.\d+Z"/g,
-                            function (match, y, mon, d, h, m, s) {
-                                return 'new Date(' + (+y) + ',' + (+mon) + ',' + (+d)
-                                    + ',' + (+h) + ',' + (+m) + ',' + (+s) + ')';
-                            }
-                        )
-                ))();
+                options.data = new Function(
+                    "return " +
+                        stumpText
+                            .replace(/^[\s\n]*/, "")
+                            .replace(
+                                /"(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2})\.\d+Z"/g,
+                                function (match, y, mon, d, h, m, s) {
+                                    return (
+                                        "new Date(" +
+                                        +y +
+                                        "," +
+                                        +mon +
+                                        "," +
+                                        +d +
+                                        "," +
+                                        +h +
+                                        "," +
+                                        +m +
+                                        "," +
+                                        +s +
+                                        ")"
+                                    );
+                                }
+                            )
+                )();
                 // #[end]
                 // #[begin] modern
                 options.data = JSON.parse(
-                    stumpText.replace(/\\([^\\\/"bfnrtu])/g, "$1"), 
+                    stumpText.replace(/\\([^\\\/"bfnrtu])/g, "$1"),
                     function (key, value) {
-                        if (typeof value === 'string') {
-                            var ma = /(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2})\.\d+Z/g.exec(value);
+                        if (typeof value === "string") {
+                            var ma =
+                                /(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2})\.\d+Z/g.exec(
+                                    value
+                                );
                             if (ma) {
-                                return new Date(ma[1], ma[2], ma[3], ma[4], ma[5], ma[6]);
+                                return new Date(
+                                    ma[1],
+                                    ma[2],
+                                    ma[3],
+                                    ma[4],
+                                    ma[5],
+                                    ma[6]
+                                );
                             }
                         }
                         return value;
@@ -199,7 +227,6 @@ function Component(options) { // eslint-disable-line
     }
     // #[end]
 
-
     if (this.source) {
         // 组件运行时传入的结构，做slot解析
         this._initSourceSlots(1);
@@ -211,8 +238,7 @@ function Component(options) { // eslint-disable-line
                 // native事件数组
                 this.nativeEvents = this.nativeEvents || [];
                 this.nativeEvents.push(eventBind);
-            }
-            else {
+            } else {
                 // #[begin] error
                 warnEventListenMethod(eventBind, options.owner);
                 // #[end]
@@ -229,23 +255,25 @@ function Component(options) { // eslint-disable-line
         this.binds = this.source._b;
 
         // init s-bind data
-        this._srcSbindData = nodeSBindInit(this.source.directives.bind, this.scope, this.owner);
+        this._srcSbindData = nodeSBindInit(
+            this.source.directives.bind,
+            this.scope,
+            this.owner
+        );
     }
 
-    this._toPhase('compiled');
-
+    this._toPhase("compiled");
 
     // #[begin] devtool
-    this._toPhase('beforeInit');
+    this._toPhase("beforeInit");
     // #[end]
 
     // init data
     var initData;
     try {
-        initData = typeof this.initData === 'function' && this.initData();
-    }
-    catch (e) {
-        handleError(e, this, 'initData');
+        initData = typeof this.initData === "function" && this.initData();
+    } catch (e) {
+        handleError(e, this, "initData");
     }
     initData = extend(initData || {}, options.data || this._srcSbindData);
 
@@ -254,7 +282,7 @@ function Component(options) { // eslint-disable-line
             var bindInfo = this.binds[i];
 
             var value = evalExpr(bindInfo.expr, this.scope, this.owner);
-            if (typeof value !== 'undefined') {
+            if (typeof value !== "undefined") {
                 // See: https://github.com/ecomfe/san/issues/191
                 initData[bindInfo.name] = value;
             }
@@ -263,15 +291,14 @@ function Component(options) { // eslint-disable-line
 
     this.data = new Data(initData);
 
-    this.tagName = this.tagName || 'div';
+    this.tagName = this.tagName || "div";
     // #[begin] allua
     // ie8- 不支持innerHTML输出自定义标签
     /* istanbul ignore if */
-    if (ieOldThan9 && this.tagName.indexOf('-') > 0) {
-        this.tagName = 'div';
+    if (ieOldThan9 && this.tagName.indexOf("-") > 0) {
+        this.tagName = "div";
     }
     // #[end]
-
 
     // #[begin] error
     // 在初始化 + 数据绑定后，开始数据校验
@@ -295,22 +322,31 @@ function Component(options) { // eslint-disable-line
     }
 
     this._initDataChanger();
-    this._sbindData = nodeSBindInit(this.aNode.directives.bind, this.data, this);
-    this._toPhase('inited');
+    this._sbindData = nodeSBindInit(
+        this.aNode.directives.bind,
+        this.data,
+        this
+    );
+    this._toPhase("inited");
 
     // #[begin] hydrate
     var hydrateWalker = options.hydrateWalker;
     var aNode = this.aNode;
     if (hydrateWalker) {
-        if (this.ssr === 'client-render') {
+        if (this.ssr === "client-render") {
             this.attach(hydrateWalker.target, hydrateWalker.current);
-        }
-        else {
+        } else {
             if (aNode.Clazz || this.components[aNode.tagName]) {
-                this._rootNode = createHydrateNode(aNode, this, this.data, this, hydrateWalker);
-                this._rootNode._getElAsRootNode && (this.el = this._rootNode._getElAsRootNode());
-            }
-            else {
+                this._rootNode = createHydrateNode(
+                    aNode,
+                    this,
+                    this.data,
+                    this,
+                    hydrateWalker
+                );
+                this._rootNode._getElAsRootNode &&
+                    (this.el = this._rootNode._getElAsRootNode());
+            } else {
                 var currentNode = hydrateWalker.current;
                 if (currentNode && currentNode.nodeType === 1) {
                     this.el = currentNode;
@@ -320,28 +356,32 @@ function Component(options) { // eslint-disable-line
                 hydrateElementChildren(this, this.data, this);
             }
 
-            this._toPhase('created');
+            this._toPhase("created");
             this._attached();
-            this._toPhase('attached');
+            this._toPhase("attached");
         }
-    }
-    else if (this.el) {
+    } else if (this.el) {
         if (aNode.Clazz || this.components[aNode.tagName]) {
             hydrateWalker = new DOMChildrenWalker(this.el.parentNode, this.el);
-            this._rootNode = createHydrateNode(aNode, this, this.data, this, hydrateWalker);
-            this._rootNode._getElAsRootNode && (this.el = this._rootNode._getElAsRootNode());
-        }
-        else {
+            this._rootNode = createHydrateNode(
+                aNode,
+                this,
+                this.data,
+                this,
+                hydrateWalker
+            );
+            this._rootNode._getElAsRootNode &&
+                (this.el = this._rootNode._getElAsRootNode());
+        } else {
             hydrateElementChildren(this, this.data, this);
         }
 
-        this._toPhase('created');
+        this._toPhase("created");
         this._attached();
-        this._toPhase('attached');
+        this._toPhase("attached");
     }
     // #[end]
 }
-
 
 /**
  * 初始化创建组件外部传入的插槽对象
@@ -360,7 +400,7 @@ Component.prototype._initSourceSlots = function (isFirstTime) {
             var child = sourceChildren[i];
             var target;
 
-            var slotBind = !child.textExpr && getANodeProp(child, 'slot');
+            var slotBind = !child.textExpr && getANodeProp(child, "slot");
             if (slotBind) {
                 isFirstTime && this.sourceSlotNameProps.push(slotBind);
 
@@ -370,8 +410,7 @@ Component.prototype._initSourceSlots = function (isFirstTime) {
                     target = this.sourceSlots.named[slotName] = [];
                 }
                 target.push(child);
-            }
-            else if (isFirstTime) {
+            } else if (isFirstTime) {
                 target = this.sourceSlots.noname;
                 if (!target) {
                     target = this.sourceSlots.noname = [];
@@ -396,7 +435,7 @@ Component.prototype.nodeType = NodeType.CMPT;
  */
 Component.prototype.nextTick = nextTick;
 
-Component.prototype._ctx = (new Date()).getTime().toString(16);
+Component.prototype._ctx = new Date().getTime().toString(16);
 
 /* eslint-disable operator-linebreak */
 /**
@@ -408,12 +447,11 @@ Component.prototype._ctx = (new Date()).getTime().toString(16);
 Component.prototype._toPhase = function (name) {
     if (!this.lifeCycle[name]) {
         this.lifeCycle = LifeCycle[name] || this.lifeCycle;
-        if (typeof this[name] === 'function') {
+        if (typeof this[name] === "function") {
             try {
                 this[name]();
-            }
-            catch (e) {
-                handleError(e, this, 'hook:' + name);
+            } catch (e) {
+                handleError(e, this, "hook:" + name);
             }
         }
 
@@ -421,12 +459,11 @@ Component.prototype._toPhase = function (name) {
 
         // 通知devtool
         // #[begin] devtool
-        emitDevtool('comp-' + name, this);
+        emitDevtool("comp-" + name, this);
         // #[end]
     }
 };
 /* eslint-enable operator-linebreak */
-
 
 /**
  * 添加事件监听器
@@ -436,11 +473,11 @@ Component.prototype._toPhase = function (name) {
  * @param {string?} declaration 声明式
  */
 Component.prototype.on = function (name, listener, declaration) {
-    if (typeof listener === 'function') {
+    if (typeof listener === "function") {
         if (!this.listeners[name]) {
             this.listeners[name] = [];
         }
-        this.listeners[name].push({fn: listener, declaration: declaration});
+        this.listeners[name].push({ fn: listener, declaration: declaration });
     }
 };
 
@@ -461,7 +498,6 @@ Component.prototype.un = function (name, listener) {
     }
 };
 
-
 /**
  * 派发事件
  *
@@ -471,19 +507,18 @@ Component.prototype.un = function (name, listener) {
 Component.prototype.fire = function (name, event) {
     var me = this;
     // #[begin] devtool
-    emitDevtool('comp-event', {
+    emitDevtool("comp-event", {
         name: name,
         event: event,
-        target: this
+        target: this,
     });
     // #[end]
 
     each(this.listeners[name], function (listener) {
         try {
             listener.fn.call(me, event);
-        }
-        catch (e) {
-            handleError(e, me, 'event:' + name);
+        } catch (e) {
+            handleError(e, me, "event:" + name);
         }
     });
 };
@@ -507,7 +542,9 @@ Component.prototype._calcComputed = function (computedExpr) {
                 get: function (expr) {
                     // #[begin] error
                     if (!expr) {
-                        throw new Error('[SAN ERROR] call get method in computed need argument');
+                        throw new Error(
+                            "[SAN ERROR] call get method in computed need argument"
+                        );
                     }
                     // #[end]
 
@@ -524,13 +561,12 @@ Component.prototype._calcComputed = function (computedExpr) {
                     }
 
                     return me.data.get(expr);
-                }
-            }
+                },
+            },
         });
         this.data.set(computedExpr, result);
-    }
-    catch (e) {
-        handleError(e, this, 'computed:' + computedExpr);
+    } catch (e) {
+        handleError(e, this, "computed:" + computedExpr);
     }
 };
 
@@ -545,25 +581,26 @@ Component.prototype.dispatch = function (name, value) {
     var parentComponent = this.parentComponent;
 
     while (parentComponent) {
-        var handler = parentComponent.messages[name] || parentComponent.messages['*'];
-        if (typeof handler === 'function') {
+        var handler =
+            parentComponent.messages[name] || parentComponent.messages["*"];
+        if (typeof handler === "function") {
             // #[begin] devtool
-            emitDevtool('comp-message', {
+            emitDevtool("comp-message", {
                 target: this,
                 value: value,
                 name: name,
-                receiver: parentComponent
+                receiver: parentComponent,
             });
             // #[end]
 
             try {
-                handler.call(
-                    parentComponent,
-                    {target: this, value: value, name: name}
-                );
-            }
-            catch (e) {
-                handleError(e, parentComponent, 'message:' + (name || '*'));
+                handler.call(parentComponent, {
+                    target: this,
+                    value: value,
+                    name: name,
+                });
+            } catch (e) {
+                handleError(e, parentComponent, "message:" + (name || "*"));
             }
             return;
         }
@@ -572,7 +609,7 @@ Component.prototype.dispatch = function (name, value) {
     }
 
     // #[begin] devtool
-    emitDevtool('comp-message', {target: this, value: value, name: name});
+    emitDevtool("comp-message", { target: this, value: value, name: name });
     // #[end]
 };
 
@@ -589,13 +626,13 @@ Component.prototype.slot = function (name) {
     function childrenTraversal(children) {
         each(children, function (child) {
             if (child.nodeType === NodeType.SLOT && child.owner === me) {
-                if (child.isNamed && child.name === name
-                    || !child.isNamed && !name
+                if (
+                    (child.isNamed && child.name === name) ||
+                    (!child.isNamed && !name)
                 ) {
                     result.push(child);
                 }
-            }
-            else {
+            } else {
                 childrenTraversal(child.children);
             }
         });
@@ -637,14 +674,20 @@ Component.prototype.ref = function (name) {
             switch (element.nodeType) {
                 case NodeType.ELEM:
                     ref = element.aNode.directives.ref;
-                    if (ref && evalExpr(ref.value, element.scope, owner) === name) {
+                    if (
+                        ref &&
+                        evalExpr(ref.value, element.scope, owner) === name
+                    ) {
                         refTarget = element.el;
                     }
                     break;
 
                 case NodeType.CMPT:
                     ref = element.source.directives.ref;
-                    if (ref && evalExpr(ref.value, element.scope, owner) === name) {
+                    if (
+                        ref &&
+                        evalExpr(ref.value, element.scope, owner) === name
+                    ) {
                         refTarget = element;
                     }
             }
@@ -663,11 +706,12 @@ Component.prototype.ref = function (name) {
         childrenTraversal(element.children);
     }
 
-    this._rootNode ? elementTraversal(this._rootNode) : childrenTraversal(this.children);
+    this._rootNode
+        ? elementTraversal(this._rootNode)
+        : childrenTraversal(this.children);
 
     return refTarget;
 };
-
 
 /**
  * 视图更新函数
@@ -680,7 +724,6 @@ Component.prototype._update = function (changes) {
     }
 
     var me = this;
-
 
     var needReloadForSlot = false;
     this._notifyNeedReload = function () {
@@ -702,8 +745,8 @@ Component.prototype._update = function (changes) {
 
                     me.data.set(name, value, {
                         target: {
-                            node: me.owner
-                        }
+                            node: me.owner,
+                        },
                     });
                 }
             );
@@ -717,8 +760,13 @@ Component.prototype._update = function (changes) {
                 var setExpr = bindItem.name;
                 var updateExpr = bindItem.expr;
 
-                if (!isDataChangeByElement(change, me, setExpr)
-                    && (relation = changeExprCompare(changeExpr, updateExpr, me.scope))
+                if (
+                    !isDataChangeByElement(change, me, setExpr) &&
+                    (relation = changeExprCompare(
+                        changeExpr,
+                        updateExpr,
+                        me.scope
+                    ))
                 ) {
                     if (relation > 2) {
                         setExpr = {
@@ -726,32 +774,48 @@ Component.prototype._update = function (changes) {
                             paths: [
                                 {
                                     type: ExprType.STRING,
-                                    value: setExpr
-                                }
-                            ].concat(changeExpr.paths.slice(updateExpr.paths.length))
+                                    value: setExpr,
+                                },
+                            ].concat(
+                                changeExpr.paths.slice(updateExpr.paths.length)
+                            ),
                         };
                         updateExpr = changeExpr;
                     }
 
-                    if (relation >= 2 && change.type === DataChangeType.SPLICE) {
-                        me.data.splice(setExpr, [change.index, change.deleteCount].concat(change.insertions), {
-                            target: {
-                                node: me.owner
+                    if (
+                        relation >= 2 &&
+                        change.type === DataChangeType.SPLICE
+                    ) {
+                        me.data.splice(
+                            setExpr,
+                            [change.index, change.deleteCount].concat(
+                                change.insertions
+                            ),
+                            {
+                                target: {
+                                    node: me.owner,
+                                },
                             }
-                        });
-                    }
-                    else {
-                        me.data.set(setExpr, evalExpr(updateExpr, me.scope, me.owner), {
-                            target: {
-                                node: me.owner
+                        );
+                    } else {
+                        me.data.set(
+                            setExpr,
+                            evalExpr(updateExpr, me.scope, me.owner),
+                            {
+                                target: {
+                                    node: me.owner,
+                                },
                             }
-                        });
+                        );
                     }
                 }
             });
 
             each(me.sourceSlotNameProps, function (bindItem) {
-                needReloadForSlot = needReloadForSlot || changeExprCompare(changeExpr, bindItem.expr, me.scope);
+                needReloadForSlot =
+                    needReloadForSlot ||
+                    changeExprCompare(changeExpr, bindItem.expr, me.scope);
                 return !needReloadForSlot;
             });
         });
@@ -759,16 +823,14 @@ Component.prototype._update = function (changes) {
         if (needReloadForSlot) {
             this._initSourceSlots();
             this._repaintChildren();
-        }
-        else {
+        } else {
             var slotChildrenLen = this.slotChildren.length;
             while (slotChildrenLen--) {
                 var slotChild = this.slotChildren[slotChildrenLen];
 
                 if (slotChild.lifeCycle.disposed) {
                     this.slotChildren.splice(slotChildrenLen, 1);
-                }
-                else if (slotChild.isInserted) {
+                } else if (slotChild.isInserted) {
                     slotChild._update(changes, 1);
                 }
             }
@@ -778,7 +840,7 @@ Component.prototype._update = function (changes) {
     var dataChanges = this._dataChanges;
     if (dataChanges) {
         // #[begin] devtool
-        this._toPhase('beforeUpdate');
+        this._toPhase("beforeUpdate");
         // #[end]
 
         this._dataChanges = null;
@@ -790,7 +852,7 @@ Component.prototype._update = function (changes) {
             this,
             dataChanges,
             function (name, value) {
-                if (me._rootNode || (name in me.aNode._pi)) {
+                if (me._rootNode || name in me.aNode._pi) {
                     return;
                 }
 
@@ -802,32 +864,52 @@ Component.prototype._update = function (changes) {
 
         if (this._rootNode) {
             this._rootNode._update(dataChanges);
-            this._rootNode._getElAsRootNode && (this.el = this._rootNode._getElAsRootNode());
-        }
-        else if (htmlDirective) {
+            this._rootNode._getElAsRootNode &&
+                (this.el = this._rootNode._getElAsRootNode());
+        } else if (htmlDirective) {
             var len = dataChanges.length;
             while (len--) {
-                if (changeExprCompare(dataChanges[len].expr, htmlDirective.value, this.data)) {
+                if (
+                    changeExprCompare(
+                        dataChanges[len].expr,
+                        htmlDirective.value,
+                        this.data
+                    )
+                ) {
                     // #[begin] error
                     warnSetHTML(this.el);
                     // #[end]
 
-                    this.el.innerHTML = evalExpr(htmlDirective.value, this.data, this);
+                    this.el.innerHTML = evalExpr(
+                        htmlDirective.value,
+                        this.data,
+                        this
+                    );
                     break;
                 }
             }
-        }
-        else {
+        } else {
             var dynamicProps = this.aNode._dp;
             for (var i = 0; i < dynamicProps.length; i++) {
                 var prop = dynamicProps[i];
 
                 for (var j = 0; j < dataChanges.length; j++) {
                     var change = dataChanges[j];
-                    if (changeExprCompare(change.expr, prop.expr, this.data)
-                        || prop.hintExpr && changeExprCompare(change.expr, prop.hintExpr, this.data)
+                    if (
+                        changeExprCompare(change.expr, prop.expr, this.data) ||
+                        (prop.hintExpr &&
+                            changeExprCompare(
+                                change.expr,
+                                prop.hintExpr,
+                                this.data
+                            ))
                     ) {
-                        prop.handler(this.el, evalExpr(prop.expr, this.data, this), prop.name, this);
+                        prop.handler(
+                            this.el,
+                            evalExpr(prop.expr, this.data, this),
+                            prop.name,
+                            this
+                        );
                         break;
                     }
                 }
@@ -847,7 +929,7 @@ Component.prototype._update = function (changes) {
             this.implicitChildren[i]._update(dataChanges);
         }
 
-        if (typeof this.updated === 'function') {
+        if (typeof this.updated === "function") {
             this.updated();
         }
 
@@ -866,15 +948,18 @@ Component.prototype._updateBindxOwner = function (dataChanges) {
     each(dataChanges, function (change) {
         each(me.binds, function (bindItem) {
             var changeExpr = change.expr;
-            if (bindItem.x
-                && !isDataChangeByElement(change, me.owner)
-                && changeExprCompare(changeExpr, parseExpr(bindItem.name), me.data)
+            if (
+                bindItem.x &&
+                !isDataChangeByElement(change, me.owner) &&
+                changeExprCompare(changeExpr, parseExpr(bindItem.name), me.data)
             ) {
                 var updateScopeExpr = bindItem.expr;
                 if (changeExpr.paths.length > 1) {
                     updateScopeExpr = {
                         type: ExprType.ACCESSOR,
-                        paths: bindItem.expr.paths.concat(changeExpr.paths.slice(1))
+                        paths: bindItem.expr.paths.concat(
+                            changeExpr.paths.slice(1)
+                        ),
                     };
                 }
 
@@ -885,8 +970,8 @@ Component.prototype._updateBindxOwner = function (dataChanges) {
                     {
                         target: {
                             node: me,
-                            prop: bindItem.name
-                        }
+                            prop: bindItem.name,
+                        },
                     }
                 );
             }
@@ -912,21 +997,25 @@ Component.prototype._repaintChildren = function () {
 
         this._rootNode = createNode(this.aNode, this, this.data, this);
         this._rootNode.attach(parentEl, beforeEl);
-        this._rootNode._getElAsRootNode && (this.el = this._rootNode._getElAsRootNode());
-    }
-    else {
+        this._rootNode._getElAsRootNode &&
+            (this.el = this._rootNode._getElAsRootNode());
+    } else {
         elementDisposeChildren(this.children, 0, 1);
         this.children = [];
         this.slotChildren = [];
 
         for (var i = 0, l = this.aNode.children.length; i < l; i++) {
-            var child = createNode(this.aNode.children[i], this, this.data, this);
+            var child = createNode(
+                this.aNode.children[i],
+                this,
+                this.data,
+                this
+            );
             this.children.push(child);
             child.attach(this.el);
         }
     }
 };
-
 
 /**
  * 初始化组件内部监听数据变化
@@ -945,15 +1034,13 @@ Component.prototype._initDataChanger = function () {
             }
 
             me._dataChanges.push(change);
-        }
-        else if (me.lifeCycle.inited && me.owner) {
+        } else if (me.lifeCycle.inited && me.owner) {
             me._updateBindxOwner([change]);
         }
     };
 
     this.data.listen(this._dataChanger);
 };
-
 
 /**
  * 监听组件的数据变化
@@ -975,18 +1062,13 @@ Component.prototype.watch = function (dataName, listener) {
                 value = newValue;
 
                 try {
-                    listener.call(
-                        me,
-                        newValue,
-                        {
-                            oldValue: oldValue,
-                            newValue: newValue,
-                            change: change
-                        }
-                    );
-                }
-                catch (e) {
-                    handleError(e, me, 'watch:' + dataName);
+                    listener.call(me, newValue, {
+                        oldValue: oldValue,
+                        newValue: newValue,
+                        change: change,
+                    });
+                } catch (e) {
+                    handleError(e, me, "watch:" + dataName);
                 }
             }
         }
@@ -1006,24 +1088,25 @@ Component.prototype._getElAsRootNode = function () {
 Component.prototype.attach = function (parentEl, beforeEl) {
     if (!this.lifeCycle.attached) {
         // #[begin] devtool
-        this._toPhase('beforeAttach');
+        this._toPhase("beforeAttach");
         // #[end]
 
         var aNode = this.aNode;
 
         if (aNode.Clazz || this.components[aNode.tagName]) {
             // #[begin] devtool
-            this._toPhase('beforeCreate');
+            this._toPhase("beforeCreate");
             // #[end]
-            this._rootNode = this._rootNode || createNode(aNode, this, this.data, this);
+            this._rootNode =
+                this._rootNode || createNode(aNode, this, this.data, this);
             this._rootNode.attach(parentEl, beforeEl);
-            this._rootNode._getElAsRootNode && (this.el = this._rootNode._getElAsRootNode());
-            this._toPhase('created');
-        }
-        else {
+            this._rootNode._getElAsRootNode &&
+                (this.el = this._rootNode._getElAsRootNode());
+            this._toPhase("created");
+        } else {
             if (!this.el) {
                 // #[begin] devtool
-                this._toPhase('beforeCreate');
+                this._toPhase("beforeCreate");
                 // #[end]
 
                 var props;
@@ -1031,12 +1114,15 @@ Component.prototype.attach = function (parentEl, beforeEl) {
                 if (aNode._ce && aNode._i > 2) {
                     props = aNode._dp;
                     this.el = (aNode._el || preheatEl(aNode)).cloneNode(false);
-                }
-                else {
+                } else {
                     props = aNode.props;
-                    this.el = svgTags[this.tagName] && document.createElementNS
-                        ? document.createElementNS('http://www.w3.org/2000/svg', this.tagName)
-                        : document.createElement(this.tagName);
+                    this.el =
+                        svgTags[this.tagName] && document.createElementNS
+                            ? document.createElementNS(
+                                  "http://www.w3.org/2000/svg",
+                                  this.tagName
+                              )
+                            : document.createElement(this.tagName);
                 }
 
                 if (this._sbindData) {
@@ -1061,7 +1147,7 @@ Component.prototype.attach = function (parentEl, beforeEl) {
                     }
                 }
 
-                this._toPhase('created');
+                this._toPhase("created");
             }
 
             insertBefore(this.el, parentEl, beforeEl);
@@ -1074,13 +1160,21 @@ Component.prototype.attach = function (parentEl, beforeEl) {
                     warnSetHTML(this.el);
                     // #[end]
 
-                    this.el.innerHTML = evalExpr(htmlDirective.value, this.data, this);
-                }
-                else {
+                    this.el.innerHTML = evalExpr(
+                        htmlDirective.value,
+                        this.data,
+                        this
+                    );
+                } else {
                     for (var i = 0, l = aNode.children.length; i < l; i++) {
                         var childANode = aNode.children[i];
                         var child = childANode.Clazz
-                            ? new childANode.Clazz(childANode, this, this.data, this)
+                            ? new childANode.Clazz(
+                                  childANode,
+                                  this,
+                                  this.data,
+                                  this
+                              )
                             : createNode(childANode, this, this.data, this);
                         this.children.push(child);
                         child.attach(this.el);
@@ -1093,7 +1187,7 @@ Component.prototype.attach = function (parentEl, beforeEl) {
             this._attached();
         }
 
-        this._toPhase('attached');
+        this._toPhase("attached");
 
         // element 都是内部创建的，只有动态创建的 component 才会进入这个分支
         if (this.owner && !this.parent) {
@@ -1109,7 +1203,7 @@ Component.prototype._leave = function () {
     if (this.leaveDispose) {
         if (!this.lifeCycle.disposed) {
             // #[begin] devtool
-            this._toPhase('beforeDetach');
+            this._toPhase("beforeDetach");
             // #[end]
             this.data.unlisten();
             this.dataChanger = null;
@@ -1129,12 +1223,10 @@ Component.prototype._leave = function () {
             // 这里不用挨个调用 dispose 了，因为 children 释放链会调用的
             this.slotChildren = null;
 
-
             if (this._rootNode) {
                 // 如果没有parent，说明是一个root component，一定要从dom树中remove
                 this._rootNode.dispose(this.disposeNoDetach && this.parent);
-            }
-            else {
+            } else {
                 var len = this.children.length;
                 while (len--) {
                     this.children[len].dispose(1, 1);
@@ -1163,10 +1255,10 @@ Component.prototype._leave = function () {
                 }
             }
 
-            this._toPhase('detached');
+            this._toPhase("detached");
 
             // #[begin] devtool
-            this._toPhase('beforeDispose');
+            this._toPhase("beforeDispose");
             // #[end]
 
             this._rootNode = null;
@@ -1175,34 +1267,30 @@ Component.prototype._leave = function () {
             this.scope = null;
             this.children = null;
 
-            this._toPhase('disposed');
+            this._toPhase("disposed");
 
             if (this._ondisposed) {
                 this._ondisposed();
             }
         }
-    }
-    else if (this.lifeCycle.attached) {
+    } else if (this.lifeCycle.attached) {
         // #[begin] devtool
-        this._toPhase('beforeDetach');
+        this._toPhase("beforeDetach");
         // #[end]
 
         if (this._rootNode) {
             if (this._rootNode.detach) {
                 this._rootNode.detach();
-            }
-            else {
+            } else {
                 this._rootNode.dispose();
                 this._rootNode = null;
             }
-        }
-        else {
+        } else {
             removeEl(this.el);
         }
 
-        this._toPhase('detached');
+        this._toPhase("detached");
     }
 };
-
 
 exports = module.exports = Component;

@@ -112,7 +112,14 @@ define(function (require) {
         splitEndTime: function () {
             var endTime = new Date(this.data.get("todo.endTime"));
             this.data.set("endTimeHour", endTime.getHours());
-            this.data.set("endTimeDate", new Date(endTime.getFullYear(), endTime.getMonth(), endTime.getDate()));
+            this.data.set(
+                "endTimeDate",
+                new Date(
+                    endTime.getFullYear(),
+                    endTime.getMonth(),
+                    endTime.getDate()
+                )
+            );
         },
 
         joinEndTime: function () {
@@ -146,7 +153,10 @@ define(function (require) {
             if (!this.addCategoryDialog) {
                 this.addCategoryDialog = new AddCategoryDialog();
                 this.addCategoryDialog.attach(document.body);
-                this.addCategoryDialog.on("finished", this.updateCategories.bind(this));
+                this.addCategoryDialog.on(
+                    "finished",
+                    this.updateCategories.bind(this)
+                );
             }
             this.addCategoryDialog.show();
         },
@@ -155,7 +165,10 @@ define(function (require) {
             if (!this.editCategoryDialog) {
                 this.editCategoryDialog = new EditCategoryDialog();
                 this.editCategoryDialog.attach(document.body);
-                this.editCategoryDialog.on("edited", this.updateCategories.bind(this));
+                this.editCategoryDialog.on(
+                    "edited",
+                    this.updateCategories.bind(this)
+                );
             }
             this.editCategoryDialog.show();
         },

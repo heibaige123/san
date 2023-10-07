@@ -7,11 +7,11 @@
  * @file 读取一元表达式
  */
 
-var ExprType = require('./expr-type');
-var readString = require('./read-string');
-var readCall = require('./read-call');
-var readParenthesizedExpr = require('./read-parenthesized-expr');
-var readTertiaryExpr = require('./read-tertiary-expr');
+var ExprType = require("./expr-type");
+var readString = require("./read-string");
+var readCall = require("./read-call");
+var readParenthesizedExpr = require("./read-parenthesized-expr");
+var readTertiaryExpr = require("./read-tertiary-expr");
 
 function postUnaryExpr(expr, operator) {
     switch (operator) {
@@ -35,7 +35,7 @@ function postUnaryExpr(expr, operator) {
             if (value != null) {
                 return {
                     type: ExprType.BOOL,
-                    value: value
+                    value: value,
                 };
             }
             break;
@@ -47,7 +47,7 @@ function postUnaryExpr(expr, operator) {
                 case ExprType.BOOL:
                     return {
                         type: ExprType.NUMBER,
-                        value: +expr.value
+                        value: +expr.value,
                     };
             }
             break;
@@ -59,7 +59,7 @@ function postUnaryExpr(expr, operator) {
                 case ExprType.BOOL:
                     return {
                         type: ExprType.NUMBER,
-                        value: -expr.value
+                        value: -expr.value,
                     };
             }
             break;
@@ -68,7 +68,7 @@ function postUnaryExpr(expr, operator) {
     return {
         type: ExprType.UNARY,
         expr: expr,
-        operator: operator
+        operator: operator,
     };
 }
 
@@ -105,7 +105,7 @@ function readUnaryExpr(walker) {
         case 57:
             return {
                 type: ExprType.NUMBER,
-                value: +(walker.match(/[0-9]+(\.[0-9]+)?/g, 1)[0])
+                value: +walker.match(/[0-9]+(\.[0-9]+)?/g, 1)[0],
             };
 
         case 40: // (
@@ -115,11 +115,15 @@ function readUnaryExpr(walker) {
         case 91: // [
             walker.index++;
             var arrItems = [];
-            while (!walker.goUntil(93)) { // ]
+            while (!walker.goUntil(93)) {
+                // ]
                 var item = {};
                 arrItems.push(item);
 
-                if (walker.source.charCodeAt(walker.index) === 46 && walker.match(/\.\.\.\s*/g)) {
+                if (
+                    walker.source.charCodeAt(walker.index) === 46 &&
+                    walker.match(/\.\.\.\s*/g)
+                ) {
                     item.spread = true;
                 }
 
@@ -129,7 +133,7 @@ function readUnaryExpr(walker) {
 
             return {
                 type: ExprType.ARRAY,
-                items: arrItems
+                items: arrItems,
             };
 
         // object literal
@@ -137,15 +141,18 @@ function readUnaryExpr(walker) {
             walker.index++;
             var objItems = [];
 
-            while (!walker.goUntil(125)) { // }
+            while (!walker.goUntil(125)) {
+                // }
                 var item = {};
                 objItems.push(item);
 
-                if (walker.source.charCodeAt(walker.index) === 46 && walker.match(/\.\.\.\s*/g)) {
+                if (
+                    walker.source.charCodeAt(walker.index) === 46 &&
+                    walker.match(/\.\.\.\s*/g)
+                ) {
                     item.spread = true;
                     item.expr = readTertiaryExpr(walker);
-                }
-                else {
+                } else {
                     // #[begin] error
                     var walkerIndexBeforeName = walker.index;
                     // #[end]
@@ -155,16 +162,19 @@ function readUnaryExpr(walker) {
                     // #[begin] error
                     if (item.name.type > 4) {
                         throw new Error(
-                            '[SAN FATAL] unexpect object name: '
-                            + walker.source.slice(walkerIndexBeforeName, walker.index)
+                            "[SAN FATAL] unexpect object name: " +
+                                walker.source.slice(
+                                    walkerIndexBeforeName,
+                                    walker.index
+                                )
                         );
                     }
                     // #[end]
 
-                    if (walker.goUntil(58)) { // :
+                    if (walker.goUntil(58)) {
+                        // :
                         item.expr = readTertiaryExpr(walker);
-                    }
-                    else {
+                    } else {
                         item.expr = item.name;
                     }
 
@@ -178,7 +188,7 @@ function readUnaryExpr(walker) {
 
             return {
                 type: ExprType.OBJECT,
-                items: objItems
+                items: objItems,
             };
     }
 

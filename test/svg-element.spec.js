@@ -5,7 +5,8 @@ if (!/MSIE|Trident/.test(navigator.userAgent)) {
 
         beforeEach(function (done) {
             var MyComponent = san.defineComponent({
-                template: '<svg viewBox="0 0 96 96" class="{{svgClass}}"><rect width="{{size}}" height="{{size}}" /></svg>',
+                template:
+                    '<svg viewBox="0 0 96 96" class="{{svgClass}}"><rect width="{{size}}" height="{{size}}" /></svg>',
                 initData: function () {
                     return {
                         size: 50,
@@ -74,8 +75,12 @@ if (!/MSIE|Trident/.test(navigator.userAgent)) {
             expect(!!foreignObjectEl).toBe(true);
 
             //  所以匹配节点的标签是否是大写的
-            expect(/\<foreignObject/.test(foreignObjectEl.outerHTML)).toBe(true);
-            expect(/\<\/foreignObject\>/.test(foreignObjectEl.outerHTML)).toBe(true);
+            expect(/\<foreignObject/.test(foreignObjectEl.outerHTML)).toBe(
+                true
+            );
+            expect(/\<\/foreignObject\>/.test(foreignObjectEl.outerHTML)).toBe(
+                true
+            );
 
             done();
         });

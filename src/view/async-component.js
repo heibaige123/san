@@ -7,12 +7,11 @@
  * @file 异步组件类
  */
 
-var guid = require('../util/guid');
-var each = require('../util/each');
-var insertBefore = require('../browser/insert-before');
-var nodeOwnCreateStump = require('./node-own-create-stump');
-var nodeOwnSimpleDispose = require('./node-own-simple-dispose');
-
+var guid = require("../util/guid");
+var each = require("../util/each");
+var insertBefore = require("../browser/insert-before");
+var nodeOwnCreateStump = require("./node-own-create-stump");
+var nodeOwnSimpleDispose = require("./node-own-simple-dispose");
 
 /**
  * 异步组件类
@@ -78,7 +77,6 @@ AsyncComponent.prototype._getElAsRootNode = function () {
     return child && child.el;
 };
 
-
 /**
  * loader加载完成，渲染组件
  *
@@ -94,13 +92,17 @@ AsyncComponent.prototype.onload = function (ComponentClass) {
         if (parent._rootNode === this) {
             // 如果异步组件为 root 节点，直接更新
             parent._rootNode = component;
-            component._getElAsRootNode && (parent.el = component._getElAsRootNode());
+            component._getElAsRootNode &&
+                (parent.el = component._getElAsRootNode());
         } else {
             // 在 children 中查找
             var parentChildren = parent.children;
 
             // children 中存在多个 AsyncComponent 时，只循环一遍，为所有 AsyncComponent 的 parentIndex 赋值
-            if (this.parentIndex == null || parentChildren[this.parentIndex] !== this) {
+            if (
+                this.parentIndex == null ||
+                parentChildren[this.parentIndex] !== this
+            ) {
                 each(parentChildren, function (child, index) {
                     if (child instanceof AsyncComponent) {
                         child.parentIndex = index;

@@ -7,8 +7,8 @@
  * @file 解析表达式
  */
 
-var Walker = require('./walker');
-var readTertiaryExpr = require('./read-tertiary-expr');
+var Walker = require("./walker");
+var readTertiaryExpr = require("./read-tertiary-expr");
 
 /**
  * 解析表达式
@@ -21,7 +21,7 @@ function parseExpr(source) {
         return;
     }
 
-    if (typeof source === 'object' && source.type) {
+    if (typeof source === "object" && source.type) {
         return source;
     }
 

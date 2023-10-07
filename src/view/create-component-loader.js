@@ -7,7 +7,7 @@
  * @file 创建组件Loader
  */
 
-var ComponentLoader = require('./component-loader');
+var ComponentLoader = require("./component-loader");
 
 /**
  * 创建组件Loader
@@ -21,7 +21,7 @@ var ComponentLoader = require('./component-loader');
 function createComponentLoader(options) {
     var placeholder = options.placeholder;
     var fallback = options.fallback;
-    var load = typeof options === 'function' ? options : options.load;
+    var load = typeof options === "function" ? options : options.load;
 
     return new ComponentLoader(load, placeholder, fallback);
 }

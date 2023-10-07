@@ -13,8 +13,8 @@
  * @type {Object}
  */
 var styleProps = {
-    'class': 1,
-    style: 1
+    class: 1,
+    style: 1,
 };
 
 exports = module.exports = styleProps;

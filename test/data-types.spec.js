@@ -485,10 +485,21 @@ describe("DataTypes", function () {
             template: "<div>{name}</div>",
             displayName: "Test",
             dataTypes: {
-                oneOfType1: DataTypes.oneOfType([DataTypes.string, DataTypes.number]).isRequired,
-                oneOfType2: DataTypes.oneOfType([DataTypes.string, DataTypes.number]),
+                oneOfType1: DataTypes.oneOfType([
+                    DataTypes.string,
+                    DataTypes.number,
+                ]).isRequired,
+                oneOfType2: DataTypes.oneOfType([
+                    DataTypes.string,
+                    DataTypes.number,
+                ]),
                 oneOfType3: DataTypes.oneOfType("not an array"),
-                oneOfType4: DataTypes.oneOfType([null, undefined, "not a function", DataTypes.string]),
+                oneOfType4: DataTypes.oneOfType([
+                    null,
+                    undefined,
+                    "not a function",
+                    DataTypes.string,
+                ]),
             },
         });
 
@@ -536,7 +547,9 @@ describe("DataTypes", function () {
 
     it("arrayOf", function () {
         expect(typeof DataTypes.arrayOf).toBe("function");
-        expect(typeof DataTypes.arrayOf(DataTypes.any).isRequired).toBe("function");
+        expect(typeof DataTypes.arrayOf(DataTypes.any).isRequired).toBe(
+            "function"
+        );
 
         var Test = san.defineComponent({
             template: "<div>{name}</div>",
@@ -593,7 +606,9 @@ describe("DataTypes", function () {
 
     it("objectOf", function () {
         expect(typeof DataTypes.objectOf).toBe("function");
-        expect(typeof DataTypes.objectOf(DataTypes.string).isRequired).toBe("function");
+        expect(typeof DataTypes.objectOf(DataTypes.string).isRequired).toBe(
+            "function"
+        );
 
         var Test = san.defineComponent({
             template: "<div>{name}</div>",

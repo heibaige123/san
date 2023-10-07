@@ -7,8 +7,8 @@
  * @file 读取三元表达式
  */
 
-var ExprType = require('./expr-type');
-var readLogicalORExpr = require('./read-logical-or-expr');
+var ExprType = require("./expr-type");
+var readLogicalORExpr = require("./read-logical-or-expr");
 
 /**
  * 读取三元表达式
@@ -20,20 +20,18 @@ function readTertiaryExpr(walker) {
     var conditional = readLogicalORExpr(walker);
     walker.goUntil();
 
-    if (walker.source.charCodeAt(walker.index) === 63) { // ?
+    if (walker.source.charCodeAt(walker.index) === 63) {
+        // ?
         walker.index++;
         var yesExpr = readTertiaryExpr(walker);
         walker.goUntil();
 
-        if (walker.source.charCodeAt(walker.index) === 58) { // :
+        if (walker.source.charCodeAt(walker.index) === 58) {
+            // :
             walker.index++;
             return {
                 type: ExprType.TERTIARY,
-                segs: [
-                    conditional,
-                    yesExpr,
-                    readTertiaryExpr(walker)
-                ]
+                segs: [conditional, yesExpr, readTertiaryExpr(walker)],
             };
         }
     }

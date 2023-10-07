@@ -91,7 +91,9 @@ San 认为 template 应该尽量保持 HTML 的语法简洁性，所以双向绑
 
 <dl>
     <dt>name - email</dt>
-    <dd s-for="p in persons" title="{{p.name}}">{{p.name}}({{dept}}) - {{p.email}}</dd>
+    <dd s-for="p in persons" title="{{p.name}}">
+        {{p.name}}({{dept}}) - {{p.email}}
+    </dd>
 </dl>
 ```
 
@@ -733,7 +735,9 @@ aNode = {
 ### 复杂的插值
 
 ```html
-<p title="result: {{(var1 - var2) / var3 + 'static text' | comma(commaLength + 1)}}"></p>
+<p
+    title="result: {{(var1 - var2) / var3 + 'static text' | comma(commaLength + 1)}}"
+></p>
 ```
 
 ```javascript
@@ -949,7 +953,9 @@ aNode = {
                         {
                             textExpr: {
                                 type: ExprType.TEXT,
-                                segs: [{ type: ExprType.STRING, value: "Offline" }],
+                                segs: [
+                                    { type: ExprType.STRING, value: "Offline" },
+                                ],
                             },
                         },
                     ],

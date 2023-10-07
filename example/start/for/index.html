@@ -9,7 +9,12 @@
         <script src="../../../dist/san.js"></script>
         <script>
             var MyApp = san.defineComponent({
-                template: "" + "<dl>" + "<dt>name - email</dt>" + '<dd san-for="p, index in persons" title="{{p.name}}">{{index + 1}}. {{p.name}}({{dept}}) - {{p.email}}</dd>' + "</dl>",
+                template:
+                    "" +
+                    "<dl>" +
+                    "<dt>name - email</dt>" +
+                    '<dd san-for="p, index in persons" title="{{p.name}}">{{index + 1}}. {{p.name}}({{dept}}) - {{p.email}}</dd>' +
+                    "</dl>",
 
                 initData: function () {
                     return {

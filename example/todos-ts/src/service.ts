@@ -24,7 +24,10 @@ export default {
                 todos.push(item);
 
                 if (item.categoryId) {
-                    item.category = Object.assign({}, categoryMap[item.categoryId]);
+                    item.category = Object.assign(
+                        {},
+                        categoryMap[item.categoryId]
+                    );
                 }
             }
         }
@@ -45,7 +48,10 @@ export default {
             if (item.id === id) {
                 if (item.categoryId) {
                     item = Object.assign({}, item);
-                    item.category = Object.assign({}, categoryMap[item.categoryId]);
+                    item.category = Object.assign(
+                        {},
+                        categoryMap[item.categoryId]
+                    );
                 }
 
                 return item;

@@ -7,10 +7,9 @@
  * @file 创建节点的工厂方法
  */
 
-var Element = require('./element');
-var FragmentNode = require('./fragment-node');
-var AsyncComponent = require('./async-component');
-
+var Element = require("./element");
+var FragmentNode = require("./fragment-node");
+var AsyncComponent = require("./async-component");
 
 /**
  * 创建节点
@@ -30,32 +29,35 @@ function createNode(aNode, parent, scope, owner, componentName) {
         return new aNode.Clazz(aNode, parent, scope, owner);
     }
 
-    var ComponentOrLoader = owner.components && owner.components[componentName || aNode.tagName];
+    var ComponentOrLoader =
+        owner.components && owner.components[componentName || aNode.tagName];
 
     if (ComponentOrLoader) {
-        return typeof ComponentOrLoader === 'function'
+        return typeof ComponentOrLoader === "function"
             ? new ComponentOrLoader({
-                source: aNode,
-                owner: owner,
-                scope: scope,
-                parent: parent
-            })
-            : new AsyncComponent({
-                source: aNode,
-                owner: owner,
-                scope: scope,
-                parent: parent
-            }, ComponentOrLoader);
+                  source: aNode,
+                  owner: owner,
+                  scope: scope,
+                  parent: parent,
+              })
+            : new AsyncComponent(
+                  {
+                      source: aNode,
+                      owner: owner,
+                      scope: scope,
+                      parent: parent,
+                  },
+                  ComponentOrLoader
+              );
     }
 
     if (aNode.directives.is) {
         switch (componentName) {
-            case 'fragment':
-            case 'template':
-                    return new FragmentNode(aNode, parent, scope, owner);
+            case "fragment":
+            case "template":
+                return new FragmentNode(aNode, parent, scope, owner);
         }
-    }
-    else {
+    } else {
         aNode.elem = true;
     }
 

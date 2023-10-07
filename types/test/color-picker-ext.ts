@@ -45,7 +45,12 @@ class ColorPicker extends Component<ColorPickerData> {
     initData() {
         return {
             // AutoComplete: datasource
-            datasource: [{ name: "red" }, { name: "blue" }, { name: "yellow" }, { name: "green" }],
+            datasource: [
+                { name: "red" },
+                { name: "blue" },
+                { name: "yellow" },
+                { name: "green" },
+            ],
 
             value: "22",
         };

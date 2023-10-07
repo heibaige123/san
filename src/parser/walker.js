@@ -7,7 +7,6 @@
  * @file 字符串源码读取类
  */
 
-
 /**
  * 字符串源码读取类，用于模板字符串解析过程
  *
@@ -39,7 +38,10 @@ Walker.prototype.nextCode = function () {
  */
 Walker.prototype.goUntil = function (charCode) {
     var code;
-    while (this.index < this.len && (code = this.source.charCodeAt(this.index))) {
+    while (
+        this.index < this.len &&
+        (code = this.source.charCodeAt(this.index))
+    ) {
         switch (code) {
             case 32: // 空格 space
             case 9: // 制表符 tab

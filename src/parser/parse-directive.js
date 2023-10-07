@@ -7,13 +7,12 @@
  * @file 解析指令
  */
 
-
-var Walker = require('./walker');
-var parseExpr = require('./parse-expr');
-var parseCall = require('./parse-call');
-var parseText = require('./parse-text');
-var readAccessor = require('./read-accessor');
-var readUnaryExpr = require('./read-unary-expr');
+var Walker = require("./walker");
+var parseExpr = require("./parse-expr");
+var parseCall = require("./parse-call");
+var parseText = require("./parse-text");
+var readAccessor = require("./read-accessor");
+var readUnaryExpr = require("./read-unary-expr");
 
 /**
  * 解析指令
@@ -25,56 +24,62 @@ var readUnaryExpr = require('./read-unary-expr');
  */
 function parseDirective(name, value, options) {
     switch (name) {
-        case 'is':
-        case 'show':
-        case 'html':
-        case 'bind':
-        case 'if':
-        case 'elif':
+        case "is":
+        case "show":
+        case "html":
+        case "bind":
+        case "if":
+        case "elif":
             return {
-                value: parseExpr(value.replace(/(^\{\{|\}\}$)/g, ''))
+                value: parseExpr(value.replace(/(^\{\{|\}\}$)/g, "")),
             };
 
-        case 'else':
+        case "else":
             return {
-                value: {}
-            };
-        
-        case 'transition': 
-            return {
-                value: parseCall(value)
+                value: {},
             };
 
-        case 'ref':
+        case "transition":
             return {
-                value: parseText(value, options.delimiters)
+                value: parseCall(value),
             };
 
-        case 'for':
+        case "ref":
+            return {
+                value: parseText(value, options.delimiters),
+            };
+
+        case "for":
             var walker = new Walker(value);
-            var match = walker.match(/^\s*([$0-9a-z_]+)(\s*,\s*([$0-9a-z_]+))?\s+in\s+/ig, 1);
-    
+            var match = walker.match(
+                /^\s*([$0-9a-z_]+)(\s*,\s*([$0-9a-z_]+))?\s+in\s+/gi,
+                1
+            );
+
             if (match) {
                 var directive = {
                     item: match[1],
-                    value: readUnaryExpr(walker)
+                    value: readUnaryExpr(walker),
                 };
-    
+
                 if (match[3]) {
                     directive.index = match[3];
                 }
-    
-                if (walker.match(/\s*trackby\s+/ig, 1)) {
+
+                if (walker.match(/\s*trackby\s+/gi, 1)) {
                     var start = walker.index;
                     directive.trackBy = readAccessor(walker);
-                    directive.trackByRaw = walker.source.slice(start, walker.index);
+                    directive.trackByRaw = walker.source.slice(
+                        start,
+                        walker.index
+                    );
                 }
                 return directive;
             }
-    
+
             // #[begin] error
-            throw new Error('[SAN FATAL] for syntax error: ' + value);
-            // #[end]
+            throw new Error("[SAN FATAL] for syntax error: " + value);
+        // #[end]
     }
 }
 

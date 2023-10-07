@@ -51,7 +51,7 @@ function createChainableChecker(validate) {
         data,
         dataName,
         componentName,
-        fullDataName,
+        fullDataName
     ) {
         var dataValue = data[dataName];
         var dataType = getDataType(dataValue);
@@ -72,7 +72,7 @@ function createChainableChecker(validate) {
                         componentName +
                         "`, " +
                         "but its value is " +
-                        dataType,
+                        dataType
                 );
             }
             // 不是 required，那就是 ok 的
@@ -117,10 +117,10 @@ function createPrimaryTypeChecker(type) {
                         ", " +
                         "expected " +
                         type +
-                        ")",
+                        ")"
                 );
             }
-        },
+        }
     );
 }
 
@@ -141,7 +141,7 @@ function createArrayOfChecker(arrayItemChecker) {
                         "` of `" +
                         componentName +
                         "` has invalid " +
-                        "DataType notation inside `arrayOf`, expected `function`",
+                        "DataType notation inside `arrayOf`, expected `function`"
                 );
             }
 
@@ -161,7 +161,7 @@ function createArrayOfChecker(arrayItemChecker) {
                         " supplied to " +
                         componentName +
                         ", " +
-                        "expected array)",
+                        "expected array)"
                 );
             }
 
@@ -170,10 +170,10 @@ function createArrayOfChecker(arrayItemChecker) {
                     dataValue,
                     i,
                     componentName,
-                    fullDataName + "[" + i + "]",
+                    fullDataName + "[" + i + "]"
                 );
             }
-        },
+        }
     );
 }
 
@@ -214,9 +214,9 @@ function createInstanceOfChecker(expectedClass) {
                     ", " +
                     "expected instance of " +
                     expectedClassName +
-                    ")",
+                    ")"
             );
-        },
+        }
     );
 }
 
@@ -237,7 +237,7 @@ function createShapeChecker(shapeTypes) {
                         "` of `" +
                         componentName +
                         "` has invalid " +
-                        "DataType notation inside `shape`, expected `object`",
+                        "DataType notation inside `shape`, expected `object`"
                 );
             }
 
@@ -257,7 +257,7 @@ function createShapeChecker(shapeTypes) {
                         " supplied to " +
                         componentName +
                         ", " +
-                        "expected object)",
+                        "expected object)"
                 );
             }
 
@@ -270,12 +270,12 @@ function createShapeChecker(shapeTypes) {
                             dataValue,
                             shapeKeyName,
                             componentName,
-                            fullDataName + "." + shapeKeyName,
+                            fullDataName + "." + shapeKeyName
                         );
                     }
                 }
             }
-        },
+        }
     );
 }
 
@@ -296,7 +296,7 @@ function createOneOfChecker(expectedEnumValues) {
                         "` of `" +
                         componentName +
                         "` has invalid " +
-                        "DataType notation inside `oneOf`, array is expected.",
+                        "DataType notation inside `oneOf`, array is expected."
                 );
             }
 
@@ -322,9 +322,9 @@ function createOneOfChecker(expectedEnumValues) {
                     ", " +
                     "expected one of " +
                     expectedEnumValues.join(",") +
-                    ")",
+                    ")"
             );
-        },
+        }
     );
 }
 
@@ -345,7 +345,7 @@ function createOneOfTypeChecker(expectedEnumOfTypeValues) {
                         "` of `" +
                         componentName +
                         "` has invalid " +
-                        "DataType notation inside `oneOf`, array is expected.",
+                        "DataType notation inside `oneOf`, array is expected."
                 );
             }
 
@@ -383,9 +383,9 @@ function createOneOfTypeChecker(expectedEnumOfTypeValues) {
                     dataValue +
                     "` supplied to " +
                     componentName +
-                    ")",
+                    ")"
             );
-        },
+        }
     );
 }
 
@@ -406,7 +406,7 @@ function createObjectOfChecker(typeChecker) {
                         "` of `" +
                         componentName +
                         "` has invalid " +
-                        "DataType notation inside `objectOf`, expected function",
+                        "DataType notation inside `objectOf`, expected function"
                 );
             }
 
@@ -426,7 +426,7 @@ function createObjectOfChecker(typeChecker) {
                         " supplied to " +
                         componentName +
                         ", " +
-                        "expected object)",
+                        "expected object)"
                 );
             }
 
@@ -437,11 +437,11 @@ function createObjectOfChecker(typeChecker) {
                         dataValue,
                         dataKeyName,
                         componentName,
-                        fullDataName + "." + dataKeyName,
+                        fullDataName + "." + dataKeyName
                     );
                 }
             }
-        },
+        }
     );
 }
 
@@ -462,7 +462,7 @@ function createExactChecker(shapeTypes) {
                         "` of `" +
                         componentName +
                         "` has invalid " +
-                        "DataType notation inside `exact`",
+                        "DataType notation inside `exact`"
                 );
             }
 
@@ -479,7 +479,7 @@ function createExactChecker(shapeTypes) {
                         "`" +
                         "(supplied to " +
                         componentName +
-                        ", expected `object`)",
+                        ", expected `object`)"
                 );
             }
 
@@ -510,7 +510,7 @@ function createExactChecker(shapeTypes) {
                                 "`. " +
                                 "(`" +
                                 key +
-                                "` is not defined in `DataTypes.exact`)",
+                                "` is not defined in `DataTypes.exact`)"
                         );
                     }
 
@@ -527,7 +527,7 @@ function createExactChecker(shapeTypes) {
                                 "`. " +
                                 "(`" +
                                 key +
-                                "` is marked `required` in `DataTypes.exact`)",
+                                "` is marked `required` in `DataTypes.exact`)"
                         );
                     }
 
@@ -536,11 +536,11 @@ function createExactChecker(shapeTypes) {
                         key,
                         componentName,
                         fullDataName + "." + key,
-                        secret,
+                        secret
                     );
                 }
             }
-        },
+        }
     );
 }
 // #[end]

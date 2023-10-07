@@ -7,8 +7,7 @@
  * @file 读取字符串
  */
 
-
-var ExprType = require('./expr-type');
+var ExprType = require("./expr-type");
 
 /**
  * 读取字符串
@@ -28,36 +27,48 @@ function readString(walker) {
 
                 switch (charCode) {
                     case 117: // \u
-                        value += String.fromCharCode(parseInt(
-                            walker.source.slice(walker.index + 1, walker.index + 5), 16
-                        ));
+                        value += String.fromCharCode(
+                            parseInt(
+                                walker.source.slice(
+                                    walker.index + 1,
+                                    walker.index + 5
+                                ),
+                                16
+                            )
+                        );
                         walker.index += 4;
                         break;
 
                     case 120: // \x
-                        value += String.fromCharCode(parseInt(
-                            walker.source.slice(walker.index + 1, walker.index + 3), 16
-                        ));
+                        value += String.fromCharCode(
+                            parseInt(
+                                walker.source.slice(
+                                    walker.index + 1,
+                                    walker.index + 3
+                                ),
+                                16
+                            )
+                        );
                         walker.index += 2;
                         break;
 
                     case 98:
-                        value += '\b';
+                        value += "\b";
                         break;
                     case 102:
-                        value += '\f';
+                        value += "\f";
                         break;
                     case 110:
-                        value += '\n';
+                        value += "\n";
                         break;
                     case 114:
-                        value += '\r';
+                        value += "\r";
                         break;
                     case 116:
-                        value += '\t';
+                        value += "\t";
                         break;
                     case 118:
-                        value += '\v';
+                        value += "\v";
                         break;
 
                     default:
@@ -76,7 +87,7 @@ function readString(walker) {
     return {
         type: ExprType.STRING,
         // 处理字符转义
-        value: value
+        value: value,
     };
 }
 

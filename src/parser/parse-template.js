@@ -7,24 +7,23 @@
  * @file 解析模板
  */
 
-
-var Walker = require('./walker');
-var ExprType = require('./expr-type');
-var integrateAttr = require('./integrate-attr');
-var parseText = require('./parse-text');
-var svgTags = require('../browser/svg-tags');
-var autoCloseTags = require('../browser/auto-close-tags');
+var Walker = require("./walker");
+var ExprType = require("./expr-type");
+var integrateAttr = require("./integrate-attr");
+var parseText = require("./parse-text");
+var svgTags = require("../browser/svg-tags");
+var autoCloseTags = require("../browser/auto-close-tags");
 
 // #[begin] error
 function getXPath(stack, currentTagName) {
-    var path = ['ROOT'];
+    var path = ["ROOT"];
     for (var i = 1, len = stack.length; i < len; i++) {
         path.push(stack[i].tagName);
     }
     if (currentTagName) {
         path.push(currentTagName);
     }
-    return path.join('>');
+    return path.join(">");
 }
 // #[end]
 
@@ -41,25 +40,26 @@ function getXPath(stack, currentTagName) {
  */
 function parseTemplate(source, options) {
     options = options || {};
-    options.trimWhitespace = options.trimWhitespace || 'none';
+    options.trimWhitespace = options.trimWhitespace || "none";
 
     var rootNode = {
         directives: {},
         props: [],
         events: [],
-        children: []
+        children: [],
     };
 
-    if (typeof source !== 'string') {
+    if (typeof source !== "string") {
         return rootNode;
     }
 
-    source = source.replace(/<!--([\s\S]*?)-->/mg, '');
+    source = source.replace(/<!--([\s\S]*?)-->/gm, "");
     var walker = new Walker(source);
     walker.goUntil();
 
-    var tagReg = /<(\/)?([a-z][a-z0-9-]*)\s*/ig;
-    var attrReg = /([-:0-9a-z\[\]_]+)(\s*=\s*(([^'"<>\s]+)|"([^"]*?)"|'([^']*?)'))?\s*/ig;
+    var tagReg = /<(\/)?([a-z][a-z0-9-]*)\s*/gi;
+    var attrReg =
+        /([-:0-9a-z\[\]_]+)(\s*=\s*(([^'"<>\s]+)|"([^"]*?)"|'([^']*?)'))?\s*/gi;
 
     var tagMatch;
     var currentNode = rootNode;
@@ -84,25 +84,40 @@ function parseTemplate(source, options) {
                 // #[begin] error
                 // 如果正在闭合一个自闭合的标签，例如 </input>，报错
                 if (autoCloseTags[tagName]) {
-                    throw new Error(''
-                        + '[SAN ERROR] ' + getXPath(stack, tagName) + ' is a `auto closed` tag, '
-                        + 'so it cannot be closed with </' + tagName + '>'
+                    throw new Error(
+                        "" +
+                            "[SAN ERROR] " +
+                            getXPath(stack, tagName) +
+                            " is a `auto closed` tag, " +
+                            "so it cannot be closed with </" +
+                            tagName +
+                            ">"
                     );
                 }
 
                 // 如果关闭的 tag 和当前打开的不一致，报错
                 if (
-                    stack[closeIndex].tagName !== tagName
+                    stack[closeIndex].tagName !== tagName &&
                     // 这里要把 table 自动添加 tbody 的情况给去掉
-                    && !(tagName === 'table' && stack[closeIndex].tagName === 'tbody')
+                    !(
+                        tagName === "table" &&
+                        stack[closeIndex].tagName === "tbody"
+                    )
                 ) {
-                    throw new Error('[SAN ERROR] ' + getXPath(stack) + ' is closed with ' + tagName);
+                    throw new Error(
+                        "[SAN ERROR] " +
+                            getXPath(stack) +
+                            " is closed with " +
+                            tagName
+                    );
                 }
                 // #[end]
 
-
                 pushTextNode(source.slice(beforeLastIndex, tagMatchStart));
-                while (closeIndex > 0 && stack[closeIndex].tagName !== tagName) {
+                while (
+                    closeIndex > 0 &&
+                    stack[closeIndex].tagName !== tagName
+                ) {
                     closeIndex--;
                 }
 
@@ -118,27 +133,30 @@ function parseTemplate(source, options) {
 
                 // 如果闭合标签时，匹配后的下一个字符是 <，即下一个标签的开始，那么当前闭合标签未闭合
                 if (walker.source.charCodeAt(walker.index) === 60) {
-                    throw new Error(''
-                        + '[SAN ERROR] ' + getXPath(stack)
-                        + '\'s close tag not closed'
+                    throw new Error(
+                        "" +
+                            "[SAN ERROR] " +
+                            getXPath(stack) +
+                            "'s close tag not closed"
                     );
                 }
 
                 // 闭合标签有属性
-                throw new Error(''
-                    + '[SAN ERROR] ' + getXPath(stack)
-                    + '\'s close tag has attributes'
+                throw new Error(
+                    "" +
+                        "[SAN ERROR] " +
+                        getXPath(stack) +
+                        "'s close tag has attributes"
                 );
             }
             // #[end]
-        }
-        else {
+        } else {
             var aElement = {
                 directives: {},
                 props: [],
                 events: [],
                 children: [],
-                tagName: tagName
+                tagName: tagName,
             };
             var tagClose = autoCloseTags[tagName];
 
@@ -146,7 +164,7 @@ function parseTemplate(source, options) {
 
             /* eslint-disable no-constant-condition */
             while (1) {
-            /* eslint-enable no-constant-condition */
+                /* eslint-enable no-constant-condition */
 
                 var nextCharCode = walker.source.charCodeAt(walker.index);
 
@@ -158,8 +176,9 @@ function parseTemplate(source, options) {
                 }
 
                 // 遇到 /> 按闭合处理
-                if (nextCharCode === 47
-                    && walker.source.charCodeAt(walker.index + 1) === 62
+                if (
+                    nextCharCode === 47 &&
+                    walker.source.charCodeAt(walker.index + 1) === 62
                 ) {
                     walker.index += 2;
                     tagClose = 1;
@@ -177,7 +196,11 @@ function parseTemplate(source, options) {
                 // #[begin] error
                 // 在处理一个 open 标签时，如果遇到了 <， 即下一个标签的开始，则当前标签未能正常闭合，报错
                 if (nextCharCode === 60) {
-                    throw new Error('[SAN ERROR] ' + getXPath(stack, tagName) + ' is not closed');
+                    throw new Error(
+                        "[SAN ERROR] " +
+                            getXPath(stack, tagName) +
+                            " is not closed"
+                    );
                 }
                 // #[end]
 
@@ -187,12 +210,15 @@ function parseTemplate(source, options) {
                     integrateAttr(
                         aElement,
                         attrMatch[1],
-                        attrMatch[2] ? (attrMatch[5] || attrMatch[6] || attrMatch[4] || '') : void(0),
+                        attrMatch[2]
+                            ? attrMatch[5] || attrMatch[6] || attrMatch[4] || ""
+                            : void 0,
                         options
                     );
-                }
-                else {
-                    pushTextNode(walker.source.slice(beforeLastIndex, walker.index));
+                } else {
+                    pushTextNode(
+                        walker.source.slice(beforeLastIndex, walker.index)
+                    );
                     aElement = null;
                     break;
                 }
@@ -207,7 +233,7 @@ function parseTemplate(source, options) {
                     var styleProp = null;
                     var propsLen = aElement.props.length;
                     while (propsLen--) {
-                        if (aElement.props[propsLen].name === 'style') {
+                        if (aElement.props[propsLen].name === "style") {
                             styleProp = aElement.props[propsLen];
                             break;
                         }
@@ -217,43 +243,40 @@ function parseTemplate(source, options) {
                         type: ExprType.TERTIARY,
                         segs: [
                             aElement.directives.show.value,
-                            {type: ExprType.STRING, value: ''},
-                            {type: ExprType.STRING, value: ';display:none;'}
-                        ]
+                            { type: ExprType.STRING, value: "" },
+                            { type: ExprType.STRING, value: ";display:none;" },
+                        ],
                     };
 
                     if (styleProp) {
                         if (styleProp.expr.type === ExprType.TEXT) {
                             styleProp.expr.segs.push(showStyleExpr);
-                        }
-                        else {
+                        } else {
                             aElement.props[propsLen].expr = {
                                 type: ExprType.TEXT,
-                                segs: [
-                                    styleProp.expr,
-                                    showStyleExpr
-                                ]
+                                segs: [styleProp.expr, showStyleExpr],
                             };
                         }
-                    }
-                    else {
+                    } else {
                         aElement.props.push({
-                            name: 'style',
-                            expr: showStyleExpr
+                            name: "style",
+                            expr: showStyleExpr,
                         });
                     }
                 }
 
                 // match if directive for else/elif directive
-                var elseDirective = aElement.directives['else'] // eslint-disable-line dot-notation
-                    || aElement.directives.elif;
+                var elseDirective =
+                    aElement.directives["else"] || // eslint-disable-line dot-notation
+                    aElement.directives.elif;
 
                 if (elseDirective) {
                     var parentChildrenLen = currentNode.children.length;
                     var ifANode = null;
 
                     while (parentChildrenLen--) {
-                        var parentChild = currentNode.children[parentChildrenLen];
+                        var parentChild =
+                            currentNode.children[parentChildrenLen];
                         if (parentChild.textExpr) {
                             currentNode.children.splice(parentChildrenLen, 1);
                             continue;
@@ -264,8 +287,9 @@ function parseTemplate(source, options) {
                     }
 
                     // #[begin] error
-                    if (!ifANode || !parentChild.directives['if']) { // eslint-disable-line dot-notation
-                        throw new Error('[SAN FATEL] else not match if.');
+                    if (!ifANode || !parentChild.directives["if"]) {
+                        // eslint-disable-line dot-notation
+                        throw new Error("[SAN FATEL] else not match if.");
                     }
                     // #[end]
 
@@ -273,15 +297,17 @@ function parseTemplate(source, options) {
                         ifANode.elses = ifANode.elses || [];
                         ifANode.elses.push(aElement);
                     }
-                }
-                else {
-                    if (aElement.tagName === 'tr' && currentNode.tagName === 'table') {
+                } else {
+                    if (
+                        aElement.tagName === "tr" &&
+                        currentNode.tagName === "table"
+                    ) {
                         var tbodyNode = {
                             directives: {},
                             props: [],
                             events: [],
                             children: [],
-                            tagName: 'tbody'
+                            tagName: "tbody",
                         };
                         currentNode.children.push(tbodyNode);
                         currentNode = tbodyNode;
@@ -296,13 +322,12 @@ function parseTemplate(source, options) {
                     stack[++stackIndex] = aElement;
                 }
             }
-
         }
 
         beforeLastIndex = walker.index;
     }
 
-    pushTextNode(walker.source.slice(beforeLastIndex).replace(/^\s+$/, ''));
+    pushTextNode(walker.source.slice(beforeLastIndex).replace(/^\s+$/, ""));
 
     return rootNode;
 
@@ -314,39 +339,37 @@ function parseTemplate(source, options) {
      */
     function pushTextNode(text) {
         switch (options.trimWhitespace) {
-            case 'blank':
+            case "blank":
                 if (/^\s+$/.test(text)) {
                     text = null;
                 }
                 break;
 
-            case 'all':
-                text = text.replace(/(^\s+|\s+$)/g, '');
+            case "all":
+                text = text.replace(/(^\s+|\s+$)/g, "");
                 break;
         }
 
         if (text) {
             var expr = parseText(text, options.delimiters);
-            var lastChild = currentNode.children[currentNode.children.length - 1];
+            var lastChild =
+                currentNode.children[currentNode.children.length - 1];
             var textExpr = lastChild && lastChild.textExpr;
 
             if (textExpr) {
                 if (textExpr.segs) {
                     textExpr.segs = textExpr.segs.concat(expr.segs || expr);
-                }
-                else if (textExpr.value != null && expr.value != null) {
+                } else if (textExpr.value != null && expr.value != null) {
                     textExpr.value = textExpr.value + expr.value;
-                }
-                else {
+                } else {
                     lastChild.textExpr = {
                         type: ExprType.TEXT,
-                        segs: [textExpr].concat(expr.segs || expr)
+                        segs: [textExpr].concat(expr.segs || expr),
                     };
                 }
-            }
-            else {
+            } else {
                 currentNode.children.push({
-                    textExpr: expr
+                    textExpr: expr,
                 });
             }
         }

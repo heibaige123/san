@@ -9,5 +9,5 @@ wdio.run().then(
     function (error) {
         console.error("Launcher failed to start the test", error.stacktrace);
         process.exit(1);
-    },
+    }
 );

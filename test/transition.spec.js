@@ -4,7 +4,8 @@ describe("Transition", function () {
         var disposed;
 
         var MyComponent = san.defineComponent({
-            template: '<div style="height:110px;line-height:110px">content</div>',
+            template:
+                '<div style="height:110px;line-height:110px">content</div>',
 
             transition: {
                 enter: function (el, enterDone) {
@@ -23,7 +24,8 @@ describe("Transition", function () {
                             return;
                         }
 
-                        el.style.fontSize = 10 + (100 / steps) * currentStep++ + "px";
+                        el.style.fontSize =
+                            10 + (100 / steps) * currentStep++ + "px";
                         setTimeout(goStep, 16);
                     }
 
@@ -45,7 +47,8 @@ describe("Transition", function () {
                             return;
                         }
 
-                        el.style.fontSize = 110 - (100 / steps) * currentStep++ + "px";
+                        el.style.fontSize =
+                            110 - (100 / steps) * currentStep++ + "px";
                         setTimeout(goStep, 16);
                     }
 
@@ -77,7 +80,8 @@ describe("Transition", function () {
         var detached;
 
         var MyComponent = san.defineComponent({
-            template: '<div style="height:110px;line-height:110px">content</div>',
+            template:
+                '<div style="height:110px;line-height:110px">content</div>',
 
             transition: {
                 enter: function (el, enterDone) {
@@ -102,7 +106,8 @@ describe("Transition", function () {
                             return;
                         }
 
-                        el.style.fontSize = 10 + (100 / steps) * currentStep++ + "px";
+                        el.style.fontSize =
+                            10 + (100 / steps) * currentStep++ + "px";
                         setTimeout(goStep, 16);
                     }
 
@@ -131,7 +136,8 @@ describe("Transition", function () {
                             return;
                         }
 
-                        el.style.fontSize = 110 - (100 / steps) * currentStep++ + "px";
+                        el.style.fontSize =
+                            110 - (100 / steps) * currentStep++ + "px";
                         setTimeout(goStep, 16);
                     }
 
@@ -167,7 +173,8 @@ describe("Transition", function () {
         var detached;
 
         var MyComponent = san.defineComponent({
-            template: '<div style="height:110px;line-height:110px" s-transition="myTrans">content</div>',
+            template:
+                '<div style="height:110px;line-height:110px" s-transition="myTrans">content</div>',
 
             myTrans: {
                 enter: function (el, enterDone) {
@@ -192,7 +199,8 @@ describe("Transition", function () {
                             return;
                         }
 
-                        el.style.fontSize = 10 + (100 / steps) * currentStep++ + "px";
+                        el.style.fontSize =
+                            10 + (100 / steps) * currentStep++ + "px";
                         setTimeout(goStep, 16);
                     }
 
@@ -221,7 +229,8 @@ describe("Transition", function () {
                             return;
                         }
 
-                        el.style.fontSize = 110 - (100 / steps) * currentStep++ + "px";
+                        el.style.fontSize =
+                            110 - (100 / steps) * currentStep++ + "px";
                         setTimeout(goStep, 16);
                     }
 
@@ -257,7 +266,8 @@ describe("Transition", function () {
         var detached;
 
         var MyComponent = san.defineComponent({
-            template: '<div style="height:110px;line-height:110px">content</div>',
+            template:
+                '<div style="height:110px;line-height:110px">content</div>',
 
             attached: function () {
                 attached++;
@@ -295,7 +305,8 @@ describe("Transition", function () {
                             return;
                         }
 
-                        el.style.fontSize = 10 + (100 / steps) * currentStep++ + "px";
+                        el.style.fontSize =
+                            10 + (100 / steps) * currentStep++ + "px";
                         setTimeout(goStep, 16);
                     }
 
@@ -324,7 +335,8 @@ describe("Transition", function () {
                             return;
                         }
 
-                        el.style.fontSize = 110 - (100 / steps) * currentStep++ + "px";
+                        el.style.fontSize =
+                            110 - (100 / steps) * currentStep++ + "px";
                         setTimeout(goStep, 16);
                     }
 
@@ -345,7 +357,8 @@ describe("Transition", function () {
         var leaveFinish;
 
         var MyComponent = san.defineComponent({
-            template: '<div style="height:110px;line-height:110px"><span s-if="num > 10000" title="biiig" s-transition="ifTrans">biiig</span></div>',
+            template:
+                '<div style="height:110px;line-height:110px"><span s-if="num > 10000" title="biiig" s-transition="ifTrans">biiig</span></div>',
 
             ifTrans: {
                 enter: function (el, enterDone) {
@@ -360,7 +373,8 @@ describe("Transition", function () {
                             return;
                         }
 
-                        el.style.fontSize = 10 + (100 / steps) * currentStep++ + "px";
+                        el.style.fontSize =
+                            10 + (100 / steps) * currentStep++ + "px";
                         setTimeout(goStep, 16);
                     }
 
@@ -379,7 +393,8 @@ describe("Transition", function () {
                             return;
                         }
 
-                        el.style.fontSize = 110 - (100 / steps) * currentStep++ + "px";
+                        el.style.fontSize =
+                            110 - (100 / steps) * currentStep++ + "px";
                         setTimeout(goStep, 16);
                     }
 
@@ -442,7 +457,8 @@ describe("Transition", function () {
         var leaveFinish;
 
         var MyComponent = san.defineComponent({
-            template: '<div style="height:110px;line-height:110px"><span s-if="num > 10000" title="biiig" s-transition="ifTrans">biiig</span></div>',
+            template:
+                '<div style="height:110px;line-height:110px"><span s-if="num > 10000" title="biiig" s-transition="ifTrans">biiig</span></div>',
 
             ifTrans: {
                 enter: function (el, enterDone) {
@@ -457,7 +473,8 @@ describe("Transition", function () {
                             return;
                         }
 
-                        el.style.fontSize = 10 + (100 / steps) * currentStep++ + "px";
+                        el.style.fontSize =
+                            10 + (100 / steps) * currentStep++ + "px";
                         setTimeout(goStep, 16);
                     }
 
@@ -476,7 +493,8 @@ describe("Transition", function () {
                             return;
                         }
 
-                        el.style.fontSize = 110 - (100 / steps) * currentStep++ + "px";
+                        el.style.fontSize =
+                            110 - (100 / steps) * currentStep++ + "px";
                         setTimeout(goStep, 16);
                     }
 
@@ -547,7 +565,8 @@ describe("Transition", function () {
                 "x-label": Label,
             },
 
-            template: '<div style="height:110px;line-height:110px"><x-label s-if="num > 10000" s-transition="ifTrans" title="sansan"/></div>',
+            template:
+                '<div style="height:110px;line-height:110px"><x-label s-if="num > 10000" s-transition="ifTrans" title="sansan"/></div>',
 
             ifTrans: {
                 enter: function (el, enterDone) {
@@ -562,7 +581,8 @@ describe("Transition", function () {
                             return;
                         }
 
-                        el.style.fontSize = 10 + (100 / steps) * currentStep++ + "px";
+                        el.style.fontSize =
+                            10 + (100 / steps) * currentStep++ + "px";
                         setTimeout(goStep, 16);
                     }
 
@@ -581,7 +601,8 @@ describe("Transition", function () {
                             return;
                         }
 
-                        el.style.fontSize = 110 - (100 / steps) * currentStep++ + "px";
+                        el.style.fontSize =
+                            110 - (100 / steps) * currentStep++ + "px";
                         setTimeout(goStep, 16);
                     }
 
@@ -644,7 +665,8 @@ describe("Transition", function () {
         var leaveFinish;
 
         var MyComponent = san.defineComponent({
-            template: '<div style="height:110px;line-height:110px"><template s-transition="ifTrans" s-if="num > 10000"><span title="biiig">biiig</span></template></div>',
+            template:
+                '<div style="height:110px;line-height:110px"><template s-transition="ifTrans" s-if="num > 10000"><span title="biiig">biiig</span></template></div>',
 
             ifTrans: {
                 enter: function (el, enterDone) {
@@ -659,7 +681,8 @@ describe("Transition", function () {
                             return;
                         }
 
-                        el.style.fontSize = 10 + (100 / steps) * currentStep++ + "px";
+                        el.style.fontSize =
+                            10 + (100 / steps) * currentStep++ + "px";
                         setTimeout(goStep, 16);
                     }
 
@@ -678,7 +701,8 @@ describe("Transition", function () {
                             return;
                         }
 
-                        el.style.fontSize = 110 - (100 / steps) * currentStep++ + "px";
+                        el.style.fontSize =
+                            110 - (100 / steps) * currentStep++ + "px";
                         setTimeout(goStep, 16);
                     }
 
@@ -728,7 +752,8 @@ describe("Transition", function () {
         var leaveFinish;
 
         var MyComponent = san.defineComponent({
-            template: '<div style="height:110px;line-height:110px"><span s-if="num > 10000" title="biiig" s-transition="ifTrans" style="font-size:20px">biiig</span></div>',
+            template:
+                '<div style="height:110px;line-height:110px"><span s-if="num > 10000" title="biiig" s-transition="ifTrans" style="font-size:20px">biiig</span></div>',
 
             ifTrans: {
                 leave: function (el, leaveDone) {
@@ -743,7 +768,8 @@ describe("Transition", function () {
                             return;
                         }
 
-                        el.style.fontSize = 110 - (100 / steps) * currentStep++ + "px";
+                        el.style.fontSize =
+                            110 - (100 / steps) * currentStep++ + "px";
                         setTimeout(goStep, 16);
                     }
 
@@ -803,7 +829,8 @@ describe("Transition", function () {
         var leaveFinish;
 
         var MyComponent = san.defineComponent({
-            template: '<div style="height:110px;line-height:110px"><span s-if="num > 10000" title="biiig" s-transition="ifTrans">biiig</span></div>',
+            template:
+                '<div style="height:110px;line-height:110px"><span s-if="num > 10000" title="biiig" s-transition="ifTrans">biiig</span></div>',
 
             ifTrans: {
                 enter: function (el, enterDone) {
@@ -818,7 +845,8 @@ describe("Transition", function () {
                             return;
                         }
 
-                        el.style.fontSize = 10 + (100 / steps) * currentStep++ + "px";
+                        el.style.fontSize =
+                            10 + (100 / steps) * currentStep++ + "px";
                         setTimeout(goStep, 16);
                     }
 
@@ -888,7 +916,8 @@ describe("Transition", function () {
                             return;
                         }
 
-                        el.style.fontSize = 10 + (100 / steps) * currentStep++ + "px";
+                        el.style.fontSize =
+                            10 + (100 / steps) * currentStep++ + "px";
                         setTimeout(goStep, 16);
                     }
 
@@ -907,7 +936,8 @@ describe("Transition", function () {
                             return;
                         }
 
-                        el.style.fontSize = 110 - (100 / steps) * currentStep++ + "px";
+                        el.style.fontSize =
+                            110 - (100 / steps) * currentStep++ + "px";
                         setTimeout(goStep, 16);
                     }
 
@@ -928,7 +958,8 @@ describe("Transition", function () {
                             return;
                         }
 
-                        el.style.fontSize = 10 + (100 / steps) * currentStep++ + "px";
+                        el.style.fontSize =
+                            10 + (100 / steps) * currentStep++ + "px";
                         setTimeout(goStep, 16);
                     }
 
@@ -947,7 +978,8 @@ describe("Transition", function () {
                             return;
                         }
 
-                        el.style.fontSize = 110 - (100 / steps) * currentStep++ + "px";
+                        el.style.fontSize =
+                            110 - (100 / steps) * currentStep++ + "px";
                         setTimeout(goStep, 16);
                     }
 
@@ -1033,7 +1065,8 @@ describe("Transition", function () {
                             return;
                         }
 
-                        el.style.fontSize = 10 + (100 / steps) * currentStep++ + "px";
+                        el.style.fontSize =
+                            10 + (100 / steps) * currentStep++ + "px";
                         setTimeout(goStep, 16);
                     }
 
@@ -1052,7 +1085,8 @@ describe("Transition", function () {
                             return;
                         }
 
-                        el.style.fontSize = 110 - (100 / steps) * currentStep++ + "px";
+                        el.style.fontSize =
+                            110 - (100 / steps) * currentStep++ + "px";
                         setTimeout(goStep, 16);
                     }
 
@@ -1073,7 +1107,8 @@ describe("Transition", function () {
                             return;
                         }
 
-                        el.style.fontSize = 10 + (100 / steps) * currentStep++ + "px";
+                        el.style.fontSize =
+                            10 + (100 / steps) * currentStep++ + "px";
                         setTimeout(goStep, 16);
                     }
 
@@ -1092,7 +1127,8 @@ describe("Transition", function () {
                             return;
                         }
 
-                        el.style.fontSize = 110 - (100 / steps) * currentStep++ + "px";
+                        el.style.fontSize =
+                            110 - (100 / steps) * currentStep++ + "px";
                         setTimeout(goStep, 16);
                     }
 
@@ -1168,7 +1204,8 @@ describe("Transition", function () {
                 "x-label": Label,
             },
 
-            template: '<div style="height:110px;line-height:110px"><x-label s-for="item in list" s-transition="trans" title="{{item}}"/></div>',
+            template:
+                '<div style="height:110px;line-height:110px"><x-label s-for="item in list" s-transition="trans" title="{{item}}"/></div>',
 
             trans: {
                 enter: function (el, enterDone) {
@@ -1183,7 +1220,8 @@ describe("Transition", function () {
                             return;
                         }
 
-                        el.style.fontSize = 10 + (100 / steps) * currentStep++ + "px";
+                        el.style.fontSize =
+                            10 + (100 / steps) * currentStep++ + "px";
                         setTimeout(goStep, 16);
                     }
 
@@ -1202,7 +1240,8 @@ describe("Transition", function () {
                             return;
                         }
 
-                        el.style.fontSize = 110 - (100 / steps) * currentStep++ + "px";
+                        el.style.fontSize =
+                            110 - (100 / steps) * currentStep++ + "px";
                         setTimeout(goStep, 16);
                     }
 
@@ -1279,7 +1318,8 @@ describe("Transition", function () {
         var leaveFinish = 0;
 
         var Label = san.defineComponent({
-            template: '<span title="{{title}}" s-transition="myTrans">{{title}}</span>',
+            template:
+                '<span title="{{title}}" s-transition="myTrans">{{title}}</span>',
 
             myTrans: {
                 enter: function (el, enterDone) {
@@ -1329,7 +1369,8 @@ describe("Transition", function () {
                 "x-label": Label,
             },
 
-            template: '<div style="height:110px;line-height:110px"><x-label s-for="item in list" s-transition="trans" title="{{item}}"/></div>',
+            template:
+                '<div style="height:110px;line-height:110px"><x-label s-for="item in list" s-transition="trans" title="{{item}}"/></div>',
 
             trans: {
                 enter: function (el, enterDone) {
@@ -1344,7 +1385,8 @@ describe("Transition", function () {
                             return;
                         }
 
-                        el.style.fontSize = 10 + (100 / steps) * currentStep++ + "px";
+                        el.style.fontSize =
+                            10 + (100 / steps) * currentStep++ + "px";
                         setTimeout(goStep, 16);
                     }
 
@@ -1363,7 +1405,8 @@ describe("Transition", function () {
                             return;
                         }
 
-                        el.style.fontSize = 110 - (100 / steps) * currentStep++ + "px";
+                        el.style.fontSize =
+                            110 - (100 / steps) * currentStep++ + "px";
                         setTimeout(goStep, 16);
                     }
 
@@ -1443,7 +1486,8 @@ describe("Transition", function () {
         var leaveFinish;
 
         var MyComponent = san.defineComponent({
-            template: '<div style="height:110px;line-height:110px"><span s-if="num > 10000" title="biiig" s-transition="ifTrans(needTrans)">biiig</span></div>',
+            template:
+                '<div style="height:110px;line-height:110px"><span s-if="num > 10000" title="biiig" s-transition="ifTrans(needTrans)">biiig</span></div>',
 
             ifTrans: function (enabled) {
                 return {
@@ -1466,7 +1510,8 @@ describe("Transition", function () {
                                 return;
                             }
 
-                            el.style.fontSize = 10 + (100 / steps) * currentStep++ + "px";
+                            el.style.fontSize =
+                                10 + (100 / steps) * currentStep++ + "px";
                             setTimeout(goStep, 16);
                         }
 
@@ -1492,7 +1537,8 @@ describe("Transition", function () {
                                 return;
                             }
 
-                            el.style.fontSize = 110 - (100 / steps) * currentStep++ + "px";
+                            el.style.fontSize =
+                                110 - (100 / steps) * currentStep++ + "px";
                             setTimeout(goStep, 16);
                         }
 
@@ -1550,7 +1596,8 @@ describe("Transition", function () {
         var leaveFinish;
 
         var MyComponent = san.defineComponent({
-            template: '<div style="height:110px;line-height:110px"><span s-if="num > 10000" title="biiig" s-transition="trans.ifcreator(needTrans)">biiig</span></div>',
+            template:
+                '<div style="height:110px;line-height:110px"><span s-if="num > 10000" title="biiig" s-transition="trans.ifcreator(needTrans)">biiig</span></div>',
 
             trans: {
                 ifcreator: function (enabled) {
@@ -1574,7 +1621,8 @@ describe("Transition", function () {
                                     return;
                                 }
 
-                                el.style.fontSize = 10 + (100 / steps) * currentStep++ + "px";
+                                el.style.fontSize =
+                                    10 + (100 / steps) * currentStep++ + "px";
                                 setTimeout(goStep, 16);
                             }
 
@@ -1600,7 +1648,8 @@ describe("Transition", function () {
                                     return;
                                 }
 
-                                el.style.fontSize = 110 - (100 / steps) * currentStep++ + "px";
+                                el.style.fontSize =
+                                    110 - (100 / steps) * currentStep++ + "px";
                                 setTimeout(goStep, 16);
                             }
 
@@ -1656,7 +1705,8 @@ describe("Transition", function () {
     it("directive apply for and fast change many times", function (done) {
         var leaveFinish = 0;
         var MyComponent = san.defineComponent({
-            template: '<div style="height:110px;line-height:110px"><span s-for="item in list" s-transition="trans">{{item}}</span></div>',
+            template:
+                '<div style="height:110px;line-height:110px"><span s-for="item in list" s-transition="trans">{{item}}</span></div>',
 
             trans: {
                 enter: function (el, enterDone) {
@@ -1670,7 +1720,8 @@ describe("Transition", function () {
                             return;
                         }
 
-                        el.style.fontSize = 10 + (100 / steps) * currentStep++ + "px";
+                        el.style.fontSize =
+                            10 + (100 / steps) * currentStep++ + "px";
                         setTimeout(goStep, 16);
                     }
 
@@ -1687,11 +1738,14 @@ describe("Transition", function () {
                             leaveFinish++;
                             leaveDone();
 
-                            expect(wrap.getElementsByTagName("span").length).toBe(5 - leaveFinish);
+                            expect(
+                                wrap.getElementsByTagName("span").length
+                            ).toBe(5 - leaveFinish);
                             return;
                         }
 
-                        el.style.fontSize = 110 - (100 / steps) * currentStep++ + "px";
+                        el.style.fontSize =
+                            110 - (100 / steps) * currentStep++ + "px";
                         setTimeout(goStep, 16);
                     }
 

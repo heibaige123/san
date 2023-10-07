@@ -7,8 +7,8 @@
  * @file 读取逻辑与表达式
  */
 
-var ExprType = require('./expr-type');
-var readEqualityExpr = require('./read-equality-expr');
+var ExprType = require("./expr-type");
+var readEqualityExpr = require("./read-equality-expr");
 
 /**
  * 读取逻辑与表达式
@@ -20,13 +20,14 @@ function readLogicalANDExpr(walker) {
     var expr = readEqualityExpr(walker);
     walker.goUntil();
 
-    if (walker.source.charCodeAt(walker.index) === 38) { // &
+    if (walker.source.charCodeAt(walker.index) === 38) {
+        // &
         if (walker.nextCode() === 38) {
             walker.index++;
             return {
                 type: ExprType.BINARY,
                 operator: 76,
-                segs: [expr, readLogicalANDExpr(walker)]
+                segs: [expr, readLogicalANDExpr(walker)],
             };
         }
 

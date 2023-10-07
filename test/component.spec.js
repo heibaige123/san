@@ -72,7 +72,8 @@ describe("Component", function () {
             components: {
                 "ui-label": Label,
             },
-            template: '<div title="{{color}}"><ui-label text="{{color}}"/>{{color}}</div>',
+            template:
+                '<div title="{{color}}"><ui-label text="{{color}}"/>{{color}}</div>',
 
             construct: function () {
                 mainConstruct++;
@@ -498,7 +499,7 @@ describe("Component", function () {
                     this.data.set("num", this.data.get("num") + 5);
                 },
             },
-            Counter,
+            Counter
         );
 
         var MyComponent = san.defineComponent({
@@ -625,7 +626,8 @@ describe("Component", function () {
     it("custom delims", function () {
         var MyComponent = san.defineComponent({
             delimiters: ["{%", "%}"],
-            template: '<a><span title="Good {%name%}">Hello {%name%}</span></a>',
+            template:
+                '<a><span title="Good {%name%}">Hello {%name%}</span></a>',
         });
 
         var myComponent = new MyComponent({
@@ -1082,7 +1084,8 @@ describe("Component", function () {
 
     it("custom event default arg $event", function (done) {
         var Label = san.defineComponent({
-            template: '<a><span on-click="clicker" style="cursor:pointer">click here to fire change event with no arg</span></a>',
+            template:
+                '<a><span on-click="clicker" style="cursor:pointer">click here to fire change event with no arg</span></a>',
 
             clicker: function () {
                 this.fire("change", "Hello");
@@ -1096,7 +1099,8 @@ describe("Component", function () {
                 "ui-label": Label,
             },
 
-            template: '<div><ui-label on-change="labelChange"></ui-label></div>',
+            template:
+                '<div><ui-label on-change="labelChange"></ui-label></div>',
 
             labelChange: function (event) {
                 expect(event).toBe("Hello");
@@ -1129,7 +1133,8 @@ describe("Component", function () {
 
     it("custom event default arg $event valued null", function (done) {
         var Label = san.defineComponent({
-            template: '<a><span on-click="clicker" style="cursor:pointer">click here to fire change event with no arg</span></a>',
+            template:
+                '<a><span on-click="clicker" style="cursor:pointer">click here to fire change event with no arg</span></a>',
 
             clicker: function () {
                 this.fire("change", null);
@@ -1143,7 +1148,8 @@ describe("Component", function () {
                 "ui-label": Label,
             },
 
-            template: '<div><ui-label on-change="labelChange"></ui-label></div>',
+            template:
+                '<div><ui-label on-change="labelChange"></ui-label></div>',
 
             labelChange: function (event) {
                 expect(event).toBe(null);
@@ -1176,7 +1182,8 @@ describe("Component", function () {
 
     it("custom event should not pass DOM Event object, when fire with no arg", function (done) {
         var Label = san.defineComponent({
-            template: '<a><span on-click="clicker" id="component-custom-event1" style="cursor:pointer">click here to fire change event with no arg</span></a>',
+            template:
+                '<a><span on-click="clicker" id="component-custom-event1" style="cursor:pointer">click here to fire change event with no arg</span></a>',
 
             clicker: function () {
                 this.fire("change");
@@ -1190,7 +1197,8 @@ describe("Component", function () {
                 "ui-label": Label,
             },
 
-            template: '<div><ui-label on-change="labelChange($event)"></ui-label></div>',
+            template:
+                '<div><ui-label on-change="labelChange($event)"></ui-label></div>',
 
             labelChange: function (event) {
                 expect(event).toBeUndefined();
@@ -1222,7 +1230,8 @@ describe("Component", function () {
 
     it("custom event should not pass DOM Event object, when fire with equal-false value, like 0", function (done) {
         var Label = san.defineComponent({
-            template: '<a><span on-click="clicker" id="component-custom-event2" style="cursor:pointer">click here to fire change event with arg 0</span></a>',
+            template:
+                '<a><span on-click="clicker" id="component-custom-event2" style="cursor:pointer">click here to fire change event with arg 0</span></a>',
 
             clicker: function () {
                 this.fire("change", 0);
@@ -1236,7 +1245,8 @@ describe("Component", function () {
                 "ui-label": Label,
             },
 
-            template: '<div><ui-label on-change="labelChange($event)"></ui-label></div>',
+            template:
+                '<div><ui-label on-change="labelChange($event)"></ui-label></div>',
 
             labelChange: function (event) {
                 expect(event).toBe(0);
@@ -1357,7 +1367,9 @@ describe("Component", function () {
                 "ui-label": Label,
             },
 
-            template: '<div><h5><ui-label title="{{name}}" text="{{jokeName}}"></ui-label></h5>' + "<p><a>{{school}}</a><u>{{company}}</u></p></div>",
+            template:
+                '<div><h5><ui-label title="{{name}}" text="{{jokeName}}"></ui-label></h5>' +
+                "<p><a>{{school}}</a><u>{{company}}</u></p></div>",
 
             updated: function () {
                 times++;
@@ -1432,8 +1444,12 @@ describe("Component", function () {
             template: "<b>{{content}}</b>",
 
             updated: function () {
-                expect(wrap.getElementsByTagName("u")[0].innerHTML).toBe("title");
-                expect(wrap.getElementsByTagName("b")[0].innerHTML).toBe("subtitle");
+                expect(wrap.getElementsByTagName("u")[0].innerHTML).toBe(
+                    "title"
+                );
+                expect(wrap.getElementsByTagName("b")[0].innerHTML).toBe(
+                    "subtitle"
+                );
 
                 myComponent.dispose();
                 document.body.removeChild(wrap);
@@ -1446,7 +1462,8 @@ describe("Component", function () {
                 "x-panel": Panel,
             },
 
-            template: '<div><x-panel content="{{layerContent}}"></x-panel><u>{{title}}</u></div>',
+            template:
+                '<div><x-panel content="{{layerContent}}"></x-panel><u>{{title}}</u></div>',
         });
 
         var myComponent = new MyComponent({
@@ -1485,8 +1502,12 @@ describe("Component", function () {
                     layer.data.set("content", value);
 
                     this.nextTick(function () {
-                        expect(wrap.getElementsByTagName("u")[0].innerHTML).toBe("title");
-                        expect(wrap.getElementsByTagName("b")[0].innerHTML).toBe("subtitle");
+                        expect(
+                            wrap.getElementsByTagName("u")[0].innerHTML
+                        ).toBe("title");
+                        expect(
+                            wrap.getElementsByTagName("b")[0].innerHTML
+                        ).toBe("subtitle");
 
                         myComponent.dispose();
                         document.body.removeChild(wrap);
@@ -1504,7 +1525,8 @@ describe("Component", function () {
                 "x-panel": Panel,
             },
 
-            template: '<div><x-panel content="{{layerContent}}"></x-panel><u>{{title}}</u></div>',
+            template:
+                '<div><x-panel content="{{layerContent}}"></x-panel><u>{{title}}</u></div>',
         });
 
         var myComponent = new MyComponent({
@@ -1555,7 +1577,8 @@ describe("Component", function () {
                 "x-panel": Panel,
             },
 
-            template: '<div><x-panel content="{{layerContent}}"></x-panel><u>{{title}}</u></div>',
+            template:
+                '<div><x-panel content="{{layerContent}}"></x-panel><u>{{title}}</u></div>',
         });
 
         var myComponent = new MyComponent({
@@ -1629,7 +1652,8 @@ describe("Component", function () {
         var selectValue;
         var item;
         var SelectItem = san.defineComponent({
-            template: "<li on-click=\"select\" style=\"{{value === selectValue ? 'border: 1px solid red' : ''}}\"><slot></slot></li>",
+            template:
+                "<li on-click=\"select\" style=\"{{value === selectValue ? 'border: 1px solid red' : ''}}\"><slot></slot></li>",
 
             select: function () {
                 var value = this.data.get("value");
@@ -1682,7 +1706,9 @@ describe("Component", function () {
 
         function detectDone() {
             if (selectValue) {
-                expect(wrap.getElementsByTagName("b")[0].title).toBe(selectValue);
+                expect(wrap.getElementsByTagName("b")[0].title).toBe(
+                    selectValue
+                );
 
                 myComponent.dispose();
                 document.body.removeChild(wrap);
@@ -1735,7 +1761,8 @@ describe("Component", function () {
         var selectValue;
         var item;
         var SelectItem = san.defineComponent({
-            template: "<li on-click=\"select\" style=\"{{value === selectValue ? 'border: 1px solid red' : ''}}\"><slot></slot></li>",
+            template:
+                "<li on-click=\"select\" style=\"{{value === selectValue ? 'border: 1px solid red' : ''}}\"><slot></slot></li>",
 
             select: function () {
                 var value = this.data.get("value");
@@ -1788,7 +1815,9 @@ describe("Component", function () {
 
         function detectDone() {
             if (selectValue) {
-                expect(wrap.getElementsByTagName("b")[0].title).toBe(selectValue);
+                expect(wrap.getElementsByTagName("b")[0].title).toBe(
+                    selectValue
+                );
 
                 myComponent.dispose();
                 document.body.removeChild(wrap);
@@ -1851,7 +1880,8 @@ describe("Component", function () {
         var selectValue;
         var item;
         var SelectItem = san.defineComponent({
-            template: "<li on-click=\"select\" style=\"{{value === selectValue ? 'border: 1px solid red' : ''}}\"><slot></slot></li>",
+            template:
+                "<li on-click=\"select\" style=\"{{value === selectValue ? 'border: 1px solid red' : ''}}\"><slot></slot></li>",
 
             select: function () {
                 var value = this.data.get("value");
@@ -1913,7 +1943,9 @@ describe("Component", function () {
 
         function detectDone() {
             if (selectValue) {
-                expect(wrap.getElementsByTagName("b")[0].title).toBe(selectValue);
+                expect(wrap.getElementsByTagName("b")[0].title).toBe(
+                    selectValue
+                );
                 expect(selectMessageX).toBeTruthy();
                 expect(justtestReceived).toBeTruthy();
 
@@ -1992,7 +2024,8 @@ describe("Component", function () {
                 },
             },
 
-            template: "<div><b title=\"{{xx?'good':'bad'}}\"></b><slot></slot><b title=\"{{xx?'good':'bad'}}\"></b></div>",
+            template:
+                "<div><b title=\"{{xx?'good':'bad'}}\"></b><slot></slot><b title=\"{{xx?'good':'bad'}}\"></b></div>",
 
             initData: function () {
                 return {
@@ -2043,7 +2076,9 @@ describe("Component", function () {
                 "ui-label": Label,
             },
 
-            template: '<div><h5><ui-label title="{{name}}" text="{{jokeName}}"></ui-label></h5>' + "<p><a>{{school}}</a><u>{{company}}</u></p></div>",
+            template:
+                '<div><h5><ui-label title="{{name}}" text="{{jokeName}}"></ui-label></h5>' +
+                "<p><a>{{school}}</a><u>{{company}}</u></p></div>",
         });
 
         var myComponent = new MyComponent();
@@ -2077,7 +2112,8 @@ describe("Component", function () {
         var subTimes = 0;
 
         var Label = san.defineComponent({
-            template: '<b title="{{title}}"><span title="{{title}}">{{text}}</span></b>',
+            template:
+                '<b title="{{title}}"><span title="{{title}}">{{text}}</span></b>',
         });
 
         var MyComponent = san.defineComponent({
@@ -2085,7 +2121,9 @@ describe("Component", function () {
                 "ui-label": Label,
             },
 
-            template: '<div><h5><ui-label title="{{name}}" text="{{jokeName}}"></ui-label></h5>' + "<p><a>{{school}}</a><u>{{company}}</u></p></div>",
+            template:
+                '<div><h5><ui-label title="{{name}}" text="{{jokeName}}"></ui-label></h5>' +
+                "<p><a>{{school}}</a><u>{{company}}</u></p></div>",
         });
 
         var myComponent = new MyComponent();
@@ -2124,7 +2162,8 @@ describe("Component", function () {
                 return { level: 1 };
             },
 
-            template: '<u><ui-self level="{{level - 1}}" san-if="level > 0"></ui-self></u>',
+            template:
+                '<u><ui-self level="{{level - 1}}" san-if="level > 0"></ui-self></u>',
         });
 
         var myComponent = new MyComponent();
@@ -2148,7 +2187,9 @@ describe("Component", function () {
                 },
             },
 
-            template: '<div><h5><ui-label title="{{name}}" text="{{jokeName}}"></ui-label></h5>' + "<p><a>{{school}}</a><u>{{company}}</u></p></div>",
+            template:
+                '<div><h5><ui-label title="{{name}}" text="{{jokeName}}"></ui-label></h5>' +
+                "<p><a>{{school}}</a><u>{{company}}</u></p></div>",
         });
 
         var myComponent = new MyComponent();
@@ -2174,7 +2215,8 @@ describe("Component", function () {
 
     it("template tag in template", function (done) {
         var Label = san.defineComponent({
-            template: '<template class="ui-label" title="{{text}}">{{text}}</template>',
+            template:
+                '<template class="ui-label" title="{{text}}">{{text}}</template>',
         });
 
         var MyComponent = san.defineComponent({
@@ -2209,7 +2251,8 @@ describe("Component", function () {
 
     it("bind data update property-grained", function (done) {
         var UserInfo = san.defineComponent({
-            template: '<u class="ui-label" title="{{info.name}}-{{info.email}}">{{info.name}}-{{info.email}}</u>',
+            template:
+                '<u class="ui-label" title="{{info.name}}-{{info.email}}">{{info.name}}-{{info.email}}</u>',
 
             attached: function () {
                 this.watch("info.name", function () {
@@ -2350,7 +2393,12 @@ describe("Component", function () {
 
             computed: {
                 msg: function () {
-                    return this.data.get("name") + "(" + this.data.get("email") + ")";
+                    return (
+                        this.data.get("name") +
+                        "(" +
+                        this.data.get("email") +
+                        ")"
+                    );
                 },
 
                 name: function () {
@@ -2394,7 +2442,12 @@ describe("Component", function () {
 
             computed: {
                 msg: function () {
-                    return this.data.get("name") + "(" + this.data.get("email") + ")";
+                    return (
+                        this.data.get("name") +
+                        "(" +
+                        this.data.get("email") +
+                        ")"
+                    );
                 },
 
                 name: function () {
@@ -2497,7 +2550,8 @@ describe("Component", function () {
         var receive;
 
         var Label = san.defineComponent({
-            template: '<template class="ui-label" title="{{text}}">{{text}}</template>',
+            template:
+                '<template class="ui-label" title="{{text}}">{{text}}</template>',
 
             attached: function () {
                 this.fire("haha", this.data.get("text") + "haha");
@@ -2509,7 +2563,8 @@ describe("Component", function () {
                 "ui-label": Label,
             },
 
-            template: '<div><ui-label text="{{name}}" on-haha="labelHaha($event)"></ui-label></div>',
+            template:
+                '<div><ui-label text="{{name}}" on-haha="labelHaha($event)"></ui-label></div>',
 
             labelHaha: function (e) {
                 receive = e;
@@ -2549,7 +2604,8 @@ describe("Component", function () {
                 "ui-label": Label,
             },
 
-            template: '<div><ui-label s-for="item, index in list" text="{{item}}" on-haha="labelHaha($event, index)"/></div>',
+            template:
+                '<div><ui-label s-for="item, index in list" text="{{item}}" on-haha="labelHaha($event, index)"/></div>',
 
             labelHaha: function (e, index) {
                 sum += index;
@@ -2587,7 +2643,8 @@ describe("Component", function () {
             components: {
                 "ui-color": ColorPicker,
             },
-            template: '<div><span title="{{color}}">{{color}}</span> <ui-color value="{= color =}" san-ref="colorPicker"></ui-color></div>',
+            template:
+                '<div><span title="{{color}}">{{color}}</span> <ui-color value="{= color =}" san-ref="colorPicker"></ui-color></div>',
         });
         var myComponent = new MyComponent();
         myComponent.data.set("color", "green");
@@ -2597,7 +2654,9 @@ describe("Component", function () {
         myComponent.attach(wrap);
 
         var span = wrap.firstChild.firstChild;
-        expect(myComponent.ref("colorPicker") instanceof ColorPicker).toBe(true);
+        expect(myComponent.ref("colorPicker") instanceof ColorPicker).toBe(
+            true
+        );
         expect(wrap.getElementsByTagName("b")[0].title).toBe("green");
 
         myComponent.dispose();
@@ -2609,7 +2668,8 @@ describe("Component", function () {
             components: {
                 "ui-color": ColorPicker,
             },
-            template: '<div><span title="{{color}}">{{color}}</span> <ui-color value="{=color=}" san-ref="{{name}}"></ui-color></div>',
+            template:
+                '<div><span title="{{color}}">{{color}}</span> <ui-color value="{=color=}" san-ref="{{name}}"></ui-color></div>',
         });
         var myComponent = new MyComponent();
         myComponent.data.set("color", "green");
@@ -2637,7 +2697,8 @@ describe("Component", function () {
                     colors: ["blue", "green"],
                 };
             },
-            template: '<div><p san-for="color, index in colors"><ui-color value="{=color=}" san-ref="color-{{index}}"></ui-color></p></div>',
+            template:
+                '<div><p san-for="color, index in colors"><ui-color value="{=color=}" san-ref="color-{{index}}"></ui-color></p></div>',
         });
         var myComponent = new MyComponent();
 
@@ -2676,7 +2737,8 @@ describe("Component", function () {
                     colors: ["blue", "green"],
                 };
             },
-            template: '<div><ui-color san-for="color, index in colors" value="{=color=}" san-ref="color-{{index}}"></ui-color></div>',
+            template:
+                '<div><ui-color san-for="color, index in colors" value="{=color=}" san-ref="color-{{index}}"></ui-color></div>',
         });
         var myComponent = new MyComponent();
 
@@ -2716,7 +2778,8 @@ describe("Component", function () {
                     color: "green",
                 };
             },
-            template: '<div><div san-if="condition"><ui-color value="{=color=}" san-ref="color-{{name}}"></ui-color></div></div>',
+            template:
+                '<div><div san-if="condition"><ui-color value="{=color=}" san-ref="color-{{name}}"></ui-color></div></div>',
         });
         var myComponent = new MyComponent();
 
@@ -2752,7 +2815,8 @@ describe("Component", function () {
                     color: "green",
                 };
             },
-            template: '<div><ui-color value="{=color=}" san-if="condition" san-ref="color-{{name}}"></ui-color></div>',
+            template:
+                '<div><ui-color value="{=color=}" san-if="condition" san-ref="color-{{name}}"></ui-color></div>',
         });
         var myComponent = new MyComponent();
 
@@ -2779,7 +2843,8 @@ describe("Component", function () {
 
     it("ref in element", function (done) {
         var MyComponent = san.defineComponent({
-            template: '<ul><li s-for="name in list" s-ref="it-{{name}}">{{name}}</li></ul>',
+            template:
+                '<ul><li s-for="name in list" s-ref="it-{{name}}">{{name}}</li></ul>',
         });
         var myComponent = new MyComponent({
             data: {
@@ -2935,7 +3000,8 @@ describe("Component", function () {
             components: {
                 "ui-label": Label,
             },
-            template: '<fragment><ui-label text="{{name}}"></ui-label></fragment>',
+            template:
+                '<fragment><ui-label text="{{name}}"></ui-label></fragment>',
 
             attached: function () {
                 this.data.set("name", "errorrik");
@@ -2961,14 +3027,16 @@ describe("Component", function () {
     });
 
     var TelList = san.defineComponent({
-        template: '<ul><li san-for="item in list" title="{{item}}">{{item}}</li></ul>',
+        template:
+            '<ul><li san-for="item in list" title="{{item}}">{{item}}</li></ul>',
     });
 
     var PersonList = san.defineComponent({
         components: {
             "ui-tel": TelList,
         },
-        template: '<div><dl san-for="item in list"><dt title="{{item.name}}">{{item.name}}</dt><dd><ui-tel list="{{item.tels}}"></ui-tel></dd></dl></div>',
+        template:
+            '<div><dl san-for="item in list"><dt title="{{item.name}}">{{item.name}}</dt><dd><ui-tel list="{{item.tels}}"></ui-tel></dd></dl></div>',
     });
 
     it("nested", function (done) {
@@ -3003,7 +3071,11 @@ describe("Component", function () {
         expect(p1lis[1].title).toBe("23456789");
 
         myComponent.data.set("persons[1].name", "leeight");
-        myComponent.data.set("persons[1].tels", ["12121212", "16161616", "18181818"]);
+        myComponent.data.set("persons[1].tels", [
+            "12121212",
+            "16161616",
+            "18181818",
+        ]);
 
         san.nextTick(function () {
             var dts = wrap.getElementsByTagName("dt");
@@ -3027,7 +3099,8 @@ describe("Component", function () {
             components: {
                 "ui-label": Label,
             },
-            template: '<ul><li san-for="p in persons"><b title="{{p.name}}">{{p.name}}</b><h5 san-for="t in p.tels"><ui-label text="{{t}}"></ui-label></h5></li></ul>',
+            template:
+                '<ul><li san-for="p in persons"><b title="{{p.name}}">{{p.name}}</b><h5 san-for="t in p.tels"><ui-label text="{{t}}"></ui-label></h5></li></ul>',
         });
         var myComponent = new MyComponent();
         myComponent.data.set("persons", [
@@ -3053,7 +3126,11 @@ describe("Component", function () {
         expect(p1tels[1].title).toBe("23456789");
 
         myComponent.data.set("persons[1].name", "leeight");
-        myComponent.data.set("persons[1].tels", ["12121212", "16161616", "18181818"]);
+        myComponent.data.set("persons[1].tels", [
+            "12121212",
+            "16161616",
+            "18181818",
+        ]);
 
         san.nextTick(function () {
             var lis = wrap.getElementsByTagName("li");
@@ -3076,7 +3153,8 @@ describe("Component", function () {
         var outerReceive;
 
         var Label = san.defineComponent({
-            template: '<template class="ui-label" on-click="clicker" style="cursor:pointer;text-decoration:underline">here</template>',
+            template:
+                '<template class="ui-label" on-click="clicker" style="cursor:pointer;text-decoration:underline">here</template>',
 
             clicker: function () {
                 innerClicked = true;
@@ -3089,7 +3167,8 @@ describe("Component", function () {
                 "ui-label": Label,
             },
 
-            template: '<div>Click <ui-label on-haha="labelHaha($event)"></ui-label></div>',
+            template:
+                '<div>Click <ui-label on-haha="labelHaha($event)"></ui-label></div>',
 
             labelHaha: function (e) {
                 outerReceive = e;
@@ -3176,7 +3255,8 @@ describe("Component", function () {
 
     it("watch property accessor", function (done) {
         var MyComponent = san.defineComponent({
-            template: '<a><span title="{{projects[0].author.email}}">{{projects[0].author.email}}</span></a>',
+            template:
+                '<a><span title="{{projects[0].author.email}}">{{projects[0].author.email}}</span></a>',
 
             initData: function () {
                 return {
@@ -3352,7 +3432,8 @@ describe("Component", function () {
                 "ui-button": Button,
             },
 
-            template: '<div><ui-button class="{{classes}} strong"></ui-button></div>',
+            template:
+                '<div><ui-button class="{{classes}} strong"></ui-button></div>',
         });
 
         var myComponent = new MyComponent();
@@ -3381,7 +3462,8 @@ describe("Component", function () {
                 "ui-button": Button,
             },
 
-            template: '<div><ui-button style="height: {{height}}"></ui-button></div>',
+            template:
+                '<div><ui-button style="height: {{height}}"></ui-button></div>',
         });
 
         var myComponent = new MyComponent({
@@ -3421,7 +3503,8 @@ describe("Component", function () {
                 "ui-button": Button,
             },
 
-            template: '<div><ui-button style="height: {{height}}"></ui-button></div>',
+            template:
+                '<div><ui-button style="height: {{height}}"></ui-button></div>',
         });
 
         var myComponent = new MyComponent({
@@ -3481,7 +3564,8 @@ describe("Component", function () {
                 },
             },
 
-            template: '<div><ui-button style="height: {{height}}; {{btnStyle}}"></ui-button></div>',
+            template:
+                '<div><ui-button style="height: {{height}}; {{btnStyle}}"></ui-button></div>',
         });
 
         var myComponent = new MyComponent({
@@ -3498,7 +3582,9 @@ describe("Component", function () {
         var btn = wrap.getElementsByTagName("button")[0];
 
         expect(/height:\s*10px($|;)/i.test(btn.style.cssText)).toBeTruthy();
-        expect(/position:\s*absolute($|;)/i.test(btn.style.cssText)).toBeTruthy();
+        expect(
+            /position:\s*absolute($|;)/i.test(btn.style.cssText)
+        ).toBeTruthy();
         expect(/display:\s*block($|;)/i.test(btn.style.cssText)).toBeTruthy();
 
         myComponent.data.set("height", "5px");
@@ -3506,8 +3592,12 @@ describe("Component", function () {
 
         san.nextTick(function () {
             expect(/height:\s*5px($|;)/i.test(btn.style.cssText)).toBeTruthy();
-            expect(/position:\s*relative($|;)/i.test(btn.style.cssText)).toBeTruthy();
-            expect(/display:\s*block($|;)/i.test(btn.style.cssText)).toBeTruthy();
+            expect(
+                /position:\s*relative($|;)/i.test(btn.style.cssText)
+            ).toBeTruthy();
+            expect(
+                /display:\s*block($|;)/i.test(btn.style.cssText)
+            ).toBeTruthy();
 
             myComponent.dispose();
             document.body.removeChild(wrap);
@@ -3552,14 +3642,18 @@ describe("Component", function () {
         var btn = wrap.getElementsByTagName("button")[0];
 
         expect(/height:\s*10px($|;)/i.test(btn.style.cssText)).toBeTruthy();
-        expect(/position:\s*absolute($|;)/i.test(btn.style.cssText)).toBeTruthy();
+        expect(
+            /position:\s*absolute($|;)/i.test(btn.style.cssText)
+        ).toBeTruthy();
 
         myComponent.data.set("height", "5px");
         myComponent.data.set("position", "relative");
 
         san.nextTick(function () {
             expect(/height:\s*5px($|;)/i.test(btn.style.cssText)).toBeTruthy();
-            expect(/position:\s*relative($|;)/i.test(btn.style.cssText)).toBeTruthy();
+            expect(
+                /position:\s*relative($|;)/i.test(btn.style.cssText)
+            ).toBeTruthy();
 
             myComponent.dispose();
             document.body.removeChild(wrap);
@@ -3580,7 +3674,8 @@ describe("Component", function () {
             components: {
                 "x-c": Child,
             },
-            template: '<a><x-c id="id{{num}}" class="d" style="height:10px" num="{{num}}"/></a>',
+            template:
+                '<a><x-c id="id{{num}}" class="d" style="height:10px" num="{{num}}"/></a>',
         });
 
         var myComponent = new MyComponent({
@@ -3615,8 +3710,12 @@ describe("Component", function () {
                 expect(span.id).toBe("id1");
                 expect(span.className).toContain("c");
                 expect(span.className).toContain("d");
-                expect(/color:\s*green($|;)/i.test(span.style.cssText)).toBeTruthy();
-                expect(/height:\s*10px($|;)/i.test(span.style.cssText)).toBeTruthy();
+                expect(
+                    /color:\s*green($|;)/i.test(span.style.cssText)
+                ).toBeTruthy();
+                expect(
+                    /height:\s*10px($|;)/i.test(span.style.cssText)
+                ).toBeTruthy();
 
                 myComponent.dispose();
                 document.body.removeChild(wrap);
@@ -3653,14 +3752,18 @@ describe("Component", function () {
         var btn = wrap.getElementsByTagName("button")[0];
 
         expect(/height:\s*10px($|;)/i.test(btn.style.cssText)).toBeTruthy();
-        expect(/position:\s*absolute($|;)/i.test(btn.style.cssText)).toBeTruthy();
+        expect(
+            /position:\s*absolute($|;)/i.test(btn.style.cssText)
+        ).toBeTruthy();
 
         myComponent.data.set("height", "5px");
         myComponent.data.set("position", "relative");
 
         san.nextTick(function () {
             expect(/height:\s*5px($|;)/i.test(btn.style.cssText)).toBeTruthy();
-            expect(/position:\s*relative($|;)/i.test(btn.style.cssText)).toBeTruthy();
+            expect(
+                /position:\s*relative($|;)/i.test(btn.style.cssText)
+            ).toBeTruthy();
 
             myComponent.dispose();
             document.body.removeChild(wrap);
@@ -3679,7 +3782,8 @@ describe("Component", function () {
                 "ui-label": Label,
             },
 
-            template: '<div><ui-label data-title="{{title}}" data-text="{{text}}"></ui-label></div>',
+            template:
+                '<div><ui-label data-title="{{title}}" data-text="{{text}}"></ui-label></div>',
         });
 
         var myComponent = new MyComponent({
@@ -3714,7 +3818,8 @@ describe("Component", function () {
 
     it("data binding name auto camel case, strongly", function (done) {
         var Label = san.defineComponent({
-            template: '<a><span title="{{dataTitle}}">{{dataText2B}}</span></a>',
+            template:
+                '<a><span title="{{dataTitle}}">{{dataText2B}}</span></a>',
         });
 
         var MyComponent = san.defineComponent({
@@ -3722,7 +3827,8 @@ describe("Component", function () {
                 "ui-label": Label,
             },
 
-            template: '<div><ui-label data-title="{{title}}" data-Text-2B="{{text}}"></ui-label></div>',
+            template:
+                '<div><ui-label data-title="{{title}}" data-Text-2B="{{text}}"></ui-label></div>',
         });
 
         var myComponent = new MyComponent({
@@ -3757,7 +3863,8 @@ describe("Component", function () {
 
     it("data binding no expr, auto true", function (done) {
         var Label = san.defineComponent({
-            template: '<a><u s-if="hasu"></u><span title="{{dataTitle}}">{{dataText}}</span></a>',
+            template:
+                '<a><u s-if="hasu"></u><span title="{{dataTitle}}">{{dataText}}</span></a>',
         });
 
         var MyComponent = san.defineComponent({
@@ -3765,7 +3872,8 @@ describe("Component", function () {
                 "ui-label": Label,
             },
 
-            template: '<div><ui-label s-ref="l" data-title="{{title}}" data-text="{{text}}" hasu></ui-label></div>',
+            template:
+                '<div><ui-label s-ref="l" data-title="{{title}}" data-text="{{text}}" hasu></ui-label></div>',
         });
 
         var myComponent = new MyComponent({
@@ -3813,7 +3921,8 @@ describe("Component", function () {
                 "x-dialog": Dialog,
             },
 
-            template: '<div><span>Hi Component</span><x-dialog s-ref="dialog"/></div>',
+            template:
+                '<div><span>Hi Component</span><x-dialog s-ref="dialog"/></div>',
         });
 
         var myComponent = new MyComponent();
@@ -3830,8 +3939,12 @@ describe("Component", function () {
         myComponent.dispose();
 
         // ie又变态了，removeChild后element还有parentNode，变成document了。妈蛋的东西
-        expect(dialogEl.parentNode == null || dialogEl.parentNode.tagName == null).toBeTruthy();
-        expect(el.parentNode == null || el.parentNode.tagName == null).toBeTruthy();
+        expect(
+            dialogEl.parentNode == null || dialogEl.parentNode.tagName == null
+        ).toBeTruthy();
+        expect(
+            el.parentNode == null || el.parentNode.tagName == null
+        ).toBeTruthy();
         document.body.removeChild(wrap);
     });
 
@@ -3905,7 +4018,9 @@ describe("Component", function () {
                 "x-strong": Strong,
             },
 
-            template: "<div>" + '<x-panel><x-strong item="{{item}}" s-if="strongShow">{{item}}</x-strong></x-panel></div>',
+            template:
+                "<div>" +
+                '<x-panel><x-strong item="{{item}}" s-if="strongShow">{{item}}</x-strong></x-panel></div>',
         });
 
         var MyComponent = san.defineComponent({
@@ -4310,8 +4425,9 @@ describe("Component", function () {
                 },
             },
 
-            aNode: san.parseTemplate('<div><slot name="test" var-n="data.name" var-email="data.email" var-sex="data.sex ? \'male\' : \'female\'"><p>{{n}},{{sex}},{{email}}</p></slot></div>')
-                .children[0],
+            aNode: san.parseTemplate(
+                '<div><slot name="test" var-n="data.name" var-email="data.email" var-sex="data.sex ? \'male\' : \'female\'"><p>{{n}},{{sex}},{{email}}</p></slot></div>'
+            ).children[0],
         });
 
         var MyComponent = san.defineComponent({
@@ -4325,7 +4441,9 @@ describe("Component", function () {
                 },
             },
 
-            aNode: san.parseTemplate('<div><x-man data="{{man}}"><h3 slot="test">{{n|upper}}</h3><b slot="test">{{sex|upper}}</b><u slot="test">{{email|upper}}</u></x-man></div>').children[0],
+            aNode: san.parseTemplate(
+                '<div><x-man data="{{man}}"><h3 slot="test">{{n|upper}}</h3><b slot="test">{{sex|upper}}</b><u slot="test">{{email|upper}}</u></x-man></div>'
+            ).children[0],
 
             initData: function () {
                 return {
@@ -4344,14 +4462,24 @@ describe("Component", function () {
         document.body.appendChild(wrap);
         myComponent.attach(wrap);
 
-        expect(wrap.getElementsByTagName("h3")[0].innerHTML).toContain("ERRORRIK");
+        expect(wrap.getElementsByTagName("h3")[0].innerHTML).toContain(
+            "ERRORRIK"
+        );
         expect(wrap.getElementsByTagName("b")[0].innerHTML).toContain("MALE");
-        expect(wrap.getElementsByTagName("u")[0].innerHTML).toContain("ERRORRIK@GMAIL.COM");
+        expect(wrap.getElementsByTagName("u")[0].innerHTML).toContain(
+            "ERRORRIK@GMAIL.COM"
+        );
         myComponent.data.set("man.email", "erik168@163.com");
         san.nextTick(function () {
-            expect(wrap.getElementsByTagName("h3")[0].innerHTML).toContain("ERRORRIK");
-            expect(wrap.getElementsByTagName("b")[0].innerHTML).toContain("MALE");
-            expect(wrap.getElementsByTagName("u")[0].innerHTML).toContain("ERIK168@163.COM");
+            expect(wrap.getElementsByTagName("h3")[0].innerHTML).toContain(
+                "ERRORRIK"
+            );
+            expect(wrap.getElementsByTagName("b")[0].innerHTML).toContain(
+                "MALE"
+            );
+            expect(wrap.getElementsByTagName("u")[0].innerHTML).toContain(
+                "ERIK168@163.COM"
+            );
 
             myComponent.dispose();
             document.body.removeChild(wrap);
@@ -4366,7 +4494,10 @@ describe("Component", function () {
                 var result = "{";
 
                 for (var key in source) {
-                    if (!source.hasOwnProperty(key) || typeof source[key] === "undefined") {
+                    if (
+                        !source.hasOwnProperty(key) ||
+                        typeof source[key] === "undefined"
+                    ) {
                         continue;
                     }
 
@@ -4375,7 +4506,10 @@ describe("Component", function () {
                     }
                     prefixComma = 1;
 
-                    result += stringifier.str(key) + ":" + stringifier.any(source[key]);
+                    result +=
+                        stringifier.str(key) +
+                        ":" +
+                        stringifier.any(source[key]);
                 }
 
                 return result + "}";
@@ -4401,7 +4535,12 @@ describe("Component", function () {
             str: function (source) {
                 return (
                     '"' +
-                    source.replace(/\x5C/g, "\\\\").replace(/"/g, '\\"').replace(/\x0A/g, "\\n").replace(/\x09/g, "\\t").replace(/\x0D/g, "\\r") +
+                    source
+                        .replace(/\x5C/g, "\\\\")
+                        .replace(/"/g, '\\"')
+                        .replace(/\x0A/g, "\\n")
+                        .replace(/\x09/g, "\\t")
+                        .replace(/\x0D/g, "\\r") +
                     // .replace( /\x08/g, '\\b' )
                     // .replace( /\x0C/g, '\\f' )
                     '"'
@@ -4438,8 +4577,12 @@ describe("Component", function () {
                 throw new Error("Cannot Stringify:" + source);
             },
         };
-        var aNode = san.parseTemplate("<a><span>aaa</span>hello {{name|raw}}!<b>bbb</b></a>").children[0];
-        var MyComponent = eval("san.defineComponent({aNode: " + stringifier.any(aNode) + "})");
+        var aNode = san.parseTemplate(
+            "<a><span>aaa</span>hello {{name|raw}}!<b>bbb</b></a>"
+        ).children[0];
+        var MyComponent = eval(
+            "san.defineComponent({aNode: " + stringifier.any(aNode) + "})"
+        );
         var myComponent = new MyComponent();
         myComponent.data.set("name", "er<u>erik</u>ik");
 
@@ -4455,7 +4598,9 @@ describe("Component", function () {
         myComponent.data.set("name", "er<span>erik</span>ik");
 
         san.nextTick(function () {
-            expect(/hello er<span>erik<\/span>ik!/i.test(a.innerHTML)).toBeTruthy();
+            expect(
+                /hello er<span>erik<\/span>ik!/i.test(a.innerHTML)
+            ).toBeTruthy();
             expect(b.innerHTML).toBe("bbb");
 
             myComponent.dispose();
@@ -4547,7 +4692,11 @@ describe("Component", function () {
         });
 
         var MyComponent = san.defineComponent({
-            template: "<template>" + '<x-layer s-ref="lay" open="{{open}}" />' + '<button on-click="onClick">Show Layer</button>' + "</template>",
+            template:
+                "<template>" +
+                '<x-layer s-ref="lay" open="{{open}}" />' +
+                '<button on-click="onClick">Show Layer</button>' +
+                "</template>",
             components: {
                 "x-layer": Layer,
             },
@@ -4563,7 +4712,9 @@ describe("Component", function () {
         myComponent.attach(wrap);
 
         expect(myComponent.el.tagName).toBe("DIV");
-        expect(/^(x-layer|div)$/i.test(myComponent.ref("lay").el.tagName)).toBeTruthy();
+        expect(
+            /^(x-layer|div)$/i.test(myComponent.ref("lay").el.tagName)
+        ).toBeTruthy();
 
         myComponent.dispose();
         document.body.removeChild(wrap);
@@ -4655,7 +4806,8 @@ describe("Component", function () {
 
     it("has only s-bind declaration", function (done) {
         var Article = san.defineComponent({
-            template: '<div><h3>{{title}}</h3><h4 s-if="subtitle">{{subtitle}}</h4><p>{{content}}</p></div>',
+            template:
+                '<div><h3>{{title}}</h3><h4 s-if="subtitle">{{subtitle}}</h4><p>{{content}}</p></div>',
         });
         var MyComponent = san.defineComponent({
             components: {
@@ -4699,7 +4851,8 @@ describe("Component", function () {
 
     it("has s-bind with other attr, confilct", function (done) {
         var Article = san.defineComponent({
-            template: '<div><h3>{{title}}</h3><h4 s-if="subtitle">{{subtitle}}</h4><p>{{content}}</p></div>',
+            template:
+                '<div><h3>{{title}}</h3><h4 s-if="subtitle">{{subtitle}}</h4><p>{{content}}</p></div>',
         });
         var MyComponent = san.defineComponent({
             components: {
@@ -4780,7 +4933,8 @@ describe("Component", function () {
         });
 
         var MyComponent = san.defineComponent({
-            template: '<div><x-child d="{{map}}"/><a>{{map[list[index].title].value}}</a></div>',
+            template:
+                '<div><x-child d="{{map}}"/><a>{{map[list[index].title].value}}</a></div>',
             components: {
                 "x-child": Child,
             },
@@ -4961,7 +5115,9 @@ describe("Component", function () {
 
         myComponent.nextTick(function () {
             expect(wrap.getElementsByTagName("b").length).toBe(1);
-            expect(wrap.getElementsByTagName("b")[0].innerHTML).toBe("errorrik");
+            expect(wrap.getElementsByTagName("b")[0].innerHTML).toBe(
+                "errorrik"
+            );
 
             myComponent.dispose();
             document.body.removeChild(wrap);
@@ -4971,7 +5127,8 @@ describe("Component", function () {
 
     it("checkbox as component root", function (done) {
         var Checkbox = san.defineComponent({
-            template: '<input type="checkbox" value="{{value}}" checked="{{checked}}">',
+            template:
+                '<input type="checkbox" value="{{value}}" checked="{{checked}}">',
         });
 
         var MyComponent = san.defineComponent({
@@ -4979,7 +5136,10 @@ describe("Component", function () {
                 "x-cb": Checkbox,
             },
 
-            template: "<div>" + '<label s-for="p in ps"><x-cb value="{{p}}" checked="{{online}}"/>{{p}}</label>' + "</div>",
+            template:
+                "<div>" +
+                '<label s-for="p in ps"><x-cb value="{{p}}" checked="{{online}}"/>{{p}}</label>' +
+                "</div>",
 
             initData: function () {
                 return {
@@ -5026,7 +5186,11 @@ describe("Component", function () {
                 "x-link": Link,
             },
 
-            template: "<div>" + '<x-what s-for="item in list" s-is="\'x-\' + item.type">{{item.title}}</x-what>' + "<x-button>last</x-button>" + "</div>",
+            template:
+                "<div>" +
+                '<x-what s-for="item in list" s-is="\'x-\' + item.type">{{item.title}}</x-what>' +
+                "<x-button>last</x-button>" +
+                "</div>",
         });
 
         var myComponent = new MyComponent({
@@ -5089,7 +5253,11 @@ describe("Component", function () {
                 "x-child-b": ChildB,
             },
 
-            template: "<div>" + '<x-parent s-if="isOlder" s-is="\'x-child-a\'"/>' + "<x-parent s-else s-is=\"'x-child-b'\"/>" + "</div>",
+            template:
+                "<div>" +
+                '<x-parent s-if="isOlder" s-is="\'x-child-a\'"/>' +
+                "<x-parent s-else s-is=\"'x-child-b'\"/>" +
+                "</div>",
         });
 
         var myComponent = new MyComponent({
@@ -5132,7 +5300,10 @@ describe("Component", function () {
                 "x-link": Link,
             },
 
-            template: "<div>" + '<div s-if="isShow" s-for="item in list" s-is="\'x-\'+item.type">{{item.title}}</div>' + "</div>",
+            template:
+                "<div>" +
+                '<div s-if="isShow" s-for="item in list" s-is="\'x-\'+item.type">{{item.title}}</div>' +
+                "</div>",
         });
 
         var myComponent = new MyComponent({
@@ -5226,7 +5397,9 @@ describe("Component", function () {
         myComponent.ref("child").data.set("clazz", ["inn1", "inn2"]);
 
         myComponent.nextTick(function () {
-            expect(myComponent.ref("child").el.className).toBe("inn1 inn2 outer");
+            expect(myComponent.ref("child").el.className).toBe(
+                "inn1 inn2 outer"
+            );
             myComponent.data.set("clazz", "");
 
             myComponent.nextTick(function () {
@@ -5241,7 +5414,8 @@ describe("Component", function () {
 
     it("fragment as component root", function (done) {
         var MyComponent = san.defineComponent({
-            template: '<fragment>see <a href="{{link}}">{{linkText || name}}</a> to start <b>{{name}}</b> framework</fragment>',
+            template:
+                '<fragment>see <a href="{{link}}">{{linkText || name}}</a> to start <b>{{name}}</b> framework</fragment>',
         });
 
         var myComponent = new MyComponent({
@@ -5282,7 +5456,8 @@ describe("Component", function () {
 
     it("fragment with if as component root", function (done) {
         var MyComponent = san.defineComponent({
-            template: '<fragment s-if="!hidd">see <a href="{{link}}">{{linkText || name}}</a> to start <b>{{name}}</b> framework</fragment>',
+            template:
+                '<fragment s-if="!hidd">see <a href="{{link}}">{{linkText || name}}</a> to start <b>{{name}}</b> framework</fragment>',
         });
 
         var myComponent = new MyComponent({
@@ -5337,11 +5512,13 @@ describe("Component", function () {
 
     it("fragment as component root", function (done) {
         var Child = san.defineComponent({
-            template: '<fragment>see <a href="{{link}}">{{linkText || name}}</a> to start <b>{{name}}</b> framework</fragment>',
+            template:
+                '<fragment>see <a href="{{link}}">{{linkText || name}}</a> to start <b>{{name}}</b> framework</fragment>',
         });
 
         var MyComponent = san.defineComponent({
-            template: '<div><x-child link="{{link}}" name="{{name}}" link-text="{{linkText}}"/></div>',
+            template:
+                '<div><x-child link="{{link}}" name="{{name}}" link-text="{{linkText}}"/></div>',
             components: {
                 "x-child": Child,
             },
@@ -5383,11 +5560,13 @@ describe("Component", function () {
 
     it("fragment root el in for", function (done) {
         var Child = san.defineComponent({
-            template: '<fragment>see <a href="{{link}}">{{linkText || name}}</a> to start <b>{{name}}</b> framework</fragment>',
+            template:
+                '<fragment>see <a href="{{link}}">{{linkText || name}}</a> to start <b>{{name}}</b> framework</fragment>',
         });
 
         var MyComponent = san.defineComponent({
-            template: '<div><x-child s-for="f in frameworks" link="{{f.link}}" name="{{f.name}}" link-text="{{f.linkText}}"/></div>',
+            template:
+                '<div><x-child s-for="f in frameworks" link="{{f.link}}" name="{{f.name}}" link-text="{{f.linkText}}"/></div>',
             components: {
                 "x-child": Child,
             },
@@ -5460,11 +5639,13 @@ describe("Component", function () {
 
     it("component as component root", function (done) {
         var Child = san.defineComponent({
-            template: '<h3>see <a href="{{link}}">{{linkText || name}}</a> to start <b>{{name}}</b> framework</h3>',
+            template:
+                '<h3>see <a href="{{link}}">{{linkText || name}}</a> to start <b>{{name}}</b> framework</h3>',
         });
 
         var MyComponent = san.defineComponent({
-            template: '<x-child link="{{link}}" name="{{framework}}" link-text="{{linkText}}" style="font-size:18px"/>',
+            template:
+                '<x-child link="{{link}}" name="{{framework}}" link-text="{{linkText}}" style="font-size:18px"/>',
             components: {
                 "x-child": Child,
             },
@@ -5511,11 +5692,13 @@ describe("Component", function () {
 
     it("component as component root by s-is", function (done) {
         var Child = san.defineComponent({
-            template: '<h3>see <a href="{{link}}">{{linkText || name}}</a> to start <b>{{name}}</b> framework</h3>',
+            template:
+                '<h3>see <a href="{{link}}">{{linkText || name}}</a> to start <b>{{name}}</b> framework</h3>',
         });
 
         var MyComponent = san.defineComponent({
-            template: '<div s-is="type" link="{{link}}" name="{{framework}}" link-text="{{linkText}}" style="font-size:18px"/>',
+            template:
+                '<div s-is="type" link="{{link}}" name="{{framework}}" link-text="{{linkText}}" style="font-size:18px"/>',
             components: {
                 "x-child": Child,
             },
@@ -5734,7 +5917,8 @@ describe("Component", function () {
 
     it("component as component root, use s-bind", function (done) {
         var Child = san.defineComponent({
-            template: '<h3>see <a href="{{link}}">{{linkText || name}}</a> to start <b>{{name}}</b> framework</h3>',
+            template:
+                '<h3>see <a href="{{link}}">{{linkText || name}}</a> to start <b>{{name}}</b> framework</h3>',
         });
 
         var MyComponent = san.defineComponent({
@@ -5825,7 +6009,8 @@ describe("Component", function () {
 
     it("for directive with fragment as root", function (done) {
         var MyComponent = san.defineComponent({
-            template: '<fragment s-for="item in list"><b>{{item.name}}</b><a>{{item.email}}</a></fragment>',
+            template:
+                '<fragment s-for="item in list"><b>{{item.name}}</b><a>{{item.email}}</a></fragment>',
         });
 
         var myComponent = new MyComponent({
@@ -5870,7 +6055,8 @@ describe("Component", function () {
 
     it("fragment as component root, detach and re-attach", function (done) {
         var MyComponent = san.defineComponent({
-            template: '<fragment>see <a href="{{link}}">{{linkText || name}}</a> to start <b>{{name}}</b> framework</fragment>',
+            template:
+                '<fragment>see <a href="{{link}}">{{linkText || name}}</a> to start <b>{{name}}</b> framework</fragment>',
         });
 
         var myComponent = new MyComponent({
@@ -5922,11 +6108,13 @@ describe("Component", function () {
 
     it("component as component root, detach and re-attach", function (done) {
         var Child = san.defineComponent({
-            template: '<h3>see <a href="{{link}}">{{linkText || name}}</a> to start <b>{{name}}</b> framework</h3>',
+            template:
+                '<h3>see <a href="{{link}}">{{linkText || name}}</a> to start <b>{{name}}</b> framework</h3>',
         });
 
         var MyComponent = san.defineComponent({
-            template: '<x-child link="{{link}}" name="{{framework}}" link-text="{{linkText}}" />',
+            template:
+                '<x-child link="{{link}}" name="{{framework}}" link-text="{{linkText}}" />',
             components: {
                 "x-child": Child,
             },
@@ -6031,7 +6219,8 @@ describe("Component", function () {
 
     it("if as component root, detach and re-attach", function (done) {
         var MyComponent = san.defineComponent({
-            template: '<div s-if="!hidd">see <a href="{{link}}">{{linkText || name}}</a> to start <b>{{name}}</b> framework</div>',
+            template:
+                '<div s-if="!hidd">see <a href="{{link}}">{{linkText || name}}</a> to start <b>{{name}}</b> framework</div>',
         });
 
         var myComponent = new MyComponent({
@@ -6151,7 +6340,8 @@ describe("Component", function () {
                 "x-label": Label,
             },
 
-            template: '<div><b text="{{name}}" tip="{{company}}" s-is="cmpt"></b></div>',
+            template:
+                '<div><b text="{{name}}" tip="{{company}}" s-is="cmpt"></b></div>',
         });
 
         var myComponent = new MyComponent({

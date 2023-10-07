@@ -7,7 +7,7 @@
  * @file 读取括号表达式
  */
 
-var readTertiaryExpr = require('./read-tertiary-expr');
+var readTertiaryExpr = require("./read-tertiary-expr");
 
 /**
  * 读取括号表达式

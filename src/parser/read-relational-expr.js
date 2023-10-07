@@ -7,8 +7,8 @@
  * @file 读取关系判断表达式
  */
 
-var ExprType = require('./expr-type');
-var readAdditiveExpr = require('./read-additive-expr');
+var ExprType = require("./expr-type");
+var readAdditiveExpr = require("./read-additive-expr");
 
 /**
  * 读取关系判断表达式
@@ -32,7 +32,7 @@ function readRelationalExpr(walker) {
             return {
                 type: ExprType.BINARY,
                 operator: code,
-                segs: [expr, readAdditiveExpr(walker)]
+                segs: [expr, readAdditiveExpr(walker)],
             };
     }
 

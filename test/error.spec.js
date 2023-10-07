@@ -265,7 +265,8 @@ describe("error", function () {
     it("transition creator", function (done) {
         var spy = jasmine.createSpy();
         var Child = san.defineComponent({
-            template: '<h1><span s-if="num > 1" s-transition="transCreator">test</span></h1>',
+            template:
+                '<h1><span s-if="num > 1" s-transition="transCreator">test</span></h1>',
             initData: function () {
                 return {
                     num: 0,
@@ -307,7 +308,8 @@ describe("error", function () {
     it("transition enter", function (done) {
         var spy = jasmine.createSpy();
         var Child = san.defineComponent({
-            template: '<h1><span s-if="num > 1" s-transition="transCreator">test</span></h1>',
+            template:
+                '<h1><span s-if="num > 1" s-transition="transCreator">test</span></h1>',
             initData: function () {
                 return {
                     num: 0,
@@ -353,7 +355,8 @@ describe("error", function () {
     it("transition leave", function (done) {
         var spy = jasmine.createSpy();
         var Child = san.defineComponent({
-            template: '<h1><span s-if="num > 1" s-transition="transCreator">test</span></h1>',
+            template:
+                '<h1><span s-if="num > 1" s-transition="transCreator">test</span></h1>',
             initData: function () {
                 return {
                     num: 2,
@@ -402,7 +405,8 @@ describe("error", function () {
             template: "<span></span>",
         });
         var Child = san.defineComponent({
-            template: '<h1><sub-child s-if="num > 1" s-transition="transCreator">test</sub-child></h1>',
+            template:
+                '<h1><sub-child s-if="num > 1" s-transition="transCreator">test</sub-child></h1>',
             initData: function () {
                 return {
                     num: 2,
@@ -454,7 +458,8 @@ describe("error", function () {
             template: "<span></span>",
         });
         var Child = san.defineComponent({
-            template: '<h1><sub-child s-if="num > 1" s-transition="transCreator">test</sub-child></h1>',
+            template:
+                '<h1><sub-child s-if="num > 1" s-transition="transCreator">test</sub-child></h1>',
             initData: function () {
                 return {
                     num: 2,

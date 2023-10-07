@@ -3,7 +3,8 @@ describe("Form TwoWay Binding", function () {
         var defName = "text value";
 
         var MyComponent = san.defineComponent({
-            template: '<div><span title="{{name}}">{{name}}</span> <input value="{=name=}"/></div>',
+            template:
+                '<div><span title="{{name}}">{{name}}</span> <input value="{=name=}"/></div>',
         });
         var myComponent = new MyComponent();
         myComponent.data.set("name", defName);
@@ -38,7 +39,8 @@ describe("Form TwoWay Binding", function () {
     // see https://github.com/baidu/san/issues/495
     it("text value with placeholder", function (done) {
         var MyComponent = san.defineComponent({
-            template: '<div><input placeholder="中文" value="{=name=}"><b>{{name}}</b></div>',
+            template:
+                '<div><input placeholder="中文" value="{=name=}"><b>{{name}}</b></div>',
             attached: function () {
                 this.data.set("name", "san");
             },
@@ -67,7 +69,8 @@ describe("Form TwoWay Binding", function () {
             var defName = "text value";
 
             var MyComponent = san.defineComponent({
-                template: '<div><span title="{{name}}">{{name}}</span> <input value="{=name=}"/></div>',
+                template:
+                    '<div><span title="{{name}}">{{name}}</span> <input value="{=name=}"/></div>',
             });
             var myComponent = new MyComponent();
             myComponent.data.set("name", defName);
@@ -110,7 +113,8 @@ describe("Form TwoWay Binding", function () {
 
     it("text value for xss", function (done) {
         var MyComponent = san.defineComponent({
-            template: '<div><span>{{name}}</span> <input value="{=name=}"/><input value="{{name}}"/></div>',
+            template:
+                '<div><span>{{name}}</span> <input value="{=name=}"/><input value="{{name}}"/></div>',
         });
         var myComponent = new MyComponent({
             data: {
@@ -132,7 +136,9 @@ describe("Form TwoWay Binding", function () {
             var name = myComponent.data.get("name");
 
             if (name !== "<b>sb</b>") {
-                expect(span.innerHTML).toBe("&lt;b&gt;sb&lt;/b&gt;&lt;a&gt;sb&lt;/a&gt;");
+                expect(span.innerHTML).toBe(
+                    "&lt;b&gt;sb&lt;/b&gt;&lt;a&gt;sb&lt;/a&gt;"
+                );
                 expect(inputs[0].value).toBe("<b>sb</b><a>sb</a>");
                 expect(inputs[1].value).toBe("<b>sb</b><a>sb</a>");
 
@@ -152,7 +158,8 @@ describe("Form TwoWay Binding", function () {
     it("text value init data has xss char", function () {
         var initValue = 'ddd"/><a href="aaa">aaa</a>';
         var MyComponent = san.defineComponent({
-            template: '<div><span>{{name}}</span> <input value="{=name=}"/></div>',
+            template:
+                '<div><span>{{name}}</span> <input value="{=name=}"/></div>',
         });
         var myComponent = new MyComponent({
             data: {
@@ -217,7 +224,8 @@ describe("Form TwoWay Binding", function () {
         var defName = "textarea val</textarea>ue";
 
         var MyComponent = san.defineComponent({
-            template: '<div><span title="{{name}}">{{name}}</span> <textarea value="{=name=}"></textarea></div>',
+            template:
+                '<div><span title="{{name}}">{{name}}</span> <textarea value="{=name=}"></textarea></div>',
         });
         var myComponent = new MyComponent();
         myComponent.data.set("name", defName);
@@ -254,7 +262,8 @@ describe("Form TwoWay Binding", function () {
         var defList = ["errorrik", "varsha", "firede"];
 
         var MyComponent = san.defineComponent({
-            template: '<div>input something<input value="{=item=}" san-for="item in list"></div>',
+            template:
+                '<div>input something<input value="{=item=}" san-for="item in list"></div>',
         });
         var myComponent = new MyComponent();
         myComponent.data.set("list", defList);
@@ -273,7 +282,11 @@ describe("Form TwoWay Binding", function () {
         setTimeout(doneSpec, 500);
         function doneSpec() {
             var list = myComponent.data.get("list");
-            if (list[0] !== "errorrik" || list[1] !== "varsha" || list[2] !== "firede") {
+            if (
+                list[0] !== "errorrik" ||
+                list[1] !== "varsha" ||
+                list[2] !== "firede"
+            ) {
                 expect(list[0]).toBe(inputs[0].value);
                 expect(list[1]).toBe(inputs[1].value);
                 expect(list[2]).toBe(inputs[2].value);
@@ -290,10 +303,15 @@ describe("Form TwoWay Binding", function () {
 
     it("text value in for, set op", function (done) {
         var MyComponent = san.defineComponent({
-            template: '<div>input something<div san-for="item in list"><span title="{{item.name}}">{{item.name}}</span><input value="{=item.name=}"></div></div>',
+            template:
+                '<div>input something<div san-for="item in list"><span title="{{item.name}}">{{item.name}}</span><input value="{=item.name=}"></div></div>',
         });
         var myComponent = new MyComponent();
-        myComponent.data.set("list", [{ name: "errorrik" }, { name: "varsha" }, { name: "firede" }]);
+        myComponent.data.set("list", [
+            { name: "errorrik" },
+            { name: "varsha" },
+            { name: "firede" },
+        ]);
 
         var wrap = document.createElement("div");
         document.body.appendChild(wrap);
@@ -306,7 +324,11 @@ describe("Form TwoWay Binding", function () {
 
         function doneSpec() {
             var list = myComponent.data.get("list");
-            if (list[0].name !== "errorrik" || list[1].name !== "varsha" || list[2].name !== "firede") {
+            if (
+                list[0].name !== "errorrik" ||
+                list[1].name !== "varsha" ||
+                list[2].name !== "firede"
+            ) {
                 var spans = wrap.getElementsByTagName("span");
                 expect(spans[0].title).toBe(list[0].name);
                 expect(spans[1].title).toBe(list[1].name);
@@ -364,7 +386,12 @@ describe("Form TwoWay Binding", function () {
             var colors0 = myComponent.data.get("persons[0].colors");
             var colors1 = myComponent.data.get("persons[1].colors");
 
-            if (colors0[0].name !== "blue" || colors0[1].name !== "yellow" || colors1[0].name !== "red" || colors1[1].name !== "green") {
+            if (
+                colors0[0].name !== "blue" ||
+                colors0[1].name !== "yellow" ||
+                colors1[0].name !== "red" ||
+                colors1[1].name !== "green"
+            ) {
                 var aes = wrap.getElementsByTagName("a");
 
                 var p0tels = aes[0].getElementsByTagName("span");
@@ -390,10 +417,14 @@ describe("Form TwoWay Binding", function () {
 
     it("text value in for, push op", function (done) {
         var MyComponent = san.defineComponent({
-            template: '<div>input something<div san-for="item in list"><span title="{{item.name}}">{{item.name}}</span><input value="{=item.name=}"></div></div>',
+            template:
+                '<div>input something<div san-for="item in list"><span title="{{item.name}}">{{item.name}}</span><input value="{=item.name=}"></div></div>',
         });
         var myComponent = new MyComponent();
-        myComponent.data.set("list", [{ name: "errorrik" }, { name: "varsha" }]);
+        myComponent.data.set("list", [
+            { name: "errorrik" },
+            { name: "varsha" },
+        ]);
 
         var wrap = document.createElement("div");
         document.body.appendChild(wrap);
@@ -417,7 +448,11 @@ describe("Form TwoWay Binding", function () {
 
         function doneSpec() {
             var list = myComponent.data.get("list");
-            if (list[0].name !== "errorrik" || list[1].name !== "varsha" || list[2].name !== "otakustay") {
+            if (
+                list[0].name !== "errorrik" ||
+                list[1].name !== "varsha" ||
+                list[2].name !== "otakustay"
+            ) {
                 var spans = wrap.getElementsByTagName("span");
                 expect(spans[0].title).toBe(list[0].name);
                 expect(spans[1].title).toBe(list[1].name);
@@ -435,10 +470,15 @@ describe("Form TwoWay Binding", function () {
 
     it("text value in for, unshift op", function (done) {
         var MyComponent = san.defineComponent({
-            template: '<div>input something<div san-for="item in list"><span title="{{item.name}}">{{item.name}}</span><input value="{=item.name=}"></div></div>',
+            template:
+                '<div>input something<div san-for="item in list"><span title="{{item.name}}">{{item.name}}</span><input value="{=item.name=}"></div></div>',
         });
         var myComponent = new MyComponent();
-        myComponent.data.set("list", [{ name: "errorrik" }, { name: "varsha" }, { name: "firede" }]);
+        myComponent.data.set("list", [
+            { name: "errorrik" },
+            { name: "varsha" },
+            { name: "firede" },
+        ]);
 
         var wrap = document.createElement("div");
         document.body.appendChild(wrap);
@@ -465,7 +505,12 @@ describe("Form TwoWay Binding", function () {
 
         function doneSpec() {
             var list = myComponent.data.get("list");
-            if (list[0].name !== "otakustay" || list[1].name !== "errorrik" || list[2].name !== "varsha" || list[3].name !== "firede") {
+            if (
+                list[0].name !== "otakustay" ||
+                list[1].name !== "errorrik" ||
+                list[2].name !== "varsha" ||
+                list[3].name !== "firede"
+            ) {
                 var spans = wrap.getElementsByTagName("span");
                 expect(list[0].name).toBe(spans[0].title);
                 expect(list[1].name).toBe(spans[1].title);
@@ -487,10 +532,15 @@ describe("Form TwoWay Binding", function () {
         var interval;
 
         var MyComponent = san.defineComponent({
-            template: '<div>input something<div san-for="item in list"><span title="{{item.name}}">{{item.name}}</span><input value="{=item.name=}"></div></div>',
+            template:
+                '<div>input something<div san-for="item in list"><span title="{{item.name}}">{{item.name}}</span><input value="{=item.name=}"></div></div>',
         });
         var myComponent = new MyComponent();
-        myComponent.data.set("list", [{ name: "errorrik" }, { name: "varsha" }, { name: "firede" }]);
+        myComponent.data.set("list", [
+            { name: "errorrik" },
+            { name: "varsha" },
+            { name: "firede" },
+        ]);
 
         var wrap = document.createElement("div");
         document.body.appendChild(wrap);
@@ -710,7 +760,11 @@ describe("Form TwoWay Binding", function () {
 
     it("checkbox, no value", function (done) {
         var MyComponent = san.defineComponent({
-            template: "<div>" + '<label><input type="checkbox" checked="{=saChecked=}">sa</label>' + '<label><input type="checkbox" checked="{=sbChecked=}">sb</label>' + "</div>",
+            template:
+                "<div>" +
+                '<label><input type="checkbox" checked="{=saChecked=}">sa</label>' +
+                '<label><input type="checkbox" checked="{=sbChecked=}">sb</label>' +
+                "</div>",
 
             initData: function () {
                 return {
@@ -756,7 +810,11 @@ describe("Form TwoWay Binding", function () {
 
     it("checkbox, typeof value is number and string", function (done) {
         var MyComponent = san.defineComponent({
-            template: "<div>" + '<input type="checkbox" checked="{= saChecked =}" value="{{value1}}">' + '<input type="checkbox" checked="{= saChecked =}" value="{{value2}}">' + "</div>",
+            template:
+                "<div>" +
+                '<input type="checkbox" checked="{= saChecked =}" value="{{value1}}">' +
+                '<input type="checkbox" checked="{= saChecked =}" value="{{value2}}">' +
+                "</div>",
 
             initData: function () {
                 return {
@@ -829,7 +887,9 @@ describe("Form TwoWay Binding", function () {
         expect(inputs[0].checked).toBe(false);
         expect(inputs[1].checked).toBe(true);
         expect(inputs[2].checked).toBe(false);
-        expect(wrap.getElementsByTagName("b")[0].innerHTML.indexOf("varsha")).toBe(0);
+        expect(
+            wrap.getElementsByTagName("b")[0].innerHTML.indexOf("varsha")
+        ).toBe(0);
 
         function doneSpec() {
             var online = myComponent.data.get("online");
@@ -884,7 +944,9 @@ describe("Form TwoWay Binding", function () {
         expect(inputs[0].checked).toBe(false);
         expect(inputs[1].checked).toBe(true);
         expect(inputs[2].checked).toBe(false);
-        expect(wrap.getElementsByTagName("b")[0].innerHTML.indexOf("2")).toBe(0);
+        expect(wrap.getElementsByTagName("b")[0].innerHTML.indexOf("2")).toBe(
+            0
+        );
 
         function doneSpec() {
             var online = myComponent.data.get("online");
@@ -961,7 +1023,14 @@ describe("Form TwoWay Binding", function () {
 
     it("select, option not has value prop", function (done) {
         var MyComponent = san.defineComponent({
-            template: "<div>" + '<b title="{{online}}">{{online}}</b>' + '<select value="{=online=}">' + "<option>errorrik</option>" + "<option>firede</option>" + "</select>" + "</div>",
+            template:
+                "<div>" +
+                '<b title="{{online}}">{{online}}</b>' +
+                '<select value="{=online=}">' +
+                "<option>errorrik</option>" +
+                "<option>firede</option>" +
+                "</select>" +
+                "</div>",
 
             initData: function () {
                 return {
@@ -1043,7 +1112,13 @@ describe("Form TwoWay Binding", function () {
 
     it("select, option in loop", function (done) {
         var MyComponent = san.defineComponent({
-            template: "<div>" + '<b title="{{online}}">{{online}}</b>' + '<select value="{=online=}">' + '<option s-for="p in persons" value="{{p}}">{{p}}</option>' + "</select>" + "</div>",
+            template:
+                "<div>" +
+                '<b title="{{online}}">{{online}}</b>' +
+                '<select value="{=online=}">' +
+                '<option s-for="p in persons" value="{{p}}">{{p}}</option>' +
+                "</select>" +
+                "</div>",
 
             initData: function () {
                 return {
@@ -1160,7 +1235,13 @@ describe("Form TwoWay Binding", function () {
 
     it("select, no binding", function (done) {
         var MyComponent = san.defineComponent({
-            template: "<div>" + "<select>" + '<option s-for="p in persons">{{p}}</option>' + '<option value="">empty</option>' + "</select>" + "</div>",
+            template:
+                "<div>" +
+                "<select>" +
+                '<option s-for="p in persons">{{p}}</option>' +
+                '<option value="">empty</option>' +
+                "</select>" +
+                "</div>",
 
             initData: function () {
                 return {
@@ -1189,7 +1270,11 @@ describe("Form TwoWay Binding", function () {
     it("select as component root element", function (done) {
         var MyComponent = san.defineComponent({
             template:
-                '<select value="{=online=}">' + '<option value="errorrik">errorrik</option>' + '<option value="otakustay">otakustay</option>' + '<option value="firede">firede</option>' + "</select>",
+                '<select value="{=online=}">' +
+                '<option value="errorrik">errorrik</option>' +
+                '<option value="otakustay">otakustay</option>' +
+                '<option value="firede">firede</option>' +
+                "</select>",
 
             initData: function () {
                 return {
@@ -1364,7 +1449,9 @@ describe("Form TwoWay Binding", function () {
         expect(inputs[0].checked).toBe(false);
         expect(inputs[1].checked).toBe(true);
         expect(inputs[2].checked).toBe(false);
-        expect(wrap.getElementsByTagName("b")[0].innerHTML.indexOf("varsha")).toBe(0);
+        expect(
+            wrap.getElementsByTagName("b")[0].innerHTML.indexOf("varsha")
+        ).toBe(0);
 
         function doneSpec() {
             var online = myComponent.data.get("online");
@@ -1460,7 +1547,11 @@ describe("Form TwoWay Binding", function () {
 
         var myComponent = new MyComponent({
             data: {
-                list: [{ name: "errorrik" }, { name: "justice" }, { name: "otakustay" }],
+                list: [
+                    { name: "errorrik" },
+                    { name: "justice" },
+                    { name: "otakustay" },
+                ],
                 o: { idx: 1 },
             },
         });
@@ -1482,18 +1573,28 @@ describe("Form TwoWay Binding", function () {
             myComponent.data.set("o.idx", 0);
             myComponent.nextTick(function () {
                 expect(inputs[3].value).toBe("errorrik");
-                expect(wrap.getElementsByTagName("a")[0].innerHTML).toBe("errorrik");
+                expect(wrap.getElementsByTagName("a")[0].innerHTML).toBe(
+                    "errorrik"
+                );
 
                 triggerEvent(inputs[3], "input", "erik");
                 setTimeout(function () {
                     expect(inputs[0].value).toBe("errorrikerik");
-                    expect(wrap.getElementsByTagName("a")[0].innerHTML).toBe("errorrikerik");
-                    expect(wrap.getElementsByTagName("b")[0].innerHTML).toBe("errorrikerik");
+                    expect(wrap.getElementsByTagName("a")[0].innerHTML).toBe(
+                        "errorrikerik"
+                    );
+                    expect(wrap.getElementsByTagName("b")[0].innerHTML).toBe(
+                        "errorrikerik"
+                    );
 
                     triggerEvent(inputs[0], "input", "err");
                     setTimeout(function () {
-                        expect(wrap.getElementsByTagName("a")[0].innerHTML).toBe("errorrikerikerr");
-                        expect(wrap.getElementsByTagName("b")[0].innerHTML).toBe("errorrikerikerr");
+                        expect(
+                            wrap.getElementsByTagName("a")[0].innerHTML
+                        ).toBe("errorrikerikerr");
+                        expect(
+                            wrap.getElementsByTagName("b")[0].innerHTML
+                        ).toBe("errorrikerikerr");
                         expect(inputs[3].value).toBe("errorrikerikerr");
 
                         myComponent.dispose();

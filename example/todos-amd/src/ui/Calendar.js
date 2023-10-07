@@ -9,7 +9,11 @@ define(function (require) {
 
         filters: {
             selectedClass: function (date, value) {
-                return date === value.getDate() && this.data.get("viewMonth") === value.getMonth() && this.data.get("viewYear") === value.getFullYear() ? "selected" : "";
+                return date === value.getDate() &&
+                    this.data.get("viewMonth") === value.getMonth() &&
+                    this.data.get("viewYear") === value.getFullYear()
+                    ? "selected"
+                    : "";
             },
         },
 
@@ -69,13 +73,21 @@ define(function (require) {
         },
 
         select: function (date) {
-            this.fire("select", new Date(this.data.get("viewYear"), this.data.get("viewMonth"), date));
+            this.fire(
+                "select",
+                new Date(
+                    this.data.get("viewYear"),
+                    this.data.get("viewMonth"),
+                    date
+                )
+            );
             this.hide();
         },
     });
 
     return san.defineComponent({
-        template: '<template on-click="mainClick()" class="ui-calendar">{{ value | valueText }}</template>',
+        template:
+            '<template on-click="mainClick()" class="ui-calendar">{{ value | valueText }}</template>',
 
         initData: function () {
             return {
@@ -109,7 +121,11 @@ define(function (require) {
 
         docClicker: function (e) {
             var target = e.target || e.srcElement;
-            if (target !== this.el && $(target).closest(this.el).length === 0 && $(target).closest(this.layer.el).length === 0) {
+            if (
+                target !== this.el &&
+                $(target).closest(this.el).length === 0 &&
+                $(target).closest(this.layer.el).length === 0
+            ) {
                 this.hideLayer();
             }
         },

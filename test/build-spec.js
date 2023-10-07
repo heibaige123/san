@@ -67,7 +67,10 @@ fs.readdirSync(packDir).forEach((file) => {
     file = path.parse(file);
     if (file.ext === ".tpl") {
         const tpl = fs.readFileSync(`${packDir}/${file.base}`, "UTF-8");
-        const packed = fs.readFileSync(`${packDir}/${file.name}.apack`, "UTF-8");
+        const packed = fs.readFileSync(
+            `${packDir}/${file.name}.apack`,
+            "UTF-8"
+        );
 
         var aNode = JSON.stringify(san.parseTemplate(tpl).children[0]);
         code += `

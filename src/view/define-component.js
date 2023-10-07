@@ -7,8 +7,8 @@
  * @file 创建组件类
  */
 
-var Component = require('./component');
-var inherits = require('../util/inherits');
+var Component = require("./component");
+var inherits = require("../util/inherits");
 
 /**
  * 创建组件类
@@ -20,18 +20,19 @@ var inherits = require('../util/inherits');
 function defineComponent(proto, SuperComponent) {
     // 如果传入一个不是 san component 的 constructor，直接返回不是组件构造函数
     // 这种场景导致的错误 san 不予考虑
-    if (typeof proto === 'function') {
+    if (typeof proto === "function") {
         return proto;
     }
 
     // #[begin] error
-    if (typeof proto !== 'object') {
-        throw new Error('[SAN FATAL] defineComponent need a plain object.');
+    if (typeof proto !== "object") {
+        throw new Error("[SAN FATAL] defineComponent need a plain object.");
     }
     // #[end]
 
     SuperComponent = SuperComponent || Component;
-    function ComponentClass(option) { // eslint-disable-line
+    function ComponentClass(option) {
+        // eslint-disable-line
         SuperComponent.call(this, option);
     }
 

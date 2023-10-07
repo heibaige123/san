@@ -1,14 +1,4 @@
 /**
- * Copyright (c) Baidu Inc. All rights reserved.
- *
- * This source code is licensed under the MIT license.
- * See LICENSE file in the project root for license information.
- *
- * @file 判断变更数组是否影响到数据引用摘要
- */
-
-
-/**
  * 判断变更数组是否影响到数据引用摘要
  *
  * @param {Array} changes 变更数组
@@ -25,14 +15,15 @@ function changesIsInDataRef(changes, dataRef) {
                 change.overview = paths[0].value;
 
                 if (paths.length > 1) {
-                    change.extOverview = paths[0].value + '.' + paths[1].value;
-                    change.wildOverview = paths[0].value + '.*';
+                    change.extOverview = paths[0].value + "." + paths[1].value;
+                    change.wildOverview = paths[0].value + ".*";
                 }
             }
 
-            if (dataRef[change.overview]
-                || change.wildOverview && dataRef[change.wildOverview]
-                || change.extOverview && dataRef[change.extOverview]
+            if (
+                dataRef[change.overview] ||
+                (change.wildOverview && dataRef[change.wildOverview]) ||
+                (change.extOverview && dataRef[change.extOverview])
             ) {
                 return true;
             }

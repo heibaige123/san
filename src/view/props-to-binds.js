@@ -7,8 +7,8 @@
  * @file 将组件外部声明的 props 处理转换成 binds
  */
 
-var kebab2camel = require('../util/kebab2camel');
-var ExprType = require('../parser/expr-type');
+var kebab2camel = require("../util/kebab2camel");
+var ExprType = require("../parser/expr-type");
 
 /**
  * 将组件外部声明的 props 处理转换成 binds
@@ -26,11 +26,11 @@ function propsToBinds(props) {
         // TODO: 看看在preheat时候是不是已经做掉了，或者能不能做掉
         result.push({
             name: kebab2camel(prop.name),
-            expr: prop.noValue 
-                ? {type: ExprType.BOOL, value: true}
+            expr: prop.noValue
+                ? { type: ExprType.BOOL, value: true }
                 : prop.expr,
             x: prop.x,
-            noValue: prop.noValue
+            noValue: prop.noValue,
         });
     }
 

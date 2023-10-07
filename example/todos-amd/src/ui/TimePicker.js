@@ -14,7 +14,8 @@ define(function (require) {
     });
 
     return san.defineComponent({
-        template: '<template on-click="mainClick()" class="ui-timepicker">{{ value | valueText }}</template>',
+        template:
+            '<template on-click="mainClick()" class="ui-timepicker">{{ value | valueText }}</template>',
 
         filters: {
             valueText: function (value) {

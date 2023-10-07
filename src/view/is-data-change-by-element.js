@@ -17,8 +17,11 @@
  */
 function isDataChangeByElement(change, element, propName) {
     var changeTarget = change.option.target;
-    return changeTarget && changeTarget.node === element
-        && (!propName || changeTarget.prop === propName);
+    return (
+        changeTarget &&
+        changeTarget.node === element &&
+        (!propName || changeTarget.prop === propName)
+    );
 }
 
 exports = module.exports = isDataChangeByElement;

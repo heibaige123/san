@@ -35,7 +35,7 @@ function createDataTypesChecker(dataTypes, componentName) {
                             ":" +
                             dataTypeName +
                             " is invalid; " +
-                            "it must be a function, usually from san.DataTypes",
+                            "it must be a function, usually from san.DataTypes"
                     );
                 }
 
@@ -43,7 +43,7 @@ function createDataTypesChecker(dataTypes, componentName) {
                     data,
                     dataTypeName,
                     componentName,
-                    dataTypeName,
+                    dataTypeName
                 );
             }
         }

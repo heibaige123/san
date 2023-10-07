@@ -7,8 +7,8 @@
  * @file 读取相等比对表达式
  */
 
-var ExprType = require('./expr-type');
-var readRelationalExpr = require('./read-relational-expr');
+var ExprType = require("./expr-type");
+var readRelationalExpr = require("./read-relational-expr");
 
 /**
  * 读取相等比对表达式
@@ -34,7 +34,7 @@ function readEqualityExpr(walker) {
                 return {
                     type: ExprType.BINARY,
                     operator: code,
-                    segs: [expr, readRelationalExpr(walker)]
+                    segs: [expr, readRelationalExpr(walker)],
                 };
             }
 

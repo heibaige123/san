@@ -75,7 +75,14 @@ export default class TimePicker extends san.Component<{ value: number }> {
 
         this._docClicker = (e: MouseEvent) => {
             let target = e.target as Element;
-            if (this.el && this.layer && this.layer.el && target !== this.el && $(target).closest(this.el).length === 0 && $(target).closest(this.layer.el).length === 0) {
+            if (
+                this.el &&
+                this.layer &&
+                this.layer.el &&
+                target !== this.el &&
+                $(target).closest(this.el).length === 0 &&
+                $(target).closest(this.layer.el).length === 0
+            ) {
                 this.hideLayer();
             }
         };
@@ -109,7 +116,8 @@ export default class TimePicker extends san.Component<{ value: number }> {
     disposed() {
         if (this.layer) {
             this.layer.dispose();
-            this._docClicker && document.removeEventListener("click", this._docClicker);
+            this._docClicker &&
+                document.removeEventListener("click", this._docClicker);
         }
     }
 }

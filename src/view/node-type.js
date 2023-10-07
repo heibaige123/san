@@ -22,7 +22,7 @@ var NodeType = {
     SLOT: 6,
     FRAG: 7,
     LOADER: 8,
-    IS: 9
+    IS: 9,
 };
 
 exports = module.exports = NodeType;

@@ -1,13 +1,10 @@
-
-
-var empty = require('../util/empty');
-var nextTick = require('../util/next-tick');
-var svgTags = require('../browser/svg-tags');
-var ie = require('../browser/ie');
-var evalExpr = require('../runtime/eval-expr');
-var getANodeProp = require('./get-a-node-prop');
-var NodeType = require('./node-type');
-
+var empty = require("../util/empty");
+var nextTick = require("../util/next-tick");
+var svgTags = require("../browser/svg-tags");
+var ie = require("../browser/ie");
+var evalExpr = require("../runtime/eval-expr");
+var getANodeProp = require("./get-a-node-prop");
+var NodeType = require("./node-type");
 
 /**
  * HTML 属性和 DOM 操作属性的对照表
@@ -17,15 +14,15 @@ var NodeType = require('./node-type');
  * @type {Object}
  */
 var HTML_ATTR_PROP_MAP = {
-    'readonly': 'readOnly',
-    'cellpadding': 'cellPadding',
-    'cellspacing': 'cellSpacing',
-    'colspan': 'colSpan',
-    'rowspan': 'rowSpan',
-    'valign': 'vAlign',
-    'usemap': 'useMap',
-    'frameborder': 'frameBorder',
-    'for': 'htmlFor'
+    readonly: "readOnly",
+    cellpadding: "cellPadding",
+    cellspacing: "cellSpacing",
+    colspan: "colSpan",
+    rowspan: "rowSpan",
+    valign: "vAlign",
+    usemap: "useMap",
+    frameborder: "frameBorder",
+    for: "htmlFor",
 };
 
 /**
@@ -42,9 +39,8 @@ function defaultElementPropHandler(el, value, name) {
     // 但是 type 不应该运行时动态改变，否则会有兼容性问题
     // 所以这里直接就不管了
     if (propName in el) {
-        el[propName] = valueNotNull ? value : '';
-    }
-    else if (valueNotNull) {
+        el[propName] = valueNotNull ? value : "";
+    } else if (valueNotNull) {
         el.setAttribute(name, value);
     }
 
@@ -88,9 +84,8 @@ var defaultElementPropHandlers = {
     id: function (el, value) {
         if (value != null) {
             el.id = value;
-        }
-        else if (el.id) {
-            el.removeAttribute('id');
+        } else if (el.id) {
+            el.removeAttribute("id");
         }
     },
 
@@ -98,11 +93,11 @@ var defaultElementPropHandlers = {
         el.style.cssText = value;
     },
 
-    'class': function (el, value) { // eslint-disable-line
+    class: function (el, value) {
+        // eslint-disable-line
         if (
             // #[begin] allua
-            ie
-            ||
+            ie ||
             // #[end]
             el.className !== value
         ) {
@@ -112,7 +107,7 @@ var defaultElementPropHandlers = {
 
     slot: empty,
 
-    draggable: boolPropHandler
+    draggable: boolPropHandler,
 };
 /* eslint-enable fecs-properties-quote */
 
@@ -129,9 +124,8 @@ var analInputChecker = {
     },
     radio: function (a, b) {
         return a === b;
-    }
+    },
 };
-
 
 var elementPropHandlers = {
     input: {
@@ -139,14 +133,18 @@ var elementPropHandlers = {
         checked: function (el, value, name, element) {
             var state = value;
 
-            var bindValue = getANodeProp(element.aNode, 'value');
-            var bindType = getANodeProp(element.aNode, 'type');
+            var bindValue = getANodeProp(element.aNode, "value");
+            var bindType = getANodeProp(element.aNode, "type");
 
             if (bindValue && bindType) {
-                var type = evalExpr(bindType.expr, element.scope, element.owner);
+                var type = evalExpr(
+                    bindType.expr,
+                    element.scope,
+                    element.owner
+                );
 
                 if (analInputChecker[type]) {
-                    var bindChecked = getANodeProp(element.aNode, 'checked');
+                    var bindChecked = getANodeProp(element.aNode, "checked");
                     if (bindChecked != null && !bindChecked.hintExpr) {
                         bindChecked.hintExpr = bindValue.expr;
                     }
@@ -155,19 +153,23 @@ var elementPropHandlers = {
                         value,
                         element.data
                             ? evalExpr(bindValue.expr, element.data, element)
-                            : evalExpr(bindValue.expr, element.scope, element.owner)
+                            : evalExpr(
+                                  bindValue.expr,
+                                  element.scope,
+                                  element.owner
+                              )
                     );
                 }
             }
 
-            boolPropHandler(el, state, 'checked', element);
+            boolPropHandler(el, state, "checked", element);
 
             // #[begin] allua
             // 代码不用抽出来防重复，allua内的代码在现代浏览器版本会被编译时干掉，gzip也会处理重复问题
             // see: #378
             /* istanbul ignore if */
             if (ie && ie < 8 && !element.lifeCycle.attached) {
-                boolPropHandler(el, state, 'defaultChecked', element);
+                boolPropHandler(el, state, "defaultChecked", element);
             }
             // #[end]
         },
@@ -179,7 +181,7 @@ var elementPropHandlers = {
         readonly: boolPropHandler,
         disabled: boolPropHandler,
         autofocus: boolPropHandler,
-        required: boolPropHandler
+        required: boolPropHandler,
     },
 
     option: {
@@ -189,14 +191,14 @@ var elementPropHandlers = {
             if (isOptionSelected(element, value)) {
                 el.selected = true;
             }
-        }
+        },
     },
 
     select: {
         readonly: boolPropHandler,
         disabled: boolPropHandler,
         autofocus: boolPropHandler,
-        required: boolPropHandler
+        required: boolPropHandler,
     },
 
     textarea: {
@@ -206,7 +208,7 @@ var elementPropHandlers = {
         readonly: boolPropHandler,
         disabled: boolPropHandler,
         autofocus: boolPropHandler,
-        required: boolPropHandler
+        required: boolPropHandler,
     },
 
     button: {
@@ -214,38 +216,38 @@ var elementPropHandlers = {
         autofocus: boolPropHandler,
         type: function (el, value) {
             if (value != null) {
-                el.setAttribute('type', value);
+                el.setAttribute("type", value);
+            } else {
+                el.removeAttribute("type");
             }
-            else {
-                el.removeAttribute('type');
-            }
-        }
-    }
+        },
+    },
 };
 
 function isOptionSelected(element, value) {
     var parentSelect = element.parent;
     while (parentSelect) {
-        if (parentSelect.tagName === 'select') {
+        if (parentSelect.tagName === "select") {
             break;
         }
 
         parentSelect = parentSelect.parent;
     }
 
-
     if (parentSelect) {
         var selectValue = null;
         var prop;
         var expr;
 
-        if ((prop = getANodeProp(parentSelect.aNode, 'value'))
-            && (expr = prop.expr)
+        if (
+            (prop = getANodeProp(parentSelect.aNode, "value")) &&
+            (expr = prop.expr)
         ) {
-            selectValue = parentSelect.nodeType === NodeType.CMPT
-                ? evalExpr(expr, parentSelect.data, parentSelect)
-                : evalExpr(expr, parentSelect.scope, parentSelect.owner)
-                || '';
+            selectValue =
+                parentSelect.nodeType === NodeType.CMPT
+                    ? evalExpr(expr, parentSelect.data, parentSelect)
+                    : evalExpr(expr, parentSelect.scope, parentSelect.owner) ||
+                      "";
         }
 
         if (selectValue === value) {
@@ -253,7 +255,6 @@ function isOptionSelected(element, value) {
         }
     }
 }
-
 
 /**
  * 获取属性处理对象
@@ -274,7 +275,8 @@ function getPropHandler(tagName, attrName) {
 
     var propHandler = tagPropHandlers[attrName];
     if (!propHandler) {
-        propHandler = defaultElementPropHandlers[attrName] || defaultElementPropHandler;
+        propHandler =
+            defaultElementPropHandlers[attrName] || defaultElementPropHandler;
         tagPropHandlers[attrName] = propHandler;
     }
 

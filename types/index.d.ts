@@ -42,11 +42,17 @@ declare namespace san {
 
         arrayOf(arrayItemChecker: DataTypeChecker): ChainableDataTypeChecker;
         instanceOf<T>(expectedClass: new () => T): ChainableDataTypeChecker;
-        shape(shapeTypes: { [k: string]: DataTypeChecker }): ChainableDataTypeChecker;
+        shape(shapeTypes: {
+            [k: string]: DataTypeChecker;
+        }): ChainableDataTypeChecker;
         oneOf(expectedEnumValues: any[]): ChainableDataTypeChecker;
-        oneOfType(expectedEnumOfTypeValues: DataTypeChecker[]): ChainableDataTypeChecker;
+        oneOfType(
+            expectedEnumOfTypeValues: DataTypeChecker[]
+        ): ChainableDataTypeChecker;
         objectOf(typeChecker: DataTypeChecker): ChainableDataTypeChecker;
-        exact(shapeTypes: { [k: string]: DataTypeChecker }): ChainableDataTypeChecker;
+        exact(shapeTypes: {
+            [k: string]: DataTypeChecker;
+        }): ChainableDataTypeChecker;
     };
 
     class Data<T extends {} = {}> {
@@ -68,24 +74,60 @@ declare namespace san {
         get<TPath extends string>(name: TPath): Get<T, TPath>;
         get(expr: AccessorExpr): any;
 
-        set<TPath extends string>(expr: TPath, value: Get<T, TPath>, option?: DataChangeOption): void;
+        set<TPath extends string>(
+            expr: TPath,
+            value: Get<T, TPath>,
+            option?: DataChangeOption
+        ): void;
         set(expr: AccessorExpr, value: any, option?: DataChangeOption): void;
 
         assign(source: Partial<T>, options?: DataChangeOption): void;
 
-        merge<TPath extends string>(expr: TPath, source: Partial<Get<T, TPath>>, option?: DataChangeOption): void;
+        merge<TPath extends string>(
+            expr: TPath,
+            source: Partial<Get<T, TPath>>,
+            option?: DataChangeOption
+        ): void;
         merge(expr: AccessorExpr, source: {}, option?: DataChangeOption): void;
 
-        apply<TPath extends string>(expr: TPath, changer: (oldValue: Get<T, TPath>) => Get<T, TPath>, option?: DataChangeOption): void;
-        apply(expr: AccessorExpr, changer: (oldValue: any) => any, option?: DataChangeOption): void;
+        apply<TPath extends string>(
+            expr: TPath,
+            changer: (oldValue: Get<T, TPath>) => Get<T, TPath>,
+            option?: DataChangeOption
+        ): void;
+        apply(
+            expr: AccessorExpr,
+            changer: (oldValue: any) => any,
+            option?: DataChangeOption
+        ): void;
 
-        splice(expr: string | AccessorExpr, spliceArgs: Array<any>, option?: DataChangeOption): void;
-        push(expr: string | AccessorExpr, item: any, option?: DataChangeOption): number;
+        splice(
+            expr: string | AccessorExpr,
+            spliceArgs: Array<any>,
+            option?: DataChangeOption
+        ): void;
+        push(
+            expr: string | AccessorExpr,
+            item: any,
+            option?: DataChangeOption
+        ): number;
         pop(expr: string | AccessorExpr, option?: DataChangeOption): any;
         shift(expr: string | AccessorExpr, option?: DataChangeOption): any;
-        unshift(expr: string | AccessorExpr, item: any, option?: DataChangeOption): number;
-        removeAt(expr: string | AccessorExpr, index: number, option?: DataChangeOption): void;
-        remove(expr: string | AccessorExpr, value: any, option?: DataChangeOption): void;
+        unshift(
+            expr: string | AccessorExpr,
+            item: any,
+            option?: DataChangeOption
+        ): number;
+        removeAt(
+            expr: string | AccessorExpr,
+            index: number,
+            option?: DataChangeOption
+        ): void;
+        remove(
+            expr: string | AccessorExpr,
+            value: any,
+            option?: DataChangeOption
+        ): void;
     }
 
     interface Component<T extends {} = {}> {
@@ -99,12 +141,21 @@ declare namespace san {
         fire(eventName: string): void;
         fire<TEventArg>(eventName: string, eventArg: TEventArg): void;
         on(eventName: string, listener: () => void): void;
-        on<TEventArg>(eventName: string, listener: (eventArg: TEventArg) => void): void;
+        on<TEventArg>(
+            eventName: string,
+            listener: (eventArg: TEventArg) => void
+        ): void;
         un(eventName: string, listener?: Function): void;
 
         dispatch<TMsg>(messageName: string, message: TMsg): void;
 
-        watch(propName: string, watcher: (value: any, arg: { oldValue?: any; newValue?: any }) => void): void;
+        watch(
+            propName: string,
+            watcher: (
+                value: any,
+                arg: { oldValue?: any; newValue?: any }
+            ) => void
+        ): void;
 
         ref<TCmpt extends Component<{}>>(refName: string): TCmpt;
         ref(refName: string): Component<{}> | Element;
@@ -292,7 +343,13 @@ declare namespace san {
         value: any;
     }
 
-    type DataTypeChecker = (data: any, dataName: string, componentName: string, fullDataName: string, secret?: any) => void;
+    type DataTypeChecker = (
+        data: any,
+        dataName: string,
+        componentName: string,
+        fullDataName: string,
+        secret?: any
+    ) => void;
 
     interface ChainableDataTypeChecker extends DataTypeChecker {
         isRequired: DataTypeChecker;
@@ -487,7 +544,11 @@ declare namespace san {
     }
 
     interface ComponentDefineOptionComponents {
-        [k: string]: Component<{}> | ComponentDefineOptions<{}> | ComponentLoader | "self";
+        [k: string]:
+            | Component<{}>
+            | ComponentDefineOptions<{}>
+            | ComponentLoader
+            | "self";
     }
 
     interface ComponentDefineOptionComputed<T> {
@@ -499,7 +560,11 @@ declare namespace san {
     }
 
     interface ComponentDefineOptionMessages {
-        [k: string]: (arg?: { name?: string; target?: Component<{}>; value?: unknown }) => void;
+        [k: string]: (arg?: {
+            name?: string;
+            target?: Component<{}>;
+            value?: unknown;
+        }) => void;
     }
 
     type TemplateParseOptionDelimiters = [string, string];
@@ -544,36 +609,61 @@ declare namespace san {
     }
 
     interface ComponentLoaderOptions {
-        load(): Promise<DefinedComponentClass<{}, {}> | DefinedTemplateComponentClass<{}>>;
-        placeholder?: DefinedComponentClass<{}, {}> | DefinedTemplateComponentClass<{}>;
-        fallback?: DefinedComponentClass<{}, {}> | DefinedTemplateComponentClass<{}>;
+        load(): Promise<
+            DefinedComponentClass<{}, {}> | DefinedTemplateComponentClass<{}>
+        >;
+        placeholder?:
+            | DefinedComponentClass<{}, {}>
+            | DefinedTemplateComponentClass<{}>;
+        fallback?:
+            | DefinedComponentClass<{}, {}>
+            | DefinedTemplateComponentClass<{}>;
     }
 
     interface ComponentLoader {
         new (option?: ComponentLoaderOptions): ComponentLoader;
 
-        start(onload: (componentClass: DefinedComponentClass<{}, {}> | DefinedTemplateComponentClass<{}>) => void): void;
-        done(componentClass: DefinedComponentClass<{}, {}> | DefinedTemplateComponentClass<{}>): void;
+        start(
+            onload: (
+                componentClass:
+                    | DefinedComponentClass<{}, {}>
+                    | DefinedTemplateComponentClass<{}>
+            ) => void
+        ): void;
+        done(
+            componentClass:
+                | DefinedComponentClass<{}, {}>
+                | DefinedTemplateComponentClass<{}>
+        ): void;
     }
 
     interface DefinedComponentClass<T extends {} = {}, M extends {} = {}> {
         new (option?: ComponentNewOptions<T>): Component<T> & M;
     }
 
-    type ComponentDefineOptionsWithThis<DataT, OptionsT> = ComponentDefineOptions<DataT> & OptionsT & ThisType<Component<DataT> & ComponentDefineOptions<DataT> & OptionsT>;
+    type ComponentDefineOptionsWithThis<DataT, OptionsT> =
+        ComponentDefineOptions<DataT> &
+            OptionsT &
+            ThisType<
+                Component<DataT> & ComponentDefineOptions<DataT> & OptionsT
+            >;
 
     function defineComponent<DataT extends {} = {}, OptionsT extends {} = {}>(
         options: ComponentDefineOptionsWithThis<DataT, OptionsT>,
-        superClass?: DefinedComponentClass<{}, {}>,
+        superClass?: DefinedComponentClass<{}, {}>
     ): DefinedComponentClass<DataT, OptionsT>;
 
     interface DefinedTemplateComponentClass<T extends {}> {
         new (option?: TemplateComponentNewOptions<T>): TemplateComponent<T>;
     }
 
-    function defineTemplateComponent<DataT extends {} = {}>(options: TemplateComponentDefineOptions<DataT>): DefinedTemplateComponentClass<DataT>;
+    function defineTemplateComponent<DataT extends {} = {}>(
+        options: TemplateComponentDefineOptions<DataT>
+    ): DefinedTemplateComponentClass<DataT>;
 
-    function createComponentLoader(options: ComponentLoaderOptions | ComponentLoaderOptions["load"]): ComponentLoader;
+    function createComponentLoader(
+        options: ComponentLoaderOptions | ComponentLoaderOptions["load"]
+    ): ComponentLoader;
 
     interface HydrateComponentRenderOnlyResult {
         renderOnly: true;
@@ -587,24 +677,38 @@ declare namespace san {
         instance: DefinedComponentClass<{}, {}>;
     }
 
-    type HydrateComponentResult = HydrateComponentRenderOnlyResult | HydrateComponentNormalResult;
-    function hydrateComponent(ComponentClass: DefinedComponentClass, options: ComponentNewOptions): HydrateComponentResult;
+    type HydrateComponentResult =
+        | HydrateComponentRenderOnlyResult
+        | HydrateComponentNormalResult;
+    function hydrateComponent(
+        ComponentClass: DefinedComponentClass,
+        options: ComponentNewOptions
+    ): HydrateComponentResult;
 
     function parseTemplate(
         template: string,
         options?: {
             trimWhitespace?: TemplateParseOptionTrimWhitespace;
             delimiters?: TemplateParseOptionDelimiters;
-        },
+        }
     ): ANode;
 
     function parseComponentTemplate(componentClass: Component<{}>): ANode;
-    function unpackANode(source: Array<string | number | null | undefined>): ANode;
+    function unpackANode(
+        source: Array<string | number | null | undefined>
+    ): ANode;
 
     function parseExpr(template: string): Expr;
-    function evalExpr<T extends {}>(expr: Expr, data: Data<T>, owner?: Component<T>): any;
+    function evalExpr<T extends {}>(
+        expr: Expr,
+        data: Data<T>,
+        owner?: Component<T>
+    ): any;
 
     function inherits(subClass: Component<{}>, superClass: Component<{}>): void;
-    function inherits<T>(subClass: (options: ComponentNewOptions<T>) => void, superClass: Component<{}>): void;
+    function inherits<T>(
+        subClass: (options: ComponentNewOptions<T>) => void,
+        superClass: Component<{}>
+    ): void;
     function nextTick(handler: () => any): void;
 }

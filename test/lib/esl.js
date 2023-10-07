@@ -148,7 +148,10 @@ var esl;
 
         // 包含相对id时，直接抛出错误
         if (invalidIds.length > 0) {
-            throw new Error("[REQUIRE_FATAL]Relative ID is not allowed in global require: " + invalidIds.join(", "));
+            throw new Error(
+                "[REQUIRE_FATAL]Relative ID is not allowed in global require: " +
+                    invalidIds.join(", ")
+            );
         }
         // #end assertNotContainRelativeId
 
@@ -205,7 +208,11 @@ var esl;
     var moduleChangeListeners = {};
 
     globalRequire.listenModuleStateChange = function (id, state, listener) {
-        if (typeof listener === "function" && state >= MODULE_PRE_DEFINED && state <= MODULE_DEFINED) {
+        if (
+            typeof listener === "function" &&
+            state >= MODULE_PRE_DEFINED &&
+            state <= MODULE_DEFINED
+        ) {
             if (modIs(id, state)) {
                 var mod = modModules[id];
                 listener(mod.id, mod.deps, mod.factory);
@@ -313,7 +320,12 @@ var esl;
         }
 
         if (hangModules.length || missModules.length) {
-            throw new Error("[MODULE_TIMEOUT]Hang: " + (hangModules.join(", ") || "none") + "; Miss: " + (missModules.join(", ") || "none"));
+            throw new Error(
+                "[MODULE_TIMEOUT]Hang: " +
+                    (hangModules.join(", ") || "none") +
+                    "; Miss: " +
+                    (missModules.join(", ") || "none")
+            );
         }
     }
     // #end-ignore
@@ -379,9 +391,15 @@ var esl;
 
         var ids;
         // IE下通过current script的attribute获取当前id
-        if (!id && document.attachEvent && !(opera && opera.toString() === "[object Opera]")) {
+        if (
+            !id &&
+            document.attachEvent &&
+            !(opera && opera.toString() === "[object Opera]")
+        ) {
             var currentScript = getCurrentScript();
-            ids = currentScript && loadingURL4Modules[currentScript.getAttribute("data-src")];
+            ids =
+                currentScript &&
+                loadingURL4Modules[currentScript.getAttribute("data-src")];
         }
 
         if (id) {
@@ -495,9 +513,12 @@ var esl;
                 factory
                     .toString()
                     .replace(/(\/\*([\s\S]*?)\*\/|([^:]|^)\/\/(.*)$)/gm, "")
-                    .replace(/require\(\s*(['"])([^'"]+)\1\s*\)/g, function ($0, $1, depId) {
-                        deps.push(depId);
-                    });
+                    .replace(
+                        /require\(\s*(['"])([^'"]+)\1\s*\)/g,
+                        function ($0, $1, depId) {
+                            deps.push(depId);
+                        }
+                    );
         }
 
         var requireModules = [];
@@ -682,7 +703,7 @@ var esl;
                                       require: mod.require,
                                       exports: mod.exports,
                                       module: mod,
-                                  }),
+                                  })
                               )
                             : factory;
 
@@ -898,7 +919,9 @@ var esl;
                     if (typeof loaderValue === "string") {
                         loadModule(id, loaderValue);
                     } else if (loaderValue !== false) {
-                        id.indexOf("!") > 0 ? loadResource(id, baseId) : loadModule(id);
+                        id.indexOf("!") > 0
+                            ? loadResource(id, baseId)
+                            : loadModule(id);
                     }
                 }
             }
@@ -925,7 +948,10 @@ var esl;
                 if (isAllCompleted) {
                     isCallbackCalled = 1;
 
-                    callback.apply(global, modGetModulesExports(ids, BUILDIN_MODULE));
+                    callback.apply(
+                        global,
+                        modGetModulesExports(ids, BUILDIN_MODULE)
+                    );
                 }
             }
         }
@@ -993,7 +1019,10 @@ var esl;
                 if (shimConf) {
                     var exports;
                     if (typeof shimConf.init === "function") {
-                        exports = shimConf.init.apply(global, modGetModulesExports(shimDeps, BUILDIN_MODULE));
+                        exports = shimConf.init.apply(
+                            global,
+                            modGetModulesExports(shimDeps, BUILDIN_MODULE)
+                        );
                     }
 
                     if (exports == null && shimConf.exports) {
@@ -1071,9 +1100,16 @@ var esl;
          * @param {Object} plugin 用于加载资源的插件模块
          */
         function load(plugin) {
-            var pluginRequire = baseId ? modModules[baseId].require : actualGlobalRequire;
+            var pluginRequire = baseId
+                ? modModules[baseId].require
+                : actualGlobalRequire;
 
-            plugin.load(idInfo.res, pluginRequire, pluginOnload, moduleConfigGetter.call({ id: pluginAndResource }));
+            plugin.load(
+                idInfo.res,
+                pluginRequire,
+                pluginOnload,
+                moduleConfigGetter.call({ id: pluginAndResource })
+            );
         }
 
         load(actualGlobalRequire(idInfo.mod));
@@ -1173,7 +1209,10 @@ var esl;
                 index.push({
                     k: key,
                     v: value[key],
-                    reg: key === "*" && allowAsterisk ? /^/ : createPrefixRegexp(key),
+                    reg:
+                        key === "*" && allowAsterisk
+                            ? /^/
+                            : createPrefixRegexp(key),
                 });
             }
         }
@@ -1391,7 +1430,10 @@ var esl;
 
                 if (resId) {
                     var trueResId = absId + "!" + resId;
-                    if (resId.indexOf(".") !== 0 && bundleIdRetrieve(trueResId)) {
+                    if (
+                        resId.indexOf(".") !== 0 &&
+                        bundleIdRetrieve(trueResId)
+                    ) {
                         absId = normalizedId = trueResId;
                     } else {
                         normalizedId = null;
@@ -1419,7 +1461,9 @@ var esl;
                     // already been loaded and evaluated.
                     modTryInvokeFactory(topLevelId);
                     if (!modIs(topLevelId, MODULE_DEFINED)) {
-                        throw new Error('[MODULE_MISS]"' + topLevelId + '" is not exists!');
+                        throw new Error(
+                            '[MODULE_MISS]"' + topLevelId + '" is not exists!'
+                        );
                     }
 
                     requiredCache[requireId] = modModules[topLevelId].exports;
@@ -1438,7 +1482,10 @@ var esl;
                         /* jshint ignore:start */
                         each(parseResult.ids, function (id, i) {
                             if (id == null) {
-                                id = parseResult.ids[i] = normalize(requireId[i], baseId);
+                                id = parseResult.ids[i] = normalize(
+                                    requireId[i],
+                                    baseId
+                                );
                                 modFlagAuto(id, MODULE_DEFINED);
                             }
                         });
@@ -1450,7 +1497,7 @@ var esl;
                         nativeAsyncRequire(parseResult.ids, callback, baseId);
                         modAutoDefine();
                     },
-                    baseId,
+                    baseId
                 );
 
                 modAutoDefine();
@@ -1530,7 +1577,9 @@ var esl;
         moduleId = resolvePackageId(moduleId);
 
         if (resourceId) {
-            var mod = modIs(moduleId, MODULE_DEFINED) && actualGlobalRequire(moduleId);
+            var mod =
+                modIs(moduleId, MODULE_DEFINED) &&
+                actualGlobalRequire(moduleId);
             resourceId =
                 mod && mod.normalize
                     ? mod.normalize(resourceId, function (resId) {
@@ -1689,7 +1738,10 @@ var esl;
     function getCurrentScript() {
         if (currentlyAddingScript) {
             return currentlyAddingScript;
-        } else if (interactiveScript && interactiveScript.readyState === "interactive") {
+        } else if (
+            interactiveScript &&
+            interactiveScript.readyState === "interactive"
+        ) {
             return interactiveScript;
         }
 
@@ -1739,7 +1791,10 @@ var esl;
 
         function innerOnload() {
             var readyState = script.readyState;
-            if (typeof readyState === "undefined" || /^(loaded|complete)$/.test(readyState)) {
+            if (
+                typeof readyState === "undefined" ||
+                /^(loaded|complete)$/.test(readyState)
+            ) {
                 script.onload = script.onreadystatechange = null;
                 script = null;
 
@@ -1750,7 +1805,9 @@ var esl;
 
         // If BASE tag is in play, using appendChild is a problem for IE6.
         // See: http://dev.jquery.com/ticket/2709
-        baseElement ? headElement.insertBefore(script, baseElement) : headElement.appendChild(script);
+        baseElement
+            ? headElement.insertBefore(script, baseElement)
+            : headElement.appendChild(script);
 
         currentlyAddingScript = null;
     }
@@ -1770,7 +1827,10 @@ var esl;
             esl = globalRequire;
         }
 
-        if (typeof requirejs !== "undefined" && typeof requirejs !== "function") {
+        if (
+            typeof requirejs !== "undefined" &&
+            typeof requirejs !== "function"
+        ) {
             globalRequire.config(requirejs);
         }
     }

@@ -83,7 +83,9 @@ typeof console !== "undefined" &&
             expect(console.warn).toHaveBeenCalled();
 
             var msg = console.warn.calls.first().args[0];
-            expect(msg).toContain("Component template must have a root element");
+            expect(msg).toContain(
+                "Component template must have a root element"
+            );
             expect(msg).toContain("[SAN WARNING]");
 
             myComponent.dispose();
@@ -99,7 +101,9 @@ typeof console !== "undefined" &&
             expect(console.warn).toHaveBeenCalled();
 
             var msg = console.warn.calls.first().args[0];
-            expect(msg).toContain("Component template must have a root element");
+            expect(msg).toContain(
+                "Component template must have a root element"
+            );
             expect(msg).toContain("[SAN WARNING]");
         });
 
@@ -112,7 +116,9 @@ typeof console !== "undefined" &&
             expect(console.warn).toHaveBeenCalled();
 
             var msg = console.warn.calls.first().args[0];
-            expect(msg).toContain("Component template must have a root element");
+            expect(msg).toContain(
+                "Component template must have a root element"
+            );
             expect(msg).toContain("[SAN WARNING]");
         });
     });

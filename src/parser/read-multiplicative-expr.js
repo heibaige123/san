@@ -7,8 +7,8 @@
  * @file 读取乘法表达式
  */
 
-var ExprType = require('./expr-type');
-var readUnaryExpr = require('./read-unary-expr');
+var ExprType = require("./expr-type");
+var readUnaryExpr = require("./read-unary-expr");
 
 /**
  * 读取乘法表达式
@@ -31,14 +31,13 @@ function readMultiplicativeExpr(walker) {
                 expr = {
                     type: ExprType.BINARY,
                     operator: code,
-                    segs: [expr, readUnaryExpr(walker)]
+                    segs: [expr, readUnaryExpr(walker)],
                 };
                 continue;
         }
 
         break;
     }
-
 
     return expr;
 }

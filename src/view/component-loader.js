@@ -7,9 +7,8 @@
  * @file 组件Loader类
  */
 
-var nextTick = require('../util/next-tick');
-var each = require('../util/each');
-
+var nextTick = require("../util/next-tick");
+var each = require("../util/each");
 
 /**
  * 组件Loader类
@@ -27,7 +26,6 @@ function ComponentLoader(load, placeholder, fallback) {
 
     this.listeners = [];
 }
-
 
 /**
  * 开始加载组件
@@ -57,7 +55,7 @@ ComponentLoader.prototype.start = function (onload) {
                 me.done(RealComponent);
             };
 
-            if (startLoad && typeof startLoad.then === 'function') {
+            if (startLoad && typeof startLoad.then === "function") {
                 startLoad.then(done, done);
             }
     }

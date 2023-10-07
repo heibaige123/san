@@ -2,7 +2,9 @@
 define(function (require) {
     return {
         load: function (resourceId, req, load) {
-            var xhr = window.XMLHttpRequest ? new XMLHttpRequest() : new ActiveXObject("Microsoft.XMLHTTP");
+            var xhr = window.XMLHttpRequest
+                ? new XMLHttpRequest()
+                : new ActiveXObject("Microsoft.XMLHTTP");
 
             xhr.open("GET", req.toUrl(resourceId), true);
 

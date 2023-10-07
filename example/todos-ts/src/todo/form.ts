@@ -139,7 +139,11 @@ export default san.defineComponent<FormData, IForm>({
                 endTime = new Date(todo.endTime);
             }
 
-            return new Date(endTime.getFullYear(), endTime.getMonth(), endTime.getDate());
+            return new Date(
+                endTime.getFullYear(),
+                endTime.getMonth(),
+                endTime.getDate()
+            );
         },
     },
 
@@ -200,7 +204,10 @@ export default san.defineComponent<FormData, IForm>({
         if (!this.addCategoryDialog) {
             this.addCategoryDialog = new AddCategoryDialog();
             this.addCategoryDialog.attach(document.body);
-            this.addCategoryDialog.on("finished", this.updateCategories.bind(this));
+            this.addCategoryDialog.on(
+                "finished",
+                this.updateCategories.bind(this)
+            );
         }
         this.addCategoryDialog.show();
     },
@@ -209,7 +216,10 @@ export default san.defineComponent<FormData, IForm>({
         if (!this.editCategoryDialog) {
             this.editCategoryDialog = new EditCategoryDialog();
             this.editCategoryDialog.attach(document.body);
-            this.editCategoryDialog.on("edited", this.updateCategories.bind(this));
+            this.editCategoryDialog.on(
+                "edited",
+                this.updateCategories.bind(this)
+            );
         }
         this.editCategoryDialog.show();
     },

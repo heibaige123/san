@@ -10,7 +10,9 @@ describe("Interpolation", function () {
         document.body.appendChild(wrap);
         myComponent.attach(wrap);
 
-        expect(wrap.firstChild.textContent || wrap.firstChild.innerText).toBe("errorrik");
+        expect(wrap.firstChild.textContent || wrap.firstChild.innerText).toBe(
+            "errorrik"
+        );
 
         myComponent.dispose();
         document.body.removeChild(wrap);
@@ -27,7 +29,9 @@ describe("Interpolation", function () {
         document.body.appendChild(wrap);
         myComponent.attach(wrap);
 
-        expect(wrap.firstChild.textContent || wrap.firstChild.innerText).toBe("Hello errorrik!");
+        expect(wrap.firstChild.textContent || wrap.firstChild.innerText).toBe(
+            "Hello errorrik!"
+        );
 
         myComponent.dispose();
         document.body.removeChild(wrap);
@@ -44,7 +48,9 @@ describe("Interpolation", function () {
         document.body.appendChild(wrap);
         myComponent.attach(wrap);
 
-        expect(wrap.firstChild.innerHTML).toContain("&lt;u&gt;errorrik&lt;/u&gt;");
+        expect(wrap.firstChild.innerHTML).toContain(
+            "&lt;u&gt;errorrik&lt;/u&gt;"
+        );
 
         myComponent.dispose();
         document.body.removeChild(wrap);
@@ -71,7 +77,9 @@ describe("Interpolation", function () {
         document.body.appendChild(wrap);
         myComponent.attach(wrap);
 
-        expect(wrap.firstChild.textContent || wrap.firstChild.innerText).toBe("ERRORRIK");
+        expect(wrap.firstChild.textContent || wrap.firstChild.innerText).toBe(
+            "ERRORRIK"
+        );
 
         myComponent.dispose();
         document.body.removeChild(wrap);
@@ -90,7 +98,9 @@ describe("Interpolation", function () {
         expect(wrap.firstChild.innerHTML.indexOf("Hello !")).toBe(0);
 
         san.nextTick(function () {
-            expect(wrap.firstChild.textContent || wrap.firstChild.innerText).toBe("Hello errorrik!");
+            expect(
+                wrap.firstChild.textContent || wrap.firstChild.innerText
+            ).toBe("Hello errorrik!");
             myComponent.dispose();
             document.body.removeChild(wrap);
             done();
@@ -111,7 +121,9 @@ describe("Interpolation", function () {
         myComponent.data.set("name", "errorrik");
 
         san.nextTick(function () {
-            expect(wrap.firstChild.textContent || wrap.firstChild.innerText).toBe("errorrik");
+            expect(
+                wrap.firstChild.textContent || wrap.firstChild.innerText
+            ).toBe("errorrik");
             myComponent.dispose();
             document.body.removeChild(wrap);
             done();

@@ -114,14 +114,16 @@ describe("TemplateComponent", function () {
 
     it("with fragment", function (done) {
         var MyTplComponent = san.defineTemplateComponent({
-            template: '<fragment><h3><slot name="title"/></h3><span><slot/></span></fragment>',
+            template:
+                '<fragment><h3><slot name="title"/></h3><span><slot/></span></fragment>',
         });
 
         var MyComponent = san.defineComponent({
             components: {
                 "x-tpl": MyTplComponent,
             },
-            template: '<div><x-tpl><a slot="title">{{name}}</a>{{email}}</x-tpl></div>',
+            template:
+                '<div><x-tpl><a slot="title">{{name}}</a>{{email}}</x-tpl></div>',
         });
 
         var myComponent = new MyComponent({
@@ -205,7 +207,8 @@ describe("TemplateComponent", function () {
             components: {
                 "x-tpl": MyTplComponent,
             },
-            template: '<a><x-tpl t="{{email}}" n="{{name}}" class="{{cla}}" xc="{{xc}}"/></a>',
+            template:
+                '<a><x-tpl t="{{email}}" n="{{name}}" class="{{cla}}" xc="{{xc}}"/></a>',
         });
 
         var myComponent = new MyComponent({
@@ -315,7 +318,9 @@ describe("TemplateComponent", function () {
 
         var span = wrap.getElementsByTagName("span")[0];
         expect(/height:\s*10px($|;)/i.test(span.style.cssText)).toBeTruthy();
-        expect(/position:\s*absolute($|;)/i.test(span.style.cssText)).toBeTruthy();
+        expect(
+            /position:\s*absolute($|;)/i.test(span.style.cssText)
+        ).toBeTruthy();
         expect(/color:\s*blue($|;)/i.test(span.style.cssText)).toBeTruthy();
 
         myComponent.data.set("xs", {
@@ -327,7 +332,9 @@ describe("TemplateComponent", function () {
         myComponent.nextTick(function () {
             expect(/width:\s*5px($|;)/i.test(span.style.cssText)).toBeTruthy();
             expect(/top:\s*10px($|;)/i.test(span.style.cssText)).toBeTruthy();
-            expect(/position:\s*relative($|;)/i.test(span.style.cssText)).toBeTruthy();
+            expect(
+                /position:\s*relative($|;)/i.test(span.style.cssText)
+            ).toBeTruthy();
 
             expect(/color/i.test(span.style.cssText)).toBeFalsy();
 
@@ -339,14 +346,17 @@ describe("TemplateComponent", function () {
 
     it("root with if-else, merge id & class & style prop", function (done) {
         var MyTplComponent = san.defineTemplateComponent({
-            template: '<b s-if="isShow" class="a" style="color:blue">test</b>' + '<u s-else class="b" style="color:red">test</u>',
+            template:
+                '<b s-if="isShow" class="a" style="color:blue">test</b>' +
+                '<u s-else class="b" style="color:red">test</u>',
         });
 
         var MyComponent = san.defineComponent({
             components: {
                 "x-tpl": MyTplComponent,
             },
-            template: '<a><x-tpl id="outerId" class="c" style="height:10px" isShow="{{isShow}}"/></a>',
+            template:
+                '<a><x-tpl id="outerId" class="c" style="height:10px" isShow="{{isShow}}"/></a>',
         });
 
         var myComponent = new MyComponent({
@@ -510,7 +520,11 @@ describe("TemplateComponent", function () {
         });
 
         var MyComponent = san.defineComponent({
-            template: "<div>" + '<child-component on-click="native:clicker"></child-component>' + "<child-component></child-component>" + "</div>",
+            template:
+                "<div>" +
+                '<child-component on-click="native:clicker"></child-component>' +
+                "<child-component></child-component>" +
+                "</div>",
             components: {
                 "child-component": ChildComponent,
             },

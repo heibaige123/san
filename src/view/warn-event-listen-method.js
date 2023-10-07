@@ -7,8 +7,8 @@
  * @file  事件绑定不存在的 warning
  */
 
-var each = require('../util/each');
-var warn = require('../util/warn');
+var each = require("../util/each");
+var warn = require("../util/warn");
 
 // #[begin] error
 /**
@@ -32,7 +32,9 @@ function warnEventListenMethod(eventBind, owner) {
             paths.push(path.value);
         });
 
-        warn(eventBind.name + ' listen fail,"' + paths.join('.') + '" not exist');
+        warn(
+            eventBind.name + ' listen fail,"' + paths.join(".") + '" not exist'
+        );
     }
 }
 // #[end]

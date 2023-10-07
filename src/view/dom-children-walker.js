@@ -7,7 +7,7 @@
  * @file 元素子节点遍历操作类
  */
 
-var removeEl = require('../browser/remove-el');
+var removeEl = require("../browser/remove-el");
 
 // #[begin] hydrate
 /**
@@ -21,13 +21,12 @@ var removeEl = require('../browser/remove-el');
 function DOMChildrenWalker(el, onlyCurrent) {
     this.index = 0;
     this.target = el;
-    
+
     if (onlyCurrent) {
         this.children = [onlyCurrent, onlyCurrent.nextSibling];
         this.current = onlyCurrent;
         this.next = this.children[1];
-    }
-    else {
+    } else {
         this.children = [];
         var child = el.firstChild;
         var next;

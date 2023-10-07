@@ -13,7 +13,8 @@ describe("IfDirective", function () {
 
     it("for true literal", function () {
         var MyComponent = san.defineComponent({
-            template: '<div><span san-if="true" title="errorrik">errorrik</span></div>',
+            template:
+                '<div><span san-if="true" title="errorrik">errorrik</span></div>',
         });
         var myComponent = new MyComponent();
 
@@ -30,7 +31,8 @@ describe("IfDirective", function () {
 
     it("for false literal", function () {
         var MyComponent = san.defineComponent({
-            template: '<div><span san-if="false" title="errorrik">errorrik</span></div>',
+            template:
+                '<div><span san-if="false" title="errorrik">errorrik</span></div>',
         });
         var myComponent = new MyComponent();
 
@@ -47,7 +49,8 @@ describe("IfDirective", function () {
 
     it("for false literal use s-", function () {
         var MyComponent = san.defineComponent({
-            template: '<div><span s-if="false" title="errorrik">errorrik</span></div>',
+            template:
+                '<div><span s-if="false" title="errorrik">errorrik</span></div>',
         });
         var myComponent = new MyComponent();
 
@@ -64,7 +67,8 @@ describe("IfDirective", function () {
 
     it("position right when create", function () {
         var MyComponent = san.defineComponent({
-            template: '<div><b san-if="true" title="errorrik">errorrik</b><u>uuu</u></div>',
+            template:
+                '<div><b san-if="true" title="errorrik">errorrik</b><u>uuu</u></div>',
         });
         var myComponent = new MyComponent();
 
@@ -86,7 +90,8 @@ describe("IfDirective", function () {
 
     it("position right when update", function (done) {
         var MyComponent = san.defineComponent({
-            template: '<div><b san-if="cond && 1" title="errorrik">errorrik</b><u>uuu</u></div>',
+            template:
+                '<div><b san-if="cond && 1" title="errorrik">errorrik</b><u>uuu</u></div>',
         });
         var myComponent = new MyComponent();
 
@@ -114,7 +119,8 @@ describe("IfDirective", function () {
 
     it("render when true, and update soon", function (done) {
         var MyComponent = san.defineComponent({
-            template: '<div><span san-if="cond || 0" title="errorrik">errorrik</span></div>',
+            template:
+                '<div><span san-if="cond || 0" title="errorrik">errorrik</span></div>',
         });
         var myComponent = new MyComponent();
         myComponent.data.set("cond", true);
@@ -140,7 +146,8 @@ describe("IfDirective", function () {
 
     it("render when false, and update soon", function (done) {
         var MyComponent = san.defineComponent({
-            template: '<div><span san-if="!cond" title="errorrik">errorrik</span></div>',
+            template:
+                '<div><span san-if="!cond" title="errorrik">errorrik</span></div>',
         });
         var myComponent = new MyComponent();
         myComponent.data.set("cond", true);
@@ -166,7 +173,8 @@ describe("IfDirective", function () {
 
     it("render template when true, and update soon", function (done) {
         var MyComponent = san.defineComponent({
-            template: '<div>   <template s-if="cond">   <u>errorrik</u>   <b>errorrik</b>   </template>   </div>',
+            template:
+                '<div>   <template s-if="cond">   <u>errorrik</u>   <b>errorrik</b>   </template>   </div>',
         });
         var myComponent = new MyComponent({ data: { cond: true } });
 
@@ -195,7 +203,8 @@ describe("IfDirective", function () {
 
     it("render template when false, and update soon", function (done) {
         var MyComponent = san.defineComponent({
-            template: '<div>   <template s-if="!cond">   <u>errorrik</u>   <b>errorrik</b>   </template>   </div>',
+            template:
+                '<div>   <template s-if="!cond">   <u>errorrik</u>   <b>errorrik</b>   </template>   </div>',
         });
         var myComponent = new MyComponent({ data: { cond: true } });
 
@@ -224,7 +233,8 @@ describe("IfDirective", function () {
 
     it("render when false, and update soon， interp compat", function (done) {
         var MyComponent = san.defineComponent({
-            template: '<div><span san-if="{{!cond}}" title="{{name}}">errorrik</span></div>',
+            template:
+                '<div><span san-if="{{!cond}}" title="{{name}}">errorrik</span></div>',
         });
         var myComponent = new MyComponent({
             data: {
@@ -261,7 +271,8 @@ describe("IfDirective", function () {
 
     it("and else", function (done) {
         var MyComponent = san.defineComponent({
-            template: '<div><span san-if="!cond" title="errorrik">errorrik</span>  <span san-else title="varsha">varsha</span></div>',
+            template:
+                '<div><span san-if="!cond" title="errorrik">errorrik</span>  <span san-else title="varsha">varsha</span></div>',
         });
         var myComponent = new MyComponent();
         myComponent.data.set("cond", true);
@@ -289,7 +300,8 @@ describe("IfDirective", function () {
 
     it("elif", function (done) {
         var MyComponent = san.defineComponent({
-            template: '<div><span s-if="cond1" title="errorrik">errorrik</span>  <span s-elif="cond2" title="leeight">leeight</span></div>',
+            template:
+                '<div><span s-if="cond1" title="errorrik">errorrik</span>  <span s-elif="cond2" title="leeight">leeight</span></div>',
         });
         var myComponent = new MyComponent({
             data: {
@@ -327,7 +339,10 @@ describe("IfDirective", function () {
 
     it("elif and else", function (done) {
         var MyComponent = san.defineComponent({
-            template: '<div><span s-if="cond1" title="errorrik">errorrik</span>  \n' + '<span s-elif="cond2" title="leeight">leeight</span>  \n' + ' <b s-else title="nobody">nobody</b></div>',
+            template:
+                '<div><span s-if="cond1" title="errorrik">errorrik</span>  \n' +
+                '<span s-elif="cond2" title="leeight">leeight</span>  \n' +
+                ' <b s-else title="nobody">nobody</b></div>',
         });
         var myComponent = new MyComponent({
             data: {
@@ -512,7 +527,9 @@ describe("IfDirective", function () {
 
     it("and else with disabled", function (done) {
         var MyComponent = san.defineComponent({
-            template: '<div><input type="radio" s-if="cond" disabled="{{true}}">' + '<input type="checkbox" s-else disabled="{{true}}"></div>',
+            template:
+                '<div><input type="radio" s-if="cond" disabled="{{true}}">' +
+                '<input type="checkbox" s-else disabled="{{true}}"></div>',
         });
         var myComponent = new MyComponent();
         myComponent.data.set("cond", true);
@@ -542,7 +559,8 @@ describe("IfDirective", function () {
 
     it("render list, init false, update soon", function (done) {
         var MyComponent = san.defineComponent({
-            template: '<ul><li>name - email</li><li san-if="cond" san-for="p,i in persons" title="{{p.name}}">{{p.name}} - {{p.email}}</li><li>name - email</li></ul>',
+            template:
+                '<ul><li>name - email</li><li san-if="cond" san-for="p,i in persons" title="{{p.name}}">{{p.name}} - {{p.email}}</li><li>name - email</li></ul>',
         });
         var myComponent = new MyComponent();
 
@@ -564,9 +582,13 @@ describe("IfDirective", function () {
             var lis = wrap.getElementsByTagName("li");
             expect(lis.length).toBe(4);
             expect(lis[2].getAttribute("title")).toBe("varsha");
-            expect(lis[2].innerHTML.indexOf("varsha - wangshuonpu@163.com")).toBe(0);
+            expect(
+                lis[2].innerHTML.indexOf("varsha - wangshuonpu@163.com")
+            ).toBe(0);
             expect(lis[1].getAttribute("title")).toBe("errorrik");
-            expect(lis[1].innerHTML.indexOf("errorrik - errorrik@gmail.com")).toBe(0);
+            expect(
+                lis[1].innerHTML.indexOf("errorrik - errorrik@gmail.com")
+            ).toBe(0);
 
             myComponent.dispose();
             document.body.removeChild(wrap);
@@ -576,7 +598,8 @@ describe("IfDirective", function () {
 
     it("render list, init true, update soon", function (done) {
         var MyComponent = san.defineComponent({
-            template: '<ul><li>name - email</li><li san-if="cond" san-for="p,i in persons" title="{{p.name}}">{{p.name}} - {{p.email}}</li><li>name - email</li></ul>',
+            template:
+                '<ul><li>name - email</li><li san-if="cond" san-for="p,i in persons" title="{{p.name}}">{{p.name}} - {{p.email}}</li><li>name - email</li></ul>',
         });
         var myComponent = new MyComponent();
 
@@ -593,9 +616,13 @@ describe("IfDirective", function () {
         var lis = wrap.getElementsByTagName("li");
         expect(lis.length).toBe(4);
         expect(lis[2].getAttribute("title")).toBe("varsha");
-        expect(lis[2].innerHTML.indexOf("varsha - wangshuonpu@163.com")).toBe(0);
+        expect(lis[2].innerHTML.indexOf("varsha - wangshuonpu@163.com")).toBe(
+            0
+        );
         expect(lis[1].getAttribute("title")).toBe("errorrik");
-        expect(lis[1].innerHTML.indexOf("errorrik - errorrik@gmail.com")).toBe(0);
+        expect(lis[1].innerHTML.indexOf("errorrik - errorrik@gmail.com")).toBe(
+            0
+        );
 
         myComponent.data.set("cond", false);
 
@@ -613,9 +640,13 @@ describe("IfDirective", function () {
                 var lis = wrap.getElementsByTagName("li");
                 expect(lis.length).toBe(5);
                 expect(lis[3].getAttribute("title")).toBe("varsha");
-                expect(lis[3].innerHTML.indexOf("varsha - wangshuonpu@163.com")).toBe(0);
+                expect(
+                    lis[3].innerHTML.indexOf("varsha - wangshuonpu@163.com")
+                ).toBe(0);
                 expect(lis[1].getAttribute("title")).toBe("otakustay");
-                expect(lis[1].innerHTML.indexOf("otakustay - otakustay@gmail.com")).toBe(0);
+                expect(
+                    lis[1].innerHTML.indexOf("otakustay - otakustay@gmail.com")
+                ).toBe(0);
 
                 myComponent.dispose();
                 document.body.removeChild(wrap);
@@ -626,7 +657,8 @@ describe("IfDirective", function () {
 
     it("render list with template, init false, update soon", function (done) {
         var MyComponent = san.defineComponent({
-            template: '<div><template san-if="cond" san-for="p in persons">   <h4>{{p.name}}</h4>   <p>{{p.email}}</p>   </template></div>',
+            template:
+                '<div><template san-if="cond" san-for="p in persons">   <h4>{{p.name}}</h4>   <p>{{p.email}}</p>   </template></div>',
         });
         var myComponent = new MyComponent();
 
@@ -680,7 +712,8 @@ describe("IfDirective", function () {
 
     it("render list which template gap whitespace, init true, update soon", function (done) {
         var Panel = san.defineComponent({
-            template: "<div>\n" + "<h3>{{title}}</h3>\n" + "<slot/>\n" + "</div>\n",
+            template:
+                "<div>\n" + "<h3>{{title}}</h3>\n" + "<slot/>\n" + "</div>\n",
         });
 
         var Row = san.defineComponent({
@@ -692,7 +725,12 @@ describe("IfDirective", function () {
                 "x-panel": Panel,
                 "x-row": Row,
             },
-            template: "<div>\n" + '<x-panel title="title">\n' + '<x-row s-if="cond" s-for="item in list">{{item.title}}</x-row>\n' + "</x-panel>\n" + "</div>",
+            template:
+                "<div>\n" +
+                '<x-panel title="title">\n' +
+                '<x-row s-if="cond" s-for="item in list">{{item.title}}</x-row>\n' +
+                "</x-panel>\n" +
+                "</div>",
         });
 
         var myComponent = new MyComponent({
@@ -735,7 +773,9 @@ describe("IfDirective", function () {
                 expect(/three/.test(ps[2].innerHTML)).toBeTruthy();
 
                 var wrapHTML = wrap.innerHTML.toLowerCase();
-                expect(wrapHTML.indexOf("<h3") < wrapHTML.indexOf("<p")).toBeTruthy();
+                expect(
+                    wrapHTML.indexOf("<h3") < wrapHTML.indexOf("<p")
+                ).toBeTruthy();
                 myComponent.dispose();
                 document.body.removeChild(wrap);
                 done();
@@ -745,7 +785,8 @@ describe("IfDirective", function () {
 
     it("render list, init true, render data use as condition", function (done) {
         var MyComponent = san.defineComponent({
-            template: '<div><ul san-if="persons"><li san-for="p,i in persons" title="{{p.name}}">{{p.name}} - {{p.email}}</li></ul></div>',
+            template:
+                '<div><ul san-if="persons"><li san-for="p,i in persons" title="{{p.name}}">{{p.name}} - {{p.email}}</li></ul></div>',
         });
         var myComponent = new MyComponent();
 
@@ -761,9 +802,13 @@ describe("IfDirective", function () {
         var lis = wrap.getElementsByTagName("li");
         expect(lis.length).toBe(2);
         expect(lis[1].getAttribute("title")).toBe("varsha");
-        expect(lis[1].innerHTML.indexOf("varsha - wangshuonpu@163.com")).toBe(0);
+        expect(lis[1].innerHTML.indexOf("varsha - wangshuonpu@163.com")).toBe(
+            0
+        );
         expect(lis[0].getAttribute("title")).toBe("errorrik");
-        expect(lis[0].innerHTML.indexOf("errorrik - errorrik@gmail.com")).toBe(0);
+        expect(lis[0].innerHTML.indexOf("errorrik - errorrik@gmail.com")).toBe(
+            0
+        );
 
         myComponent.data.set("persons", [
             { name: "otakustay", email: "otakustay@gmail.com" },
@@ -775,11 +820,17 @@ describe("IfDirective", function () {
             var lis = wrap.getElementsByTagName("li");
             expect(lis.length).toBe(3);
             expect(lis[2].getAttribute("title")).toBe("varsha");
-            expect(lis[2].innerHTML.indexOf("varsha - wangshuonpu@163.com")).toBe(0);
+            expect(
+                lis[2].innerHTML.indexOf("varsha - wangshuonpu@163.com")
+            ).toBe(0);
             expect(lis[1].getAttribute("title")).toBe("errorrik");
-            expect(lis[1].innerHTML.indexOf("errorrik - errorrik@gmail.com")).toBe(0);
+            expect(
+                lis[1].innerHTML.indexOf("errorrik - errorrik@gmail.com")
+            ).toBe(0);
             expect(lis[0].getAttribute("title")).toBe("otakustay");
-            expect(lis[0].innerHTML.indexOf("otakustay - otakustay@gmail.com")).toBe(0);
+            expect(
+                lis[0].innerHTML.indexOf("otakustay - otakustay@gmail.com")
+            ).toBe(0);
 
             myComponent.dispose();
             document.body.removeChild(wrap);
@@ -788,14 +839,16 @@ describe("IfDirective", function () {
     });
 
     var TelList = san.defineComponent({
-        template: '<ul><li san-for="item in list" title="{{item}}">{{item}}</li></ul>',
+        template:
+            '<ul><li san-for="item in list" title="{{item}}">{{item}}</li></ul>',
     });
 
     var PersonList = san.defineComponent({
         components: {
             "ui-tel": TelList,
         },
-        template: '<div><dl san-for="item in list"><dt title="{{item.name}}">{{item.name}}</dt><dd><ui-tel list="{{item.tels}}"></ui-tel></dd></dl></div>',
+        template:
+            '<div><dl san-for="item in list"><dt title="{{item.name}}">{{item.name}}</dt><dd><ui-tel list="{{item.tels}}"></ui-tel></dd></dl></div>',
     });
 
     it("render component, init false, update soon", function (done) {
@@ -803,7 +856,8 @@ describe("IfDirective", function () {
             components: {
                 "ui-person": PersonList,
             },
-            template: '<div><ui-person list="{{persons}}" san-if="cond"></ui-person></div>',
+            template:
+                '<div><ui-person list="{{persons}}" san-if="cond"></ui-person></div>',
         });
         var myComponent = new MyComponent();
         myComponent.data.set("cond", false);
@@ -828,7 +882,11 @@ describe("IfDirective", function () {
 
         myComponent.data.set("cond", true);
         myComponent.data.set("persons[1].name", "leeight");
-        myComponent.data.set("persons[1].tels", ["12121212", "16161616", "18181818"]);
+        myComponent.data.set("persons[1].tels", [
+            "12121212",
+            "16161616",
+            "18181818",
+        ]);
 
         san.nextTick(function () {
             var dts = wrap.getElementsByTagName("dt");
@@ -852,7 +910,8 @@ describe("IfDirective", function () {
             components: {
                 "ui-person": PersonList,
             },
-            template: '<div><ui-person list="{{persons}}" san-if="cond"></ui-person></div>',
+            template:
+                '<div><ui-person list="{{persons}}" san-if="cond"></ui-person></div>',
         });
         var myComponent = new MyComponent();
         myComponent.data.set("cond", true);
@@ -882,7 +941,11 @@ describe("IfDirective", function () {
 
         myComponent.data.set("cond", false);
         myComponent.data.set("persons[1].name", "leeight");
-        myComponent.data.set("persons[1].tels", ["12121212", "16161616", "18181818"]);
+        myComponent.data.set("persons[1].tels", [
+            "12121212",
+            "16161616",
+            "18181818",
+        ]);
 
         san.nextTick(function () {
             var dts = wrap.getElementsByTagName("dt");
@@ -918,7 +981,8 @@ describe("IfDirective", function () {
                     current: 5,
                 };
             },
-            template: '<div><span san-if="current - 1 < totalPage">{{ current - 1 }}</span></div>',
+            template:
+                '<div><span san-if="current - 1 < totalPage">{{ current - 1 }}</span></div>',
         });
 
         var myComponent = new MyComponent();
@@ -950,7 +1014,8 @@ describe("IfDirective", function () {
                     current: 5,
                 };
             },
-            template: '<div><span san-if="current - 1 < totalPage">{{ current - 1 }}</span></div>',
+            template:
+                '<div><span san-if="current - 1 < totalPage">{{ current - 1 }}</span></div>',
         });
 
         var myComponent = new MyComponent();
@@ -982,7 +1047,8 @@ describe("IfDirective", function () {
                     current: 5,
                 };
             },
-            template: '<div><span san-if="current - 1 < totalPage">{{ current - 1 }}</span></div>',
+            template:
+                '<div><span san-if="current - 1 < totalPage">{{ current - 1 }}</span></div>',
         });
 
         var myComponent = new MyComponent();
@@ -1018,7 +1084,8 @@ describe("IfDirective", function () {
                     list: ["one", "two"],
                 };
             },
-            template: '<div><div san-if="condition"><u san-for="item,index in list" title="{{index}}{{item}}">{{index}}{{item}}</u></div></div>',
+            template:
+                '<div><div san-if="condition"><u san-for="item,index in list" title="{{index}}{{item}}">{{index}}{{item}}</u></div></div>',
         });
 
         var myComponent = new MyComponent();
@@ -1095,7 +1162,8 @@ describe("IfDirective", function () {
 
     it("with call expr", function (done) {
         var MyComponent = san.defineComponent({
-            template: '<div><u s-if="isWorking(time)">work</u><b s-else>rest</b></div>',
+            template:
+                '<div><u s-if="isWorking(time)">work</u><b s-else>rest</b></div>',
 
             isWorking: function (time) {
                 if (time < 9 || time > 18) {

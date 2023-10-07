@@ -11,9 +11,22 @@ let logger = {
     request: function (req, res, error) {
         let date = utc ? new Date().toUTCString() : new Date();
         if (error) {
-            logger.info('[%s] "%s %s" Error (%s): "%s"', date, req.method.red, req.url.red, error.status.toString().red, error.message.red);
+            logger.info(
+                '[%s] "%s %s" Error (%s): "%s"',
+                date,
+                req.method.red,
+                req.url.red,
+                error.status.toString().red,
+                error.message.red
+            );
         } else {
-            logger.info('[%s] "%s %s" "%s"', date, req.method.cyan, req.url.cyan, req.headers["user-agent"]);
+            logger.info(
+                '[%s] "%s %s" "%s"',
+                date,
+                req.method.cyan,
+                req.url.cyan,
+                req.headers["user-agent"]
+            );
         }
     },
 };
@@ -42,7 +55,13 @@ pretest.on("close", (code) => {
         let canonicalHost = host === "0.0.0.0" ? "127.0.0.1" : host;
         let protocol = "http://";
 
-        logger.info(["Starting up http-server, serving ".yellow, server.root.cyan, "\nAvailable on:".yellow].join(""));
+        logger.info(
+            [
+                "Starting up http-server, serving ".yellow,
+                server.root.cyan,
+                "\nAvailable on:".yellow,
+            ].join("")
+        );
 
         let firstFace;
         let ifaces = os.networkInterfaces();
@@ -53,17 +72,27 @@ pretest.on("close", (code) => {
                 }
 
                 if (details.family === "IPv4") {
-                    logger.info(("  " + protocol + details.address + ":" + port).green);
+                    logger.info(
+                        ("  " + protocol + details.address + ":" + port).green
+                    );
                 }
             });
         });
 
         logger.info("\nDev pages:".yellow);
         logger.info(("test - " + firstFace + "/test/").green);
-        logger.info(("test[reverse] - " + firstFace + "/test/index-reverse.html").green);
-        logger.info(("test[min] - " + firstFace + "/test/index-min.html").green);
-        logger.info(("demo - " + firstFace + "/example/todos-amd/index.html").green);
-        logger.info(("perf - " + firstFace + "/example/todos-amd/index-perf.html").green);
+        logger.info(
+            ("test[reverse] - " + firstFace + "/test/index-reverse.html").green
+        );
+        logger.info(
+            ("test[min] - " + firstFace + "/test/index-min.html").green
+        );
+        logger.info(
+            ("demo - " + firstFace + "/example/todos-amd/index.html").green
+        );
+        logger.info(
+            ("perf - " + firstFace + "/example/todos-amd/index-perf.html").green
+        );
 
         logger.info("\nWatch src change, build when file changed.");
         logger.info("Hit CTRL-C to stop the server");
@@ -79,7 +108,9 @@ pretest.on("close", (code) => {
         },
         (eventType, filename) => {
             let now = new Date();
-            logger.info(`Build on ${now.getHours()}:${now.getMinutes()}:${now.getSeconds()}`);
+            logger.info(
+                `Build on ${now.getHours()}:${now.getMinutes()}:${now.getSeconds()}`
+            );
 
             let pretest = spawn("npm", ["run", "pretest"]);
 
@@ -93,6 +124,6 @@ pretest.on("close", (code) => {
                     logger.info(`Builded, use ${waste}ms`);
                 }
             });
-        },
+        }
     );
 });
