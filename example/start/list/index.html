@@ -1,23 +1,24 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="utf-8" />
-        <title>start - list</title>
-    </head>
+<head>
+    <meta charset="utf-8">
+    <title>start - list</title>
+</head>
 
-    <body>
-        <script src="../../../dist/san.js"></script>
-        <script>
-            var MyApp = san.defineComponent({
-                template: '<ul><li san-for="item in list">{{item}}</li></ul>',
+<body>
+    <script src="../../../dist/san.js"></script>
+    <script>
+    var MyApp = san.defineComponent({
+        template: '<ul><li san-for="item in list">{{item}}</li></ul>',
 
-                attached: function () {
-                    this.data.set("list", ["san", "er", "esui", "etpl", "esl"]);
-                },
-            });
+        attached: function () {
+            this.data.set('list', ['san', 'er', 'esui', 'etpl', 'esl']);
+        }
+    });
 
-            var myApp = new MyApp();
-            myApp.attach(document.body);
-        </script>
-    </body>
+    var myApp = new MyApp();
+    myApp.attach(document.body);
+    </script>
+</body>
 </html>
+

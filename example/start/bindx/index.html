@@ -1,20 +1,20 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="utf-8" />
-        <title>start - twoway binding</title>
-    </head>
+<head>
+    <meta charset="utf-8">
+    <title>start - twoway binding</title>
+</head>
 
-    <body>
-        <script src="../../../dist/san.js"></script>
-        <script>
-            var MyApp = san.defineComponent({
-                template:
-                    '<div><input value="{= name =}" placeholder="please input">Hello {{name}}!</div>',
-            });
+<body>
+    <script src="../../../dist/san.js"></script>
+    <script>
+    var MyApp = san.defineComponent({
+        template: '<div><input value="{= name =}" placeholder="please input">Hello {{name}}!</div>'
+    });
 
-            var myApp = new MyApp();
-            myApp.attach(document.body);
-        </script>
-    </body>
+    var myApp = new MyApp();
+    myApp.attach(document.body);
+    </script>
+</body>
 </html>
+

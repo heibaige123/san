@@ -1,3 +1,5 @@
+
+
 /**
  * svgTags
  * SVG标签表
@@ -24,10 +26,10 @@ var svgTags = {
     g: 1,
     marker: 1,
     mask: 1,
-    "missing-glyph": 1,
+    'missing-glyph': 1,
     pattern: 1,
     svg: 1,
-    symbol: 1,
+    'symbol': 1,
 
     // Descriptive elements
     desc: 1,
@@ -35,7 +37,7 @@ var svgTags = {
 
     // Font elements
     font: 1,
-    "font-face": 1,
+    'font-face': 1,
 
     // Gradient elements
     linearGradient: 1,
@@ -59,7 +61,8 @@ var svgTags = {
     cursor: 1,
     filter: 1,
     foreignObject: 1,
-    view: 1,
+    view: 1
 };
+
 
 exports = module.exports = svgTags;

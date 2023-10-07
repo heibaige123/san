@@ -1,7 +1,16 @@
-var ExprType = require("../parser/expr-type");
-var evalExpr = require("./eval-expr");
-var DataChangeType = require("./data-change-type");
-var parseExpr = require("../parser/parse-expr");
+/**
+ * Copyright (c) Baidu Inc. All rights reserved.
+ *
+ * This source code is licensed under the MIT license.
+ * See LICENSE file in the project root for license information.
+ *
+ * @file 数据类
+ */
+
+var ExprType = require('../parser/expr-type');
+var evalExpr = require('./eval-expr');
+var DataChangeType = require('./data-change-type');
+var parseExpr = require('../parser/parse-expr');
 
 /**
  * 数据类
@@ -44,7 +53,7 @@ Data.prototype.setTypeChecker = function (typeChecker) {
  * @param {Function} listener 监听函数
  */
 Data.prototype.listen = function (listener) {
-    if (typeof listener === "function") {
+    if (typeof listener === 'function') {
         this.listeners.push(listener);
     }
 };
@@ -91,7 +100,7 @@ Data.prototype.get = function (expr, callee) {
         return value;
     }
 
-    if (typeof expr !== "object") {
+    if (typeof expr !== 'object') {
         expr = parseExpr(expr);
     }
 
@@ -100,9 +109,10 @@ Data.prototype.get = function (expr, callee) {
 
     value = value[paths[0].value];
 
-    if (typeof value == "undefined" && this.parent) {
+    if (typeof value == 'undefined' && this.parent) {
         value = this.parent.get(expr, callee);
-    } else {
+    }
+    else {
         for (var i = 1, l = paths.length; value != null && i < l; i++) {
             value = value[paths[i].value || evalExpr(paths[i], callee)];
         }
@@ -110,6 +120,7 @@ Data.prototype.get = function (expr, callee) {
 
     return value;
 };
+
 
 /**
  * 数据对象变更操作
@@ -141,15 +152,9 @@ function immutableSet(source, exprPaths, pathsStart, pathsLen, value, data) {
         prop = isNaN(index) ? prop : index;
 
         result = source.slice(0);
-        result[prop] = immutableSet(
-            source[prop],
-            exprPaths,
-            pathsStart + 1,
-            pathsLen,
-            value,
-            data,
-        );
-    } else if (typeof source === "object") {
+        result[prop] = immutableSet(source[prop], exprPaths, pathsStart + 1, pathsLen, value, data);
+    }
+    else if (typeof source === 'object') {
         result = {};
         var needAssigned = true;
 
@@ -158,15 +163,9 @@ function immutableSet(source, exprPaths, pathsStart, pathsLen, value, data) {
             if (source.hasOwnProperty(key)) {
                 if (key === prop) {
                     needAssigned = false;
-                    result[prop] = immutableSet(
-                        source[prop],
-                        exprPaths,
-                        pathsStart + 1,
-                        pathsLen,
-                        value,
-                        data,
-                    );
-                } else {
+                    result[prop] = immutableSet(source[prop], exprPaths, pathsStart + 1, pathsLen, value, data);
+                }
+                else {
                     result[key] = source[key];
                 }
             }
@@ -174,21 +173,14 @@ function immutableSet(source, exprPaths, pathsStart, pathsLen, value, data) {
 
         // 如果set的是一个不存在的属性，会走到该逻辑
         if (needAssigned) {
-            result[prop] = immutableSet(
-                source[prop],
-                exprPaths,
-                pathsStart + 1,
-                pathsLen,
-                value,
-                data,
-            );
+            result[prop] = immutableSet(source[prop], exprPaths, pathsStart + 1, pathsLen, value, data);
         }
     }
 
     if (pathExpr.value == null) {
         exprPaths[pathsStart] = {
-            type: typeof prop === "string" ? ExprType.STRING : ExprType.NUMBER,
-            value: prop,
+            type: typeof prop === 'string' ? ExprType.STRING : ExprType.NUMBER,
+            value: prop
         };
     }
 
@@ -214,9 +206,7 @@ Data.prototype.set = function (expr, value, option) {
 
     // #[begin] error
     if (expr.type !== ExprType.ACCESSOR) {
-        throw new Error(
-            "[SAN ERROR] Invalid Expression in Data set: " + exprRaw,
-        );
+        throw new Error('[SAN ERROR] Invalid Expression in Data set: ' + exprRaw);
     }
     // #[end]
 
@@ -226,29 +216,23 @@ Data.prototype.set = function (expr, value, option) {
 
     expr = {
         type: ExprType.ACCESSOR,
-        paths: expr.paths.slice(0),
+        paths: expr.paths.slice(0)
     };
 
     var prop = expr.paths[0].value;
-    this.raw[prop] = immutableSet(
-        this.raw[prop],
-        expr.paths,
-        1,
-        expr.paths.length,
-        value,
-        this,
-    );
+    this.raw[prop] = immutableSet(this.raw[prop], expr.paths, 1, expr.paths.length, value, this);
 
     this.fire({
         type: DataChangeType.SET,
         expr: expr,
         value: value,
-        option: option,
+        option: option
     });
 
     // #[begin] error
     this.checkDataTypes();
     // #[end]
+
 };
 
 /**
@@ -261,15 +245,16 @@ Data.prototype.set = function (expr, value, option) {
 Data.prototype.assign = function (source, option) {
     option = option || {};
 
-    for (var key in source) {
-        // eslint-disable-line
+    for (var key in source) { // eslint-disable-line
         this.set(
             {
                 type: ExprType.ACCESSOR,
-                paths: [{ type: ExprType.STRING, value: key }],
+                paths: [
+                    {type: ExprType.STRING, value: key}
+                ]
             },
             source[key],
-            option,
+            option
         );
     }
 };
@@ -293,40 +278,33 @@ Data.prototype.merge = function (expr, source, option) {
 
     // #[begin] error
     if (expr.type !== ExprType.ACCESSOR) {
-        throw new Error(
-            "[SAN ERROR] Invalid Expression in Data merge: " + exprRaw,
-        );
+        throw new Error('[SAN ERROR] Invalid Expression in Data merge: ' + exprRaw);
     }
 
-    if (typeof this.get(expr) !== "object") {
-        throw new Error(
-            "[SAN ERROR] Merge Expects a Target of Type 'object'; got " +
-                typeof oldValue,
-        );
+    if (typeof this.get(expr) !== 'object') {
+        throw new Error('[SAN ERROR] Merge Expects a Target of Type \'object\'; got ' + typeof oldValue);
     }
 
-    if (typeof source !== "object") {
-        throw new Error(
-            "[SAN ERROR] Merge Expects a Source of Type 'object'; got " +
-                typeof source,
-        );
+    if (typeof source !== 'object') {
+        throw new Error('[SAN ERROR] Merge Expects a Source of Type \'object\'; got ' + typeof source);
     }
     // #[end]
 
-    for (var key in source) {
-        // eslint-disable-line
+    for (var key in source) { // eslint-disable-line
         this.set(
             {
                 type: ExprType.ACCESSOR,
-                paths: expr.paths.concat([
-                    {
-                        type: ExprType.STRING,
-                        value: key,
-                    },
-                ]),
+                paths: expr.paths.concat(
+                    [
+                        {
+                            type: ExprType.STRING,
+                            value: key
+                        }
+                    ]
+                )
             },
             source[key],
-            option,
+            option
         );
     }
 };
@@ -348,20 +326,17 @@ Data.prototype.apply = function (expr, fn, option) {
 
     // #[begin] error
     if (expr.type !== ExprType.ACCESSOR) {
-        throw new Error(
-            "[SAN ERROR] Invalid Expression in Data apply: " + exprRaw,
-        );
+        throw new Error('[SAN ERROR] Invalid Expression in Data apply: ' + exprRaw);
     }
     // #[end]
 
     var oldValue = this.get(expr);
 
     // #[begin] error
-    if (typeof fn !== "function") {
+    if (typeof fn !== 'function') {
         throw new Error(
-            "[SAN ERROR] Invalid Argument's Type in Data apply: " +
-                "Expected Function but got " +
-                typeof fn,
+            '[SAN ERROR] Invalid Argument\'s Type in Data apply: '
+            + 'Expected Function but got ' + typeof fn
         );
     }
     // #[end]
@@ -388,15 +363,13 @@ Data.prototype.splice = function (expr, args, option) {
 
     // #[begin] error
     if (expr.type !== ExprType.ACCESSOR) {
-        throw new Error(
-            "[SAN ERROR] Invalid Expression in Data splice: " + exprRaw,
-        );
+        throw new Error('[SAN ERROR] Invalid Expression in Data splice: ' + exprRaw);
     }
     // #[end]
 
     expr = {
         type: ExprType.ACCESSOR,
-        paths: expr.paths.slice(0),
+        paths: expr.paths.slice(0)
     };
 
     var target = this.get(expr);
@@ -407,7 +380,8 @@ Data.prototype.splice = function (expr, args, option) {
         var len = target.length;
         if (index > len) {
             index = len;
-        } else if (index < 0) {
+        }
+        else if (index < 0) {
             index = len + index;
             if (index < 0) {
                 index = 0;
@@ -417,14 +391,7 @@ Data.prototype.splice = function (expr, args, option) {
         var newArray = target.slice(0);
         returnValue = newArray.splice.apply(newArray, args);
 
-        this.raw = immutableSet(
-            this.raw,
-            expr.paths,
-            0,
-            expr.paths.length,
-            newArray,
-            this,
-        );
+        this.raw = immutableSet(this.raw, expr.paths, 0, expr.paths.length, newArray, this);
 
         this.fire({
             expr: expr,
@@ -433,7 +400,7 @@ Data.prototype.splice = function (expr, args, option) {
             deleteCount: returnValue.length,
             value: returnValue,
             insertions: args.slice(2),
-            option: option,
+            option: option
         });
     }
 

@@ -1,10 +1,14 @@
-# ANode 压缩结构设计
+ANode 压缩结构设计
+=======
+
 
 提前将 template 编译成 ANode，可以避免在浏览器端进行 template 解析，提高初始装载性能。ANode 是个 JSON Object，stringify 后体积较大，需要设计一种压缩，让其体积更小，网络传输成本更低。
 
 ANode 压缩，简称 APack
 
-## 总体设计
+
+总体设计
+------
 
 设计目标和约束有：
 
@@ -22,7 +26,10 @@ ANode 压缩，简称 APack
 7. 根据 ANode 中出现的频度，以 0 和 1 标识模板节点，以 2 标识 普通属性节点，3-32 为表达式节点，33-99 为特殊泛属性节点（双向绑定属性、指令、事件、var）。
 8. bool true 以 1 表示，bool false 以 undefined 表示，compressed 为空
 
-## 模板节点
+
+
+模板节点
+------
 
 ### 文本节点
 
@@ -30,7 +37,7 @@ ANode 压缩，简称 APack
 - 编码序: `{Node}textExpr`
 
 ```js
-aPack = [, 9, , 2, 3, "Hello ", 7, , 6, 1, 3, "name"];
+aPack = [,9,,2,3,"Hello ",7,,6,1,3,"name",]
 /*
 {
     "textExpr": {
@@ -65,35 +72,7 @@ aPack = [, 9, , 2, 3, "Hello ", 7, , 6, 1, 3, "name"];
 - 编码序: `{string?}tagName, {Array<Node>}propsAndChildren, {Array<Node>?}elses`
 
 ```js
-aPack = [
-  1,
-  "dd",
-  3,
-  38,
-  6,
-  1,
-  3,
-  "list",
-  37,
-  "item",
-  ,
-  ,
-  6,
-  1,
-  3,
-  "list",
-  ,
-  9,
-  ,
-  1,
-  7,
-  ,
-  6,
-  1,
-  3,
-  "item",
-  ,
-];
+aPack = [1,"dd",3,38,6,1,3,"list",37,"item",,,6,1,3,"list",,9,,1,7,,6,1,3,"item",,]
 /*
 {
     "directives": {
@@ -150,7 +129,9 @@ aPack = [
 */
 ```
 
-## 表达式节点
+
+表达式节点
+-------
 
 ### STRING
 
@@ -158,7 +139,7 @@ aPack = [
 - 编码序: `{string}value`
 
 ```js
-aPack = [3, "Hello"];
+aPack = [3,"Hello"]
 /*
 {
     "type": 1,
@@ -173,7 +154,7 @@ aPack = [3, "Hello"];
 - 编码序: `{number}value`
 
 ```js
-aPack = [4, 10];
+aPack = [4,10]
 /*
 {
     "type": 2,
@@ -188,7 +169,7 @@ aPack = [4, 10];
 - 编码序: `{bool}value`
 
 ```js
-aPack = [5, 1];
+aPack = [5,1]
 /*
 {
     "type": 3,
@@ -203,7 +184,7 @@ aPack = [5, 1];
 - 编码序: `{Array}paths`
 
 ```js
-aPack = [6, 1, 3, "name"];
+aPack = [6,1,3,"name"]
 /*
 {
     "type": 4,
@@ -223,7 +204,7 @@ aPack = [6, 1, 3, "name"];
 - 编码序: `{bool}original, {Node}expr, {Array<Node>}filters`
 
 ```js
-aPack = [7, , 6, 1, 3, "name"];
+aPack = [7,,6,1,3,"name",]
 /*
 {
     "type": 5,
@@ -247,7 +228,7 @@ aPack = [7, , 6, 1, 3, "name"];
 - 编码序: `{Node}name, {Array<Node>}args`
 
 ```js
-aPack = [8, 6, 1, 3, "showToast", 1, 6, 1, 3, "msg"];
+aPack = [8,6,1,3,"showToast",1,6,1,3,"msg"]
 /*
 {
     "type": 6,
@@ -281,7 +262,7 @@ aPack = [8, 6, 1, 3, "showToast", 1, 6, 1, 3, "msg"];
 - 编码序: `{bool}original, {Array<Node>}segs`
 
 ```js
-aPack = [9, , 2, 3, "Hello ", 7, , 6, 1, 3, "name"];
+aPack = [9,,2,3,"Hello ",7,,6,1,3,"name",]
 /*
 {
     "type": 7,
@@ -314,7 +295,7 @@ aPack = [9, , 2, 3, "Hello ", 7, , 6, 1, 3, "name"];
 - 编码序: `{number}operator, {Node}first, {Node}second`
 
 ```js
-aPack = [10, 43, 6, 1, 3, "num", 4, 1];
+aPack = [10,43,6,1,3,"num",4,1]
 /*
 {
     "type": 8,
@@ -344,7 +325,7 @@ aPack = [10, 43, 6, 1, 3, "num", 4, 1];
 - 编码序: `{number}operator, {Node}expr`
 
 ```js
-aPack = [11, 33, 6, 1, 3, "exists"];
+aPack = [11,33,6,1,3,"exists"]
 /*
 {
     "type": 9,
@@ -368,7 +349,7 @@ aPack = [11, 33, 6, 1, 3, "exists"];
 - 编码序: `{Node}condExpr, {Node}truthyExpr, {Node}falsyExpr`
 
 ```js
-aPack = [12, 6, 1, 3, "exists", 6, 1, 3, "num", 4, 0];
+aPack = [12,6,1,3,"exists",6,1,3,"num",4,0]
 /*
 {
     "type": 10,
@@ -406,7 +387,7 @@ aPack = [12, 6, 1, 3, "exists", 6, 1, 3, "num", 4, 0];
 - 编码序: `{Array<Node>}items`
 
 ```js
-aPack = [13, 2, 14, 3, "key", 6, 1, 3, "key", 15, 6, 1, 3, "ext"];
+aPack = [13,2,14,3,"key",6,1,3,"key",15,6,1,3,"ext"]
 /*
 {
     "type": 11,
@@ -449,7 +430,7 @@ aPack = [13, 2, 14, 3, "key", 6, 1, 3, "key", 15, 6, 1, 3, "ext"];
 - 编码序: `{Node}name, {Node}expr`
 
 ```js
-aPack = [14, 3, "key", 6, 1, 3, "key"];
+aPack = [14,3,"key",6,1,3,"key"]
 /*
 {
     "name": {
@@ -475,7 +456,7 @@ aPack = [14, 3, "key", 6, 1, 3, "key"];
 - 编码序: `{Node}expr`
 
 ```js
-aPack = [15, 6, 1, 3, "ext"];
+aPack = [15,6,1,3,"ext"]
 /*
 {
     "spread": true,
@@ -498,7 +479,7 @@ aPack = [15, 6, 1, 3, "ext"];
 - 编码序: `{Array<Node>}items`
 
 ```js
-aPack = [16, 3, 17, 4, 1, 17, 6, 1, 3, "two", 18, 6, 1, 3, "ext"];
+aPack = [16,3,17,4,1,17,6,1,3,"two",18,6,1,3,"ext"]
 /*
 {
     "type": 12,
@@ -542,8 +523,9 @@ aPack = [16, 3, 17, 4, 1, 17, 6, 1, 3, "two", 18, 6, 1, 3, "ext"];
 - head: 17
 - 编码序: `{Node}expr`
 
+
 ```js
-aPack = [17, 4, 1];
+aPack = [17,4,1]
 /*
 {
     "expr": {
@@ -559,8 +541,9 @@ aPack = [17, 4, 1];
 - head: 18
 - 编码序: `{Node}expr`
 
+
 ```js
-aPack = [18, 6, 1, 3, "ext"];
+aPack = [18,6,1,3,"ext"]
 /*
 {
     "spread": true,
@@ -583,7 +566,7 @@ aPack = [18, 6, 1, 3, "ext"];
 - 编码序: 无
 
 ```js
-aPack = [19];
+aPack = [19]
 /*
 {
     "type": 13
@@ -591,15 +574,18 @@ aPack = [19];
 */
 ```
 
-## 泛属性节点
+
+泛属性节点
+-------
 
 ### 普通属性
 
 - head: 2
 - 编码序: `{string}name, {Node}expr`
 
+
 ```js
-aPack = [2, "title", 9, , 2, 3, "Hello ", 7, , 6, 1, 3, "name"];
+aPack = [2,"title",9,,2,3,"Hello ",7,,6,1,3,"name",]
 /*
 {
     "name": "title",
@@ -634,8 +620,9 @@ aPack = [2, "title", 9, , 2, 3, "Hello ", 7, , 6, 1, 3, "name"];
 - head: 33
 - 编码序: `{string}name, {Node}expr`
 
+
 ```js
-aPack = [33, "disabled", 5, 1];
+aPack = [33,"disabled",5,1]
 /*
 {
     "name": "disabled",
@@ -653,8 +640,9 @@ aPack = [33, "disabled", 5, 1];
 - head: 34
 - 编码序: `{string}name, {Node}expr`
 
+
 ```js
-aPack = [34, "value", 6, 1, 3, "name"];
+aPack = [34,"value",6,1,3,"name"]
 /*
 {
     "name": "value",
@@ -678,7 +666,7 @@ aPack = [34, "value", 6, 1, 3, "name"];
 - 编码序: `{string}name, {Node}expr, {ObjectAsArray}modifier`
 
 ```js
-aPack = [35, "click", 8, 6, 1, 3, "showToast", 1, 6, 1, 3, "msg"];
+aPack = [35,"click",8,6,1,3,"showToast",1,6,1,3,"msg",]
 /*
 {
     "name": "click",
@@ -716,7 +704,7 @@ aPack = [35, "click", 8, 6, 1, 3, "showToast", 1, 6, 1, 3, "msg"];
 - 编码序: `{string}name, {Node}expr`
 
 ```js
-aPack = [1, "dd", 1, 36, "name", 6, 2, 3, "user", 3, "name"];
+aPack = [1,"dd",1,36,"name",6,2,3,"user",3,"name"]
 /*
 {
     "directives": {},
@@ -746,6 +734,7 @@ aPack = [1, "dd", 1, 36, "name", 6, 2, 3, "user", 3, "name"];
 */
 ```
 
+
 ### 指令 for
 
 - head: 37
@@ -753,29 +742,7 @@ aPack = [1, "dd", 1, 36, "name", 6, 2, 3, "user", 3, "name"];
 - 注: trackBy 通过 trackByRaw 二次解析
 
 ```js
-aPack = [
-  1,
-  "li",
-  2,
-  37,
-  "item",
-  ,
-  ,
-  6,
-  1,
-  3,
-  "list",
-  ,
-  9,
-  ,
-  1,
-  7,
-  ,
-  6,
-  1,
-  3,
-  "item",
-];
+aPack = [1,"li",2,37,"item",,,6,1,3,"list",,9,,1,7,,6,1,3,"item",]
 /*
 {
     "directives": {
@@ -827,7 +794,7 @@ aPack = [
 - 编码序: `{Node}value`
 
 ```js
-aPack = [1, "h2", 2, 38, 6, 1, 3, "title", , 9, , 1, 7, , 6, 1, 3, "title", ,];
+aPack = [1,"h2",2,38,6,1,3,"title",,9,,1,7,,6,1,3,"title",,]
 /*
 {
     "directives": {
@@ -878,46 +845,7 @@ aPack = [1, "h2", 2, 38, 6, 1, 3, "title", , 9, , 1, 7, , 6, 1, 3, "title", ,];
 - 编码序: `{Node}value`
 
 ```js
-aPack = [
-  1,
-  "h2",
-  2,
-  38,
-  6,
-  1,
-  3,
-  "name",
-  ,
-  9,
-  ,
-  1,
-  7,
-  ,
-  6,
-  1,
-  3,
-  "name",
-  ,
-  1,
-  1,
-  "b",
-  2,
-  39,
-  6,
-  1,
-  3,
-  "shortname",
-  ,
-  9,
-  ,
-  1,
-  7,
-  ,
-  6,
-  1,
-  3,
-  "shortname",
-];
+aPack = [1,"h2",2,38,6,1,3,"name",,9,,1,7,,6,1,3,"name",,1,1,"b",2,39,6,1,3,"shortname",,9,,1,7,,6,1,3,"shortname",]
 /*
 {
     "directives": {
@@ -1011,35 +939,7 @@ aPack = [
 - 注: 为保持一致，自生成 `{value:{}}`
 
 ```js
-aPack = [
-  1,
-  "h2",
-  2,
-  38,
-  6,
-  1,
-  3,
-  "name",
-  ,
-  9,
-  ,
-  1,
-  7,
-  ,
-  6,
-  1,
-  3,
-  "name",
-  ,
-  1,
-  1,
-  "span",
-  2,
-  40,
-  ,
-  3,
-  "noname",
-];
+aPack = [1,"h2",2,38,6,1,3,"name",,9,,1,7,,6,1,3,"name",,1,1,"span",2,40,,3,"noname"]
 /*
 {
     "directives": {
@@ -1110,7 +1010,7 @@ aPack = [
 - 编码序: `{Node}value`
 
 ```js
-aPack = [1, "x-item", 1, 41, 9, , 2, 3, "item", 7, , 6, 1, 3, "i"];
+aPack = [1,"x-item",1,41,9,,2,3,"item",7,,6,1,3,"i",]
 /*
 {
     "directives": {
@@ -1153,7 +1053,7 @@ aPack = [1, "x-item", 1, 41, 9, , 2, 3, "item", 7, , 6, 1, 3, "i"];
 - 编码序: `{Node}value`
 
 ```js
-aPack = [1, "x-info", 1, 42, 6, 1, 3, "user"];
+aPack = [1,"x-info",1,42,6,1,3,"user"]
 /*
 {
     "directives": {
@@ -1177,13 +1077,14 @@ aPack = [1, "x-info", 1, 42, 6, 1, 3, "user"];
 */
 ```
 
+
 ### 指令 html
 
 - head: 43
 - 编码序: `{Node}value`
 
 ```js
-aPack = [1, "u", 1, 43, 6, 1, 3, "text"];
+aPack = [1,"u",1,43,6,1,3,"text"]
 /*
 {
     "directives": {
@@ -1213,7 +1114,7 @@ aPack = [1, "u", 1, 43, 6, 1, 3, "text"];
 - 编码序: `{Node}value`
 
 ```js
-aPack = [1, "x-item", 1, 44, 8, 6, 1, 3, "trans"];
+aPack = [1,"x-item",1,44,8,6,1,3,"trans",]
 /*
 {
     "directives": {
@@ -1247,7 +1148,7 @@ aPack = [1, "x-item", 1, 44, 8, 6, 1, 3, "trans"];
 - 编码序: `{Node}value`
 
 ```js
-aPack = [1, "u", 1, 45, 6, 1, 3, "cmpt"];
+aPack = [1,"u",1,45,6,1,3,"cmpt"]
 /*
 {
     "directives": {

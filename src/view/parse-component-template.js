@@ -1,6 +1,10 @@
-var warn = require("../util/warn");
-var parseTemplate = require("../parser/parse-template");
-var ExprType = require("../parser/expr-type");
+
+
+var warn = require('../util/warn');
+var parseTemplate = require('../parser/parse-template');
+var ExprType = require('../parser/expr-type');
+
+
 
 /**
  * 解析组件的模板
@@ -11,9 +15,10 @@ var ExprType = require("../parser/expr-type");
 function parseComponentTemplate(ComponentClass) {
     var proto = ComponentClass.prototype;
 
+    
     var tplANode = parseTemplate(ComponentClass.template || proto.template, {
         trimWhitespace: proto.trimWhitespace || ComponentClass.trimWhitespace,
-        delimiters: proto.delimiters || ComponentClass.delimiters,
+        delimiters: proto.delimiters || ComponentClass.delimiters
     });
 
     var aNode = tplANode.children[0];
@@ -23,7 +28,7 @@ function parseComponentTemplate(ComponentClass) {
 
     // #[begin] error
     if (tplANode.children.length !== 1 || !aNode) {
-        warn("Component template must have a root element.");
+        warn('Component template must have a root element.');
     }
     // #[end]
 
@@ -31,17 +36,14 @@ function parseComponentTemplate(ComponentClass) {
         directives: {},
         props: [],
         events: [],
-        children: [],
+        children: []
     };
 
-    if (aNode.tagName === "template") {
+    if (aNode.tagName === 'template') {
         delete aNode.tagName;
     }
 
-    if (
-        proto.autoFillStyleAndId !== false &&
-        ComponentClass.autoFillStyleAndId !== false
-    ) {
+    if (proto.autoFillStyleAndId !== false && ComponentClass.autoFillStyleAndId !== false) {
         fillStyleAndId(aNode.props);
 
         if (aNode.elses) {
@@ -56,7 +58,7 @@ function parseComponentTemplate(ComponentClass) {
 
 /**
  * 为组件 ANode 填充 props：class、style、id
- *
+ * 
  * @param {Array} props ANode 属性列表
  */
 function fillStyleAndId(props) {
@@ -66,91 +68,95 @@ function fillStyleAndId(props) {
     while (len--) {
         var prop = props[len];
         switch (prop.name) {
-            case "class":
-            case "style":
+            case 'class':
+            case 'style':
                 extraPropExists[prop.name] = true;
                 prop.expr = {
                     type: ExprType.INTERP,
                     expr: {
                         type: ExprType.ACCESSOR,
-                        paths: [{ type: ExprType.STRING, value: prop.name }],
+                        paths: [
+                            {type: ExprType.STRING, value: prop.name}
+                        ]
                     },
-                    filters: [
-                        {
-                            type: ExprType.CALL,
-                            args: [prop.expr],
-                            name: {
-                                type: ExprType.ACCESSOR,
-                                paths: [
-                                    {
-                                        type: ExprType.STRING,
-                                        value: "_x" + prop.name,
-                                    },
-                                ],
-                            },
-                        },
-                    ],
-                };
+                    filters: [{
+                        type: ExprType.CALL,
+                        args: [prop.expr],
+                        name: {
+                            type: ExprType.ACCESSOR,
+                            paths: [
+                                {type: ExprType.STRING, value: '_x' + prop.name}
+                            ]
+                        }
+                    }]
+                }
                 break;
 
-            case "id":
+            case 'id':
                 extraPropExists[prop.name] = true;
+
         }
     }
 
-    if (!extraPropExists["class"]) {
+    if (!extraPropExists['class']) {
         props.push({
-            name: "class",
+            name: 'class',
             expr: {
                 type: ExprType.INTERP,
                 expr: {
                     type: ExprType.ACCESSOR,
-                    paths: [{ type: ExprType.STRING, value: "class" }],
+                    paths: [
+                        {type: ExprType.STRING, value: 'class'}
+                    ]
                 },
-                filters: [
-                    {
-                        type: ExprType.CALL,
-                        args: [],
-                        name: {
-                            type: ExprType.ACCESSOR,
-                            paths: [{ type: ExprType.STRING, value: "_class" }],
-                        },
-                    },
-                ],
-            },
+                filters: [{
+                    type: ExprType.CALL,
+                    args: [],
+                    name: {
+                        type: ExprType.ACCESSOR,
+                        paths: [
+                            {type: ExprType.STRING, value: '_class'}
+                        ]
+                    }
+                }]
+            }
         });
     }
 
     if (!extraPropExists.style) {
         props.push({
-            name: "style",
+            name: 'style',
             expr: {
                 type: ExprType.INTERP,
                 expr: {
                     type: ExprType.ACCESSOR,
-                    paths: [{ type: ExprType.STRING, value: "style" }],
+                    paths: [
+                        {type: ExprType.STRING, value: 'style'}
+                    ]
                 },
-                filters: [
-                    {
-                        type: ExprType.CALL,
-                        args: [],
-                        name: {
-                            type: ExprType.ACCESSOR,
-                            paths: [{ type: ExprType.STRING, value: "_style" }],
-                        },
-                    },
-                ],
-            },
+                filters: [{
+                    type: ExprType.CALL,
+                    args: [],
+                    name: {
+                        type: ExprType.ACCESSOR,
+                        paths: [
+                            {type: ExprType.STRING, value: '_style'}
+                        ]
+                    }
+                }]
+            }
         });
     }
 
     if (!extraPropExists.id) {
         props.push({
-            name: "id",
+            name: 'id',
             expr: {
                 type: ExprType.ACCESSOR,
-                paths: [{ type: ExprType.STRING, value: "id" }],
-            },
+                paths: [
+                    {type: ExprType.STRING, value: 'id'}
+                ]
+            }
         });
     }
 }

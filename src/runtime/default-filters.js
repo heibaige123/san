@@ -1,12 +1,23 @@
+/**
+ * Copyright (c) Baidu Inc. All rights reserved.
+ *
+ * This source code is licensed under the MIT license.
+ * See LICENSE file in the project root for license information.
+ *
+ * @file 默认filter
+ */
+
+
 /* eslint-disable fecs-camelcase */
 
+
 function defaultStyleFilter(source) {
-    if (typeof source === "object") {
-        var result = "";
+    if (typeof source === 'object') {
+        var result = '';
         for (var key in source) {
             /* istanbul ignore else  */
             if (source.hasOwnProperty(key)) {
-                result += key + ":" + source[key] + ";";
+                result += key + ':' + source[key] + ';';
             }
         }
 
@@ -23,6 +34,7 @@ function defaultStyleFilter(source) {
  * @type {Object}
  */
 var DEFAULT_FILTERS = {
+
     /**
      * URL编码filter
      *
@@ -33,7 +45,7 @@ var DEFAULT_FILTERS = {
 
     _class: function (source) {
         if (source instanceof Array) {
-            return source.join(" ");
+            return source.join(' ');
         }
 
         return source;
@@ -42,12 +54,12 @@ var DEFAULT_FILTERS = {
 
     _xclass: function (outer, inner) {
         if (outer instanceof Array) {
-            outer = outer.join(" ");
+            outer = outer.join(' ');
         }
 
         if (outer) {
             if (inner) {
-                return inner + " " + outer;
+                return inner + ' ' + outer;
             }
 
             return outer;
@@ -60,14 +72,14 @@ var DEFAULT_FILTERS = {
         outer = outer && defaultStyleFilter(outer);
         if (outer) {
             if (inner) {
-                return inner + ";" + outer;
+                return inner + ';' + outer;
             }
 
             return outer;
         }
 
         return inner;
-    },
+    }
 };
 /* eslint-enable fecs-camelcase */
 

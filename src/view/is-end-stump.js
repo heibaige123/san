@@ -1,3 +1,5 @@
+
+
 // #[begin] hydrate
 /**
  * 判断是否结束桩
@@ -7,7 +9,7 @@
  * @return {boolean}
  */
 function isEndStump(target, type) {
-    return target.nodeType === 8 && target.data === "/s-" + type;
+    return target.nodeType === 8 && target.data === '/s-' + type;
 }
 // #[end]
 

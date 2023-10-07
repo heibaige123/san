@@ -1,7 +1,4 @@
-<template
-    class="ui-layer ui-calendar-layer"
-    style="left: {{left}}px; top: {{top}}px"
->
+<template class="ui-layer ui-calendar-layer" style="left: {{left}}px; top: {{top}}px">
     <div class="ui-calendar-func">
         <i class="fa fa-angle-left" on-click="prevMonth"></i>
         <b>{{ viewYear }}-{{ viewMonth + 1 }}</b>
@@ -17,12 +14,7 @@
         <li>日</li>
     </ol>
     <ol>
-        <li
-            san-for="item in dates"
-            on-click="select(item)"
-            class="{{ item | selectedClass(value)}}"
-        >
-            {{item}}
-        </li>
+        <li san-for="item in dates" on-click="select(item)"
+            class="{{ item | selectedClass(value)}}">{{item}}</li>
     </ol>
 </template>

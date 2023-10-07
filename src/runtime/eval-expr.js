@@ -1,8 +1,17 @@
-var ExprType = require("../parser/expr-type");
-var extend = require("../util/extend");
-var handleError = require("../util/handle-error");
-var DEFAULT_FILTERS = require("./default-filters");
-var evalArgs = require("./eval-args");
+/**
+ * Copyright (c) Baidu Inc. All rights reserved.
+ *
+ * This source code is licensed under the MIT license.
+ * See LICENSE file in the project root for license information.
+ *
+ * @file 表达式计算
+ */
+
+var ExprType = require('../parser/expr-type');
+var extend = require('../util/extend');
+var handleError = require('../util/handle-error');
+var DEFAULT_FILTERS = require('./default-filters');
+var evalArgs = require('./eval-args');
 
 /**
  * 计算表达式的值
@@ -105,6 +114,7 @@ function evalExpr(expr, data, owner) {
                 case 248:
                     value = value || rightValue;
                     break;
+
             }
             /* eslint-enable eqeqeq */
             return value;
@@ -113,8 +123,9 @@ function evalExpr(expr, data, owner) {
             return evalExpr(
                 expr.segs[evalExpr(expr.segs[0], data, owner) ? 1 : 2],
                 data,
-                owner,
+                owner
             );
+
 
         case ExprType.ARRAY:
             value = [];
@@ -124,7 +135,8 @@ function evalExpr(expr, data, owner) {
 
                 if (item.spread) {
                     itemValue && (value = value.concat(itemValue));
-                } else {
+                }
+                else {
                     value.push(itemValue);
                 }
             }
@@ -138,7 +150,8 @@ function evalExpr(expr, data, owner) {
 
                 if (item.spread) {
                     itemValue && extend(value, itemValue);
-                } else {
+                }
+                else {
                     value[evalExpr(item.name, data, owner)] = itemValue;
                 }
             }
@@ -146,6 +159,7 @@ function evalExpr(expr, data, owner) {
 
         case ExprType.ACCESSOR:
             return data.get(expr);
+
 
         case ExprType.INTERP:
             value = evalExpr(expr.expr, data, owner);
@@ -156,39 +170,33 @@ function evalExpr(expr, data, owner) {
                     var filterName = filter.name.paths[0].value;
 
                     switch (filterName) {
-                        case "url":
-                        case "_class":
-                        case "_style":
+                        case 'url':
+                        case '_class':
+                        case '_style':
                             value = DEFAULT_FILTERS[filterName](value);
                             break;
 
-                        case "_xclass":
-                        case "_xstyle":
-                            value = DEFAULT_FILTERS[filterName](
-                                value,
-                                evalExpr(filter.args[0], data, owner),
-                            );
+                        case '_xclass':
+                        case '_xstyle':
+                            value = DEFAULT_FILTERS[filterName](value, evalExpr(filter.args[0], data, owner));
                             break;
 
                         default:
                             try {
-                                value =
-                                    owner.filters[filterName] &&
-                                    owner.filters[filterName].apply(
-                                        owner,
-                                        [value].concat(
-                                            evalArgs(filter.args, data, owner),
-                                        ),
-                                    );
-                            } catch (e) {
-                                handleError(e, owner, "filter:" + filterName);
+                                value = owner.filters[filterName] && owner.filters[filterName].apply(
+                                    owner,
+                                    [value].concat(evalArgs(filter.args, data, owner))
+                                );
+                            }
+                            catch (e) {
+                                handleError(e, owner, 'filter:' + filterName);
                             }
                     }
                 }
             }
 
             if (value == null) {
-                value = "";
+                value = '';
             }
 
             return value;
@@ -203,10 +211,7 @@ function evalExpr(expr, data, owner) {
                 }
 
                 if (method) {
-                    value = method.apply(
-                        owner,
-                        evalArgs(expr.args, data, owner),
-                    );
+                    value = method.apply(owner, evalArgs(expr.args, data, owner));
                 }
             }
 
@@ -214,7 +219,7 @@ function evalExpr(expr, data, owner) {
 
         /* eslint-disable no-redeclare */
         case ExprType.TEXT:
-            var buf = "";
+            var buf = '';
             for (var i = 0, l = expr.segs.length; i < l; i++) {
                 var seg = expr.segs[i];
                 buf += seg.value || evalExpr(seg, data, owner);

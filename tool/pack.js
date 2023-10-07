@@ -1,19 +1,20 @@
-const fs = require("fs");
-const path = require("path");
+
+const fs = require('fs');
+const path = require('path');
 
 // 匹配 require
 const REQ_RULE = /(=|^|\s)require\(\s*(['"])([^'"]+)['"]\s*\)/;
 
 // 需要优化的 enum 变量
 const OPTI_ENUM = {
-    ExprType: require("../src/parser/expr-type"),
-    NodeType: require("../src/view/node-type"),
-    DataChangeType: require("../src/runtime/data-change-type"),
+    ExprType: require('../src/parser/expr-type'),
+    NodeType: require('../src/view/node-type'),
+    DataChangeType: require('../src/runtime/data-change-type')
 };
 
 const OPTI_ENUM_REPLACE_REG = new RegExp(
-    "(" + Object.keys(OPTI_ENUM).join("|") + ")\\.([A-Z_]+)",
-    "g",
+    '(' + Object.keys(OPTI_ENUM).join('|') + ')\\.([A-Z_]+)',
+    'g'
 );
 
 function optiEnumReplaceFn(match, type, prop) {
@@ -24,19 +25,19 @@ function optiEnumReplaceFn(match, type, prop) {
     return OPTI_ENUM[type][prop];
 }
 
-function pack(rootDir, mainFile) {
-    let srcDir = path.resolve(rootDir, "src");
 
-    mainFile = mainFile || path.resolve(srcDir, "main.js");
+function pack(rootDir, mainFile) {
+    let srcDir = path.resolve(rootDir, 'src');
+
+    mainFile = mainFile || path.resolve(srcDir, 'main.js');
 
     let deps = depAnalyse(mainFile);
     return {
         content: fileContent(mainFile, 1, []).replace(
-            "// #[main-dependencies]",
-            deps.map((dep) => fileContent(dep)).join("\n\n"),
-        ),
+            '// #[main-dependencies]',
+            deps.map(dep => fileContent(dep)).join('\n\n')),
         deps: deps,
-        base: mainFile,
+        base: mainFile
     };
 }
 
@@ -57,8 +58,8 @@ function depAnalyse(targetFile) {
 
         depsIndex[file] = 1;
 
-        let lines = fs.readFileSync(file, "UTF-8").split(/\r?\n/);
-        lines.forEach((line) => {
+        let lines = fs.readFileSync(file, 'UTF-8').split(/\r?\n/);
+        lines.forEach(line => {
             let requireMatch = REQ_RULE.exec(line);
 
             if (requireMatch) {
@@ -81,8 +82,8 @@ function depAnalyse(targetFile) {
 function resolveDep(dep, inFile) {
     dep = path.resolve(path.dirname(inFile), dep);
 
-    if (path.extname(dep) !== ".js") {
-        dep += ".js";
+    if (path.extname(dep) !== '.js') {
+        dep += '.js';
     }
 
     return dep;
@@ -96,20 +97,18 @@ function resolveDep(dep, inFile) {
  * @return {string} 处理后的源码
  */
 function fileContent(file, dontIgnoreExports) {
-    return fs
-        .readFileSync(file, "UTF-8")
-        .split(/\r?\n/)
-        .map((line) => {
-            if (
-                /(=|^|\s)require\(['"]/.test(line) ||
-                (!dontIgnoreExports && /^\s*(module\.)?exports\s+=/.test(line))
+    return fs.readFileSync(file, 'UTF-8').split(/\r?\n/)
+        .map(line => {
+            if (/(=|^|\s)require\(['"]/.test(line)
+                || (!dontIgnoreExports && /^\s*(module\.)?exports\s+=/.test(line))
             ) {
-                return "// " + line;
+                return '// ' + line;
             }
 
             return line.replace(OPTI_ENUM_REPLACE_REG, optiEnumReplaceFn);
         })
-        .join("\n");
+        .join('\n');
 }
+
 
 exports = module.exports = pack;

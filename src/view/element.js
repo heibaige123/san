@@ -1,23 +1,25 @@
-var changeExprCompare = require("../runtime/change-expr-compare");
-var changesIsInDataRef = require("../runtime/changes-is-in-data-ref");
-var evalExpr = require("../runtime/eval-expr");
-var svgTags = require("../browser/svg-tags");
-var insertBefore = require("../browser/insert-before");
-var LifeCycle = require("./life-cycle");
-var NodeType = require("./node-type");
-var styleProps = require("./style-props");
-var hydrateElementChildren = require("./hydrate-element-children");
-var isDataChangeByElement = require("./is-data-change-by-element");
-var getPropHandler = require("./get-prop-handler");
-var createNode = require("./create-node");
-var preheatEl = require("./preheat-el");
-var elementOwnDetach = require("./element-own-detach");
-var elementOwnDispose = require("./element-own-dispose");
-var elementOwnAttached = require("./element-own-attached");
-var nodeSBindInit = require("./node-s-bind-init");
-var nodeSBindUpdate = require("./node-s-bind-update");
-var warnSetHTML = require("./warn-set-html");
-var getNodePath = require("./get-node-path");
+
+
+var changeExprCompare = require('../runtime/change-expr-compare');
+var changesIsInDataRef = require('../runtime/changes-is-in-data-ref');
+var evalExpr = require('../runtime/eval-expr');
+var svgTags = require('../browser/svg-tags');
+var insertBefore = require('../browser/insert-before');
+var LifeCycle = require('./life-cycle');
+var NodeType = require('./node-type');
+var styleProps = require('./style-props');
+var hydrateElementChildren = require('./hydrate-element-children');
+var isDataChangeByElement = require('./is-data-change-by-element');
+var getPropHandler = require('./get-prop-handler');
+var createNode = require('./create-node');
+var preheatEl = require('./preheat-el');
+var elementOwnDetach = require('./element-own-detach');
+var elementOwnDispose = require('./element-own-dispose');
+var elementOwnAttached = require('./element-own-attached');
+var nodeSBindInit = require('./node-s-bind-init');
+var nodeSBindUpdate = require('./node-s-bind-update');
+var warnSetHTML = require('./warn-set-html');
+var getNodePath = require('./get-node-path');
 
 /**
  * 元素节点类
@@ -38,25 +40,22 @@ function Element(aNode, parent, scope, owner, tagName, hydrateWalker) {
 
     this.lifeCycle = LifeCycle.start;
     this.children = [];
-    this.parentComponent =
-        parent.nodeType === NodeType.CMPT ? parent : parent.parentComponent;
+    this.parentComponent = parent.nodeType === NodeType.CMPT
+        ? parent
+        : parent.parentComponent;
 
     this.tagName = tagName || aNode.tagName;
 
     // #[begin] allua
     // ie8- 不支持innerHTML输出自定义标签
     /* istanbul ignore if */
-    if (ieOldThan9 && this.tagName.indexOf("-") > 0) {
-        this.tagName = "div";
+    if (ieOldThan9 && this.tagName.indexOf('-') > 0) {
+        this.tagName = 'div';
     }
     // #[end]
 
     aNode._i++;
-    this._sbindData = nodeSBindInit(
-        aNode.directives.bind,
-        this.scope,
-        this.owner,
-    );
+    this._sbindData = nodeSBindInit(aNode.directives.bind, this.scope, this.owner);
     this.lifeCycle = LifeCycle.inited;
 
     // #[begin] hydrate
@@ -65,35 +64,23 @@ function Element(aNode, parent, scope, owner, tagName, hydrateWalker) {
 
         /* istanbul ignore if */
         if (!currentNode) {
-            throw new Error(
-                "[SAN HYDRATE ERROR] Element not found. \nPaths: " +
-                    getNodePath(this).join(" > "),
-            );
+            throw new Error('[SAN HYDRATE ERROR] Element not found. \nPaths: '
+                + getNodePath(this).join(' > '));
         }
 
         /* istanbul ignore if */
         if (currentNode.nodeType !== 1) {
-            throw new Error(
-                "[SAN HYDRATE ERROR] Element type not match, expect 1 but " +
-                    currentNode.nodeType +
-                    ".\nPaths: " +
-                    getNodePath(this).join(" > "),
-            );
+            throw new Error('[SAN HYDRATE ERROR] Element type not match, expect 1 but '
+                + currentNode.nodeType + '.\nPaths: '
+                + getNodePath(this).join(' > '));
         }
 
         /* istanbul ignore if */
-        if (
-            currentNode.tagName !== this.tagName.toUpperCase() &&
-            currentNode.tagName !== this.tagName
-        ) {
-            throw new Error(
-                "[SAN HYDRATE ERROR] Element tagName not match, expect " +
-                    this.tagName +
-                    " but meet " +
-                    currentNode.tagName +
-                    ".\nPaths: " +
-                    getNodePath(this).join(" > "),
-            );
+        if (currentNode.tagName !== this.tagName.toUpperCase()
+            && currentNode.tagName !== this.tagName) {
+            throw new Error('[SAN HYDRATE ERROR] Element tagName not match, expect '
+                + this.tagName + ' but meet ' + currentNode.tagName + '.\nPaths: '
+                + getNodePath(this).join(' > '));
         }
 
         this.el = currentNode;
@@ -107,6 +94,8 @@ function Element(aNode, parent, scope, owner, tagName, hydrateWalker) {
     }
     // #[end]
 }
+
+
 
 Element.prototype.nodeType = NodeType.ELEM;
 
@@ -126,15 +115,12 @@ Element.prototype.attach = function (parentEl, beforeEl) {
             if (aNode._ce && aNode._i > 2) {
                 props = aNode._dp;
                 this.el = (aNode._el || preheatEl(aNode)).cloneNode(false);
-            } else {
+            }
+            else {
                 props = aNode.props;
-                this.el =
-                    svgTags[this.tagName] && document.createElementNS
-                        ? document.createElementNS(
-                              "http://www.w3.org/2000/svg",
-                              this.tagName,
-                          )
-                        : document.createElement(this.tagName);
+                this.el = svgTags[this.tagName] && document.createElementNS
+                    ? document.createElementNS('http://www.w3.org/2000/svg', this.tagName)
+                    : document.createElement(this.tagName);
             }
 
             if (this._sbindData) {
@@ -144,7 +130,7 @@ Element.prototype.attach = function (parentEl, beforeEl) {
                             this.el,
                             this._sbindData[key],
                             key,
-                            this,
+                            this
                         );
                     }
                 }
@@ -171,21 +157,13 @@ Element.prototype.attach = function (parentEl, beforeEl) {
                 warnSetHTML(this.el);
                 // #[end]
 
-                this.el.innerHTML = evalExpr(
-                    htmlDirective.value,
-                    this.scope,
-                    this.owner,
-                );
-            } else {
+                this.el.innerHTML = evalExpr(htmlDirective.value, this.scope, this.owner);
+            }
+            else {
                 for (var i = 0, l = aNode.children.length; i < l; i++) {
                     var childANode = aNode.children[i];
                     var child = childANode.Clazz
-                        ? new childANode.Clazz(
-                              childANode,
-                              this,
-                              this.scope,
-                              this.owner,
-                          )
+                        ? new childANode.Clazz(childANode, this, this.scope, this.owner)
                         : createNode(childANode, this, this.scope, this.owner);
                     this.children.push(child);
                     child.attach(this.el);
@@ -256,6 +234,7 @@ Element.prototype._leave = function () {
 Element.prototype._update = function (changes) {
     var dataHotspot = this.aNode._d;
     if (dataHotspot && changesIsInDataRef(changes, dataHotspot)) {
+
         // update s-bind
         var me = this;
         this._sbindData = nodeSBindUpdate(
@@ -270,7 +249,7 @@ Element.prototype._update = function (changes) {
                 }
 
                 getPropHandler(me.tagName, name)(me.el, value, name, me);
-            },
+            }
         );
 
         // update prop
@@ -282,22 +261,13 @@ Element.prototype._update = function (changes) {
             for (var j = 0, changeLen = changes.length; j < changeLen; j++) {
                 var change = changes[j];
 
-                if (
-                    !isDataChangeByElement(change, this, propName) &&
-                    (changeExprCompare(change.expr, prop.expr, this.scope) ||
-                        (prop.hintExpr &&
-                            changeExprCompare(
-                                change.expr,
-                                prop.hintExpr,
-                                this.scope,
-                            )))
+                if (!isDataChangeByElement(change, this, propName)
+                    && (
+                        changeExprCompare(change.expr, prop.expr, this.scope)
+                        || prop.hintExpr && changeExprCompare(change.expr, prop.hintExpr, this.scope)
+                    )
                 ) {
-                    prop.handler(
-                        this.el,
-                        evalExpr(prop.expr, this.scope, this.owner),
-                        propName,
-                        this,
-                    );
+                    prop.handler(this.el, evalExpr(prop.expr, this.scope, this.owner), propName, this);
                     break;
                 }
             }
@@ -308,26 +278,17 @@ Element.prototype._update = function (changes) {
         if (htmlDirective) {
             var len = changes.length;
             while (len--) {
-                if (
-                    changeExprCompare(
-                        changes[len].expr,
-                        htmlDirective.value,
-                        this.scope,
-                    )
-                ) {
+                if (changeExprCompare(changes[len].expr, htmlDirective.value, this.scope)) {
                     // #[begin] error
                     warnSetHTML(this.el);
                     // #[end]
 
-                    this.el.innerHTML = evalExpr(
-                        htmlDirective.value,
-                        this.scope,
-                        this.owner,
-                    );
+                    this.el.innerHTML = evalExpr(htmlDirective.value, this.scope, this.owner);
                     break;
                 }
             }
-        } else {
+        }
+        else {
             for (var i = 0, l = this.children.length; i < l; i++) {
                 this.children[i]._update(changes);
             }

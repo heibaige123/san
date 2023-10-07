@@ -1,3 +1,5 @@
+
+
 /**
  * 对象属性拷贝
  *
@@ -10,7 +12,7 @@ function extend(target, source) {
         /* istanbul ignore else  */
         if (source.hasOwnProperty(key)) {
             var value = source[key];
-            if (typeof value !== "undefined") {
+            if (typeof value !== 'undefined') {
                 target[key] = value;
             }
         }

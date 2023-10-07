@@ -1,4 +1,6 @@
-import data from "./data";
+
+import data from './data'
+
 
 /**
  * 对象属性拷贝
@@ -159,5 +161,6 @@ export default {
                 break;
             }
         }
-    },
+    }
 };
+

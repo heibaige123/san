@@ -1,5 +1,14 @@
-var each = require("../util/each");
-var warn = require("../util/warn");
+/**
+ * Copyright (c) Baidu Inc. All rights reserved.
+ *
+ * This source code is licensed under the MIT license.
+ * See LICENSE file in the project root for license information.
+ *
+ * @file  事件绑定不存在的 warning
+ */
+
+var each = require('../util/each');
+var warn = require('../util/warn');
 
 // #[begin] error
 /**
@@ -23,9 +32,7 @@ function warnEventListenMethod(eventBind, owner) {
             paths.push(path.value);
         });
 
-        warn(
-            eventBind.name + ' listen fail,"' + paths.join(".") + '" not exist',
-        );
+        warn(eventBind.name + ' listen fail,"' + paths.join('.') + '" not exist');
     }
 }
 // #[end]

@@ -1,6 +1,16 @@
-var Walker = require("./walker");
-var ExprType = require("./expr-type");
-var readCall = require("./read-call");
+/**
+ * Copyright (c) Baidu Inc. All rights reserved.
+ *
+ * This source code is licensed under the MIT license.
+ * See LICENSE file in the project root for license information.
+ *
+ * @file 解析调用
+ */
+
+
+var Walker = require('./walker');
+var ExprType = require('./expr-type');
+var readCall = require('./read-call');
 
 /**
  * 解析调用
@@ -16,10 +26,10 @@ function parseCall(source, defaultArgs) {
         expr = {
             type: ExprType.CALL,
             name: expr,
-            args: defaultArgs || [],
+            args: defaultArgs || []
         };
     }
-
+    
     return expr;
 }
 

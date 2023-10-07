@@ -1,5 +1,14 @@
-var ExprType = require("./expr-type");
-var readLogicalANDExpr = require("./read-logical-and-expr");
+/**
+ * Copyright (c) Baidu Inc. All rights reserved.
+ *
+ * This source code is licensed under the MIT license.
+ * See LICENSE file in the project root for license information.
+ *
+ * @file 读取逻辑或表达式
+ */
+
+var ExprType = require('./expr-type');
+var readLogicalANDExpr = require('./read-logical-and-expr');
 
 /**
  * 读取逻辑或表达式
@@ -11,14 +20,13 @@ function readLogicalORExpr(walker) {
     var expr = readLogicalANDExpr(walker);
     walker.goUntil();
 
-    if (walker.source.charCodeAt(walker.index) === 124) {
-        // |
+    if (walker.source.charCodeAt(walker.index) === 124) { // |
         if (walker.nextCode() === 124) {
             walker.index++;
             return {
                 type: ExprType.BINARY,
                 operator: 248,
-                segs: [expr, readLogicalORExpr(walker)],
+                segs: [expr, readLogicalORExpr(walker)]
             };
         }
 

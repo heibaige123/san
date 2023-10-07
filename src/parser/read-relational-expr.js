@@ -1,5 +1,14 @@
-var ExprType = require("./expr-type");
-var readAdditiveExpr = require("./read-additive-expr");
+/**
+ * Copyright (c) Baidu Inc. All rights reserved.
+ *
+ * This source code is licensed under the MIT license.
+ * See LICENSE file in the project root for license information.
+ *
+ * @file 读取关系判断表达式
+ */
+
+var ExprType = require('./expr-type');
+var readAdditiveExpr = require('./read-additive-expr');
 
 /**
  * 读取关系判断表达式
@@ -23,7 +32,7 @@ function readRelationalExpr(walker) {
             return {
                 type: ExprType.BINARY,
                 operator: code,
-                segs: [expr, readAdditiveExpr(walker)],
+                segs: [expr, readAdditiveExpr(walker)]
             };
     }
 

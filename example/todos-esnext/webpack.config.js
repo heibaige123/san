@@ -1,11 +1,11 @@
-const path = require("path");
-const HTMLWebpackPlugin = require("html-webpack-plugin");
+const path = require('path');
+const HTMLWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
     context: __dirname,
-    entry: path.join(__dirname, "src", "main.js"),
+    entry: path.join(__dirname, 'src', 'main.js'),
     output: {
-        path: path.join(__dirname, "dist"),
+        path: path.join(__dirname, 'dist'),
     },
     devServer: {
         port: 8888,
@@ -15,17 +15,17 @@ module.exports = {
             {
                 test: /\.js$/,
                 exclude: /node_modules/,
-                use: "babel-loader",
+                use: 'babel-loader',
             },
             {
                 test: /\.san$/,
-                use: "san-loader",
+                use: 'san-loader',
             },
             {
                 test: /\.(png|jpe?g|gif|svg|woff2?|eot|ttf|otf)(\?.*)?$/,
                 use: [
                     {
-                        loader: "url-loader",
+                        loader: 'url-loader',
                         options: {
                             limit: 10000,
                         },
@@ -34,12 +34,17 @@ module.exports = {
             },
             {
                 test: /\.css/,
-                use: ["style-loader", "css-loader"],
-            },
+                use: [
+                    'style-loader',
+                    'css-loader',
+                ],
+            }
         ],
     },
     resolve: {
-        extensions: [".js", ".jsx", ".san", ".json"],
+        extensions: ['.js', '.jsx', '.san', '.json'],
     },
-    plugins: [new HTMLWebpackPlugin({ template: "index.html" })],
+    plugins: [
+        new HTMLWebpackPlugin({template: 'index.html'}),
+    ],
 };

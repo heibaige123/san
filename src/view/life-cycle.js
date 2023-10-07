@@ -1,3 +1,4 @@
+
 function lifeCycleOwnIs(name) {
     return this[name];
 }
@@ -11,25 +12,25 @@ function lifeCycleOwnIs(name) {
  */
 var LifeCycle = {
     start: {
-        is: lifeCycleOwnIs,
+        is: lifeCycleOwnIs
     },
 
     compiled: {
         is: lifeCycleOwnIs,
-        compiled: true,
+        compiled: true
     },
 
     inited: {
         is: lifeCycleOwnIs,
         compiled: true,
-        inited: true,
+        inited: true
     },
 
     created: {
         is: lifeCycleOwnIs,
         compiled: true,
         inited: true,
-        created: true,
+        created: true
     },
 
     attached: {
@@ -37,7 +38,7 @@ var LifeCycle = {
         compiled: true,
         inited: true,
         created: true,
-        attached: true,
+        attached: true
     },
 
     leaving: {
@@ -46,7 +47,7 @@ var LifeCycle = {
         inited: true,
         created: true,
         attached: true,
-        leaving: true,
+        leaving: true
     },
 
     detached: {
@@ -54,14 +55,15 @@ var LifeCycle = {
         compiled: true,
         inited: true,
         created: true,
-        detached: true,
+        detached: true
     },
 
     disposed: {
         is: lifeCycleOwnIs,
-        disposed: true,
-    },
+        disposed: true
+    }
 };
 /* eslint-enable fecs-valid-var-jsdoc */
+
 
 exports = module.exports = LifeCycle;

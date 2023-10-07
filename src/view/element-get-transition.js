@@ -1,7 +1,8 @@
-var evalArgs = require("../runtime/eval-args");
-var findMethod = require("../runtime/find-method");
-var handleError = require("../util/handle-error");
-var NodeType = require("./node-type");
+
+var evalArgs = require('../runtime/eval-args');
+var findMethod = require('../runtime/find-method');
+var handleError = require('../util/handle-error');
+var NodeType = require('./node-type');
 
 /**
  * 获取 element 的 transition 控制对象
@@ -14,11 +15,11 @@ function elementGetTransition(element) {
     var owner = element.owner;
 
     if (element.nodeType === NodeType.CMPT) {
-        var cmptGivenTransition =
-            element.source && element.source.directives.transition;
+        var cmptGivenTransition = element.source && element.source.directives.transition;
         if (cmptGivenTransition) {
             directive = cmptGivenTransition;
-        } else {
+        }
+        else {
             owner = element;
         }
     }
@@ -27,14 +28,15 @@ function elementGetTransition(element) {
     if (directive && owner) {
         transition = findMethod(owner, directive.value.name);
 
-        if (typeof transition === "function") {
+        if (typeof transition === 'function') {
             try {
                 transition = transition.apply(
                     owner,
-                    evalArgs(directive.value.args, element.scope, owner),
+                    evalArgs(directive.value.args, element.scope, owner)
                 );
-            } catch (e) {
-                handleError(e, owner, "transitionCreate");
+            }
+            catch (e) {
+                handleError(e, owner, 'transitionCreate')
             }
         }
     }

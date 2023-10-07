@@ -1,5 +1,6 @@
 define(function (require) {
-    var data = require("./data");
+    var data = require('./data');
+
 
     /**
      * 对象属性拷贝
@@ -36,10 +37,7 @@ define(function (require) {
                     todos.push(item);
 
                     if (item.categoryId) {
-                        item.category = extend(
-                            {},
-                            categoryMap[item.categoryId],
-                        );
+                        item.category = extend({}, categoryMap[item.categoryId]);
                     }
                 }
             }
@@ -60,10 +58,7 @@ define(function (require) {
                 if (item.id === id) {
                     if (item.categoryId) {
                         item = extend({}, item);
-                        item.category = extend(
-                            {},
-                            categoryMap[item.categoryId],
-                        );
+                        item.category = extend({}, categoryMap[item.categoryId]);
                     }
 
                     return item;
@@ -166,6 +161,6 @@ define(function (require) {
                     break;
                 }
             }
-        },
+        }
     };
-});
+})

@@ -1,6 +1,15 @@
-var ExprType = require("./expr-type");
-var readAccessor = require("./read-accessor");
-var readTertiaryExpr = require("./read-tertiary-expr");
+/**
+ * Copyright (c) Baidu Inc. All rights reserved.
+ *
+ * This source code is licensed under the MIT license.
+ * See LICENSE file in the project root for license information.
+ *
+ * @file 读取调用
+ */
+
+var ExprType = require('./expr-type');
+var readAccessor = require('./read-accessor');
+var readTertiaryExpr = require('./read-tertiary-expr');
 
 /**
  * 读取调用
@@ -14,16 +23,15 @@ function readCall(walker, defaultArgs) {
     var result = readAccessor(walker);
 
     var args;
-    if (walker.goUntil(40)) {
-        // (
+    if (walker.goUntil(40)) { // (
         args = [];
 
-        while (!walker.goUntil(41)) {
-            // )
+        while (!walker.goUntil(41)) { // )
             args.push(readTertiaryExpr(walker));
             walker.goUntil(44); // ,
         }
-    } else if (defaultArgs) {
+    }
+    else if (defaultArgs) {
         args = defaultArgs;
     }
 
@@ -31,7 +39,7 @@ function readCall(walker, defaultArgs) {
         result = {
             type: ExprType.CALL,
             name: result,
-            args: args,
+            args: args
         };
     }
 

@@ -25,6 +25,9 @@ A fast, portable, flexible JavaScript component framework.
   <a href="https://baidu.github.io/san/" target="_blank">网站</a>
 </p>
 
+
+
+
 ## 安装(Install)
 
 NPM:
@@ -41,35 +44,38 @@ CDN:
 
 [发布文件说明(Dist Files Information)](https://github.com/baidu/san/tree/master/dist)
 
+
 ## 快速开始(Quick Start)
 
 ```html
-<!doctype html>
+<!DOCTYPE html>
 <html>
-  <head>
+
+<head>
     <title>Quick Start</title>
     <script src="https://unpkg.com/san@latest"></script>
-  </head>
+</head>
 
-  <body>
+<body>
     <script>
-      const MyApp = san.defineComponent({
-        template: `
+        const MyApp = san.defineComponent({
+            template: `
                 <div>
                     <input type="text" value="{=name=}">
                     <p>Hello {{name}}!</p>
                 </div>
-            `,
-      });
+            `
+        });
 
-      let myApp = new MyApp({
-        data: {
-          name: "San",
-        },
-      });
-      myApp.attach(document.body);
+        let myApp = new MyApp({
+            data: {
+                name: 'San'
+            }
+        });
+        myApp.attach(document.body);
     </script>
-  </body>
+</body>
+
 </html>
 ```
 
@@ -88,29 +94,31 @@ CDN:
 - [ANode](https://github.com/baidu/san/blob/master/doc/anode.md)
 - [APack](https://github.com/baidu/san/blob/master/doc/anode-pack.md)
 
+
 ## 周边(Companions)
 
-|                                                                                 | 说明(Description)                                                                                                                                              |
-| ------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [san-devtools](https://github.com/baidu/san-devtools)                           | 调试应用的工具和扩展<br>Development tools for debugging applications                                                                                           |
-| [san-router](https://github.com/baidu/san-router)                               | 支持 hash 和 html5 模式的 Router<br>SPA/MPA Router                                                                                                             |
-| [san-store](https://github.com/baidu/san-store)                                 | 应用状态管理套件<br>Application States Management                                                                                                              |
-| [san-update](https://github.com/baidu/san-update)                               | Immutable的对象更新库<br>Immutable Data Update                                                                                                                 |
-| [san-composition](https://github.com/baidu/san-composition)                     | 组合式 API<br>Composition API                                                                                                                                  |
-| [san-ssr](https://baidu.github.io/san-ssr/)                                     | 服务端渲染框架与工具库<br>SSR framework and utils                                                                                                              |
-| [santd](https://ecomfe.github.io/santd/)                                        | [Ant Design](https://ant.design/) 风格的组件库<br>Components Library following the [Ant Design](https://ant.design/) specification                             |
-| [san-mui](https://ecomfe.github.io/san-mui/)                                    | [Material Design](https://www.material.io/) 风格的组件库<br>[Material Design](https://www.material.io/) Components Library                                     |
-| [san-xui](https://ecomfe.github.io/san-xui/)                                    | 百度云控制台风格的组件库<br>A Set of UI Components that widely used on Baidu Cloud Console                                                                     |
-| [sanny](https://github.com/searchfe/sanny)                                      | VSCode 插件<br>VSCode extension for SAN                                                                                                                        |
-| [san-cli](https://github.com/ecomfe/san-cli)                                    | 帮助快速搭建应用的命令行工具<br>A CLI tooling for rapid development                                                                                            |
-| [san-loader](https://github.com/ecomfe/san-cli/tree/master/packages/san-loader) | 支持 sfc 的 Webpack loader<br>Webpack loader for single-file components                                                                                        |
-| [san-factory](https://github.com/baidu/san-factory)                             | 组件工厂能帮助你在不同环境下更灵活的装配组件<br>Component register and instantiation                                                                           |
-| [san-anode-utils](https://github.com/ecomfe/san-anode-utils)                    | [ANode](https://github.com/baidu/san/blob/master/doc/anode.md) 处理工具库<br>Util Functions for [ANode](https://github.com/baidu/san/blob/master/doc/anode.md) |
-| [san-test-utils](https://github.com/ecomfe/san-test-utils)                      | 单元测试工具库<br>The unit testing utility library                                                                                                             |
+|                | 说明(Description)                          |
+| --------------------- | ------------------------------- |
+| [san-devtools](https://github.com/baidu/san-devtools) | 调试应用的工具和扩展<br>Development tools for debugging applications |
+| [san-router](https://github.com/baidu/san-router) | 支持 hash 和 html5 模式的 Router<br>SPA/MPA Router |
+| [san-store](https://github.com/baidu/san-store) | 应用状态管理套件<br>Application States Management |
+| [san-update](https://github.com/baidu/san-update) | Immutable的对象更新库<br>Immutable Data Update |
+| [san-composition](https://github.com/baidu/san-composition) | 组合式 API<br>Composition API |
+| [san-ssr](https://baidu.github.io/san-ssr/) | 服务端渲染框架与工具库<br>SSR framework and utils |
+| [santd](https://ecomfe.github.io/santd/) | [Ant Design](https://ant.design/) 风格的组件库<br>Components Library following the [Ant Design](https://ant.design/) specification |
+| [san-mui](https://ecomfe.github.io/san-mui/) | [Material Design](https://www.material.io/) 风格的组件库<br>[Material Design](https://www.material.io/) Components Library |
+| [san-xui](https://ecomfe.github.io/san-xui/) | 百度云控制台风格的组件库<br>A Set of UI Components that widely used on Baidu Cloud Console |
+| [sanny](https://github.com/searchfe/sanny) | VSCode 插件<br>VSCode extension for SAN |
+| [san-cli](https://github.com/ecomfe/san-cli) | 帮助快速搭建应用的命令行工具<br>A CLI tooling for rapid development |
+| [san-loader](https://github.com/ecomfe/san-cli/tree/master/packages/san-loader) | 支持 sfc 的 Webpack loader<br>Webpack loader for single-file components |
+| [san-factory](https://github.com/baidu/san-factory) | 组件工厂能帮助你在不同环境下更灵活的装配组件<br>Component register and instantiation |
+| [san-anode-utils](https://github.com/ecomfe/san-anode-utils) | [ANode](https://github.com/baidu/san/blob/master/doc/anode.md) 处理工具库<br>Util Functions for [ANode](https://github.com/baidu/san/blob/master/doc/anode.md) |
+| [san-test-utils](https://github.com/ecomfe/san-test-utils) | 单元测试工具库<br>The unit testing utility library |
 
 ## 变更历史(ChangeLog)
 
 Please visit document [ChangeLog](https://github.com/baidu/san/blob/master/CHANGELOG.md)
+
 
 ## License
 

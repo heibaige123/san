@@ -1,6 +1,16 @@
-var insertBefore = require("../browser/insert-before");
-var LifeCycle = require("./life-cycle");
-var createNode = require("./create-node");
+/**
+ * Copyright (c) Baidu Inc. All rights reserved.
+ *
+ * This source code is licensed under the MIT license.
+ * See LICENSE file in the project root for license information.
+ *
+ * @file 将没有 root 只有 children 的元素 attach 到页面
+ */
+
+
+var insertBefore = require('../browser/insert-before');
+var LifeCycle = require('./life-cycle');
+var createNode = require('./create-node');
 
 /**
  * 将没有 root 只有 children 的元素 attach 到页面
@@ -18,7 +28,7 @@ function nodeOwnOnlyChildrenAttach(parentEl, beforeEl) {
             this.aNode.children[i],
             this,
             this.childScope || this.scope,
-            this.childOwner || this.owner,
+            this.childOwner || this.owner
         );
         this.children.push(child);
         child.attach(parentEl, beforeEl);

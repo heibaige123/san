@@ -1,3 +1,5 @@
+
+
 /**
  * 表达式类型
  *
@@ -17,7 +19,7 @@ var ExprType = {
     TERTIARY: 10,
     OBJECT: 11,
     ARRAY: 12,
-    NULL: 13,
+    NULL: 13
 };
 
 exports = module.exports = ExprType;

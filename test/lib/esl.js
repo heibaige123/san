@@ -72,7 +72,7 @@ var esl;
     var BUILDIN_MODULE = {
         require: globalRequire,
         exports: 1,
-        module: 1,
+        module: 1
     };
 
     /**
@@ -100,17 +100,17 @@ var esl;
      * @type {Object}
      */
     var requireConf = {
-        baseUrl: "./",
-        paths: {},
-        config: {},
-        map: {},
-        packages: [],
-        shim: {},
+        baseUrl    : './',
+        paths      : {},
+        config     : {},
+        map        : {},
+        packages   : [],
+        shim       : {},
         // #begin-ignore
         waitSeconds: 0,
         // #end-ignore
-        bundles: {},
-        urlArgs: {},
+        bundles    : {},
+        urlArgs    : {}
     };
 
     /**
@@ -133,31 +133,35 @@ var esl;
          * @param {string} id 模块id
          */
         function monitor(id) {
-            if (id.indexOf(".") === 0) {
+            if (id.indexOf('.') === 0) {
                 invalidIds.push(id);
             }
         }
 
-        if (typeof requireId === "string") {
+        if (typeof requireId === 'string') {
             monitor(requireId);
-        } else {
-            each(requireId, function (id) {
-                monitor(id);
-            });
+        }
+        else {
+            each(
+                requireId,
+                function (id) {
+                    monitor(id);
+                }
+            );
         }
 
         // 包含相对id时，直接抛出错误
         if (invalidIds.length > 0) {
             throw new Error(
-                "[REQUIRE_FATAL]Relative ID is not allowed in global require: " +
-                    invalidIds.join(", "),
+                '[REQUIRE_FATAL]Relative ID is not allowed in global require: '
+                + invalidIds.join(', ')
             );
         }
         // #end assertNotContainRelativeId
 
         // 超时提醒
         var timeout = requireConf.waitSeconds;
-        if (timeout && requireId instanceof Array) {
+        if (timeout && (requireId instanceof Array)) {
             if (waitTimeout) {
                 clearTimeout(waitTimeout);
             }
@@ -173,7 +177,7 @@ var esl;
      *
      * @type {string}
      */
-    globalRequire.version = "2.2.0";
+    globalRequire.version = '2.2.0';
 
     /**
      * 将模块标识转换成相对的url
@@ -202,21 +206,20 @@ var esl;
         PRE_DEFINED: MODULE_PRE_DEFINED,
         ANALYZED: MODULE_ANALYZED,
         PREPARED: MODULE_PREPARED,
-        DEFINED: MODULE_DEFINED,
+        DEFINED: MODULE_DEFINED
     };
 
     var moduleChangeListeners = {};
 
     globalRequire.listenModuleStateChange = function (id, state, listener) {
-        if (
-            typeof listener === "function" &&
-            state >= MODULE_PRE_DEFINED &&
-            state <= MODULE_DEFINED
+        if (typeof listener === 'function'
+            && state >= MODULE_PRE_DEFINED && state <= MODULE_DEFINED
         ) {
             if (modIs(id, state)) {
                 var mod = modModules[id];
                 listener(mod.id, mod.deps, mod.factory);
-            } else {
+            }
+            else {
                 var listeners = moduleChangeListeners[id];
                 if (!listeners) {
                     listeners = moduleChangeListeners[id] = {};
@@ -234,7 +237,8 @@ var esl;
         if (listeners) {
             if (!listener) {
                 listeners[state] = null;
-            } else {
+            }
+            else {
                 var stateListeners = listeners[state];
                 var len = stateListeners && stateListeners.length;
                 while (len--) {
@@ -264,7 +268,7 @@ var esl;
      * @param {Function} loader 加载器函数
      */
     globalRequire.addLoader = function (loader) {
-        if (typeof loader === "function") {
+        if (typeof loader === 'function') {
             loaders.push(loader);
         }
     };
@@ -301,15 +305,19 @@ var esl;
                     missModulesMap[id] = 1;
                     missModules.push(id);
                 }
-            } else if (hard || !modIs(id, MODULE_PREPARED) || mod.hang) {
+            }
+            else if (hard || !modIs(id, MODULE_PREPARED) || mod.hang) {
                 if (!hangModulesMap[id]) {
                     hangModulesMap[id] = 1;
                     hangModules.push(id);
                 }
 
-                each(mod.depMs, function (dep) {
-                    checkError(dep.absId, dep.hard);
-                });
+                each(
+                    mod.depMs,
+                    function (dep) {
+                        checkError(dep.absId, dep.hard);
+                    }
+                );
             }
         }
 
@@ -321,12 +329,14 @@ var esl;
 
         if (hangModules.length || missModules.length) {
             throw new Error(
-                "[MODULE_TIMEOUT]Hang: " +
-                    (hangModules.join(", ") || "none") +
-                    "; Miss: " +
-                    (missModules.join(", ") || "none"),
+                '[MODULE_TIMEOUT]Hang: '
+                + (hangModules.join(', ') || 'none')
+                + '; Miss: '
+                + (missModules.join(', ') || 'none')
             );
         }
+
+
     }
     // #end-ignore
 
@@ -350,7 +360,11 @@ var esl;
         //       否则貌似会形成变量引用和修改的读写锁，导致wait4PreDefine释放困难
         each(wait4PreDefine, function (mod) {
             each(ids, function (currentId) {
-                modPreDefine(currentId, mod.deps, mod.factory);
+                modPreDefine(
+                    currentId,
+                    mod.deps,
+                    mod.factory
+                );
             });
         });
 
@@ -373,7 +387,8 @@ var esl;
             if (dependencies == null) {
                 factory = id;
                 id = null;
-            } else {
+            }
+            else {
                 factory = dependencies;
                 dependencies = null;
                 if (id instanceof Array) {
@@ -391,29 +406,28 @@ var esl;
 
         var ids;
         // IE下通过current script的attribute获取当前id
-        if (
-            !id &&
-            document.attachEvent &&
-            !(opera && opera.toString() === "[object Opera]")
+        if (!id
+            && document.attachEvent
+            && (!(opera && opera.toString() === '[object Opera]'))
         ) {
             var currentScript = getCurrentScript();
-            ids =
-                currentScript &&
-                loadingURL4Modules[currentScript.getAttribute("data-src")];
+            ids = currentScript && loadingURL4Modules[currentScript.getAttribute('data-src')];
         }
 
         if (id) {
             modPreDefine(id, dependencies, factory);
-        } else if (ids) {
+        }
+        else if (ids) {
             each(ids, function (id) {
                 modPreDefine(id, dependencies, factory);
             });
-        } else {
+        }
+        else {
             // 纪录到共享变量中，在load或readystatechange中处理
             // 标准浏览器下，使用匿名define时，将进入这个分支
             wait4PreDefine[0] = {
                 deps: dependencies,
-                factory: factory,
+                factory: factory
             };
         }
     }
@@ -428,7 +442,7 @@ var esl;
      */
     function moduleConfigGetter() {
         var conf = requireConf.config[this.id];
-        if (conf && typeof conf === "object") {
+        if (conf && typeof conf === 'object') {
             return conf;
         }
 
@@ -463,19 +477,19 @@ var esl;
         // ------------------------------------
         if (!modModules[id]) {
             modModules[id] = {
-                id: id,
-                depsDec: dependencies,
-                deps: dependencies || ["require", "exports", "module"],
+                id         : id,
+                depsDec    : dependencies,
+                deps       : dependencies || ['require', 'exports', 'module'],
                 factoryDeps: [],
-                factory: factory,
-                exports: {},
-                config: moduleConfigGetter,
-                state: 0,
-                require: createLocalRequire(id),
-                depMs: [],
-                depMkv: {},
-                depRs: [],
-                hang: 0,
+                factory    : factory,
+                exports    : {},
+                config     : moduleConfigGetter,
+                state      : 0,
+                require    : createLocalRequire(id),
+                depMs      : [],
+                depMkv     : {},
+                depRs      : [],
+                hang       : 0
             };
             modSetState(id, MODULE_PRE_DEFINED);
         }
@@ -504,21 +518,18 @@ var esl;
 
         // 分析function body中的require
         // 如果包含显式依赖声明，根据AMD规定和性能考虑，可以不分析factoryBody
-        if (typeof factory === "function") {
+        if (typeof factory === 'function') {
             hardDependsCount = Math.min(factory.length, deps.length);
 
             // If the dependencies argument is present, the module loader
             // SHOULD NOT scan for dependencies within the factory function.
-            !mod.depsDec &&
-                factory
-                    .toString()
-                    .replace(/(\/\*([\s\S]*?)\*\/|([^:]|^)\/\/(.*)$)/gm, "")
-                    .replace(
-                        /require\(\s*(['"])([^'"]+)\1\s*\)/g,
-                        function ($0, $1, depId) {
-                            deps.push(depId);
-                        },
-                    );
+            !mod.depsDec && factory.toString()
+                .replace(/(\/\*([\s\S]*?)\*\/|([^:]|^)\/\/(.*)$)/mg, '')
+                .replace(/require\(\s*(['"])([^'"]+)\1\s*\)/g,
+                    function ($0, $1, depId) {
+                        deps.push(depId);
+                    }
+                );
         }
 
         var requireModules = [];
@@ -546,7 +557,7 @@ var esl;
                     resInfo = {
                         id: depId,
                         mod: absId,
-                        res: idInfo.res,
+                        res: idInfo.res
                     };
                     depResources.push(depId);
                     mod.depRs.push(resInfo);
@@ -558,14 +569,15 @@ var esl;
                     moduleInfo = {
                         id: idInfo.mod,
                         absId: absId,
-                        hard: index < hardDependsCount,
+                        hard: index < hardDependsCount
                     };
                     mod.depMs.push(moduleInfo);
                     mod.depMkv[absId] = moduleInfo;
                     requireModules.push(absId);
                 }
-            } else {
-                moduleInfo = { absId: absId };
+            }
+            else {
+                moduleInfo = {absId: absId};
             }
 
             // 如果当前正在分析的依赖项是define中声明的，
@@ -579,15 +591,17 @@ var esl;
         modSetState(id, MODULE_ANALYZED);
         modInitFactoryInvoker(id);
         nativeAsyncRequire(requireModules);
-        depResources.length &&
-            mod.require(depResources, function () {
+        depResources.length && mod.require(
+            depResources,
+            function () {
                 each(mod.depRs, function (res) {
                     if (!res.absId) {
                         res.absId = normalize(res.id, id);
                     }
                 });
                 modAutoDefine();
-            });
+            }
+        );
     }
 
     /**
@@ -634,18 +648,23 @@ var esl;
             var mod = modModules[id];
             var prepared = true;
 
-            each(mod.depMs, function (dep) {
-                // return (prepared = update(dep.absId));
-                prepared = update(dep.absId) && prepared;
-            });
+            each(
+                mod.depMs,
+                function (dep) {
+                    // return (prepared = update(dep.absId));
+                    prepared = update(dep.absId) && prepared;
+                }
+            );
 
             // 判断resource是否加载完成。如果resource未加载完成，则认为未准备好
             /* jshint ignore:start */
-            prepared &&
-                each(mod.depRs, function (dep) {
+            prepared && each(
+                mod.depRs,
+                function (dep) {
                     prepared = !!dep.absId;
                     return prepared;
-                });
+                }
+            );
             /* jshint ignore:end */
 
             if (prepared) {
@@ -682,37 +701,40 @@ var esl;
 
             // 拼接factory invoke所需的arguments
             var factoryReady = 1;
-            each(mod.factoryDeps, function (dep) {
-                var depId = dep.absId;
+            each(
+                mod.factoryDeps,
+                function (dep) {
+                    var depId = dep.absId;
 
-                if (!BUILDIN_MODULE[depId]) {
-                    modTryInvokeFactory(depId);
-                    return (factoryReady = modIs(depId, MODULE_DEFINED));
+                    if (!BUILDIN_MODULE[depId]) {
+                        modTryInvokeFactory(depId);
+                        return (factoryReady = modIs(depId, MODULE_DEFINED));
+                    }
                 }
-            });
+            );
 
             if (factoryReady) {
                 try {
                     // 调用factory函数初始化module
                     var factory = mod.factory;
-                    var exports =
-                        typeof factory === "function"
-                            ? factory.apply(
-                                  global,
-                                  modGetModulesExports(mod.factoryDeps, {
-                                      require: mod.require,
-                                      exports: mod.exports,
-                                      module: mod,
-                                  }),
-                              )
-                            : factory;
+                    var exports = typeof factory === 'function'
+                        ? factory.apply(global, modGetModulesExports(
+                                mod.factoryDeps,
+                                {
+                                    require: mod.require,
+                                    exports: mod.exports,
+                                    module: mod
+                                }
+                            ))
+                        : factory;
 
                     if (exports != null) {
                         mod.exports = exports;
                     }
 
                     mod.invokeFactory = null;
-                } catch (ex) {
+                }
+                catch (ex) {
                     if (/^\[MODULE_MISS\]"([^"]+)/.test(ex.message)) {
                         // 出错，则说明在factory的运行中，该require的模块是需要的
                         // 所以把它加入强依赖中
@@ -772,12 +794,15 @@ var esl;
      */
     function modGetModulesExports(modules, buildinModules) {
         var args = [];
-        each(modules, function (id, index) {
-            if (typeof id === "object") {
-                id = id.absId;
+        each(
+            modules,
+            function (id, index) {
+                if (typeof id === 'object') {
+                    id = id.absId;
+                }
+                args[index] = buildinModules[id] || modModules[id].exports;
             }
-            args[index] = buildinModules[id] || modModules[id].exports;
-        });
+        );
 
         return args;
     }
@@ -789,10 +814,10 @@ var esl;
      * @type {Object}
      */
     var modListeners = {};
-    modListeners[MODULE_ANALYZED] = { ":hook": "onModuleAnalyzed" };
-    modListeners[MODULE_DEFINED] = { ":hook": "onModuleDefined" };
-    modListeners[MODULE_PRE_DEFINED] = { ":hook": "onModulePreDefined" };
-    modListeners[MODULE_PREPARED] = { ":hook": "onModulePrepared" };
+    modListeners[MODULE_ANALYZED] = {':hook': 'onModuleAnalyzed'};
+    modListeners[MODULE_DEFINED] = {':hook': 'onModuleDefined'};
+    modListeners[MODULE_PRE_DEFINED] = {':hook': 'onModulePreDefined'};
+    modListeners[MODULE_PREPARED] = {':hook': 'onModulePrepared'};
 
     /**
      * 添加模块状态变化的事件监听器
@@ -840,9 +865,11 @@ var esl;
             listener();
         });
 
+
+
         // call user hook
-        var userHook = requireConf[modListeners[state][":hook"]];
-        if (typeof userHook === "function") {
+        var userHook = requireConf[modListeners[state][':hook']];
+        if (typeof userHook === 'function') {
             userHook(mod.id, mod.deps, mod.factory);
         }
 
@@ -907,19 +934,20 @@ var esl;
                         }
                     },
 
-                    getModuleState: getModState,
+                    getModuleState: getModState
                 };
 
                 if (!(loadingModules[id] || modModules[id])) {
                     each(loaders, function (loader) {
                         loaderValue = loader(context, modAutoDefine);
-                        return typeof loaderValue === "undefined";
+                        return typeof loaderValue === 'undefined';
                     });
 
-                    if (typeof loaderValue === "string") {
+                    if (typeof loaderValue === 'string') {
                         loadModule(id, loaderValue);
-                    } else if (loaderValue !== false) {
-                        id.indexOf("!") > 0
+                    }
+                    else if (loaderValue !== false) {
+                        (id.indexOf('!') > 0)
                             ? loadResource(id, baseId)
                             : loadModule(id);
                     }
@@ -936,7 +964,7 @@ var esl;
          * @inner
          */
         function tryFinishRequire() {
-            if (typeof callback === "function" && !isCallbackCalled) {
+            if (typeof callback === 'function' && !isCallbackCalled) {
                 var isAllCompleted = 1;
                 each(ids, function (id) {
                     if (!BUILDIN_MODULE[id]) {
@@ -950,7 +978,7 @@ var esl;
 
                     callback.apply(
                         global,
-                        modGetModulesExports(ids, BUILDIN_MODULE),
+                        modGetModulesExports(ids, BUILDIN_MODULE)
                     );
                 }
             }
@@ -979,13 +1007,13 @@ var esl;
         loadingModules[moduleId] = 1;
 
         var loadId = bundleIdRetrieve(moduleId) || moduleId;
-        moduleSrc = moduleSrc || toUrl(loadId + ".js");
+        moduleSrc = moduleSrc || toUrl(loadId + '.js');
 
         // 初始化相关 shim 的配置
         var shimConf = requireConf.shim[moduleId];
         if (shimConf instanceof Array) {
             requireConf.shim[moduleId] = shimConf = {
-                deps: shimConf,
+                deps: shimConf
             };
         }
 
@@ -999,7 +1027,8 @@ var esl;
                 }
             });
             actualGlobalRequire(shimDeps, load);
-        } else {
+        }
+        else {
             load();
         }
 
@@ -1018,25 +1047,29 @@ var esl;
             createScript(moduleSrc, moduleId, function () {
                 if (shimConf) {
                     var exports;
-                    if (typeof shimConf.init === "function") {
+                    if (typeof shimConf.init === 'function') {
                         exports = shimConf.init.apply(
                             global,
-                            modGetModulesExports(shimDeps, BUILDIN_MODULE),
+                            modGetModulesExports(shimDeps, BUILDIN_MODULE)
                         );
                     }
 
                     if (exports == null && shimConf.exports) {
                         exports = global;
-                        each(shimConf.exports.split("."), function (prop) {
-                            exports = exports[prop];
-                            return !!exports;
-                        });
+                        each(
+                            shimConf.exports.split('.'),
+                            function (prop) {
+                                exports = exports[prop];
+                                return !!exports;
+                            }
+                        );
                     }
 
                     globalDefine(moduleId, shimDeps, function () {
                         return exports || {};
                     });
-                } else {
+                }
+                else {
                     modCompletePreDefine(loadingURL4Modules[moduleSrc]);
                 }
 
@@ -1044,6 +1077,7 @@ var esl;
             });
             /* eslint-enable no-use-before-define */
         }
+
     }
 
     /**
@@ -1065,7 +1099,7 @@ var esl;
         var idInfo = parseId(pluginAndResource);
         var resource = {
             id: pluginAndResource,
-            state: MODULE_ANALYZED,
+            state: MODULE_ANALYZED
         };
         modModules[pluginAndResource] = resource;
 
@@ -1108,7 +1142,7 @@ var esl;
                 idInfo.res,
                 pluginRequire,
                 pluginOnload,
-                moduleConfigGetter.call({ id: pluginAndResource }),
+                moduleConfigGetter.call({id: pluginAndResource})
             );
         }
 
@@ -1126,20 +1160,23 @@ var esl;
                 var newValue = conf[key];
                 var oldValue = requireConf[key];
 
-                if (key.indexOf("on") === 0) {
+                if (key.indexOf('on') === 0) {
                     requireConf[key] = newValue;
-                } else if (key === "urlArgs" && typeof newValue === "string") {
-                    requireConf.urlArgs["*"] = newValue;
+                }
+                else if (key === 'urlArgs' && typeof newValue === 'string') {
+                    requireConf.urlArgs['*'] = newValue;
                 }
                 // 简单的多处配置还是需要支持，所以配置实现为支持二级mix
                 else if (oldValue instanceof Array) {
                     oldValue.push.apply(oldValue, newValue);
-                } else if (oldValue != null) {
-                    if (typeof oldValue === "object") {
+                }
+                else if (oldValue != null) {
+                    if (typeof oldValue === 'object') {
                         for (var k in newValue) {
                             oldValue[k] = newValue[k];
                         }
-                    } else {
+                    }
+                    else {
                         requireConf[key] = newValue;
                     }
                 }
@@ -1209,10 +1246,9 @@ var esl;
                 index.push({
                     k: key,
                     v: value[key],
-                    reg:
-                        key === "*" && allowAsterisk
-                            ? /^/
-                            : createPrefixRegexp(key),
+                    reg: key === '*' && allowAsterisk
+                        ? /^/
+                        : createPrefixRegexp(key)
                 });
             }
         }
@@ -1227,24 +1263,30 @@ var esl;
      * @inner
      */
     function createConfIndex() {
-        requireConf.baseUrl = requireConf.baseUrl.replace(/\/$/, "") + "/";
+        requireConf.baseUrl = requireConf.baseUrl.replace(/\/$/, '') + '/';
 
         // create paths index
         pathsIndex = createKVSortedIndex(requireConf.paths);
 
         // create mappingId index
         mappingIdIndex = createKVSortedIndex(requireConf.map, 1);
-        each(mappingIdIndex, function (item) {
-            item.v = createKVSortedIndex(item.v);
-        });
+        each(
+            mappingIdIndex,
+            function (item) {
+                item.v = createKVSortedIndex(item.v);
+            }
+        );
 
         var lastMapItem = mappingIdIndex[mappingIdIndex.length - 1];
-        if (lastMapItem && lastMapItem.k === "*") {
-            each(mappingIdIndex, function (item) {
-                if (item != lastMapItem) {
-                    item.v = item.v.concat(lastMapItem.v);
+        if (lastMapItem && lastMapItem.k === '*') {
+            each(
+                mappingIdIndex,
+                function (item) {
+                    if (item != lastMapItem) {
+                        item.v = item.v.concat(lastMapItem.v);
+                    }
                 }
-            });
+            );
         }
 
         // create packages index
@@ -1257,18 +1299,18 @@ var esl;
             var pkg;
 
             switch (typeof packageConf) {
-                case "string":
+                case 'string':
                     pkg = {
-                        name: packageConf.split("/")[0],
-                        location: packageConf,
+                        name: packageConf.split('/')[0],
+                        location: packageConf
                     };
                     break;
 
-                case "object":
+                case 'object':
                     pkg = {
                         name: packageConf.name,
                         location: packageConf.location,
-                        main: packageConf.main,
+                        main: packageConf.main
                     };
                     break;
             }
@@ -1279,7 +1321,7 @@ var esl;
             packageNames[pkg.name] = 1;
 
             pkg.location = pkg.location || pkg.name;
-            pkg.main = (pkg.main || "main").replace(/\.js$/i, "");
+            pkg.main = (pkg.main || 'main').replace(/\.js$/i, '');
             pkg.reg = createPrefixRegexp(pkg.name);
             packagesIndex.push(pkg);
         }
@@ -1300,7 +1342,8 @@ var esl;
         function bundlesIterator(id) {
             if (id instanceof RegExp) {
                 bundlesRegExpIndex.push([id, key]);
-            } else {
+            }
+            else {
                 bundlesIndex[resolvePackageId(id)] = normalize(key);
             }
         }
@@ -1317,13 +1360,12 @@ var esl;
     function bundleIdRetrieve(id) {
         var bundleId = bundlesIndex[id];
 
-        bundleId ||
-            each(bundlesRegExpIndex, function (index) {
-                if (index[0].test(id)) {
-                    bundleId = index[1];
-                    return false;
-                }
-            });
+        bundleId || each(bundlesRegExpIndex, function (index) {
+            if (index[0].test(id)) {
+                bundleId = index[1];
+                return false;
+            }
+        });
 
         return bundleId;
     }
@@ -1357,18 +1399,18 @@ var esl;
         // 分离 模块标识 和 .extension
         var extReg = /(\.[a-z0-9]+)$/i;
         var queryReg = /(\?[^#]*)$/;
-        var extname = "";
+        var extname = '';
         var id = source;
-        var query = "";
+        var query = '';
 
         if (queryReg.test(source)) {
             query = RegExp.$1;
-            source = source.replace(queryReg, "");
+            source = source.replace(queryReg, '');
         }
 
         if (extReg.test(source)) {
             extname = RegExp.$1;
-            id = source.replace(extReg, "");
+            id = source.replace(extReg, '');
         }
 
         if (baseId != null) {
@@ -1401,7 +1443,7 @@ var esl;
 
         // urlArgs处理和匹配
         indexRetrieve(id, urlArgsIndex, function (value) {
-            url += (url.indexOf("?") > 0 ? "&" : "?") + value;
+            url += (url.indexOf('?') > 0 ? '&' : '?') + value;
         });
 
         return url;
@@ -1422,37 +1464,38 @@ var esl;
             var pureModules = [];
             var normalizedIds = [];
 
-            each(ids, function (id, i) {
-                var idInfo = parseId(id);
-                var absId = normalize(idInfo.mod, baseId);
-                var resId = idInfo.res;
-                var normalizedId = absId;
+            each(
+                ids,
+                function (id, i) {
+                    var idInfo = parseId(id);
+                    var absId = normalize(idInfo.mod, baseId);
+                    var resId = idInfo.res;
+                    var normalizedId = absId;
 
-                if (resId) {
-                    var trueResId = absId + "!" + resId;
-                    if (
-                        resId.indexOf(".") !== 0 &&
-                        bundleIdRetrieve(trueResId)
-                    ) {
-                        absId = normalizedId = trueResId;
-                    } else {
-                        normalizedId = null;
+                    if (resId) {
+                        var trueResId = absId + '!' + resId;
+                        if (resId.indexOf('.') !== 0 && bundleIdRetrieve(trueResId)) {
+                            absId = normalizedId = trueResId;
+                        }
+                        else {
+                            normalizedId = null;
+                        }
                     }
-                }
 
-                normalizedIds[i] = normalizedId;
-                modFlagAuto(absId, flagState);
-                pureModules.push(absId);
-            });
+                    normalizedIds[i] = normalizedId;
+                    modFlagAuto(absId, flagState);
+                    pureModules.push(absId);
+                }
+            );
 
             return {
                 mods: pureModules,
-                ids: normalizedIds,
+                ids: normalizedIds
             };
         }
 
         function req(requireId, callback) {
-            if (typeof requireId === "string") {
+            if (typeof requireId === 'string') {
                 if (!requiredCache[requireId]) {
                     var topLevelId = normalize(requireId, baseId);
 
@@ -1461,9 +1504,7 @@ var esl;
                     // already been loaded and evaluated.
                     modTryInvokeFactory(topLevelId);
                     if (!modIs(topLevelId, MODULE_DEFINED)) {
-                        throw new Error(
-                            '[MODULE_MISS]"' + topLevelId + '" is not exists!',
-                        );
+                        throw new Error('[MODULE_MISS]"' + topLevelId + '" is not exists!');
                     }
 
                     requiredCache[requireId] = modModules[topLevelId].exports;
@@ -1482,10 +1523,7 @@ var esl;
                         /* jshint ignore:start */
                         each(parseResult.ids, function (id, i) {
                             if (id == null) {
-                                id = parseResult.ids[i] = normalize(
-                                    requireId[i],
-                                    baseId,
-                                );
+                                id = parseResult.ids[i] = normalize(requireId[i], baseId);
                                 modFlagAuto(id, MODULE_DEFINED);
                             }
                         });
@@ -1497,7 +1535,7 @@ var esl;
                         nativeAsyncRequire(parseResult.ids, callback, baseId);
                         modAutoDefine();
                     },
-                    baseId,
+                    baseId
                 );
 
                 modAutoDefine();
@@ -1512,7 +1550,7 @@ var esl;
          * @return {string} url
          */
         req.toUrl = function (id) {
-            return toUrl(id, baseId || "");
+            return toUrl(id, baseId || '');
         };
 
         /**
@@ -1555,10 +1593,10 @@ var esl;
      */
     function normalize(id, baseId) {
         if (!id) {
-            return "";
+            return '';
         }
 
-        baseId = baseId || "";
+        baseId = baseId || '';
         var idInfo = parseId(id);
         if (!idInfo) {
             return id;
@@ -1568,26 +1606,34 @@ var esl;
         var moduleId = relative2absolute(idInfo.mod, baseId);
 
         // 根据config中的map配置进行module id mapping
-        indexRetrieve(baseId, mappingIdIndex, function (value) {
-            indexRetrieve(moduleId, value, function (mdValue, mdKey) {
-                moduleId = moduleId.replace(mdKey, mdValue);
-            });
-        });
+        indexRetrieve(
+            baseId,
+            mappingIdIndex,
+            function (value) {
+                indexRetrieve(
+                    moduleId,
+                    value,
+                    function (mdValue, mdKey) {
+                        moduleId = moduleId.replace(mdKey, mdValue);
+                    }
+                );
+            }
+        );
 
         moduleId = resolvePackageId(moduleId);
 
         if (resourceId) {
-            var mod =
-                modIs(moduleId, MODULE_DEFINED) &&
-                actualGlobalRequire(moduleId);
-            resourceId =
-                mod && mod.normalize
-                    ? mod.normalize(resourceId, function (resId) {
-                          return normalize(resId, baseId);
-                      })
-                    : normalize(resourceId, baseId);
+            var mod = modIs(moduleId, MODULE_DEFINED) && actualGlobalRequire(moduleId);
+            resourceId = mod && mod.normalize
+                ? mod.normalize(
+                    resourceId,
+                    function (resId) {
+                        return normalize(resId, baseId);
+                    }
+                  )
+                : normalize(resourceId, baseId);
 
-            moduleId += "!" + resourceId;
+            moduleId += '!' + resourceId;
         }
 
         return moduleId;
@@ -1602,13 +1648,16 @@ var esl;
      * @return {string} 解析后的id
      */
     function resolvePackageId(id) {
-        each(packagesIndex, function (packageConf) {
-            var name = packageConf.name;
-            if (name === id) {
-                id = name + "/" + packageConf.main;
-                return false;
+        each(
+            packagesIndex,
+            function (packageConf) {
+                var name = packageConf.name;
+                if (name === id) {
+                    id = name + '/' + packageConf.main;
+                    return false;
+                }
             }
-        });
+        );
 
         return id;
     }
@@ -1622,23 +1671,23 @@ var esl;
      * @return {string} 绝对id
      */
     function relative2absolute(id, baseId) {
-        if (id.indexOf(".") !== 0) {
+        if (id.indexOf('.') !== 0) {
             return id;
         }
 
-        var segs = baseId.split("/").slice(0, -1).concat(id.split("/"));
+        var segs = baseId.split('/').slice(0, -1).concat(id.split('/'));
         var res = [];
         for (var i = 0; i < segs.length; i++) {
             var seg = segs[i];
 
             switch (seg) {
-                case ".":
+                case '.':
                     break;
-                case "..":
-                    if (res.length && res[res.length - 1] !== "..") {
+                case '..':
+                    if (res.length && res[res.length - 1] !== '..') {
                         res.pop();
-                    } else {
-                        // allow above root
+                    }
+                    else { // allow above root
                         res.push(seg);
                     }
                     break;
@@ -1647,7 +1696,7 @@ var esl;
             }
         }
 
-        return res.join("/");
+        return res.join('/');
     }
 
     /**
@@ -1658,12 +1707,12 @@ var esl;
      * @return {Object} id解析结果对象
      */
     function parseId(id) {
-        var segs = id.split("!");
+        var segs = id.split('!');
 
         if (segs[0]) {
             return {
                 mod: segs[0],
-                res: segs[1],
+                res: segs[1]
             };
         }
     }
@@ -1676,7 +1725,7 @@ var esl;
      * @return {RegExp} 前缀匹配的正则对象
      */
     function createPrefixRegexp(prefix) {
-        return new RegExp("^" + prefix + "(/|$)");
+        return new RegExp('^' + prefix + '(/|$)');
     }
 
     /**
@@ -1708,11 +1757,11 @@ var esl;
         var aValue = a.k || a.name;
         var bValue = b.k || b.name;
 
-        if (bValue === "*") {
+        if (bValue === '*') {
             return -1;
         }
 
-        if (aValue === "*") {
+        if (aValue === '*') {
             return 1;
         }
 
@@ -1738,26 +1787,27 @@ var esl;
     function getCurrentScript() {
         if (currentlyAddingScript) {
             return currentlyAddingScript;
-        } else if (
-            interactiveScript &&
-            interactiveScript.readyState === "interactive"
+        }
+        else if (
+            interactiveScript
+            && interactiveScript.readyState === 'interactive'
         ) {
             return interactiveScript;
         }
 
-        var scripts = document.getElementsByTagName("script");
+        var scripts = document.getElementsByTagName('script');
         var scriptLen = scripts.length;
         while (scriptLen--) {
             var script = scripts[scriptLen];
-            if (script.readyState === "interactive") {
+            if (script.readyState === 'interactive') {
                 interactiveScript = script;
                 return script;
             }
         }
     }
 
-    var headElement = document.getElementsByTagName("head")[0];
-    var baseElement = document.getElementsByTagName("base")[0];
+    var headElement = document.getElementsByTagName('head')[0];
+    var baseElement = document.getElementsByTagName('base')[0];
     if (baseElement) {
         headElement = baseElement.parentNode;
     }
@@ -1774,26 +1824,27 @@ var esl;
         // 这里不挂接onerror的错误处理
         // 因为高级浏览器在devtool的console面板会报错
         // 再throw一个Error多此一举了
-        var script = document.createElement("script");
-        script.setAttribute("data-src", src);
+        var script = document.createElement('script');
+        script.setAttribute('data-src', src);
         script.src = src;
         script.async = true;
         if (script.readyState) {
             script.onreadystatechange = innerOnload;
-        } else {
+        }
+        else {
             script.onload = innerOnload;
         }
 
         var onNodeCreated = requireConf.onNodeCreated;
-        if (typeof onNodeCreated === "function") {
+        if (typeof onNodeCreated === 'function') {
             onNodeCreated(script, requireConf, moduleId, src);
         }
 
         function innerOnload() {
             var readyState = script.readyState;
             if (
-                typeof readyState === "undefined" ||
-                /^(loaded|complete)$/.test(readyState)
+                typeof readyState === 'undefined'
+                || /^(loaded|complete)$/.test(readyState)
             ) {
                 script.onload = script.onreadystatechange = null;
                 script = null;
@@ -1817,20 +1868,17 @@ var esl;
     if (!define) {
         define = globalDefine;
 
-        if (typeof require !== "function") {
+        if (typeof require !== 'function') {
             globalRequire.config(require);
             require = globalRequire;
         }
 
-        if (typeof esl !== "function") {
+        if (typeof esl !== 'function') {
             globalRequire.config(esl);
             esl = globalRequire;
         }
 
-        if (
-            typeof requirejs !== "undefined" &&
-            typeof requirejs !== "function"
-        ) {
+        if (typeof requirejs !== 'undefined' && typeof requirejs !== 'function') {
             globalRequire.config(requirejs);
         }
     }
@@ -1838,19 +1886,18 @@ var esl;
     // data-main
     var mainModule;
     (function () {
-        var scripts = document.getElementsByTagName("script");
+        var scripts = document.getElementsByTagName('script');
         var len = scripts.length;
 
         while (len--) {
             var script = scripts[len];
-            if ((mainModule = script.getAttribute("data-main"))) {
+            if ((mainModule = script.getAttribute('data-main'))) {
                 break;
             }
         }
     })();
 
-    mainModule &&
-        setTimeout(function () {
-            globalRequire([mainModule]);
-        }, 4);
+    mainModule && setTimeout(function () {
+        globalRequire([mainModule]);
+    }, 4);
 })(this);

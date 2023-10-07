@@ -1,3 +1,5 @@
+
+
 /**
  * bool属性表
  *
@@ -27,7 +29,7 @@ var boolAttrs = {
     required: 1,
     reversed: 1,
     selected: 1,
-    typemustmatch: 1,
+    typemustmatch: 1
 };
 
 exports = module.exports = boolAttrs;

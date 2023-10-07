@@ -1,6 +1,8 @@
-var removeEl = require("../browser/remove-el");
-var LifeCycle = require("./life-cycle");
-var elementDisposeChildren = require("./element-dispose-children");
+
+
+var removeEl = require('../browser/remove-el');
+var LifeCycle = require('./life-cycle');
+var elementDisposeChildren = require('./element-dispose-children');
 
 /**
  * 简单执行销毁节点的行为

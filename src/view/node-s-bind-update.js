@@ -1,6 +1,8 @@
-var unionKeys = require("../util/union-keys");
-var evalExpr = require("../runtime/eval-expr");
-var changeExprCompare = require("../runtime/change-expr-compare");
+
+
+var unionKeys = require('../util/union-keys');
+var evalExpr = require('../runtime/eval-expr');
+var changeExprCompare = require('../runtime/change-expr-compare');
 
 /**
  * 更新节点的 s-bind 数据
@@ -32,6 +34,7 @@ function nodeSBindUpdate(sBind, oldBindData, scope, owner, changes, updater) {
 
                 return newBindData;
             }
+
         }
 
         return oldBindData;

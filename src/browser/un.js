@@ -1,3 +1,4 @@
+
 /**
  * DOM 事件卸载
  *
@@ -11,11 +12,12 @@ function un(el, eventName, listener, capture) {
     // #[begin] allua
     /* istanbul ignore else */
     if (el.addEventListener) {
-        // #[end]
+    // #[end]
         el.removeEventListener(eventName, listener, capture);
-        // #[begin] allua
-    } else {
-        el.detachEvent("on" + eventName, listener);
+    // #[begin] allua
+    }
+    else {
+        el.detachEvent('on' + eventName, listener);
     }
     // #[end]
 }

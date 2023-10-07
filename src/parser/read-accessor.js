@@ -1,6 +1,15 @@
-var ExprType = require("./expr-type");
-var readIdent = require("./read-ident");
-var readTertiaryExpr = require("./read-tertiary-expr");
+/**
+ * Copyright (c) Baidu Inc. All rights reserved.
+ *
+ * This source code is licensed under the MIT license.
+ * See LICENSE file in the project root for license information.
+ *
+ * @file 读取访问表达式
+ */
+
+var ExprType = require('./expr-type');
+var readIdent = require('./read-ident');
+var readTertiaryExpr = require('./read-tertiary-expr');
 
 /**
  * 读取访问表达式
@@ -11,26 +20,28 @@ var readTertiaryExpr = require("./read-tertiary-expr");
 function readAccessor(walker) {
     var firstSeg = readIdent(walker);
     switch (firstSeg) {
-        case "true":
-        case "false":
+        case 'true':
+        case 'false':
             return {
                 type: ExprType.BOOL,
-                value: firstSeg === "true",
+                value: firstSeg === 'true'
             };
-        case "null":
+        case 'null':
             return {
-                type: ExprType.NULL,
+                type: ExprType.NULL
             };
     }
 
     var result = {
         type: ExprType.ACCESSOR,
-        paths: [{ type: ExprType.STRING, value: firstSeg }],
+        paths: [
+            {type: ExprType.STRING, value: firstSeg}
+        ]
     };
 
     /* eslint-disable no-constant-condition */
     accessorLoop: while (1) {
-        /* eslint-enable no-constant-condition */
+    /* eslint-enable no-constant-condition */
 
         switch (walker.source.charCodeAt(walker.index)) {
             case 46: // .
@@ -39,7 +50,7 @@ function readAccessor(walker) {
                 // ident as string
                 result.paths.push({
                     type: ExprType.STRING,
-                    value: readIdent(walker),
+                    value: readIdent(walker)
                 });
                 break;
 
