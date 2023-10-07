@@ -6,10 +6,10 @@ import ColorPicker from "../ui/color-picker";
 import "./add.css";
 
 export default class Add extends Component<{
-  title: string;
-  color: string;
+    title: string;
+    color: string;
 }> {
-  static template = `
+    static template = `
     <div class="form">
         <input type="text" placeholder="分类" class="form-title" value="{= title =}">
         <ui-colorpicker value="{= color =}"></ui-colorpicker>
@@ -20,41 +20,41 @@ export default class Add extends Component<{
     </div>
     `;
 
-  static components = {
-    "ui-colorpicker": ColorPicker,
-  };
-
-  initData() {
-    return {
-      title: "",
-      color: "",
+    static components = {
+        "ui-colorpicker": ColorPicker,
     };
-  }
 
-  submit() {
-    let title = this.data.get("title");
-    if (!title) {
-      return;
+    initData() {
+        return {
+            title: "",
+            color: "",
+        };
     }
 
-    service.addCategory({
-      title: title,
-      color: this.data.get("color"),
-    });
+    submit() {
+        let title = this.data.get("title");
+        if (!title) {
+            return;
+        }
 
-    this.finish();
-  }
+        service.addCategory({
+            title: title,
+            color: this.data.get("color"),
+        });
 
-  cancel() {
-    this.finish();
-  }
-
-  finish() {
-    let e: { returnValue?: boolean } = {};
-    this.fire("finished", e);
-
-    if (e.returnValue !== false) {
-      history.go(-1);
+        this.finish();
     }
-  }
+
+    cancel() {
+        this.finish();
+    }
+
+    finish() {
+        let e: { returnValue?: boolean } = {};
+        this.fire("finished", e);
+
+        if (e.returnValue !== false) {
+            history.go(-1);
+        }
+    }
 }

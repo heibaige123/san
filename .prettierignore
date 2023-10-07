@@ -1,2 +1,7 @@
 node_modules
-src
+# src/browser
+src/parser
+# src/runtime
+# src/util
+src/view
+# src

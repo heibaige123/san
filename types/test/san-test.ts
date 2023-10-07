@@ -1,9 +1,4 @@
-import san, {
-  defineComponent,
-  Component,
-  ComponentDefineOptions,
-  parseTemplate,
-} from "../index";
+import san, { defineComponent, Component, ComponentDefineOptions, parseTemplate } from "../index";
 
 import "./clicker-def";
 import "./cmpt-loader";

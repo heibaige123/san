@@ -7,9 +7,9 @@ import Category from "./model";
 import "./edit.css";
 
 export default class Edit extends Component<{
-  categories: Category[];
+    categories: Category[];
 }> {
-  static template = `
+    static template = `
     <ul class="edit-category-list">
         <li san-for="item, index in categories">
             <input type="text" value="{= item.title =}" class="form-title">
@@ -20,33 +20,33 @@ export default class Edit extends Component<{
     </ul>
     `;
 
-  static components = {
-    "ui-colorpicker": ColorPicker,
-  };
-
-  initData() {
-    return {
-      categories: [],
+    static components = {
+        "ui-colorpicker": ColorPicker,
     };
-  }
 
-  attached() {
-    this.data.set("categories", service.categories());
-  }
-
-  rm(index: number) {
-    let category = this.data.get("categories")[index];
-
-    if (category.id != null) {
-      service.rmCategory(category.id);
-      this.data.removeAt("categories", index);
-      this.fire("rm");
+    initData() {
+        return {
+            categories: [],
+        };
     }
-  }
 
-  edit(index: number) {
-    let category = this.data.get("categories")[index];
-    service.editCategory(category);
-    this.fire("edit");
-  }
+    attached() {
+        this.data.set("categories", service.categories());
+    }
+
+    rm(index: number) {
+        let category = this.data.get("categories")[index];
+
+        if (category.id != null) {
+            service.rmCategory(category.id);
+            this.data.removeAt("categories", index);
+            this.fire("rm");
+        }
+    }
+
+    edit(index: number) {
+        let category = this.data.get("categories")[index];
+        service.editCategory(category);
+        this.fire("edit");
+    }
 }

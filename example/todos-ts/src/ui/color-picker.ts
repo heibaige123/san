@@ -13,29 +13,20 @@ const template = `
 `;
 
 interface ColorPickerData {
-  value: string;
-  datasource: string[];
+    value: string;
+    datasource: string[];
 }
 
 export default san.defineComponent<ColorPickerData>({
-  template,
+    template,
 
-  initData() {
-    return {
-      datasource: [
-        "#c23531",
-        "#314656",
-        "#dd8668",
-        "#91c7ae",
-        "#6e7074",
-        "#bda29a",
-        "#44525d",
-        "#c4ccd3",
-      ],
-    };
-  },
+    initData() {
+        return {
+            datasource: ["#c23531", "#314656", "#dd8668", "#91c7ae", "#6e7074", "#bda29a", "#44525d", "#c4ccd3"],
+        };
+    },
 
-  itemClick(item: string) {
-    this.data.set("value", item);
-  },
+    itemClick(item: string) {
+        this.data.set("value", item);
+    },
 });

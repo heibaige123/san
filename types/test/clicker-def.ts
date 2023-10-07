@@ -1,58 +1,58 @@
 import san, { defineComponent } from "../index";
 
 interface ClickerData {
-  name: string;
-  email: string;
-  dep: {
     name: string;
-    info: {
-      du: boolean;
+    email: string;
+    dep: {
+        name: string;
+        info: {
+            du: boolean;
+        };
+        age: number;
     };
-    age: number;
-  };
 }
 
 interface ClickerOptions {
-  click(name: string, email: string): void;
-  mainClick(): void;
+    click(name: string, email: string): void;
+    mainClick(): void;
 }
 
 let clicked = 0;
 const Clicker = defineComponent<ClickerData, ClickerOptions>({
-  // AutoComplete: template
-  template: `
+    // AutoComplete: template
+    template: `
         <a on-click="mainClicker" title="{{name}}" style="color: red; cursor: pointer">
             <span on-click="clicker(name, email, $event)">{{name}}, please click here!</span>
         </a>`,
 
-  // AutoComplete: mainClick
-  mainClick: function () {
-    // AutoComplete: this.data
-    this.data;
-    clicked++;
-  },
+    // AutoComplete: mainClick
+    mainClick: function () {
+        // AutoComplete: this.data
+        this.data;
+        clicked++;
+    },
 
-  // AutoComplete: click
-  click: function (name, email) {
-    // AutoComplete: this.data
-    this.data;
-    clicked++;
-  },
+    // AutoComplete: click
+    click: function (name, email) {
+        // AutoComplete: this.data
+        this.data;
+        clicked++;
+    },
 
-  // AutoComplete: initData
-  initData() {
-    return {
-      // AutoComplete: name
-      name: "aa",
-      email: "dd",
-    };
-  },
+    // AutoComplete: initData
+    initData() {
+        return {
+            // AutoComplete: name
+            name: "aa",
+            email: "dd",
+        };
+    },
 
-  // AutoComplete: attached
-  attached() {
-    // AutoComplete: this.data
-    this.data;
-  },
+    // AutoComplete: attached
+    attached() {
+        // AutoComplete: this.data
+        this.data;
+    },
 });
 
 export default Clicker;

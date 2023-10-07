@@ -1,8 +1,7 @@
 describe("Element", function () {
     it("empty string prop", function () {
         var MyComponent = san.defineComponent({
-            template:
-                '<a><span class="">test</span><span class="test2">test2</span></a>',
+            template: '<a><span class="">test</span><span class="test2">test2</span></a>',
         });
         var myComponent = new MyComponent();
 
@@ -88,8 +87,7 @@ describe("Element", function () {
 
     it("line-break attribute", function () {
         var MyComponent = san.defineComponent({
-            template:
-                '<a title="line1\r\nline2"><span title="line1\r\nline2">test</span><span class="test2">test2</span></a>',
+            template: '<a title="line1\r\nline2"><span title="line1\r\nline2">test</span><span class="test2">test2</span></a>',
         });
         var myComponent = new MyComponent();
 
@@ -110,8 +108,7 @@ describe("Element", function () {
 
     it("attribute with space around equal operator", function () {
         var MyComponent = san.defineComponent({
-            template:
-                '<a title = "test0"><span title  ="test1">test1</span><span title=  "test2">test2</span></a>',
+            template: '<a title = "test0"><span title  ="test1">test1</span><span title=  "test2">test2</span></a>',
         });
         var myComponent = new MyComponent();
         var wrap = document.createElement("div");
@@ -170,8 +167,7 @@ describe("Element", function () {
 
     it("bind prop, which has xxx- prefix", function (done) {
         var MyComponent = san.defineComponent({
-            template:
-                '<a data-name="{{name}}"><span data-name="{{name}}">{{name}}</span></a>',
+            template: '<a data-name="{{name}}"><span data-name="{{name}}">{{name}}</span></a>',
         });
         var myComponent = new MyComponent();
         myComponent.data.set("name", "errorrik");
@@ -347,8 +343,7 @@ describe("Element", function () {
 
     it("bind style", function (done) {
         var MyComponent = san.defineComponent({
-            template:
-                '<a><span style="position: absolute; display: {{display}}"></span></a>',
+            template: '<a><span style="position: absolute; display: {{display}}"></span></a>',
         });
         var myComponent = new MyComponent();
         myComponent.data.set("display", "block");
@@ -376,8 +371,7 @@ describe("Element", function () {
 
     it("bind style, auto expand object, in text", function (done) {
         var MyComponent = san.defineComponent({
-            template:
-                '<a><span style="position: absolute; display: {{display}}; {{extra}}"></span></a>',
+            template: '<a><span style="position: absolute; display: {{display}}; {{extra}}"></span></a>',
         });
         var myComponent = new MyComponent();
         myComponent.data.set("display", "block");
@@ -542,8 +536,7 @@ describe("Element", function () {
 
     it("bind disabled", function (done) {
         var MyComponent = san.defineComponent({
-            template:
-                '<div><input type="text" disabled="{{ed}}"><textarea disabled="{{ed}}"></textarea><button disabled="{{ed}}">btn</button></div>',
+            template: '<div><input type="text" disabled="{{ed}}"><textarea disabled="{{ed}}"></textarea><button disabled="{{ed}}">btn</button></div>',
         });
         var myComponent = new MyComponent();
 
@@ -574,8 +567,7 @@ describe("Element", function () {
 
     it("bind disabled, init false value", function (done) {
         var MyComponent = san.defineComponent({
-            template:
-                '<div><input type="text" disabled="{{ed}}"><textarea disabled="{{ed}}"></textarea><button disabled="{{ed}}">btn</button></div>',
+            template: '<div><input type="text" disabled="{{ed}}"><textarea disabled="{{ed}}"></textarea><button disabled="{{ed}}">btn</button></div>',
         });
         var myComponent = new MyComponent({
             data: { ed: false },
@@ -608,8 +600,7 @@ describe("Element", function () {
 
     it("bind disabled, init true value", function (done) {
         var MyComponent = san.defineComponent({
-            template:
-                '<div><input type="text" disabled="{{ed}}"><textarea disabled="{{ed}}"></textarea><button disabled="{{ed}}">btn</button></div>',
+            template: '<div><input type="text" disabled="{{ed}}"><textarea disabled="{{ed}}"></textarea><button disabled="{{ed}}">btn</button></div>',
         });
         var myComponent = new MyComponent({
             data: { ed: true },
@@ -642,8 +633,7 @@ describe("Element", function () {
 
     it("bind readonly", function (done) {
         var MyComponent = san.defineComponent({
-            template:
-                '<div><input type="text" readonly="{{ed}}"><textarea readonly="{{ed}}"></textarea></div>',
+            template: '<div><input type="text" readonly="{{ed}}"><textarea readonly="{{ed}}"></textarea></div>',
         });
         var myComponent = new MyComponent();
 
@@ -755,9 +745,7 @@ describe("Element", function () {
         myComponent.data.set("name", "er<span>erik</span>ik");
 
         san.nextTick(function () {
-            expect(
-                /hello er<span>erik<\/span>ik!/i.test(a.innerHTML),
-            ).toBeTruthy();
+            expect(/hello er<span>erik<\/span>ik!/i.test(a.innerHTML)).toBeTruthy();
             expect(b.innerHTML).toBe("bbb");
 
             myComponent.dispose();
@@ -787,9 +775,7 @@ describe("Element", function () {
         myComponent.data.set("name", "er<span>erik</span>ik");
 
         san.nextTick(function () {
-            expect(
-                /hello er<span>erik<\/span>ik!/i.test(a.innerHTML),
-            ).toBeTruthy();
+            expect(/hello er<span>erik<\/span>ik!/i.test(a.innerHTML)).toBeTruthy();
             expect(b.innerHTML).toBe("bbb");
 
             myComponent.dispose();
@@ -816,9 +802,7 @@ describe("Element", function () {
         myComponent.data.set("name", "er<span>erik</span>ik");
 
         san.nextTick(function () {
-            expect(
-                /hello er<span>erik<\/span>ik!/i.test(a.innerHTML),
-            ).toBeTruthy();
+            expect(/hello er<span>erik<\/span>ik!/i.test(a.innerHTML)).toBeTruthy();
 
             myComponent.dispose();
             document.body.removeChild(wrap);
@@ -855,8 +839,7 @@ describe("Element", function () {
 
     it("id prop compatibility", function (done) {
         var MyComponent = san.defineComponent({
-            template:
-                '<ul id="test"><li s-for="name in list" id="it-{{name}}">{{name}}</li></ul>',
+            template: '<ul id="test"><li s-for="name in list" id="it-{{name}}">{{name}}</li></ul>',
         });
         var myComponent = new MyComponent({
             data: {
@@ -871,9 +854,7 @@ describe("Element", function () {
         var ul = document.getElementById("test");
         expect(ul.tagName).toBe("UL");
 
-        expect(document.getElementById("it-errorrik").innerHTML).toBe(
-            "errorrik",
-        );
+        expect(document.getElementById("it-errorrik").innerHTML).toBe("errorrik");
         expect(document.getElementById("it-leeight").innerHTML).toBe("leeight");
 
         myComponent.data.set("list[0]", "2b");
@@ -881,9 +862,7 @@ describe("Element", function () {
         san.nextTick(function () {
             expect(document.getElementById("it-errorrik") == null).toBeTruthy();
             expect(document.getElementById("it-2b").innerHTML).toBe("2b");
-            expect(document.getElementById("it-leeight").innerHTML).toBe(
-                "leeight",
-            );
+            expect(document.getElementById("it-leeight").innerHTML).toBe("leeight");
 
             myComponent.dispose();
             document.body.removeChild(wrap);
@@ -924,8 +903,7 @@ describe("Element", function () {
 
     it("html entity in text should decode collectly", function () {
         var MyComponent = san.defineComponent({
-            template:
-                '<div data-text="&lt;&amp;ddddd&quot;&gt;&#39;&#x00021;"></div>',
+            template: '<div data-text="&lt;&amp;ddddd&quot;&gt;&#39;&#x00021;"></div>',
         });
         var myComponent = new MyComponent();
 
@@ -940,8 +918,7 @@ describe("Element", function () {
     });
 
     it("html entity support is limited", function () {
-        var entityStr =
-            "&#39;&#x00021;&emsp;&ensp;&thinsp;&copy;&lt;p&gt;&reg;&lt;/p&gt;&reg;&zwnj;&zwj;&lt;&nbsp;&gt;&quot;&lll;";
+        var entityStr = "&#39;&#x00021;&emsp;&ensp;&thinsp;&copy;&lt;p&gt;&reg;&lt;/p&gt;&reg;&zwnj;&zwj;&lt;&nbsp;&gt;&quot;&lll;";
         var MyComponent = san.defineComponent({
             template: "<u>" + entityStr + "</u>",
         });
@@ -963,8 +940,7 @@ describe("Element", function () {
 
     it("has only s-bind attr", function (done) {
         var MyComponent = san.defineComponent({
-            template:
-                '<div><input s-bind="inputProps"><u>{{inputProps.value}}</u></div>',
+            template: '<div><input s-bind="inputProps"><u>{{inputProps.value}}</u></div>',
         });
         var myComponent = new MyComponent({
             data: {
@@ -997,8 +973,7 @@ describe("Element", function () {
 
     it("has s-bind with other attr, confilct", function (done) {
         var MyComponent = san.defineComponent({
-            template:
-                '<div><a s-bind="aProps" target="{{target}}">link</a></div>',
+            template: '<div><a s-bind="aProps" target="{{target}}">link</a></div>',
         });
         var myComponent = new MyComponent({
             data: {
@@ -1087,8 +1062,7 @@ describe("Element", function () {
 
     it("type attr for button element", function (done) {
         var MyComponent = san.defineComponent({
-            template:
-                '<div><form action="https://www.baidu.com/"><input type="text" value="test" name="kw"><button type="button">nosubmit</button></form></div>',
+            template: '<div><form action="https://www.baidu.com/"><input type="text" value="test" name="kw"><button type="button">nosubmit</button></form></div>',
         });
         var myComponent = new MyComponent();
 
@@ -1127,8 +1101,7 @@ describe("Element", function () {
 
     it("content attr interp valued null and undefined and false", function () {
         var MyComponent = san.defineComponent({
-            template:
-                '<div undef="a{{undef}}b" nul="a{{nul}}b" falsy="a{{falsy}}b">test</div>',
+            template: '<div undef="a{{undef}}b" nul="a{{nul}}b" falsy="a{{falsy}}b">test</div>',
         });
         var myComponent = new MyComponent({
             data: {
@@ -1151,8 +1124,7 @@ describe("Element", function () {
 
     it("content attr with only one expr interp", function (done) {
         var MyComponent = san.defineComponent({
-            template:
-                '<div undef="{{undef}}" nul="{{nul}}" falsy="{{falsy}}" truth="{{truth}}" estr="{{estr}}" zero="{{0}}">test</div>',
+            template: '<div undef="{{undef}}" nul="{{nul}}" falsy="{{falsy}}" truth="{{truth}}" estr="{{estr}}" zero="{{0}}">test</div>',
         });
         var myComponent = new MyComponent({
             data: {
@@ -1331,8 +1303,7 @@ describe("Element", function () {
 
     it("show directive 4 display style, mix style declaration", function (done) {
         var MyComponent = san.defineComponent({
-            template:
-                '<div><span s-show="num == 3" style="position:{{pos}}">{{num}}</span></div>',
+            template: '<div><span s-show="num == 3" style="position:{{pos}}">{{num}}</span></div>',
         });
         var myComponent = new MyComponent({
             data: { num: 2, pos: "absolute" },

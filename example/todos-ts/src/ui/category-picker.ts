@@ -4,12 +4,12 @@ import "./category-picker.css";
 import Category from "../category/model";
 
 interface CategoryPickerData {
-  value: number;
-  datasource: Category[];
+    value: number;
+    datasource: Category[];
 }
 
 export default class CategoryPicker extends Component<CategoryPickerData> {
-  static template = `
+    static template = `
     <ul class="ui-categorypicker">
         <li
             s-for="item, index in datasource"
@@ -20,11 +20,11 @@ export default class CategoryPicker extends Component<CategoryPickerData> {
     </ul>
     `;
 
-  initData() {
-    return { datasource: [] };
-  }
+    initData() {
+        return { datasource: [] };
+    }
 
-  itemClick(id: number) {
-    this.data.set("value", id);
-  }
+    itemClick(id: number) {
+        this.data.set("value", id);
+    }
 }

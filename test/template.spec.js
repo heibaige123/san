@@ -1,8 +1,7 @@
 describe("Template Tag", function () {
     it("has text sibling，mix inner text node", function (done) {
         var MyComponent = san.defineComponent({
-            template:
-                "<a>test<template>{{name}}<p>ppp</p>{{name}}</template>aaaa</a>",
+            template: "<a>test<template>{{name}}<p>ppp</p>{{name}}</template>aaaa</a>",
         });
 
         var myComponent = new MyComponent({
@@ -40,8 +39,7 @@ describe("Template Tag", function () {
 
     it("has text sibling，mix inner text node, init with empty string", function (done) {
         var MyComponent = san.defineComponent({
-            template:
-                "<a>test<template>{{name}}<p>ppp</p>{{name}}</template>aaaa</a>",
+            template: "<a>test<template>{{name}}<p>ppp</p>{{name}}</template>aaaa</a>",
         });
 
         var myComponent = new MyComponent({
@@ -76,8 +74,7 @@ describe("Template Tag", function () {
 
     it("with if", function (done) {
         var MyComponent = san.defineComponent({
-            template:
-                '<div><u>Hello {{name}}!</u><template s-if="num">11111</template> <template s-else>22222</template></div>',
+            template: '<div><u>Hello {{name}}!</u><template s-if="num">11111</template> <template s-else>22222</template></div>',
         });
 
         var myComponent = new MyComponent();

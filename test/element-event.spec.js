@@ -3,8 +3,7 @@ describe("Element-Event", function () {
         var clicked = 0;
 
         var MyComponent = san.defineComponent({
-            template:
-                '<a on-click="mainClicker"><span title="{{name}}" on-click="clicker(name, email, $event)" style="color: red; cursor: pointer">{{name}}, please click here!</span></a>',
+            template: '<a on-click="mainClicker"><span title="{{name}}" on-click="clicker(name, email, $event)" style="color: red; cursor: pointer">{{name}}, please click here!</span></a>',
 
             mainClicker: function () {
                 expect(clicked).toBe(1);
@@ -50,8 +49,7 @@ describe("Element-Event", function () {
 
     it("bind click to noexists method, dont throw error", function (done) {
         var MyComponent = san.defineComponent({
-            template:
-                '<a><span title="{{name}}" on-click="nothingclicker(name, email, $event)">{{name}}, please click here!</span></a>',
+            template: '<a><span title="{{name}}" on-click="nothingclicker(name, email, $event)">{{name}}, please click here!</span></a>',
         });
         var myComponent = new MyComponent();
         myComponent.data.set("name", "errorrik");
@@ -122,11 +120,7 @@ describe("Element-Event", function () {
         });
 
         var MyComponent = san.defineComponent({
-            template:
-                "<div>" +
-                '<child-component s-ref="nativeChild" on-click="native:clicker"></child-component>' +
-                '<child-component s-ref="child"></child-component>' +
-                "</div>",
+            template: "<div>" + '<child-component s-ref="nativeChild" on-click="native:clicker"></child-component>' + '<child-component s-ref="child"></child-component>' + "</div>",
             components: {
                 "child-component": ChildComponent,
             },
@@ -174,8 +168,7 @@ describe("Element-Event", function () {
         });
 
         var MyComponent = san.defineComponent({
-            template:
-                '<div><label><x-checkbox on-click="native:onNativeClick"/>Click me and see console</label></div>',
+            template: '<div><label><x-checkbox on-click="native:onNativeClick"/>Click me and see console</label></div>',
 
             components: {
                 "x-checkbox": Checkbox,
@@ -219,10 +212,7 @@ describe("Element-Event", function () {
         });
 
         var MyComponent = san.defineComponent({
-            template:
-                "<div>" +
-                '<ui-button on-click="native:clicker(i, $event)" s-ref="btn-{{i}}" text="{{btn.text}}" s-for="btn,i in buttons" />' +
-                "</div>",
+            template: "<div>" + '<ui-button on-click="native:clicker(i, $event)" s-ref="btn-{{i}}" text="{{btn.text}}" s-for="btn,i in buttons" />' + "</div>",
             components: {
                 "ui-button": Button,
             },
@@ -323,8 +313,7 @@ describe("Element-Event", function () {
 
         var clicked = 0;
         var MyComponent = san.defineComponent({
-            template:
-                '<a><span title="{{name}}" on-click="clicker(\'te:st\')">{{name}}, please click here!</span></a>',
+            template: '<a><span title="{{name}}" on-click="clicker(\'te:st\')">{{name}}, please click here!</span></a>',
 
             mainClicker: function () {
                 clicked++;
@@ -363,8 +352,7 @@ describe("Element-Event", function () {
     it("stop modifier", function (done) {
         var clicked = 0;
         var MyComponent = san.defineComponent({
-            template:
-                '<a on-click="mainClicker"><span on-click="stop:clicker">please click here!</span><b>{{name}}</b></a>',
+            template: '<a on-click="mainClicker"><span on-click="stop:clicker">please click here!</span><b>{{name}}</b></a>',
 
             mainClicker: function () {
                 this.data.set("name", "erik");
@@ -412,8 +400,7 @@ describe("Element-Event", function () {
     it("prevent modifier", function (done) {
         var clicked = 0;
         var MyComponent = san.defineComponent({
-            template:
-                '<a on-click="prevent:mainClicker" href="https://www.baidu.com/">{{name}}</a>',
+            template: '<a on-click="prevent:mainClicker" href="https://www.baidu.com/">{{name}}</a>',
 
             mainClicker: function () {
                 clicked = 1;

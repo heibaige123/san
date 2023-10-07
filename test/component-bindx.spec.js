@@ -50,8 +50,7 @@ describe("Component-TwoWay Binding", function () {
         MyComponent.prototype.components = {
             "ui-color": ColorPicker,
         };
-        MyComponent.prototype.template =
-            '<div><span title="{{color}}">{{color}}</span> <ui-color value="{= color =}" san-ref="colorPicker"></ui-color></div>';
+        MyComponent.prototype.template = '<div><span title="{{color}}">{{color}}</span> <ui-color value="{= color =}" san-ref="colorPicker"></ui-color></div>';
 
         var myComponent = new MyComponent();
         myComponent.data.set("color", "green");
@@ -85,10 +84,7 @@ describe("Component-TwoWay Binding", function () {
         MyComponent.prototype.components = {
             "ui-color": ColorPicker,
         };
-        MyComponent.prototype.template =
-            '<div><div san-for="item in colors">' +
-            '<span title="{{item}}">{{item}}</span><ui-color value="{=item=}"></ui-color>' +
-            "</div></div>";
+        MyComponent.prototype.template = '<div><div san-for="item in colors">' + '<span title="{{item}}">{{item}}</span><ui-color value="{=item=}"></ui-color>' + "</div></div>";
 
         var myComponent = new MyComponent();
         myComponent.data.set("colors", ["blue", "yellow"]);
@@ -126,10 +122,7 @@ describe("Component-TwoWay Binding", function () {
             "ui-color": ColorPicker,
         };
 
-        MyComponent.prototype.template =
-            '<div><div san-for="item in colors">' +
-            '<span title="{{item.name}}">{{item.name}}</span><ui-color value="{=item.name=}"></ui-color>' +
-            "</div></div>";
+        MyComponent.prototype.template = '<div><div san-for="item in colors">' + '<span title="{{item.name}}">{{item.name}}</span><ui-color value="{=item.name=}"></ui-color>' + "</div></div>";
 
         var myComponent = new MyComponent();
         myComponent.data.set("colors", [{ name: "blue" }, { name: "yellow" }]);
@@ -223,11 +216,7 @@ describe("Component-TwoWay Binding", function () {
             "ui-color": ColorPicker,
         };
         PersonView.prototype.template =
-            "<div>" +
-            '<b title="{{value.name}}">{{value.name}}</b>' +
-            '<b title="{{value.color}}">{{value.color}}</b>' +
-            '<ui-color value="{=value.color=}"></ui-color>' +
-            "</div>";
+            "<div>" + '<b title="{{value.name}}">{{value.name}}</b>' + '<b title="{{value.color}}">{{value.color}}</b>' + '<ui-color value="{=value.color=}"></ui-color>' + "</div>";
 
         function MyComponent(options) {
             san.Component.call(this, options);
@@ -238,8 +227,7 @@ describe("Component-TwoWay Binding", function () {
             "ui-person": PersonView,
         };
 
-        MyComponent.prototype.template =
-            '<div><ui-person value="{=person=}"></ui-person></div>';
+        MyComponent.prototype.template = '<div><ui-person value="{=person=}"></ui-person></div>';
 
         var myComponent = new MyComponent();
         myComponent.data.set("person", {
@@ -274,8 +262,7 @@ describe("Component-TwoWay Binding", function () {
         }
         san.inherits(Person, san.Component);
 
-        Person.prototype.template =
-            '<div><b title="{{name}}">{{name}}</b></div>';
+        Person.prototype.template = '<div><b title="{{name}}">{{name}}</b></div>';
 
         Person.prototype.attached = function () {
             var me = this;
@@ -293,8 +280,7 @@ describe("Component-TwoWay Binding", function () {
             "ui-person": Person,
         };
 
-        MyComponent.prototype.template =
-            '<div><ui-person name="{=person.name=}"></ui-person><b title="{{person.name}}">{{person.name}}</b></div>';
+        MyComponent.prototype.template = '<div><ui-person name="{=person.name=}"></ui-person><b title="{{person.name}}">{{person.name}}</b></div>';
 
         var myComponent = new MyComponent();
         myComponent.data.set("person", {
@@ -328,8 +314,7 @@ describe("Component-TwoWay Binding", function () {
         }
         san.inherits(Person, san.Component);
 
-        Person.prototype.template =
-            '<div><b title="{{info.name}}">{{info.name}}</b></div>';
+        Person.prototype.template = '<div><b title="{{info.name}}">{{info.name}}</b></div>';
 
         Person.prototype.attached = function () {
             var me = this;
@@ -347,8 +332,7 @@ describe("Component-TwoWay Binding", function () {
             "ui-person": Person,
         };
 
-        MyComponent.prototype.template =
-            '<div><ui-person info="{=person=}"></ui-person><b title="{{person.name}}">{{person.name}}</b></div>';
+        MyComponent.prototype.template = '<div><ui-person info="{=person=}"></ui-person><b title="{{person.name}}">{{person.name}}</b></div>';
 
         var myComponent = new MyComponent();
         myComponent.data.set("person", {
@@ -382,8 +366,7 @@ describe("Component-TwoWay Binding", function () {
         }
         san.inherits(Person, san.Component);
 
-        Person.prototype.template =
-            '<div><b title="{{info.name}}">{{info.name}}</b></div>';
+        Person.prototype.template = '<div><b title="{{info.name}}">{{info.name}}</b></div>';
 
         Person.prototype.attached = function () {
             var me = this;
@@ -455,8 +438,7 @@ describe("Component-TwoWay Binding", function () {
                 "ui-text": Text,
             },
 
-            template:
-                '<div><b san-if="!name">null</b><ui-text text="{= name =}"></ui-text></div>',
+            template: '<div><b san-if="!name">null</b><ui-text text="{= name =}"></ui-text></div>',
         });
 
         var wrap = document.createElement("div");
@@ -502,8 +484,7 @@ describe("Component-TwoWay Binding", function () {
                 "ui-text": Text,
             },
 
-            template:
-                '<div><b san-if="!name">null</b><ui-text text="{= name =}"></ui-text></div>',
+            template: '<div><b san-if="!name">null</b><ui-text text="{= name =}"></ui-text></div>',
         });
 
         var wrap = document.createElement("div");
@@ -589,8 +570,7 @@ describe("Component-TwoWay Binding", function () {
             components: {
                 "x-input": Input,
             },
-            template:
-                '<div><b>{{name}}</b><x-input value="{=name=}"/><span>{{name}}</span></div>',
+            template: '<div><b>{{name}}</b><x-input value="{=name=}"/><span>{{name}}</span></div>',
         });
         var myComponent = new MyComponent();
         expect(myComponent.data.get("name") == null).toBeTruthy();

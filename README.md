@@ -46,47 +46,47 @@ CDN:
 ```html
 <!doctype html>
 <html>
-  <head>
-    <title>Quick Start</title>
-    <script src="https://unpkg.com/san@latest"></script>
-  </head>
+    <head>
+        <title>Quick Start</title>
+        <script src="https://unpkg.com/san@latest"></script>
+    </head>
 
-  <body>
-    <script>
-      const MyApp = san.defineComponent({
-        template: `
+    <body>
+        <script>
+            const MyApp = san.defineComponent({
+                template: `
                 <div>
                     <input type="text" value="{=name=}">
                     <p>Hello {{name}}!</p>
                 </div>
             `,
-      });
+            });
 
-      let myApp = new MyApp({
-        data: {
-          name: "San",
-        },
-      });
-      myApp.attach(document.body);
-    </script>
-  </body>
+            let myApp = new MyApp({
+                data: {
+                    name: "San",
+                },
+            });
+            myApp.attach(document.body);
+        </script>
+    </body>
 </html>
 ```
 
 ## 示例(Examples)
 
-- [Online Examples](https://baidu.github.io/san/example/)
-- [Todos(AMD)](https://github.com/baidu/san/tree/master/example/todos-amd)
-- [Todos(ESNext)](https://github.com/baidu/san/tree/master/example/todos-esnext)
-- [RealWorld App(with store)](https://github.com/ecomfe/san-realworld-app)
+-   [Online Examples](https://baidu.github.io/san/example/)
+-   [Todos(AMD)](https://github.com/baidu/san/tree/master/example/todos-amd)
+-   [Todos(ESNext)](https://github.com/baidu/san/tree/master/example/todos-esnext)
+-   [RealWorld App(with store)](https://github.com/ecomfe/san-realworld-app)
 
 ## 文档(Document)
 
-- [开始(Start)](https://baidu.github.io/san/tutorial/start/)
-- [教程(Tutorial)](https://baidu.github.io/san/tutorial/setup/)
-- [API](https://baidu.github.io/san/doc/api/)
-- [ANode](https://github.com/baidu/san/blob/master/doc/anode.md)
-- [APack](https://github.com/baidu/san/blob/master/doc/anode-pack.md)
+-   [开始(Start)](https://baidu.github.io/san/tutorial/start/)
+-   [教程(Tutorial)](https://baidu.github.io/san/tutorial/setup/)
+-   [API](https://baidu.github.io/san/doc/api/)
+-   [ANode](https://github.com/baidu/san/blob/master/doc/anode.md)
+-   [APack](https://github.com/baidu/san/blob/master/doc/anode-pack.md)
 
 ## 周边(Companions)
 

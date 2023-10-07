@@ -13,11 +13,7 @@ module.exports = function (config) {
         frameworks: ["jasmine"],
 
         // list of files / patterns to load in the browser
-        files: [
-            "test/lib/triggerEvent.js",
-            "dist/san.modern.dev.js",
-            "test/**/*.spec.js",
-        ],
+        files: ["test/lib/triggerEvent.js", "dist/san.modern.dev.js", "test/**/*.spec.js"],
 
         // list of files to exclude
         exclude: ["test/e2e/*spec.js"],
@@ -66,10 +62,7 @@ module.exports = function (config) {
 
     if (process.argv.indexOf("--coverage") > -1) {
         configuration.reporters.push("coverage", "karma-remap-istanbul");
-        configuration.preprocessors["dist/san.modern.dev.js"] = [
-            "coverage",
-            "sourcemap",
-        ];
+        configuration.preprocessors["dist/san.modern.dev.js"] = ["coverage", "sourcemap"];
         configuration.remapIstanbulReporter = {
             reports: {
                 html: "coverage/html",

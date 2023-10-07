@@ -11,10 +11,7 @@ const OPTI_ENUM = {
     DataChangeType: require("../src/runtime/data-change-type"),
 };
 
-const OPTI_ENUM_REPLACE_REG = new RegExp(
-    "(" + Object.keys(OPTI_ENUM).join("|") + ")\\.([A-Z_]+)",
-    "g",
-);
+const OPTI_ENUM_REPLACE_REG = new RegExp("(" + Object.keys(OPTI_ENUM).join("|") + ")\\.([A-Z_]+)", "g");
 
 function optiEnumReplaceFn(match, type, prop) {
     if (!(prop in OPTI_ENUM[type])) {
@@ -31,10 +28,7 @@ function pack(rootDir, mainFile) {
 
     let deps = depAnalyse(mainFile);
     return {
-        content: fileContent(mainFile, 1, []).replace(
-            "// #[main-dependencies]",
-            deps.map((dep) => fileContent(dep)).join("\n\n"),
-        ),
+        content: fileContent(mainFile, 1, []).replace("// #[main-dependencies]", deps.map((dep) => fileContent(dep)).join("\n\n")),
         deps: deps,
         base: mainFile,
     };
@@ -100,10 +94,7 @@ function fileContent(file, dontIgnoreExports) {
         .readFileSync(file, "UTF-8")
         .split(/\r?\n/)
         .map((line) => {
-            if (
-                /(=|^|\s)require\(['"]/.test(line) ||
-                (!dontIgnoreExports && /^\s*(module\.)?exports\s+=/.test(line))
-            ) {
+            if (/(=|^|\s)require\(['"]/.test(line) || (!dontIgnoreExports && /^\s*(module\.)?exports\s+=/.test(line))) {
                 return "// " + line;
             }
 

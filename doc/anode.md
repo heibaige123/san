@@ -64,8 +64,8 @@ ANode 全名抽象节点，是 San 组件框架 template 解析的返回结果�
 
 属性声明根据不同形式，处理成不同的绑定表达式：
 
-- 复杂形式的值，处理成[TEXT表达式](#user-content-text)。如 `title="This is {{name}}"`
-- 只包含单一插值，并且无 filter 时，插值内部的表达式会被抽取出来。如 `title="{{name}}"`
+-   复杂形式的值，处理成[TEXT表达式](#user-content-text)。如 `title="This is {{name}}"`
+-   只包含单一插值，并且无 filter 时，插值内部的表达式会被抽取出来。如 `title="{{name}}"`
 
 ### 双向绑定语法
 
@@ -90,10 +90,8 @@ San 认为 template 应该尽量保持 HTML 的语法简洁性，所以双向绑
 <span s-else>Offline</span>
 
 <dl>
-  <dt>name - email</dt>
-  <dd s-for="p in persons" title="{{p.name}}">
-    {{p.name}}({{dept}}) - {{p.email}}
-  </dd>
+    <dt>name - email</dt>
+    <dd s-for="p in persons" title="{{p.name}}">{{p.name}}({{dept}}) - {{p.email}}</dd>
 </dl>
 ```
 
@@ -103,8 +101,8 @@ San 的 template 支持多种形式的表达式，表达式信息在 template �
 
 ```javascript
 exprInfo = {
-  type: 1,
-  value: "hello",
+    type: 1,
+    value: "hello",
 };
 ```
 
@@ -116,18 +114,18 @@ exprInfo = {
 
 ```javascript
 var ExprType = {
-  STRING: 1,
-  NUMBER: 2,
-  BOOL: 3,
-  ACCESSOR: 4,
-  INTERP: 5,
-  CALL: 6,
-  TEXT: 7,
-  BINARY: 8,
-  UNARY: 9,
-  TERTIARY: 10,
-  ARRAY: 11,
-  OBJECT: 12,
+    STRING: 1,
+    NUMBER: 2,
+    BOOL: 3,
+    ACCESSOR: 4,
+    INTERP: 5,
+    CALL: 6,
+    TEXT: 7,
+    BINARY: 8,
+    UNARY: 9,
+    TERTIARY: 10,
+    ARRAY: 11,
+    OBJECT: 12,
 };
 ```
 
@@ -140,8 +138,8 @@ exprInfo 中必须包含 type 属性，值为上面类型值之一。下面不�
 ```javascript
 // value - 字符串的值
 exprInfo = {
-  type: ExprType.STRING,
-  value: "你好",
+    type: ExprType.STRING,
+    value: "你好",
 };
 ```
 
@@ -152,8 +150,8 @@ exprInfo = {
 ```javascript
 // value - 数值的值
 exprInfo = {
-  type: ExprType.NUMBER,
-  value: 123.456,
+    type: ExprType.NUMBER,
+    value: 123.456,
 };
 ```
 
@@ -164,8 +162,8 @@ exprInfo = {
 ```javascript
 // value - 数值的值
 exprInfo = {
-  type: ExprType.BOOL,
-  value: true,
+    type: ExprType.BOOL,
+    value: true,
 };
 ```
 
@@ -176,18 +174,18 @@ exprInfo = {
 ```javascript
 // paths - 属性路径。数组，里面每一项是一个表达式对象
 exprInfo = {
-  type: ExprType.ACCESSOR,
-  paths: [
-    { type: ExprType.STRING, value: "user" },
-    { type: ExprType.STRING, value: "phones" },
-    {
-      type: ExprType.ACCESSOR,
-      paths: [
-        { type: ExprType.STRING, value: "DefaultConfig" },
-        { type: ExprType.STRING, value: "PHONE-INDEX" },
-      ],
-    },
-  ],
+    type: ExprType.ACCESSOR,
+    paths: [
+        { type: ExprType.STRING, value: "user" },
+        { type: ExprType.STRING, value: "phones" },
+        {
+            type: ExprType.ACCESSOR,
+            paths: [
+                { type: ExprType.STRING, value: "DefaultConfig" },
+                { type: ExprType.STRING, value: "PHONE-INDEX" },
+            ],
+        },
+    ],
 };
 ```
 
@@ -199,24 +197,24 @@ exprInfo = {
 // expr - 数据访问部分表达式信息，一个表达式对象
 // filters - 过滤器部分信息。数组，其中每一项是一个 CALL 表达式对象
 exprInfo = {
-  type: ExprType.INTERP,
-  expr: {
-    type: ExprType.ACCESSOR,
-    paths: [
-      { type: ExprType.STRING, value: "user" },
-      { type: ExprType.STRING, value: "phones" },
-    ],
-  },
-  filters: [
-    {
-      type: ExprType.CALL,
-      name: {
+    type: ExprType.INTERP,
+    expr: {
         type: ExprType.ACCESSOR,
-        paths: [{ type: ExprType.STRING, value: "comma" }],
-      },
-      args: [{ type: ExprType.NUMBER, literal: "3" }],
+        paths: [
+            { type: ExprType.STRING, value: "user" },
+            { type: ExprType.STRING, value: "phones" },
+        ],
     },
-  ],
+    filters: [
+        {
+            type: ExprType.CALL,
+            name: {
+                type: ExprType.ACCESSOR,
+                paths: [{ type: ExprType.STRING, value: "comma" }],
+            },
+            args: [{ type: ExprType.NUMBER, literal: "3" }],
+        },
+    ],
 };
 ```
 
@@ -228,12 +226,12 @@ exprInfo = {
 // name - 调用方法名。字符串
 // args - 调用参数列表。数组，其中每一项是一个表达式对象
 exprInfo = {
-  type: ExprType.CALL,
-  name: {
-    type: ExprType.ACCESSOR,
-    paths: [{ type: ExprType.STRING, value: "comma" }],
-  },
-  args: [{ type: ExprType.NUMBER, literal: "3" }],
+    type: ExprType.CALL,
+    name: {
+        type: ExprType.ACCESSOR,
+        paths: [{ type: ExprType.STRING, value: "comma" }],
+    },
+    args: [{ type: ExprType.NUMBER, literal: "3" }],
 };
 ```
 
@@ -244,19 +242,19 @@ exprInfo = {
 ```javascript
 // segs - 文本组成片段。数组，其中每一项是一个 STRING 或 INTERP表达式对象
 exprInfo = {
-  type: ExprType.TEXT,
-  segs: [
-    { type: ExprType.STRING, value: "Hello " },
-    {
-      type: ExprType.INTERP,
-      expr: {
-        type: ExprType.ACCESSOR,
-        paths: [{ type: ExprType.STRING, value: "whoAmI" }],
-      },
-      filters: [],
-    },
-    { type: ExprType.STRING, value: "!" },
-  ],
+    type: ExprType.TEXT,
+    segs: [
+        { type: ExprType.STRING, value: "Hello " },
+        {
+            type: ExprType.INTERP,
+            expr: {
+                type: ExprType.ACCESSOR,
+                paths: [{ type: ExprType.STRING, value: "whoAmI" }],
+            },
+            filters: [],
+        },
+        { type: ExprType.STRING, value: "!" },
+    ],
 };
 ```
 
@@ -268,18 +266,18 @@ exprInfo = {
 // operator - 操作符。数值，值为操作符各个 char 的 ascii 之和。比如 == 操作符的 operator 为 61 + 61 = 122
 // segs - 包含两个表达式对象的数组
 exprInfo = {
-  type: ExprType.BINARY,
-  segs: [
-    {
-      type: ExprType.ACCESSOR,
-      paths: [{ type: ExprType.STRING, value: "commaLength" }],
-    },
-    {
-      type: ExprType.NUMBER,
-      literal: "1",
-    },
-  ],
-  operator: 43,
+    type: ExprType.BINARY,
+    segs: [
+        {
+            type: ExprType.ACCESSOR,
+            paths: [{ type: ExprType.STRING, value: "commaLength" }],
+        },
+        {
+            type: ExprType.NUMBER,
+            literal: "1",
+        },
+    ],
+    operator: 43,
 };
 ```
 
@@ -287,22 +285,22 @@ exprInfo = {
 
 一元表达式，支持：
 
-- `!` 逻辑否定
-- `-` 取负
-- `+` 转换成数值
+-   `!` 逻辑否定
+-   `-` 取负
+-   `+` 转换成数值
 
 ```javascript
 // operator - 操作符。数值，值为操作符 char 的 ascii。
 exprInfo = {
-  type: ExprType.UNARY,
-  expr: {
-    type: ExprType.ACCESSOR,
-    paths: [
-      { type: ExprType.STRING, value: "user" },
-      { type: ExprType.STRING, value: "isLogin" },
-    ],
-  },
-  operator: 33,
+    type: ExprType.UNARY,
+    expr: {
+        type: ExprType.ACCESSOR,
+        paths: [
+            { type: ExprType.STRING, value: "user" },
+            { type: ExprType.STRING, value: "isLogin" },
+        ],
+    },
+    operator: 33,
 };
 ```
 
@@ -313,24 +311,24 @@ exprInfo = {
 ```javascript
 // segs - 包含3个表达式对象的数组，第一个是条件表达式，第二个是值为真时的表达式，第三个是值为假时的表达式
 exprInfo = {
-  type: ExprType.TERTIARY,
-  segs: [
-    {
-      type: ExprType.ACCESSOR,
-      paths: [
-        { type: ExprType.STRING, value: "user" },
-        { type: ExprType.STRING, value: "isLogin" },
-      ],
-    },
-    {
-      type: ExprType.STRING,
-      value: "yes",
-    },
-    {
-      type: ExprType.STRING,
-      value: "no",
-    },
-  ],
+    type: ExprType.TERTIARY,
+    segs: [
+        {
+            type: ExprType.ACCESSOR,
+            paths: [
+                { type: ExprType.STRING, value: "user" },
+                { type: ExprType.STRING, value: "isLogin" },
+            ],
+        },
+        {
+            type: ExprType.STRING,
+            value: "yes",
+        },
+        {
+            type: ExprType.STRING,
+            value: "no",
+        },
+    ],
 };
 ```
 
@@ -342,44 +340,44 @@ exprInfo = {
 // [name, 'text', ...ext, true]
 // items - 数组项列表。expr 为数组项表达式，spread 代表是否为展开项
 exprInfo = {
-  type: ExprType.ARRAY,
-  items: [
-    {
-      expr: {
-        type: ExprType.ACCESSOR,
-        paths: [
-          {
-            type: ExprType.STRING,
-            value: "name",
-          },
-        ],
-      },
-    },
-    {
-      expr: {
-        type: ExprType.STRING,
-        value: "text",
-      },
-    },
-    {
-      spread: true,
-      expr: {
-        type: ExprType.ACCESSOR,
-        paths: [
-          {
-            type: ExprType.STRING,
-            value: "ext",
-          },
-        ],
-      },
-    },
-    {
-      expr: {
-        type: ExprType.BOOL,
-        value: true,
-      },
-    },
-  ],
+    type: ExprType.ARRAY,
+    items: [
+        {
+            expr: {
+                type: ExprType.ACCESSOR,
+                paths: [
+                    {
+                        type: ExprType.STRING,
+                        value: "name",
+                    },
+                ],
+            },
+        },
+        {
+            expr: {
+                type: ExprType.STRING,
+                value: "text",
+            },
+        },
+        {
+            spread: true,
+            expr: {
+                type: ExprType.ACCESSOR,
+                paths: [
+                    {
+                        type: ExprType.STRING,
+                        value: "ext",
+                    },
+                ],
+            },
+        },
+        {
+            expr: {
+                type: ExprType.BOOL,
+                value: true,
+            },
+        },
+    ],
 };
 ```
 
@@ -391,51 +389,51 @@ exprInfo = {
 // {name: realName, email, ...ext}
 // items - 对象项列表。name 为项 name 表达式， expr 为项 value 表达式，spread 代表是否为展开项
 exprInfo = {
-  type: ExprType.OBJECT,
-  items: [
-    {
-      name: {
-        type: ExprType.STRING,
-        value: "name",
-      },
-      expr: {
-        type: ExprType.ACCESSOR,
-        paths: [
-          {
-            type: ExprType.STRING,
-            value: "realName",
-          },
-        ],
-      },
-    },
-    {
-      name: {
-        type: ExprType.STRING,
-        value: "email",
-      },
-      expr: {
-        type: ExprType.ACCESSOR,
-        paths: [
-          {
-            type: ExprType.STRING,
-            value: "email",
-          },
-        ],
-      },
-    },
-    {
-      spread: true,
-      expr: {
-        type: ExprType.ACCESSOR,
-        paths: [
-          {
-            type: ExprType.STRING,
-            value: "ext",
-          },
-        ],
-      },
-    },
-  ],
+    type: ExprType.OBJECT,
+    items: [
+        {
+            name: {
+                type: ExprType.STRING,
+                value: "name",
+            },
+            expr: {
+                type: ExprType.ACCESSOR,
+                paths: [
+                    {
+                        type: ExprType.STRING,
+                        value: "realName",
+                    },
+                ],
+            },
+        },
+        {
+            name: {
+                type: ExprType.STRING,
+                value: "email",
+            },
+            expr: {
+                type: ExprType.ACCESSOR,
+                paths: [
+                    {
+                        type: ExprType.STRING,
+                        value: "email",
+                    },
+                ],
+            },
+        },
+        {
+            spread: true,
+            expr: {
+                type: ExprType.ACCESSOR,
+                paths: [
+                    {
+                        type: ExprType.STRING,
+                        value: "ext",
+                    },
+                ],
+            },
+        },
+    ],
 };
 ```
 
@@ -447,29 +445,29 @@ exprInfo = {
 // (a + b) * c
 // a + b 的表达式对象上包含 parenthesized 属性，值为 true
 exprInfo = {
-  type: ExprType.BINARY,
-  segs: [
-    {
-      type: ExprType.BINARY,
-      parenthesized: true,
-      segs: [
+    type: ExprType.BINARY,
+    segs: [
         {
-          type: ExprType.ACCESSOR,
-          paths: [{ type: ExprType.STRING, value: "a" }],
+            type: ExprType.BINARY,
+            parenthesized: true,
+            segs: [
+                {
+                    type: ExprType.ACCESSOR,
+                    paths: [{ type: ExprType.STRING, value: "a" }],
+                },
+                {
+                    type: ExprType.ACCESSOR,
+                    paths: [{ type: ExprType.STRING, value: "b" }],
+                },
+            ],
+            operator: 43,
         },
         {
-          type: ExprType.ACCESSOR,
-          paths: [{ type: ExprType.STRING, value: "b" }],
+            type: ExprType.ACCESSOR,
+            paths: [{ type: ExprType.STRING, value: "c" }],
         },
-      ],
-      operator: 43,
-    },
-    {
-      type: ExprType.ACCESSOR,
-      paths: [{ type: ExprType.STRING, value: "c" }],
-    },
-  ],
-  operator: 42,
+    ],
+    operator: 42,
 };
 ```
 
@@ -536,40 +534,40 @@ aNode.directives["if"];
 
 ```javascript
 aNode = {
-  directives: {},
-  props: [],
-  events: [],
-  children: [
-    {
-      textExpr: {
-        type: ExprType.TEXT,
-        segs: [
-          {
-            type: ExprType.STRING,
-            value: "Hello ",
-          },
-          {
-            type: ExprType.INTERP,
-            expr: {
-              type: ExprType.ACCESSOR,
-              paths: [
-                {
-                  type: ExprType.STRING,
-                  value: "name",
-                },
-              ],
+    directives: {},
+    props: [],
+    events: [],
+    children: [
+        {
+            textExpr: {
+                type: ExprType.TEXT,
+                segs: [
+                    {
+                        type: ExprType.STRING,
+                        value: "Hello ",
+                    },
+                    {
+                        type: ExprType.INTERP,
+                        expr: {
+                            type: ExprType.ACCESSOR,
+                            paths: [
+                                {
+                                    type: ExprType.STRING,
+                                    value: "name",
+                                },
+                            ],
+                        },
+                        filters: [],
+                    },
+                    {
+                        type: ExprType.STRING,
+                        value: "!",
+                    },
+                ],
             },
-            filters: [],
-          },
-          {
-            type: ExprType.STRING,
-            value: "!",
-          },
-        ],
-      },
-    },
-  ],
-  tagName: "p",
+        },
+    ],
+    tagName: "p",
 };
 ```
 
@@ -577,8 +575,8 @@ aNode = {
 
 属性信息是一个 `绑定信息对象`，其中：
 
-- name - 属性名
-- expr - 表达式信息对象
+-   name - 属性名
+-   expr - 表达式信息对象
 
 下面例子的 title 属性绑定到一个 TEXT 类型的表达式中。
 
@@ -588,58 +586,58 @@ aNode = {
 
 ```javascript
 aNode = {
-  directives: {},
-  props: [
-    {
-      name: "title",
-      expr: {
-        type: ExprType.TEXT,
-        segs: [
-          {
-            type: ExprType.STRING,
-            value: "This is ",
-          },
-          {
-            type: ExprType.INTERP,
+    directives: {},
+    props: [
+        {
+            name: "title",
             expr: {
-              type: ExprType.ACCESSOR,
-              paths: [
-                {
-                  type: ExprType.STRING,
-                  value: "name",
-                },
-              ],
+                type: ExprType.TEXT,
+                segs: [
+                    {
+                        type: ExprType.STRING,
+                        value: "This is ",
+                    },
+                    {
+                        type: ExprType.INTERP,
+                        expr: {
+                            type: ExprType.ACCESSOR,
+                            paths: [
+                                {
+                                    type: ExprType.STRING,
+                                    value: "name",
+                                },
+                            ],
+                        },
+                        filters: [],
+                    },
+                ],
             },
-            filters: [],
-          },
-        ],
-      },
-    },
-  ],
-  events: [],
-  children: [
-    {
-      textExpr: {
-        type: ExprType.TEXT,
-        segs: [
-          {
-            type: ExprType.INTERP,
-            expr: {
-              type: ExprType.ACCESSOR,
-              paths: [
-                {
-                  type: ExprType.STRING,
-                  value: "name",
-                },
-              ],
+        },
+    ],
+    events: [],
+    children: [
+        {
+            textExpr: {
+                type: ExprType.TEXT,
+                segs: [
+                    {
+                        type: ExprType.INTERP,
+                        expr: {
+                            type: ExprType.ACCESSOR,
+                            paths: [
+                                {
+                                    type: ExprType.STRING,
+                                    value: "name",
+                                },
+                            ],
+                        },
+                        filters: [],
+                    },
+                ],
             },
-            filters: [],
-          },
-        ],
-      },
-    },
-  ],
-  tagName: "span",
+        },
+    ],
+    tagName: "span",
 };
 ```
 
@@ -651,45 +649,45 @@ aNode = {
 
 ```javascript
 aNode = {
-  directives: {},
-  props: [
-    {
-      name: "title",
-      expr: {
-        type: ExprType.ACCESSOR,
-        paths: [
-          {
-            type: ExprType.STRING,
-            value: "name",
-          },
-        ],
-      },
-    },
-  ],
-  events: [],
-  children: [
-    {
-      textExpr: {
-        type: ExprType.TEXT,
-        segs: [
-          {
-            type: ExprType.INTERP,
+    directives: {},
+    props: [
+        {
+            name: "title",
             expr: {
-              type: ExprType.ACCESSOR,
-              paths: [
-                {
-                  type: ExprType.STRING,
-                  value: "name",
-                },
-              ],
+                type: ExprType.ACCESSOR,
+                paths: [
+                    {
+                        type: ExprType.STRING,
+                        value: "name",
+                    },
+                ],
             },
-            filters: [],
-          },
-        ],
-      },
-    },
-  ],
-  tagName: "span",
+        },
+    ],
+    events: [],
+    children: [
+        {
+            textExpr: {
+                type: ExprType.TEXT,
+                segs: [
+                    {
+                        type: ExprType.INTERP,
+                        expr: {
+                            type: ExprType.ACCESSOR,
+                            paths: [
+                                {
+                                    type: ExprType.STRING,
+                                    value: "name",
+                                },
+                            ],
+                        },
+                        filters: [],
+                    },
+                ],
+            },
+        },
+    ],
+    tagName: "span",
 };
 ```
 
@@ -703,41 +701,39 @@ aNode = {
 
 ```javascript
 aNode = {
-  directives: {},
-  props: [
-    {
-      name: "type",
-      expr: {
-        type: ExprType.STRING,
-        value: "text",
-      },
-    },
-    {
-      name: "value",
-      expr: {
-        type: ExprType.ACCESSOR,
-        paths: [
-          {
-            type: ExprType.STRING,
-            value: "name",
-          },
-        ],
-      },
-      x: 1,
-    },
-  ],
-  events: [],
-  children: [],
-  tagName: "input",
+    directives: {},
+    props: [
+        {
+            name: "type",
+            expr: {
+                type: ExprType.STRING,
+                value: "text",
+            },
+        },
+        {
+            name: "value",
+            expr: {
+                type: ExprType.ACCESSOR,
+                paths: [
+                    {
+                        type: ExprType.STRING,
+                        value: "name",
+                    },
+                ],
+            },
+            x: 1,
+        },
+    ],
+    events: [],
+    children: [],
+    tagName: "input",
 };
 ```
 
 ### 复杂的插值
 
 ```html
-<p
-  title="result: {{(var1 - var2) / var3 + 'static text' | comma(commaLength + 1)}}"
-></p>
+<p title="result: {{(var1 - var2) / var3 + 'static text' | comma(commaLength + 1)}}"></p>
 ```
 
 ```javascript
@@ -856,48 +852,48 @@ aNode = {
 
 ```javascript
 aNode = {
-  directives: {},
-  props: [
-    {
-      name: "type",
-      expr: {
-        type: ExprType.STRING,
-        value: "button",
-      },
-    },
-  ],
-  events: [
-    {
-      name: "click",
-      expr: {
-        type: ExprType.CALL,
-        name: {
-          type: ExprType.ACCESSOR,
-          paths: [{ type: ExprType.STRING, value: "clicker" }],
-        },
-        args: [
-          {
-            type: ExprType.ACCESSOR,
-            paths: [
-              {
+    directives: {},
+    props: [
+        {
+            name: "type",
+            expr: {
                 type: ExprType.STRING,
-                value: "$event",
-              },
-            ],
-          },
-        ],
-      },
-    },
-  ],
-  children: [
-    {
-      textExpr: {
-        type: ExprType.TEXT,
-        segs: [{ type: ExprType.STRING, value: "click here" }],
-      },
-    },
-  ],
-  tagName: "button",
+                value: "button",
+            },
+        },
+    ],
+    events: [
+        {
+            name: "click",
+            expr: {
+                type: ExprType.CALL,
+                name: {
+                    type: ExprType.ACCESSOR,
+                    paths: [{ type: ExprType.STRING, value: "clicker" }],
+                },
+                args: [
+                    {
+                        type: ExprType.ACCESSOR,
+                        paths: [
+                            {
+                                type: ExprType.STRING,
+                                value: "$event",
+                            },
+                        ],
+                    },
+                ],
+            },
+        },
+    ],
+    children: [
+        {
+            textExpr: {
+                type: ExprType.TEXT,
+                segs: [{ type: ExprType.STRING, value: "click here" }],
+            },
+        },
+    ],
+    tagName: "button",
 };
 ```
 
@@ -907,62 +903,62 @@ if 指令的值是一个表达式信息对象，else 指令的值永远等于 tr
 
 ```html
 <div>
-  <span s-if="isOnline">Hello!</span>
-  <span s-else>Offline</span>
+    <span s-if="isOnline">Hello!</span>
+    <span s-else>Offline</span>
 </div>
 ```
 
 ```javascript
 aNode = {
-  directives: {},
-  props: [],
-  events: [],
-  children: [
-    {
-      directives: {
-        if: {
-          value: {
-            type: ExprType.ACCESSOR,
-            paths: [{ type: ExprType.STRING, value: "isOnline" }],
-          },
-          name: "if",
-        },
-      },
-      props: [],
-      events: [],
-      children: [
+    directives: {},
+    props: [],
+    events: [],
+    children: [
         {
-          textExpr: {
-            type: ExprType.TEXT,
-            segs: [{ type: ExprType.STRING, value: "Hello!" }],
-          },
-        },
-      ],
-      tagName: "span",
-      elses: [
-        {
-          directives: {
-            else: {
-              value: true,
-              name: "else",
+            directives: {
+                if: {
+                    value: {
+                        type: ExprType.ACCESSOR,
+                        paths: [{ type: ExprType.STRING, value: "isOnline" }],
+                    },
+                    name: "if",
+                },
             },
-          },
-          props: [],
-          events: [],
-          children: [
-            {
-              textExpr: {
-                type: ExprType.TEXT,
-                segs: [{ type: ExprType.STRING, value: "Offline" }],
-              },
-            },
-          ],
-          tagName: "span",
+            props: [],
+            events: [],
+            children: [
+                {
+                    textExpr: {
+                        type: ExprType.TEXT,
+                        segs: [{ type: ExprType.STRING, value: "Hello!" }],
+                    },
+                },
+            ],
+            tagName: "span",
+            elses: [
+                {
+                    directives: {
+                        else: {
+                            value: true,
+                            name: "else",
+                        },
+                    },
+                    props: [],
+                    events: [],
+                    children: [
+                        {
+                            textExpr: {
+                                type: ExprType.TEXT,
+                                segs: [{ type: ExprType.STRING, value: "Offline" }],
+                            },
+                        },
+                    ],
+                    tagName: "span",
+                },
+            ],
         },
-      ],
-    },
-  ],
-  tagName: "div",
+    ],
+    tagName: "div",
 };
 ```
 
@@ -970,14 +966,14 @@ aNode = {
 
 循环指令对象的信息包括：
 
-- item - 表达式对象，表示循环过程中数据项对应的变量
-- index - 表达式对象，表示循环过程中数据索引对应的变量
-- value - 表达式对象，表示要循环的数据
-- name - 恒为 for
+-   item - 表达式对象，表示循环过程中数据项对应的变量
+-   index - 表达式对象，表示循环过程中数据索引对应的变量
+-   value - 表达式对象，表示要循环的数据
+-   name - 恒为 for
 
 ```html
 <ul>
-  <li s-for="p, index in persons">{{p.name}} - {{p.email}}</li>
+    <li s-for="p, index in persons">{{p.name}} - {{p.email}}</li>
 </ul>
 ```
 

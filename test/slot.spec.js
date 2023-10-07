@@ -28,9 +28,7 @@ describe("Slot", function () {
         myComponent.data.set("foo", "errorrik");
         san.nextTick(function () {
             expect(wrap.getElementsByTagName("u").length).toBe(1);
-            expect(wrap.getElementsByTagName("u")[0].innerHTML).toContain(
-                "errorrik",
-            );
+            expect(wrap.getElementsByTagName("u")[0].innerHTML).toContain("errorrik");
 
             myComponent.dispose();
             document.body.removeChild(wrap);
@@ -40,11 +38,7 @@ describe("Slot", function () {
 
     it("default", function (done) {
         var Panel = san.defineComponent({
-            template:
-                "<div>" +
-                '<div class="head" on-click="toggle">{{title}}</div>' +
-                "<p style=\"{{fold ? 'display:none' : ''}}\"><slot></slot></p>" +
-                "</div>",
+            template: "<div>" + '<div class="head" on-click="toggle">{{title}}</div>' + "<p style=\"{{fold ? 'display:none' : ''}}\"><slot></slot></p>" + "</div>",
 
             toggle: function () {
                 this.data.set("fold", !this.data.get("fold"));
@@ -56,10 +50,7 @@ describe("Slot", function () {
                 "ui-panel": Panel,
             },
 
-            template:
-                "<div><ui-panel>" +
-                "<a>1</a><a>2</a><a>3</a>" +
-                "</ui-panel></div>",
+            template: "<div><ui-panel>" + "<a>1</a><a>2</a><a>3</a>" + "</ui-panel></div>",
         });
 
         var myComponent = new MyComponent();
@@ -82,11 +73,7 @@ describe("Slot", function () {
 
     it("named", function (done) {
         var Tab = san.defineComponent({
-            template:
-                "<div>" +
-                '<div class="head"><slot name="title"></slot></div>' +
-                "<div>content</div>" +
-                "</div>",
+            template: "<div>" + '<div class="head"><slot name="title"></slot></div>' + "<div>content</div>" + "</div>",
         });
 
         var MyComponent = san.defineComponent({
@@ -94,10 +81,7 @@ describe("Slot", function () {
                 "ui-tab": Tab,
             },
 
-            template:
-                "<div><ui-tab>" +
-                '<h3 slot="title" title="1">1</h3>' +
-                "</ui-tab></div>",
+            template: "<div><ui-tab>" + '<h3 slot="title" title="1">1</h3>' + "</ui-tab></div>",
         });
 
         var myComponent = new MyComponent();
@@ -126,11 +110,7 @@ describe("Slot", function () {
 
     it("default and named", function (done) {
         var Tab = san.defineComponent({
-            template:
-                "<div>" +
-                '<div class="head"><slot name="title"></slot></div>' +
-                "<div><slot></slot></div>" +
-                "</div>",
+            template: "<div>" + '<div class="head"><slot name="title"></slot></div>' + "<div><slot></slot></div>" + "</div>",
         });
 
         var MyComponent = san.defineComponent({
@@ -175,11 +155,7 @@ describe("Slot", function () {
 
     it("default and named sort is insensitive", function (done) {
         var Tab = san.defineComponent({
-            template:
-                "<div>" +
-                '<div class="head"><slot name="title"></slot></div>' +
-                "<div><slot></slot></div>" +
-                "</div>",
+            template: "<div>" + '<div class="head"><slot name="title"></slot></div>' + "<div><slot></slot></div>" + "</div>",
         });
 
         var MyComponent = san.defineComponent({
@@ -225,11 +201,7 @@ describe("Slot", function () {
 
     it("literal owner", function (done) {
         var Panel = san.defineComponent({
-            template:
-                "<div>" +
-                '<div class="head" title="{{title}}" on-click="toggle">{{title}}</div>' +
-                "<p style=\"{{fold ? 'display:none' : ''}}\"><slot></slot></p>" +
-                "</div>",
+            template: "<div>" + '<div class="head" title="{{title}}" on-click="toggle">{{title}}</div>' + "<p style=\"{{fold ? 'display:none' : ''}}\"><slot></slot></p>" + "</div>",
 
             initData: function () {
                 return {
@@ -252,10 +224,7 @@ describe("Slot", function () {
                 "ui-panel": Panel,
             },
 
-            template:
-                '<div><ui-panel outercontent="{{content}}">' +
-                '<a title="{{content}}">{{content}}</a>' +
-                "</ui-panel></div>",
+            template: '<div><ui-panel outercontent="{{content}}">' + '<a title="{{content}}">{{content}}</a>' + "</ui-panel></div>",
 
             initData: function () {
                 return {
@@ -298,8 +267,7 @@ describe("Slot", function () {
                     name: "erik",
                 };
             },
-            template:
-                '<span title="{{name}}"><slot>Hello {{name}}</slot></span>',
+            template: '<span title="{{name}}"><slot>Hello {{name}}</slot></span>',
         });
 
         var myComponent = new MyComponent();
@@ -321,8 +289,7 @@ describe("Slot", function () {
 
     it("use default content when no given content", function (done) {
         var Hello = san.defineComponent({
-            template:
-                '<span title="{{name}}"><slot>Hello {{name}}</slot></span>',
+            template: '<span title="{{name}}"><slot>Hello {{name}}</slot></span>',
         });
 
         var MyComponent = san.defineComponent({
@@ -359,8 +326,7 @@ describe("Slot", function () {
 
     it("use given content", function (done) {
         var Hello = san.defineComponent({
-            template:
-                '<span title="{{name}}"><slot>Hello {{name}}</slot></span>',
+            template: '<span title="{{name}}"><slot>Hello {{name}}</slot></span>',
         });
 
         var MyComponent = san.defineComponent({
@@ -368,8 +334,7 @@ describe("Slot", function () {
                 "ui-hello": Hello,
             },
 
-            template:
-                '<div><ui-hello name="{{who}}">I am {{name}}</ui-hello></div>',
+            template: '<div><ui-hello name="{{who}}">I am {{name}}</ui-hello></div>',
 
             initData: function () {
                 return {
@@ -388,9 +353,7 @@ describe("Slot", function () {
         san.nextTick(function () {
             var spans = wrap.getElementsByTagName("span");
 
-            expect(
-                spans[0].innerHTML.indexOf("I am errorrik") >= 0,
-            ).toBeTruthy();
+            expect(spans[0].innerHTML.indexOf("I am errorrik") >= 0).toBeTruthy();
 
             myComponent.dispose();
             document.body.removeChild(wrap);
@@ -400,11 +363,7 @@ describe("Slot", function () {
 
     it("components owner", function (done) {
         var Panel = san.defineComponent({
-            template:
-                "<div>" +
-                '<div class="head" title="{{title}}" on-click="toggle">{{title}}</div>' +
-                "<p style=\"{{fold ? 'display:none' : ''}}\"><slot></slot></p>" +
-                "</div>",
+            template: "<div>" + '<div class="head" title="{{title}}" on-click="toggle">{{title}}</div>' + "<p style=\"{{fold ? 'display:none' : ''}}\"><slot></slot></p>" + "</div>",
 
             toggle: function () {
                 this.data.set("fold", !this.data.get("fold"));
@@ -421,10 +380,7 @@ describe("Slot", function () {
                 "ui-label": Label,
             },
 
-            template:
-                '<div><ui-panel title="{{name}}">' +
-                '<ui-label text="{{name}}"></ui-label>' +
-                "</ui-panel></div>",
+            template: '<div><ui-panel title="{{name}}">' + '<ui-label text="{{name}}"></ui-label>' + "</ui-panel></div>",
 
             initData: function () {
                 return {
@@ -454,11 +410,7 @@ describe("Slot", function () {
 
     it("ref component in slot", function () {
         var Panel = san.defineComponent({
-            template:
-                "<div>" +
-                '<div class="head" title="{{title}}" on-click="toggle">{{title}}</div>' +
-                "<p style=\"{{fold ? 'display:none' : ''}}\"><slot></slot></p>" +
-                "</div>",
+            template: "<div>" + '<div class="head" title="{{title}}" on-click="toggle">{{title}}</div>' + "<p style=\"{{fold ? 'display:none' : ''}}\"><slot></slot></p>" + "</div>",
 
             toggle: function () {
                 this.data.set("fold", !this.data.get("fold"));
@@ -475,10 +427,7 @@ describe("Slot", function () {
                 "ui-label": Label,
             },
 
-            template:
-                '<div><ui-panel title="{{name}}">' +
-                '<ui-label text="{{name}}" san-ref="mylabel"></ui-label>' +
-                "</ui-panel></div>",
+            template: '<div><ui-panel title="{{name}}">' + '<ui-label text="{{name}}" san-ref="mylabel"></ui-label>' + "</ui-panel></div>",
 
             initData: function () {
                 return {
@@ -507,11 +456,7 @@ describe("Slot", function () {
 
     it("for in slot", function (done) {
         var Tab = san.defineComponent({
-            template:
-                "<div>" +
-                '<div class="head"><slot name="title"></slot></div>' +
-                "<div><slot></slot></div>" +
-                "</div>",
+            template: "<div>" + '<div class="head"><slot name="title"></slot></div>' + "<div><slot></slot></div>" + "</div>",
         });
 
         var MyComponent = san.defineComponent({
@@ -603,9 +548,7 @@ describe("Slot", function () {
             },
 
             template:
-                "<div><ul>" +
-                '<li san-for="item in items" title="{{item.title}}">{{item.title}}<ui-link to="{{item.url}}"><b title="{{item.title}}">{{item.title}}</b></ui-link></li>' +
-                "</ul></div>",
+                "<div><ul>" + '<li san-for="item in items" title="{{item.title}}">{{item.title}}<ui-link to="{{item.url}}"><b title="{{item.title}}">{{item.title}}</b></ui-link></li>' + "</ul></div>",
         });
 
         var myComponent = new MyComponent();
@@ -741,10 +684,7 @@ describe("Slot", function () {
                 };
             },
 
-            template:
-                "<div>" +
-                '<ui-link san-for="item in items" to="{{item.url}}"><b title="{{item.title}}">{{item.title}}</b></ui-link>' +
-                "</div>",
+            template: "<div>" + '<ui-link san-for="item in items" to="{{item.url}}"><b title="{{item.title}}">{{item.title}}</b></ui-link>' + "</div>",
         });
 
         var myComponent = new MyComponent();
@@ -891,8 +831,7 @@ describe("Slot", function () {
                 return {};
             },
 
-            template:
-                '<div><ui-link san-if="link" to="{{link.url}}"><b title="{{link.title}}">{{link.title}}</b></ui-link></div>',
+            template: '<div><ui-link san-if="link" to="{{link.url}}"><b title="{{link.title}}">{{link.title}}</b></ui-link></div>',
         });
 
         var myComponent = new MyComponent();
@@ -927,12 +866,7 @@ describe("Slot", function () {
                 "x-block": Block,
             },
 
-            template:
-                "" +
-                "<div>" +
-                '<x-block san-if="f">{{foo}}</x-block>' +
-                "<x-block san-else>{{bar}}</x-block>" +
-                "</div>",
+            template: "" + "<div>" + '<x-block san-if="f">{{foo}}</x-block>' + "<x-block san-else>{{bar}}</x-block>" + "</div>",
         });
 
         var myComponent = new MyComponent({
@@ -953,9 +887,7 @@ describe("Slot", function () {
         myComponent.data.set("bar", "san");
         san.nextTick(function () {
             expect(wrap.getElementsByTagName("u").length).toBe(1);
-            expect(wrap.getElementsByTagName("u")[0].innerHTML).toContain(
-                "san",
-            );
+            expect(wrap.getElementsByTagName("u")[0].innerHTML).toContain("san");
 
             myComponent.dispose();
             document.body.removeChild(wrap);
@@ -965,8 +897,7 @@ describe("Slot", function () {
 
     it("description apply if, init false", function (done) {
         var Folder = san.defineComponent({
-            template:
-                '<div><h3 on-click="toggle"><slot name="title"/></h3><slot s-if="!hidden"/></div>',
+            template: '<div><h3 on-click="toggle"><slot name="title"/></h3><slot s-if="!hidden"/></div>',
             toggle: function () {
                 var hidden = this.data.get("hidden");
                 this.data.set("hidden", !hidden);
@@ -978,11 +909,7 @@ describe("Slot", function () {
                 "x-folder": Folder,
             },
 
-            template:
-                "" +
-                "<div>" +
-                '<x-folder hidden="{{folderHidden}}"><b slot="title">{{name}}</b><p>{{desc}}</p></x-folder>' +
-                "</div>",
+            template: "" + "<div>" + '<x-folder hidden="{{folderHidden}}"><b slot="title">{{name}}</b><p>{{desc}}</p></x-folder>' + "</div>",
         });
 
         var myComponent = new MyComponent({
@@ -1003,9 +930,7 @@ describe("Slot", function () {
         myComponent.data.set("folderHidden", false);
         san.nextTick(function () {
             expect(wrap.getElementsByTagName("p").length).toBe(1);
-            expect(wrap.getElementsByTagName("p")[0].innerHTML).toBe(
-                "MVVM component framework",
-            );
+            expect(wrap.getElementsByTagName("p")[0].innerHTML).toBe("MVVM component framework");
             expect(wrap.getElementsByTagName("b")[0].innerHTML).toBe("San");
 
             myComponent.dispose();
@@ -1016,8 +941,7 @@ describe("Slot", function () {
 
     it("description apply if, init true", function (done) {
         var Folder = san.defineComponent({
-            template:
-                '<div><h3 on-click="toggle"><slot name="title"/></h3><slot s-if="!hidden"/></div>',
+            template: '<div><h3 on-click="toggle"><slot name="title"/></h3><slot s-if="!hidden"/></div>',
             toggle: function () {
                 var hidden = this.data.get("hidden");
                 this.data.set("hidden", !hidden);
@@ -1029,11 +953,7 @@ describe("Slot", function () {
                 "x-folder": Folder,
             },
 
-            template:
-                "" +
-                "<div>" +
-                '<x-folder hidden="{{folderHidden}}" s-ref="folder"><b slot="title">{{name}}</b><p>{{desc}}</p></x-folder>' +
-                "</div>",
+            template: "" + "<div>" + '<x-folder hidden="{{folderHidden}}" s-ref="folder"><b slot="title">{{name}}</b><p>{{desc}}</p></x-folder>' + "</div>",
         });
 
         var myComponent = new MyComponent({
@@ -1048,9 +968,7 @@ describe("Slot", function () {
         myComponent.attach(wrap);
 
         expect(wrap.getElementsByTagName("p").length).toBe(1);
-        expect(wrap.getElementsByTagName("p")[0].innerHTML).toBe(
-            "MVVM component framework",
-        );
+        expect(wrap.getElementsByTagName("p")[0].innerHTML).toBe("MVVM component framework");
         expect(wrap.getElementsByTagName("b")[0].innerHTML).toBe("San");
 
         var contentSlots = myComponent.ref("folder").slot();
@@ -1072,8 +990,7 @@ describe("Slot", function () {
 
     it("description apply for, init true", function (done) {
         var Folder = san.defineComponent({
-            template:
-                '<div><h3 on-click="toggle"><slot name="title"/></h3><slot s-if="!hidden" s-for="i in repeat"/></div>',
+            template: '<div><h3 on-click="toggle"><slot name="title"/></h3><slot s-if="!hidden" s-for="i in repeat"/></div>',
             toggle: function () {
                 var hidden = this.data.get("hidden");
                 this.data.set("hidden", !hidden);
@@ -1088,11 +1005,7 @@ describe("Slot", function () {
                 "x-folder": Folder,
             },
 
-            template:
-                "" +
-                "<div>" +
-                '<x-folder hidden="{{folderHidden}}"><b slot="title">{{name}}</b><p>{{desc}}</p></x-folder>' +
-                "</div>",
+            template: "" + "<div>" + '<x-folder hidden="{{folderHidden}}"><b slot="title">{{name}}</b><p>{{desc}}</p></x-folder>' + "</div>",
         });
 
         var myComponent = new MyComponent({
@@ -1107,12 +1020,8 @@ describe("Slot", function () {
         myComponent.attach(wrap);
 
         expect(wrap.getElementsByTagName("p").length).toBe(2);
-        expect(wrap.getElementsByTagName("p")[0].innerHTML).toBe(
-            "MVVM component framework",
-        );
-        expect(wrap.getElementsByTagName("p")[1].innerHTML).toBe(
-            "MVVM component framework",
-        );
+        expect(wrap.getElementsByTagName("p")[0].innerHTML).toBe("MVVM component framework");
+        expect(wrap.getElementsByTagName("p")[1].innerHTML).toBe("MVVM component framework");
         expect(wrap.getElementsByTagName("b")[0].innerHTML).toBe("San");
 
         myComponent.data.set("folderHidden", true);
@@ -1128,8 +1037,7 @@ describe("Slot", function () {
 
     it("insert element apply for", function (done) {
         var Folder = san.defineComponent({
-            template:
-                '<div><h3 on-click="toggle"><slot name="title"/></h3><slot/></div>',
+            template: '<div><h3 on-click="toggle"><slot name="title"/></h3><slot/></div>',
             toggle: function () {
                 var hidden = this.data.get("hidden");
                 this.data.set("hidden", !hidden);
@@ -1204,9 +1112,7 @@ describe("Slot", function () {
                 var contentSlot = myComponent.ref("folder").slot();
                 expect(contentSlot.length).toBe(1);
                 expect(contentSlot[0].children[0].children.length).toBe(2);
-                expect(contentSlot[0].children[0].nodeType).toBe(
-                    san.NodeType.FOR,
-                );
+                expect(contentSlot[0].children[0].nodeType).toBe(san.NodeType.FOR);
 
                 expect(h4s[0].innerHTML).toBe("errorrik");
                 expect(ps[0].innerHTML).toBe("errorrik@gmail.com");
@@ -1225,8 +1131,7 @@ describe("Slot", function () {
 
     it('insert element "template" apply for', function (done) {
         var Folder = san.defineComponent({
-            template:
-                '<div><h3 on-click="toggle"><slot name="title"/></h3><slot name="content"/></div>',
+            template: '<div><h3 on-click="toggle"><slot name="title"/></h3><slot name="content"/></div>',
             toggle: function () {
                 var hidden = this.data.get("hidden");
                 this.data.set("hidden", !hidden);
@@ -1305,8 +1210,7 @@ describe("Slot", function () {
 
     it("insert element apply if", function (done) {
         var Folder = san.defineComponent({
-            template:
-                '<div><h1 on-click="toggle"><slot name="title"/></h1><slot name="content"/></div>',
+            template: '<div><h1 on-click="toggle"><slot name="title"/></h1><slot name="content"/></div>',
             toggle: function () {
                 var hidden = this.data.get("hidden");
                 this.data.set("hidden", !hidden);
@@ -1372,8 +1276,7 @@ describe("Slot", function () {
 
     it('insert element "template" apply if', function (done) {
         var Folder = san.defineComponent({
-            template:
-                '<div><h1 on-click="toggle"><slot name="title"/></h1><slot name="content"/></div>',
+            template: '<div><h1 on-click="toggle"><slot name="title"/></h1><slot name="content"/></div>',
             toggle: function () {
                 var hidden = this.data.get("hidden");
                 this.data.set("hidden", !hidden);
@@ -1445,8 +1348,7 @@ describe("Slot", function () {
 
     it("scoped by default content", function (done) {
         var Man = san.defineComponent({
-            template:
-                '<div><slot var-n="data.name" var-email="data.email" var-sex="data.sex ? \'male\' : \'female\'"><p>{{n}},{{sex}},{{email}}</p></slot></div>',
+            template: '<div><slot var-n="data.name" var-email="data.email" var-sex="data.sex ? \'male\' : \'female\'"><p>{{n}},{{sex}},{{email}}</p></slot></div>',
         });
 
         var MyComponent = san.defineComponent({
@@ -1473,14 +1375,10 @@ describe("Slot", function () {
         document.body.appendChild(wrap);
         myComponent.attach(wrap);
 
-        expect(wrap.getElementsByTagName("p")[0].innerHTML).toBe(
-            "errorrik,male,errorrik@gmail.com",
-        );
+        expect(wrap.getElementsByTagName("p")[0].innerHTML).toBe("errorrik,male,errorrik@gmail.com");
         myComponent.data.set("man.email", "erik168@163.com");
         san.nextTick(function () {
-            expect(wrap.getElementsByTagName("p")[0].innerHTML).toBe(
-                "errorrik,male,erik168@163.com",
-            );
+            expect(wrap.getElementsByTagName("p")[0].innerHTML).toBe("errorrik,male,erik168@163.com");
 
             myComponent.dispose();
             document.body.removeChild(wrap);
@@ -1495,8 +1393,7 @@ describe("Slot", function () {
                     return source.charAt(0).toUpperCase() + source.slice(1);
                 },
             },
-            template:
-                '<div><slot var-n="data.name" var-email="data.email" var-sex="data.sex ? \'male\' : \'female\'"><p>{{n|upper}},{{sex|upper}},{{email|upper}}</p></slot></div>',
+            template: '<div><slot var-n="data.name" var-email="data.email" var-sex="data.sex ? \'male\' : \'female\'"><p>{{n|upper}},{{sex|upper}},{{email|upper}}</p></slot></div>',
         });
 
         var MyComponent = san.defineComponent({
@@ -1529,14 +1426,10 @@ describe("Slot", function () {
         document.body.appendChild(wrap);
         myComponent.attach(wrap);
 
-        expect(wrap.getElementsByTagName("p")[0].innerHTML).toContain(
-            "Errorrik,Male,Errorrik@gmail.com",
-        );
+        expect(wrap.getElementsByTagName("p")[0].innerHTML).toContain("Errorrik,Male,Errorrik@gmail.com");
         myComponent.data.set("man.email", "erik168@163.com");
         san.nextTick(function () {
-            expect(wrap.getElementsByTagName("p")[0].innerHTML).toContain(
-                "Errorrik,Male,Erik168@163.com",
-            );
+            expect(wrap.getElementsByTagName("p")[0].innerHTML).toContain("Errorrik,Male,Erik168@163.com");
 
             myComponent.dispose();
             document.body.removeChild(wrap);
@@ -1546,8 +1439,7 @@ describe("Slot", function () {
 
     it("scoped by given content", function (done) {
         var Man = san.defineComponent({
-            template:
-                '<div><slot name="test" var-n="data.name" var-email="data.email" var-sex="data.sex ? \'male\' : \'female\'"><p>{{n}},{{sex}},{{email}}</p></slot></div>',
+            template: '<div><slot name="test" var-n="data.name" var-email="data.email" var-sex="data.sex ? \'male\' : \'female\'"><p>{{n}},{{sex}},{{email}}</p></slot></div>',
         });
 
         var MyComponent = san.defineComponent({
@@ -1555,8 +1447,7 @@ describe("Slot", function () {
                 "x-man": Man,
             },
 
-            template:
-                '<div><x-man data="{{man}}"><h3 slot="test">{{n}}</h3><b slot="test">{{sex}}</b><u slot="test">{{email}}</u></x-man></div>',
+            template: '<div><x-man data="{{man}}"><h3 slot="test">{{n}}</h3><b slot="test">{{sex}}</b><u slot="test">{{email}}</u></x-man></div>',
 
             initData: function () {
                 return {
@@ -1577,18 +1468,12 @@ describe("Slot", function () {
 
         expect(wrap.getElementsByTagName("h3")[0].innerHTML).toBe("errorrik");
         expect(wrap.getElementsByTagName("b")[0].innerHTML).toBe("male");
-        expect(wrap.getElementsByTagName("u")[0].innerHTML).toBe(
-            "errorrik@gmail.com",
-        );
+        expect(wrap.getElementsByTagName("u")[0].innerHTML).toBe("errorrik@gmail.com");
         myComponent.data.set("man.email", "erik168@163.com");
         san.nextTick(function () {
-            expect(wrap.getElementsByTagName("h3")[0].innerHTML).toBe(
-                "errorrik",
-            );
+            expect(wrap.getElementsByTagName("h3")[0].innerHTML).toBe("errorrik");
             expect(wrap.getElementsByTagName("b")[0].innerHTML).toBe("male");
-            expect(wrap.getElementsByTagName("u")[0].innerHTML).toBe(
-                "erik168@163.com",
-            );
+            expect(wrap.getElementsByTagName("u")[0].innerHTML).toBe("erik168@163.com");
 
             myComponent.dispose();
             document.body.removeChild(wrap);
@@ -1598,8 +1483,7 @@ describe("Slot", function () {
 
     it("scoped var should auto camel", function (done) {
         var Man = san.defineComponent({
-            template:
-                '<div><slot name="test" var-p-name="data.name" var-p-email="data.email" var-p-sex="data.sex ? \'male\' : \'female\'"><p>{{pName}},{{pSex}},{{pEmail}}</p></slot></div>',
+            template: '<div><slot name="test" var-p-name="data.name" var-p-email="data.email" var-p-sex="data.sex ? \'male\' : \'female\'"><p>{{pName}},{{pSex}},{{pEmail}}</p></slot></div>',
         });
 
         var MyComponent = san.defineComponent({
@@ -1607,8 +1491,7 @@ describe("Slot", function () {
                 "x-man": Man,
             },
 
-            template:
-                '<div><x-man data="{{man}}"><h3 slot="test">{{pName}}</h3><b slot="test">{{pSex}}</b><u slot="test">{{pEmail}}</u></x-man></div>',
+            template: '<div><x-man data="{{man}}"><h3 slot="test">{{pName}}</h3><b slot="test">{{pSex}}</b><u slot="test">{{pEmail}}</u></x-man></div>',
 
             initData: function () {
                 return {
@@ -1629,18 +1512,12 @@ describe("Slot", function () {
 
         expect(wrap.getElementsByTagName("h3")[0].innerHTML).toBe("errorrik");
         expect(wrap.getElementsByTagName("b")[0].innerHTML).toBe("male");
-        expect(wrap.getElementsByTagName("u")[0].innerHTML).toBe(
-            "errorrik@gmail.com",
-        );
+        expect(wrap.getElementsByTagName("u")[0].innerHTML).toBe("errorrik@gmail.com");
         myComponent.data.set("man.email", "erik168@163.com");
         san.nextTick(function () {
-            expect(wrap.getElementsByTagName("h3")[0].innerHTML).toBe(
-                "errorrik",
-            );
+            expect(wrap.getElementsByTagName("h3")[0].innerHTML).toBe("errorrik");
             expect(wrap.getElementsByTagName("b")[0].innerHTML).toBe("male");
-            expect(wrap.getElementsByTagName("u")[0].innerHTML).toBe(
-                "erik168@163.com",
-            );
+            expect(wrap.getElementsByTagName("u")[0].innerHTML).toBe("erik168@163.com");
 
             myComponent.dispose();
             document.body.removeChild(wrap);
@@ -1656,8 +1533,7 @@ describe("Slot", function () {
                 },
             },
 
-            template:
-                '<div><slot name="test" var-n="data.name" var-email="data.email" var-sex="data.sex ? \'male\' : \'female\'"><p>{{n}},{{sex}},{{email}}</p></slot></div>',
+            template: '<div><slot name="test" var-n="data.name" var-email="data.email" var-sex="data.sex ? \'male\' : \'female\'"><p>{{n}},{{sex}},{{email}}</p></slot></div>',
         });
 
         var MyComponent = san.defineComponent({
@@ -1671,8 +1547,7 @@ describe("Slot", function () {
                 },
             },
 
-            template:
-                '<div><x-man data="{{man}}"><h3 slot="test">{{n|upper}}</h3><b slot="test">{{sex|upper}}</b><u slot="test">{{email|upper}}</u></x-man></div>',
+            template: '<div><x-man data="{{man}}"><h3 slot="test">{{n|upper}}</h3><b slot="test">{{sex|upper}}</b><u slot="test">{{email|upper}}</u></x-man></div>',
 
             initData: function () {
                 return {
@@ -1691,24 +1566,14 @@ describe("Slot", function () {
         document.body.appendChild(wrap);
         myComponent.attach(wrap);
 
-        expect(wrap.getElementsByTagName("h3")[0].innerHTML).toContain(
-            "ERRORRIK",
-        );
+        expect(wrap.getElementsByTagName("h3")[0].innerHTML).toContain("ERRORRIK");
         expect(wrap.getElementsByTagName("b")[0].innerHTML).toContain("MALE");
-        expect(wrap.getElementsByTagName("u")[0].innerHTML).toContain(
-            "ERRORRIK@GMAIL.COM",
-        );
+        expect(wrap.getElementsByTagName("u")[0].innerHTML).toContain("ERRORRIK@GMAIL.COM");
         myComponent.data.set("man.email", "erik168@163.com");
         san.nextTick(function () {
-            expect(wrap.getElementsByTagName("h3")[0].innerHTML).toContain(
-                "ERRORRIK",
-            );
-            expect(wrap.getElementsByTagName("b")[0].innerHTML).toContain(
-                "MALE",
-            );
-            expect(wrap.getElementsByTagName("u")[0].innerHTML).toContain(
-                "ERIK168@163.COM",
-            );
+            expect(wrap.getElementsByTagName("h3")[0].innerHTML).toContain("ERRORRIK");
+            expect(wrap.getElementsByTagName("b")[0].innerHTML).toContain("MALE");
+            expect(wrap.getElementsByTagName("u")[0].innerHTML).toContain("ERIK168@163.COM");
 
             myComponent.dispose();
             document.body.removeChild(wrap);
@@ -1727,8 +1592,7 @@ describe("Slot", function () {
                 "x-mans": Mans,
             },
 
-            template:
-                '<div><x-mans data="{{mans}}" s-ref="mans"><h2>{{title}}</h2></x-mans></div>',
+            template: '<div><x-mans data="{{mans}}" s-ref="mans"><h2>{{title}}</h2></x-mans></div>',
 
             initData: function () {
                 return {
@@ -1760,9 +1624,7 @@ describe("Slot", function () {
         document.body.appendChild(wrap);
         myComponent.attach(wrap);
 
-        expect(wrap.getElementsByTagName("h2")[0].innerHTML).toBe(
-            "contributors",
-        );
+        expect(wrap.getElementsByTagName("h2")[0].innerHTML).toBe("contributors");
         var ps = wrap.getElementsByTagName("p");
 
         expect(ps.length).toBe(3);
@@ -1807,8 +1669,7 @@ describe("Slot", function () {
                 "x-mans": Mans,
             },
 
-            template:
-                '<div><x-mans data="{{mans}}" s-ref="mans"><h2>{{title}}</h2><h3 slot="test">{{n}}</h3><b slot="test">{{sex}}</b><u slot="test">{{email}}</u></x-mans></div>',
+            template: '<div><x-mans data="{{mans}}" s-ref="mans"><h2>{{title}}</h2><h3 slot="test">{{n}}</h3><b slot="test">{{sex}}</b><u slot="test">{{email}}</u></x-mans></div>',
 
             initData: function () {
                 return {
@@ -1823,9 +1684,7 @@ describe("Slot", function () {
         document.body.appendChild(wrap);
         myComponent.attach(wrap);
 
-        expect(wrap.getElementsByTagName("h2")[0].innerHTML).toBe(
-            "contributors",
-        );
+        expect(wrap.getElementsByTagName("h2")[0].innerHTML).toBe("contributors");
         var h3s = wrap.getElementsByTagName("h3");
         expect(h3s.length).toBe(0);
 
@@ -1841,9 +1700,7 @@ describe("Slot", function () {
         myComponent.data.set("title", "members");
 
         san.nextTick(function () {
-            expect(wrap.getElementsByTagName("h2")[0].innerHTML).toBe(
-                "members",
-            );
+            expect(wrap.getElementsByTagName("h2")[0].innerHTML).toBe("members");
             var h3s = wrap.getElementsByTagName("h3");
             var us = wrap.getElementsByTagName("u");
             var bs = wrap.getElementsByTagName("b");
@@ -1911,14 +1768,10 @@ describe("Slot", function () {
         document.body.appendChild(wrap);
         myComponent.attach(wrap);
 
-        expect(wrap.getElementsByTagName("p")[0].innerHTML).toBe(
-            "errorrik,male,errorrik@gmail.com",
-        );
+        expect(wrap.getElementsByTagName("p")[0].innerHTML).toBe("errorrik,male,errorrik@gmail.com");
         myComponent.data.set("man.email", "erik168@163.com");
         san.nextTick(function () {
-            expect(wrap.getElementsByTagName("p")[0].innerHTML).toBe(
-                "errorrik,male,erik168@163.com",
-            );
+            expect(wrap.getElementsByTagName("p")[0].innerHTML).toBe("errorrik,male,erik168@163.com");
 
             triggerEvent(wrap.getElementsByTagName("p")[0], "click");
             setTimeout(function () {
@@ -1935,8 +1788,7 @@ describe("Slot", function () {
     it("scoped by given content has event listen", function (done) {
         var clickInfo = {};
         var Man = san.defineComponent({
-            template:
-                '<div><slot name="test" var-n="data.name" var-email="data.email" var-sex="data.sex ? \'male\' : \'female\'"><p>{{n}},{{sex}},{{email}}</p></slot></div>',
+            template: '<div><slot name="test" var-n="data.name" var-email="data.email" var-sex="data.sex ? \'male\' : \'female\'"><p>{{n}},{{sex}},{{email}}</p></slot></div>',
             emailClick: function (email) {
                 clickInfo.email = "fail";
                 clickInfo.outer = false;
@@ -1948,8 +1800,7 @@ describe("Slot", function () {
                 "x-man": Man,
             },
 
-            template:
-                '<div><x-man data="{{man}}"><h3 slot="test">{{n}}</h3><b slot="test">{{sex}}</b><u slot="test" on-click="emailClick(email)">{{email}}</u></x-man></div>',
+            template: '<div><x-man data="{{man}}"><h3 slot="test">{{n}}</h3><b slot="test">{{sex}}</b><u slot="test" on-click="emailClick(email)">{{email}}</u></x-man></div>',
 
             initData: function () {
                 return {
@@ -1975,18 +1826,12 @@ describe("Slot", function () {
 
         expect(wrap.getElementsByTagName("h3")[0].innerHTML).toBe("errorrik");
         expect(wrap.getElementsByTagName("b")[0].innerHTML).toBe("male");
-        expect(wrap.getElementsByTagName("u")[0].innerHTML).toBe(
-            "errorrik@gmail.com",
-        );
+        expect(wrap.getElementsByTagName("u")[0].innerHTML).toBe("errorrik@gmail.com");
         myComponent.data.set("man.email", "erik168@163.com");
         san.nextTick(function () {
-            expect(wrap.getElementsByTagName("h3")[0].innerHTML).toBe(
-                "errorrik",
-            );
+            expect(wrap.getElementsByTagName("h3")[0].innerHTML).toBe("errorrik");
             expect(wrap.getElementsByTagName("b")[0].innerHTML).toBe("male");
-            expect(wrap.getElementsByTagName("u")[0].innerHTML).toBe(
-                "erik168@163.com",
-            );
+            expect(wrap.getElementsByTagName("u")[0].innerHTML).toBe("erik168@163.com");
 
             triggerEvent(wrap.getElementsByTagName("u")[0], "click");
             setTimeout(function () {
@@ -2002,8 +1847,7 @@ describe("Slot", function () {
 
     it("scoped by default content with s-bind", function (done) {
         var Man = san.defineComponent({
-            template:
-                "<div><slot s-bind=\"{n:data.name, email: data.email, sex: data.sex ? 'male' : 'female'}\"><p>{{n}},{{sex}},{{email}}</p></slot></div>",
+            template: "<div><slot s-bind=\"{n:data.name, email: data.email, sex: data.sex ? 'male' : 'female'}\"><p>{{n}},{{sex}},{{email}}</p></slot></div>",
         });
 
         var MyComponent = san.defineComponent({
@@ -2030,14 +1874,10 @@ describe("Slot", function () {
         document.body.appendChild(wrap);
         myComponent.attach(wrap);
 
-        expect(wrap.getElementsByTagName("p")[0].innerHTML).toBe(
-            "errorrik,male,errorrik@gmail.com",
-        );
+        expect(wrap.getElementsByTagName("p")[0].innerHTML).toBe("errorrik,male,errorrik@gmail.com");
         myComponent.data.set("man.email", "erik168@163.com");
         san.nextTick(function () {
-            expect(wrap.getElementsByTagName("p")[0].innerHTML).toBe(
-                "errorrik,male,erik168@163.com",
-            );
+            expect(wrap.getElementsByTagName("p")[0].innerHTML).toBe("errorrik,male,erik168@163.com");
 
             myComponent.dispose();
             document.body.removeChild(wrap);
@@ -2056,8 +1896,7 @@ describe("Slot", function () {
                 "x-man": Man,
             },
 
-            template:
-                '<div><x-man data="{{man}}"><h3 slot="test">{{n}}</h3><b slot="test">{{sex}}</b><u slot="test">{{email}}</u></x-man></div>',
+            template: '<div><x-man data="{{man}}"><h3 slot="test">{{n}}</h3><b slot="test">{{sex}}</b><u slot="test">{{email}}</u></x-man></div>',
 
             initData: function () {
                 return {
@@ -2078,17 +1917,13 @@ describe("Slot", function () {
 
         expect(wrap.getElementsByTagName("h3")[0].innerHTML).toBe("errorrik");
         expect(wrap.getElementsByTagName("b")[0].innerHTML).toBe("male");
-        expect(wrap.getElementsByTagName("u")[0].innerHTML).toBe(
-            "errorrik@gmail.com",
-        );
+        expect(wrap.getElementsByTagName("u")[0].innerHTML).toBe("errorrik@gmail.com");
         myComponent.data.set("man.email", "erik168@163.com");
         myComponent.data.set("man.name", "erik");
         san.nextTick(function () {
             expect(wrap.getElementsByTagName("h3")[0].innerHTML).toBe("erik");
             expect(wrap.getElementsByTagName("b")[0].innerHTML).toBe("male");
-            expect(wrap.getElementsByTagName("u")[0].innerHTML).toBe(
-                "erik168@163.com",
-            );
+            expect(wrap.getElementsByTagName("u")[0].innerHTML).toBe("erik168@163.com");
 
             myComponent.dispose();
             document.body.removeChild(wrap);
@@ -2107,8 +1942,7 @@ describe("Slot", function () {
                 "x-man": Man,
             },
 
-            template:
-                '<div><x-man data="{{man}}"><h3 slot="test">{{n}}</h3><b slot="test">{{sex}}</b><u slot="test">{{email}}</u></x-man></div>',
+            template: '<div><x-man data="{{man}}"><h3 slot="test">{{n}}</h3><b slot="test">{{sex}}</b><u slot="test">{{email}}</u></x-man></div>',
 
             initData: function () {
                 return {
@@ -2130,19 +1964,13 @@ describe("Slot", function () {
 
         expect(wrap.getElementsByTagName("h3")[0].innerHTML).toBe("errorrik");
         expect(wrap.getElementsByTagName("b")[0].innerHTML).toBe("male");
-        expect(wrap.getElementsByTagName("u")[0].innerHTML).toBe(
-            "errorrik2@gmail.com",
-        );
+        expect(wrap.getElementsByTagName("u")[0].innerHTML).toBe("errorrik2@gmail.com");
         myComponent.data.set("man.email", "erik168@163.com");
         myComponent.data.set("man.email2", "erik1682@163.com");
         san.nextTick(function () {
-            expect(wrap.getElementsByTagName("h3")[0].innerHTML).toBe(
-                "errorrik",
-            );
+            expect(wrap.getElementsByTagName("h3")[0].innerHTML).toBe("errorrik");
             expect(wrap.getElementsByTagName("b")[0].innerHTML).toBe("male");
-            expect(wrap.getElementsByTagName("u")[0].innerHTML).toBe(
-                "erik1682@163.com",
-            );
+            expect(wrap.getElementsByTagName("u")[0].innerHTML).toBe("erik1682@163.com");
 
             myComponent.dispose();
             document.body.removeChild(wrap);
@@ -2152,8 +1980,7 @@ describe("Slot", function () {
 
     it("scoped by given content with var-, splice", function (done) {
         var Man = san.defineComponent({
-            template:
-                '<div><slot name="test" var-n="data.name" var-emails="data.emails" var-sex="data.sex ? \'male\' : \'female\'"><p>{{n}},{{sex}},{{email}}</p></slot></div>',
+            template: '<div><slot name="test" var-n="data.name" var-emails="data.emails" var-sex="data.sex ? \'male\' : \'female\'"><p>{{n}},{{sex}},{{email}}</p></slot></div>',
         });
 
         var MyComponent = san.defineComponent({
@@ -2161,8 +1988,7 @@ describe("Slot", function () {
                 "x-man": Man,
             },
 
-            template:
-                '<div><x-man data="{{man}}"><h3 slot="test">{{n}}</h3><b slot="test">{{sex}}</b><u slot="test" s-for="email in emails">{{email}}</u></x-man></div>',
+            template: '<div><x-man data="{{man}}"><h3 slot="test">{{n}}</h3><b slot="test">{{sex}}</b><u slot="test" s-for="email in emails">{{email}}</u></x-man></div>',
 
             initData: function () {
                 return {
@@ -2183,21 +2009,13 @@ describe("Slot", function () {
 
         expect(wrap.getElementsByTagName("h3")[0].innerHTML).toBe("errorrik");
         expect(wrap.getElementsByTagName("b")[0].innerHTML).toBe("male");
-        expect(wrap.getElementsByTagName("u")[0].innerHTML).toBe(
-            "errorrik@gmail.com",
-        );
+        expect(wrap.getElementsByTagName("u")[0].innerHTML).toBe("errorrik@gmail.com");
         myComponent.data.push("man.emails", "erik168@163.com");
         san.nextTick(function () {
-            expect(wrap.getElementsByTagName("h3")[0].innerHTML).toBe(
-                "errorrik",
-            );
+            expect(wrap.getElementsByTagName("h3")[0].innerHTML).toBe("errorrik");
             expect(wrap.getElementsByTagName("b")[0].innerHTML).toBe("male");
-            expect(wrap.getElementsByTagName("u")[0].innerHTML).toBe(
-                "errorrik@gmail.com",
-            );
-            expect(wrap.getElementsByTagName("u")[1].innerHTML).toBe(
-                "erik168@163.com",
-            );
+            expect(wrap.getElementsByTagName("u")[0].innerHTML).toBe("errorrik@gmail.com");
+            expect(wrap.getElementsByTagName("u")[1].innerHTML).toBe("erik168@163.com");
 
             myComponent.dispose();
             document.body.removeChild(wrap);
@@ -2218,11 +2036,7 @@ describe("Slot", function () {
                 "x-c": Child,
                 "x-container": ChildContainer,
             },
-            template:
-                "<div><x-container>" +
-                '<x-c s-bind="{{a}}" />' +
-                '<x-c s-bind="{{b}}" />' +
-                "</x-container></div>",
+            template: "<div><x-container>" + '<x-c s-bind="{{a}}" />' + '<x-c s-bind="{{b}}" />' + "</x-container></div>",
         });
 
         var myComponent = new MyComponent({
@@ -2274,8 +2088,7 @@ describe("Slot", function () {
         });
 
         var Folder = san.defineComponent({
-            template:
-                '<div><h3 on-click="toggle"><slot name="title"/></h3><slot s-if="!hidden"/></div>',
+            template: '<div><h3 on-click="toggle"><slot name="title"/></h3><slot s-if="!hidden"/></div>',
             toggle: function () {
                 var hidden = this.data.get("hidden");
                 this.data.set("hidden", !hidden);
@@ -2329,23 +2142,15 @@ describe("Slot", function () {
         myComponent.data.set("name", "otakustay");
 
         san.nextTick(function () {
-            expect(
-                wrap.getElementsByTagName("b")[0].getAttribute("slot") == null,
-            ).toBeTruthy();
+            expect(wrap.getElementsByTagName("b")[0].getAttribute("slot") == null).toBeTruthy();
             expect(wrap.getElementsByTagName("b")[0].innerHTML).toBe("member");
-            expect(wrap.getElementsByTagName("a")[0].innerHTML).toContain(
-                "close",
-            );
-            expect(wrap.getElementsByTagName("u")[0].innerHTML).toBe(
-                "otakustay",
-            );
+            expect(wrap.getElementsByTagName("a")[0].innerHTML).toContain("close");
+            expect(wrap.getElementsByTagName("u")[0].innerHTML).toBe("otakustay");
 
             myComponent.data.set("folderHidden", true);
 
             san.nextTick(function () {
-                expect(wrap.getElementsByTagName("b")[0].innerHTML).toBe(
-                    "member",
-                );
+                expect(wrap.getElementsByTagName("b")[0].innerHTML).toBe("member");
                 expect(wrap.getElementsByTagName("a").length).toBe(0);
                 expect(wrap.getElementsByTagName("u").length).toBe(0);
 
@@ -2387,14 +2192,7 @@ describe("Slot", function () {
             components: {
                 "x-folder": Folder,
             },
-            template:
-                "<div>" +
-                '<x-folder isShow="true" s-ref="folder">' +
-                '<b slot="head">{{head}}</b>' +
-                '<strong slot="foot">{{foot}}</strong>' +
-                "<u>{{content}}</u>" +
-                "</x-folder>" +
-                "</div>",
+            template: "<div>" + '<x-folder isShow="true" s-ref="folder">' + '<b slot="head">{{head}}</b>' + '<strong slot="foot">{{foot}}</strong>' + "<u>{{content}}</u>" + "</x-folder>" + "</div>",
         });
 
         var myComponent = new MyComponent({
@@ -2424,9 +2222,7 @@ describe("Slot", function () {
 
         san.nextTick(function () {
             expect(wrap.getElementsByTagName("b")[0].innerHTML).toBe("Bye");
-            expect(wrap.getElementsByTagName("strong")[0].innerHTML).toBe(
-                "Hello San",
-            );
+            expect(wrap.getElementsByTagName("strong")[0].innerHTML).toBe("Hello San");
             expect(wrap.getElementsByTagName("u")[0].innerHTML).toBe("ER");
 
             myComponent.dispose();
@@ -2451,12 +2247,7 @@ describe("Slot", function () {
             components: {
                 "x-table": Table,
             },
-            template:
-                "<div>" +
-                '<x-table columns="{{columns}}" datasource="{{list}}">' +
-                '<b slot="col-name">{{row.name}}</b>' +
-                "</x-table>" +
-                "</div>",
+            template: "<div>" + '<x-table columns="{{columns}}" datasource="{{list}}">' + '<b slot="col-name">{{row.name}}</b>' + "</x-table>" + "</div>",
         });
 
         var myComponent = new MyComponent({
@@ -2547,12 +2338,7 @@ describe("Slot", function () {
                 "x-table": Table,
                 "x-panel": Panel,
             },
-            template:
-                "<x-panel>" +
-                '<x-table columns="{{columns}}" datasource="{{list}}">' +
-                '<b slot="col-name">{{row.name}}</b>' +
-                "</x-table>" +
-                "</x-panel>",
+            template: "<x-panel>" + '<x-table columns="{{columns}}" datasource="{{list}}">' + '<b slot="col-name">{{row.name}}</b>' + "</x-table>" + "</x-panel>",
         });
 
         var myComponent = new MyComponent({
@@ -2624,10 +2410,7 @@ describe("Slot", function () {
 
     it("a complex spec may cause component _update re-in", function (done) {
         var ColFilter = san.defineComponent({
-            template:
-                "<div>" +
-                '<a on-click="toggleDisplay(i)" s-for="col,i in cols" class="{{col.hidden ? \'col-hidden\' : \'\'}}">{{col.name}}</a>' +
-                "</div>",
+            template: "<div>" + '<a on-click="toggleDisplay(i)" s-for="col,i in cols" class="{{col.hidden ? \'col-hidden\' : \'\'}}">{{col.name}}</a>' + "</div>",
 
             toggleDisplay: function (index) {
                 var cols = this.data.get("cols").slice(0);
@@ -2693,11 +2476,7 @@ describe("Slot", function () {
                 },
             },
 
-            template:
-                "<div>" +
-                '<x-filter cols="{=list.columns=}" s-ref="fi"/>' +
-                '<x-p columns="{{list.columns}}" datasource="{{list.data}}" selected="{=list.selectedIndex=}"/>' +
-                "</div>",
+            template: "<div>" + '<x-filter cols="{=list.columns=}" s-ref="fi"/>' + '<x-p columns="{{list.columns}}" datasource="{{list.data}}" selected="{=list.selectedIndex=}"/>' + "</div>",
         });
 
         var myComponent = new MyComponent({
@@ -2815,12 +2594,7 @@ describe("Slot", function () {
             components: {
                 "x-table": Table,
             },
-            template:
-                "<div>" +
-                '<x-table columns="{{dep.columns}}" datasource="{{dep.members}}" s-for="dep in deps">' +
-                '<b slot="col-{{dep.strong}}">{{row[col.name]}}</b>' +
-                "</x-table>" +
-                "</div>",
+            template: "<div>" + '<x-table columns="{{dep.columns}}" datasource="{{dep.members}}" s-for="dep in deps">' + '<b slot="col-{{dep.strong}}">{{row[col.name]}}</b>' + "</x-table>" + "</div>",
         });
 
         var myComponent = new MyComponent({
@@ -2932,8 +2706,7 @@ describe("Slot", function () {
 
     it("scoped by default content, access inner data", function (done) {
         var Man = san.defineComponent({
-            template:
-                '<div><slot var-n="data.name" var-email="data.email" var-sex="data.sex ? \'male\' : \'female\'"><p>{{n}},{{sex}},{{email}} - {{desc}}</p></slot></div>',
+            template: '<div><slot var-n="data.name" var-email="data.email" var-sex="data.sex ? \'male\' : \'female\'"><p>{{n}},{{sex}},{{email}} - {{desc}}</p></slot></div>',
         });
 
         var MyComponent = san.defineComponent({
@@ -2961,15 +2734,11 @@ describe("Slot", function () {
         document.body.appendChild(wrap);
         myComponent.attach(wrap);
 
-        expect(wrap.getElementsByTagName("p")[0].innerHTML).toBe(
-            "errorrik,male,errorrik@gmail.com - tip",
-        );
+        expect(wrap.getElementsByTagName("p")[0].innerHTML).toBe("errorrik,male,errorrik@gmail.com - tip");
         myComponent.data.set("man.email", "erik168@163.com");
         myComponent.data.set("tip", "sb");
         san.nextTick(function () {
-            expect(wrap.getElementsByTagName("p")[0].innerHTML).toBe(
-                "errorrik,male,erik168@163.com - sb",
-            );
+            expect(wrap.getElementsByTagName("p")[0].innerHTML).toBe("errorrik,male,erik168@163.com - sb");
 
             myComponent.dispose();
             document.body.removeChild(wrap);
@@ -2979,8 +2748,7 @@ describe("Slot", function () {
 
     it("scoped by given content, access owner data", function (done) {
         var Man = san.defineComponent({
-            template:
-                '<div><slot name="test" var-n="data.name" var-email="data.email" var-sex="data.sex ? \'male\' : \'female\'"><p>{{n}},{{sex}},{{email}}</p></slot></div>',
+            template: '<div><slot name="test" var-n="data.name" var-email="data.email" var-sex="data.sex ? \'male\' : \'female\'"><p>{{n}},{{sex}},{{email}}</p></slot></div>',
         });
 
         var MyComponent = san.defineComponent({
@@ -2988,8 +2756,7 @@ describe("Slot", function () {
                 "x-man": Man,
             },
 
-            template:
-                '<div><x-man data="{{man}}"><h3 slot="test">{{n}}</h3><b slot="test">{{sex}}</b><u slot="test">{{email}}</u><a slot="test">{{desc}}</a></x-man></div>',
+            template: '<div><x-man data="{{man}}"><h3 slot="test">{{n}}</h3><b slot="test">{{sex}}</b><u slot="test">{{email}}</u><a slot="test">{{desc}}</a></x-man></div>',
 
             initData: function () {
                 return {
@@ -3011,20 +2778,14 @@ describe("Slot", function () {
 
         expect(wrap.getElementsByTagName("h3")[0].innerHTML).toBe("errorrik");
         expect(wrap.getElementsByTagName("b")[0].innerHTML).toBe("male");
-        expect(wrap.getElementsByTagName("u")[0].innerHTML).toBe(
-            "errorrik@gmail.com",
-        );
+        expect(wrap.getElementsByTagName("u")[0].innerHTML).toBe("errorrik@gmail.com");
         expect(wrap.getElementsByTagName("a")[0].innerHTML).toBe("tip");
         myComponent.data.set("man.email", "erik168@163.com");
         myComponent.data.set("desc", "nonono");
         san.nextTick(function () {
-            expect(wrap.getElementsByTagName("h3")[0].innerHTML).toBe(
-                "errorrik",
-            );
+            expect(wrap.getElementsByTagName("h3")[0].innerHTML).toBe("errorrik");
             expect(wrap.getElementsByTagName("b")[0].innerHTML).toBe("male");
-            expect(wrap.getElementsByTagName("u")[0].innerHTML).toBe(
-                "erik168@163.com",
-            );
+            expect(wrap.getElementsByTagName("u")[0].innerHTML).toBe("erik168@163.com");
             expect(wrap.getElementsByTagName("a")[0].innerHTML).toBe("nonono");
 
             myComponent.dispose();
@@ -3043,8 +2804,7 @@ describe("Slot", function () {
                 "x-btn": Button,
             },
 
-            template:
-                '<div><x-btn loading="{{loading}}">{{name}}</x-btn></div>',
+            template: '<div><x-btn loading="{{loading}}">{{name}}</x-btn></div>',
         });
 
         var myComponent = new MyComponent({

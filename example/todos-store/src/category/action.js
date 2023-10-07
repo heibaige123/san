@@ -35,31 +35,25 @@ store.addAction("rmCategory", function (index) {
     return updateBuilder().splice("categories", index, 1);
 });
 
-store.addAction(
-    "startEditCategory",
-    function (category, { getState, dispatch }) {
-        return service.editCategory(category).then((editedCategory) => {
-            let categories = getState("categories");
+store.addAction("startEditCategory", function (category, { getState, dispatch }) {
+    return service.editCategory(category).then((editedCategory) => {
+        let categories = getState("categories");
 
-            let index = -1;
-            categories.forEach((item, i) => {
-                if (item.id === editedCategory.id) {
-                    index = i;
-                }
-            });
-
-            if (index >= 0) {
-                dispatch("editCategory", { index, category: editedCategory });
+        let index = -1;
+        categories.forEach((item, i) => {
+            if (item.id === editedCategory.id) {
+                index = i;
             }
         });
-    },
-);
+
+        if (index >= 0) {
+            dispatch("editCategory", { index, category: editedCategory });
+        }
+    });
+});
 
 store.addAction("editCategory", function (payload) {
-    return updateBuilder().set(
-        "categories[" + payload.index + "]",
-        payload.category,
-    );
+    return updateBuilder().set("categories[" + payload.index + "]", payload.category);
 });
 
 store.addAction("startAddCategory", function () {
@@ -78,7 +72,5 @@ store.addAction("submitAddCategory", function (category, { dispatch }) {
 });
 
 store.addAction("addCategory", function (category) {
-    return updateBuilder()
-        .push("categories", category)
-        .set("addingCategoryFinished", true);
+    return updateBuilder().push("categories", category).set("addingCategoryFinished", true);
 });

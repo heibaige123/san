@@ -20,9 +20,7 @@ describe("Main Module", function () {
     });
 
     it("parseExpr with a static string", function () {
-        expect(
-            san.parseExpr('"aaa\\3\\n\\r\\f\\b\\t\\v\\u8279\\x2bbbb"').value,
-        ).toBe("aaa3\n\r\f\b\t\v\u8279\x2bbbb");
+        expect(san.parseExpr('"aaa\\3\\n\\r\\f\\b\\t\\v\\u8279\\x2bbbb"').value).toBe("aaa3\n\r\f\b\t\v\u8279\x2bbbb");
     });
 
     it("parseExpr not support assign expr, just parse left hand", function () {
@@ -76,11 +74,7 @@ describe("Main Module", function () {
         var data = new san.Data({
             obj: {
                 idx: 0,
-                children: [
-                    { name: "errorrik" },
-                    { name: "erik" },
-                    { name: "er" },
-                ],
+                children: [{ name: "errorrik" }, { name: "erik" }, { name: "er" }],
             },
         });
 

@@ -81,9 +81,7 @@ store.addAction("startEditTodo", function (id, { dispatch }) {
 });
 
 store.addAction("updateEditingTodo", function (todo) {
-    return updateBuilder()
-        .set("editingTodo", todo)
-        .set("editingTodoFinished", false);
+    return updateBuilder().set("editingTodo", todo).set("editingTodoFinished", false);
 });
 
 store.addAction("submitEditTodo", function (todo, { dispatch }) {
@@ -94,7 +92,5 @@ store.addAction("submitEditTodo", function (todo, { dispatch }) {
 });
 
 store.addAction("finishEditTodoState", function (state) {
-    return updateBuilder()
-        .set("editingTodo", null)
-        .set("editingTodoFinished", state);
+    return updateBuilder().set("editingTodo", null).set("editingTodoFinished", state);
 });

@@ -8,8 +8,7 @@ describe("Reverse", function () {
             template: '<a><span title="{{email}}">{{name}}</span></a>',
         });
         var wrap = document.createElement("div");
-        wrap.innerHTML =
-            '<a>\n    <!--s-data:{"email":"errorrik@gmail.com","name":"errorrik"}--><span title="errorrik@gmail.com">errorrik</span></a>';
+        wrap.innerHTML = '<a>\n    <!--s-data:{"email":"errorrik@gmail.com","name":"errorrik"}--><span title="errorrik@gmail.com">errorrik</span></a>';
         document.body.appendChild(wrap);
         var myComponent = new MyComponent({ el: wrap.firstChild });
 

@@ -15,7 +15,7 @@
  */
 var DataChangeType = {
     SET: 1,
-    SPLICE: 2
+    SPLICE: 2,
 };
 
 exports = module.exports = DataChangeType;

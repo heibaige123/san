@@ -1,8 +1,6 @@
 window.triggerEvent = (function () {
     function nodeName(elem, name) {
-        return (
-            elem.nodeName && elem.nodeName.toLowerCase() === name.toLowerCase()
-        );
+        return elem.nodeName && elem.nodeName.toLowerCase() === name.toLowerCase();
     }
 
     function byBrowser(elem, type, value) {
@@ -24,11 +22,7 @@ window.triggerEvent = (function () {
         }
 
         // hack checkbox
-        if (
-            (elem.type === "checkbox" || elem.type === "radio") &&
-            elem.click &&
-            nodeName(elem, "input")
-        ) {
+        if ((elem.type === "checkbox" || elem.type === "radio") && elem.click && nodeName(elem, "input")) {
             elem.click();
             return false;
         }
@@ -52,10 +46,7 @@ window.triggerEvent = (function () {
             }
 
             if (document.createEventObject) {
-                if (
-                    (nodeName(elem, "input") || nodeName(elem, "textarea")) &&
-                    ontype === "oninput"
-                ) {
+                if ((nodeName(elem, "input") || nodeName(elem, "textarea")) && ontype === "oninput") {
                     elem.fireEvent("onfocusin", document.createEventObject());
                 }
 
@@ -75,12 +66,7 @@ window.triggerEvent = (function () {
         var act = acts[type];
 
         if (act) {
-            var action = [
-                act,
-                ":",
-                elem,
-                value !== undefined ? "|" + value : "",
-            ].join("");
+            var action = [act, ":", elem, value !== undefined ? "|" + value : ""].join("");
 
             window.WDBridge.send("action", action);
         }

@@ -36,10 +36,7 @@ define(function (require) {
                     todos.push(item);
 
                     if (item.categoryId) {
-                        item.category = extend(
-                            {},
-                            categoryMap[item.categoryId],
-                        );
+                        item.category = extend({}, categoryMap[item.categoryId]);
                     }
                 }
             }
@@ -60,10 +57,7 @@ define(function (require) {
                 if (item.id === id) {
                     if (item.categoryId) {
                         item = extend({}, item);
-                        item.category = extend(
-                            {},
-                            categoryMap[item.categoryId],
-                        );
+                        item.category = extend({}, categoryMap[item.categoryId]);
                     }
 
                     return item;

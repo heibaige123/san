@@ -12,9 +12,9 @@ import { router } from "san-router";
 
 router.add({ rule: "/", Component: List, target: "#app" });
 router.add({
-  rule: "/todos/category/:category",
-  Component: List,
-  target: "#app",
+    rule: "/todos/category/:category",
+    Component: List,
+    target: "#app",
 });
 router.add({ rule: "/add", Component: Form, target: "#app" });
 router.add({ rule: "/edit/:id", Component: Form, target: "#app" });

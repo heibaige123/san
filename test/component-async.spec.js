@@ -41,9 +41,7 @@ describe("Component Async", function () {
         setTimeout(function () {
             expect(wrap.getElementsByTagName("u").length).toBe(1);
             expect(wrap.getElementsByTagName("b").length).toBe(1);
-            expect(wrap.getElementsByTagName("u")[0].innerHTML).toBe(
-                "Hello San",
-            );
+            expect(wrap.getElementsByTagName("u")[0].innerHTML).toBe("Hello San");
 
             myComponent.dispose();
             document.body.removeChild(wrap);
@@ -100,9 +98,7 @@ describe("Component Async", function () {
 
         setTimeout(function () {
             expect(wrap.getElementsByTagName("u").length).toBe(1);
-            expect(wrap.getElementsByTagName("u")[0].innerHTML).toBe(
-                "Hello San",
-            );
+            expect(wrap.getElementsByTagName("u")[0].innerHTML).toBe("Hello San");
 
             expect(wrap.getElementsByTagName("b").length).toBe(0);
 
@@ -169,18 +165,14 @@ describe("Component Async", function () {
         setTimeout(function () {
             expect(wrap.getElementsByTagName("u").length).toBe(0);
             expect(wrap.getElementsByTagName("input").length).toBe(1);
-            expect(wrap.getElementsByTagName("input")[0].value).toBe(
-                "Hello San",
-            );
+            expect(wrap.getElementsByTagName("input")[0].value).toBe("Hello San");
 
             expect(wrap.getElementsByTagName("b").length).toBe(0);
 
             myComponent.data.set("text", "GoodBye San");
 
             myComponent.nextTick(function () {
-                expect(wrap.getElementsByTagName("input")[0].value).toBe(
-                    "GoodBye San",
-                );
+                expect(wrap.getElementsByTagName("input")[0].value).toBe("GoodBye San");
                 myComponent.dispose();
                 document.body.removeChild(wrap);
                 done();
@@ -244,18 +236,14 @@ describe("Component Async", function () {
         setTimeout(function () {
             expect(wrap.getElementsByTagName("u").length).toBe(0);
             expect(wrap.getElementsByTagName("input").length).toBe(1);
-            expect(wrap.getElementsByTagName("input")[0].value).toBe(
-                "Hello San",
-            );
+            expect(wrap.getElementsByTagName("input")[0].value).toBe("Hello San");
 
             expect(wrap.getElementsByTagName("b").length).toBe(0);
 
             myComponent.data.set("text", "GoodBye San");
 
             myComponent.nextTick(function () {
-                expect(wrap.getElementsByTagName("input")[0].value).toBe(
-                    "GoodBye San",
-                );
+                expect(wrap.getElementsByTagName("input")[0].value).toBe("GoodBye San");
                 myComponent.dispose();
                 document.body.removeChild(wrap);
                 done();
@@ -306,16 +294,12 @@ describe("Component Async", function () {
         myComponent.nextTick(function () {
             expect(wrap.getElementsByTagName("u").length).toBe(0);
             expect(wrap.getElementsByTagName("b").length).toBe(1);
-            expect(wrap.getElementsByTagName("b")[0].innerHTML).toBe(
-                "Hello San",
-            );
+            expect(wrap.getElementsByTagName("b")[0].innerHTML).toBe("Hello San");
 
             loadSuccess(Label);
             myComponent.nextTick(function () {
                 expect(wrap.getElementsByTagName("u").length).toBe(1);
-                expect(wrap.getElementsByTagName("u")[0].innerHTML).toBe(
-                    "Hello San",
-                );
+                expect(wrap.getElementsByTagName("u")[0].innerHTML).toBe("Hello San");
                 expect(wrap.getElementsByTagName("b").length).toBe(0);
 
                 myComponent.data.set("isShow", false);
@@ -327,20 +311,12 @@ describe("Component Async", function () {
                     myComponent.nextTick(function () {
                         expect(wrap.getElementsByTagName("u").length).toBe(0);
                         expect(wrap.getElementsByTagName("b").length).toBe(1);
-                        expect(
-                            wrap.getElementsByTagName("b")[0].innerHTML,
-                        ).toBe("Hello San");
+                        expect(wrap.getElementsByTagName("b")[0].innerHTML).toBe("Hello San");
 
                         myComponent.nextTick(function () {
-                            expect(wrap.getElementsByTagName("u").length).toBe(
-                                1,
-                            );
-                            expect(
-                                wrap.getElementsByTagName("u")[0].innerHTML,
-                            ).toBe("Hello San");
-                            expect(wrap.getElementsByTagName("b").length).toBe(
-                                0,
-                            );
+                            expect(wrap.getElementsByTagName("u").length).toBe(1);
+                            expect(wrap.getElementsByTagName("u")[0].innerHTML).toBe("Hello San");
+                            expect(wrap.getElementsByTagName("b").length).toBe(0);
 
                             myComponent.dispose();
                             document.body.removeChild(wrap);
@@ -397,15 +373,11 @@ describe("Component Async", function () {
 
         expect(wrap.getElementsByTagName("u").length).toBe(0);
         expect(wrap.getElementsByTagName("b").length).toBe(1);
-        expect(wrap.getElementsByTagName("b")[0].innerHTML).toContain(
-            "Hello San",
-        );
+        expect(wrap.getElementsByTagName("b")[0].innerHTML).toContain("Hello San");
 
         setTimeout(function () {
             expect(wrap.getElementsByTagName("u").length).toBe(1);
-            expect(wrap.getElementsByTagName("u")[0].innerHTML).toContain(
-                "Hello San",
-            );
+            expect(wrap.getElementsByTagName("u")[0].innerHTML).toContain("Hello San");
 
             expect(wrap.getElementsByTagName("b").length).toBe(0);
 
@@ -444,8 +416,7 @@ describe("Component Async", function () {
                 }),
             },
 
-            template:
-                "<div><x-panel><x-label>Hello {{text}}</x-label></x-panel></div>",
+            template: "<div><x-panel><x-label>Hello {{text}}</x-label></x-panel></div>",
 
             attached: function () {
                 this.nextTick(function () {
@@ -472,9 +443,7 @@ describe("Component Async", function () {
 
         setTimeout(function () {
             expect(a.getElementsByTagName("u").length).toBe(1);
-            expect(a.getElementsByTagName("u")[0].innerHTML).toContain(
-                "Hello San",
-            );
+            expect(a.getElementsByTagName("u")[0].innerHTML).toContain("Hello San");
 
             expect(a.getElementsByTagName("b").length).toBe(0);
 
@@ -510,8 +479,7 @@ describe("Component Async", function () {
                 }),
             },
 
-            template:
-                '<ul><x-li s-for="item in list">Hello {{item}}</x-li></ul>',
+            template: '<ul><x-li s-for="item in list">Hello {{item}}</x-li></ul>',
         });
 
         var myComponent = new MyComponent({
@@ -535,15 +503,9 @@ describe("Component Async", function () {
         setTimeout(function () {
             expect(wrap.getElementsByTagName("li").length).toBe(3);
             expect(wrap.getElementsByTagName("b").length).toBe(3);
-            expect(wrap.getElementsByTagName("b")[0].innerHTML).toContain(
-                "Hello yi",
-            );
-            expect(wrap.getElementsByTagName("b")[1].innerHTML).toContain(
-                "Hello er",
-            );
-            expect(wrap.getElementsByTagName("b")[2].innerHTML).toContain(
-                "Hello san",
-            );
+            expect(wrap.getElementsByTagName("b")[0].innerHTML).toContain("Hello yi");
+            expect(wrap.getElementsByTagName("b")[1].innerHTML).toContain("Hello er");
+            expect(wrap.getElementsByTagName("b")[2].innerHTML).toContain("Hello san");
 
             myComponent.dispose();
             document.body.removeChild(wrap);
@@ -615,12 +577,8 @@ describe("Component Async", function () {
             san.nextTick(function () {
                 expect(loadCount).toBe(1);
                 expect(wrap.getElementsByTagName("u").length).toBe(2);
-                expect(wrap.getElementsByTagName("u")[0].innerHTML).toBe(
-                    "Hello San",
-                );
-                expect(wrap.getElementsByTagName("u")[1].innerHTML).toBe(
-                    "Bye ER",
-                );
+                expect(wrap.getElementsByTagName("u")[0].innerHTML).toBe("Hello San");
+                expect(wrap.getElementsByTagName("u")[1].innerHTML).toBe("Bye ER");
 
                 expect(wrap.getElementsByTagName("b").length).toBe(0);
 
@@ -683,23 +641,15 @@ describe("Component Async", function () {
         myComponent.nextTick(function () {
             expect(wrap.getElementsByTagName("u").length).toBe(0);
             expect(wrap.getElementsByTagName("b").length).toBe(1);
-            expect(wrap.getElementsByTagName("a")[0].innerHTML).toBe(
-                "Hello Async",
-            );
-            expect(wrap.getElementsByTagName("b")[0].innerHTML).toBe(
-                "Hello Async",
-            );
+            expect(wrap.getElementsByTagName("a")[0].innerHTML).toBe("Hello Async");
+            expect(wrap.getElementsByTagName("b")[0].innerHTML).toBe("Hello Async");
 
             setTimeout(function () {
                 expect(wrap.getElementsByTagName("u").length).toBe(1);
-                expect(wrap.getElementsByTagName("u")[0].innerHTML).toBe(
-                    "Hello Async",
-                );
+                expect(wrap.getElementsByTagName("u")[0].innerHTML).toBe("Hello Async");
 
                 expect(wrap.getElementsByTagName("b").length).toBe(0);
-                expect(wrap.getElementsByTagName("a")[0].innerHTML).toBe(
-                    "Hello Async",
-                );
+                expect(wrap.getElementsByTagName("a")[0].innerHTML).toBe("Hello Async");
 
                 myComponent.dispose();
                 document.body.removeChild(wrap);
@@ -747,34 +697,26 @@ describe("Component Async", function () {
 
         expect(wrap.getElementsByTagName("u").length).toBe(0);
         expect(wrap.getElementsByTagName("b").length).toBe(1);
-        expect(wrap.getElementsByTagName("b")[0].innerHTML).toContain(
-            "Hello San",
-        );
+        expect(wrap.getElementsByTagName("b")[0].innerHTML).toContain("Hello San");
         expect(myComponent.el.tagName).toBe("B");
 
         myComponent.data.set("text", "SanUp");
         myComponent.nextTick(function () {
             expect(wrap.getElementsByTagName("u").length).toBe(0);
             expect(wrap.getElementsByTagName("b").length).toBe(1);
-            expect(wrap.getElementsByTagName("b")[0].innerHTML).toContain(
-                "Hello SanUp",
-            );
+            expect(wrap.getElementsByTagName("b")[0].innerHTML).toContain("Hello SanUp");
 
             loadSuccess(Label);
             setTimeout(function () {
                 expect(wrap.getElementsByTagName("u").length).toBe(1);
-                expect(wrap.getElementsByTagName("u")[0].innerHTML).toContain(
-                    "Hello SanUp",
-                );
+                expect(wrap.getElementsByTagName("u")[0].innerHTML).toContain("Hello SanUp");
                 expect(wrap.getElementsByTagName("b").length).toBe(0);
                 expect(myComponent.el.tagName).toBe("U");
 
                 myComponent.data.set("text", "SanNext");
                 myComponent.nextTick(function () {
                     expect(wrap.getElementsByTagName("u").length).toBe(1);
-                    expect(
-                        wrap.getElementsByTagName("u")[0].innerHTML,
-                    ).toContain("Hello SanNext");
+                    expect(wrap.getElementsByTagName("u")[0].innerHTML).toContain("Hello SanNext");
                     expect(wrap.getElementsByTagName("b").length).toBe(0);
 
                     myComponent.dispose();

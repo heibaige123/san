@@ -130,40 +130,9 @@ describe("parseTemplate", function () {
         "wbr",
     ];
 
-    var OPTIONAL_CLOSE_TAGS = [
-        "body",
-        "colgroup",
-        "dd",
-        "dt",
-        "head",
-        "html",
-        "li",
-        "option",
-        "p",
-        "tbody",
-        "td",
-        "tfoot",
-        "th",
-        "thead",
-        "tr",
-    ];
+    var OPTIONAL_CLOSE_TAGS = ["body", "colgroup", "dd", "dt", "head", "html", "li", "option", "p", "tbody", "td", "tfoot", "th", "thead", "tr"];
 
-    var AUTO_CLOSE_TAGS = [
-        "area",
-        "base",
-        "br",
-        "col",
-        "embed",
-        "hr",
-        "img",
-        "input",
-        "link",
-        "meta",
-        "param",
-        "source",
-        "track",
-        "wbr",
-    ];
+    var AUTO_CLOSE_TAGS = ["area", "base", "br", "col", "embed", "hr", "img", "input", "link", "meta", "param", "source", "track", "wbr"];
 
     var AUTO_CLOSE_TAGS_MAP = {};
 
@@ -194,9 +163,7 @@ describe("parseTemplate", function () {
             var tag = NOT_AUTO_CLOASE_TAGS[i];
             expect(function () {
                 san.parseTemplate("<div><" + tag + "></" + tag + " </div>");
-            }).toThrowError(
-                "[SAN ERROR] ROOT>div>" + tag + "'s close tag not closed",
-            );
+            }).toThrowError("[SAN ERROR] ROOT>div>" + tag + "'s close tag not closed");
         }
     });
 
@@ -204,12 +171,8 @@ describe("parseTemplate", function () {
         for (var i = 0, len = NOT_AUTO_CLOASE_TAGS.length; i < len; i++) {
             var tag = NOT_AUTO_CLOASE_TAGS[i];
             expect(function () {
-                san.parseTemplate(
-                    "<div><" + tag + "></" + tag + ' attr="1"> </div> ',
-                );
-            }).toThrowError(
-                "[SAN ERROR] ROOT>div>" + tag + "'s close tag has attributes",
-            );
+                san.parseTemplate("<div><" + tag + "></" + tag + ' attr="1"> </div> ');
+            }).toThrowError("[SAN ERROR] ROOT>div>" + tag + "'s close tag has attributes");
         }
     });
 
@@ -218,15 +181,7 @@ describe("parseTemplate", function () {
             var tag = AUTO_CLOSE_TAGS[i];
             expect(function () {
                 san.parseTemplate("<div><" + tag + ">aaa</" + tag + "></div>");
-            }).toThrowError(
-                "" +
-                    "[SAN ERROR] ROOT>div>" +
-                    tag +
-                    " is a `auto closed` tag, " +
-                    "so it cannot be closed with </" +
-                    tag +
-                    ">",
-            );
+            }).toThrowError("" + "[SAN ERROR] ROOT>div>" + tag + " is a `auto closed` tag, " + "so it cannot be closed with </" + tag + ">");
         }
     });
 
@@ -236,53 +191,12 @@ describe("parseTemplate", function () {
             var tag = NOT_AUTO_CLOASE_TAGS[i];
 
             expect(function () {
-                san.parseTemplate(
-                    "" +
-                        "<" +
-                        rootName +
-                        ">" +
-                        "<" +
-                        tag +
-                        ">" +
-                        "</" +
-                        rootName +
-                        ">",
-                );
-            }).toThrowError(
-                "" +
-                    "[SAN ERROR] ROOT>" +
-                    rootName +
-                    ">" +
-                    tag +
-                    " is closed with " +
-                    rootName,
-            );
+                san.parseTemplate("" + "<" + rootName + ">" + "<" + tag + ">" + "</" + rootName + ">");
+            }).toThrowError("" + "[SAN ERROR] ROOT>" + rootName + ">" + tag + " is closed with " + rootName);
 
             expect(function () {
-                san.parseTemplate(
-                    "" +
-                        "<" +
-                        rootName +
-                        ">" +
-                        "<" +
-                        tag +
-                        "></" +
-                        tag +
-                        "-you-shall-not-match>" +
-                        "</" +
-                        rootName +
-                        ">",
-                );
-            }).toThrowError(
-                "" +
-                    "[SAN ERROR] ROOT>" +
-                    rootName +
-                    ">" +
-                    tag +
-                    " is closed with " +
-                    tag +
-                    "-you-shall-not-match",
-            );
+                san.parseTemplate("" + "<" + rootName + ">" + "<" + tag + "></" + tag + "-you-shall-not-match>" + "</" + rootName + ">");
+            }).toThrowError("" + "[SAN ERROR] ROOT>" + rootName + ">" + tag + " is closed with " + tag + "-you-shall-not-match");
         }
     });
 

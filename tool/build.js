@@ -67,9 +67,7 @@ function build() {
         fs.mkdirSync(distDir);
     }
 
-    let version = JSON.parse(
-        fs.readFileSync(path.resolve(rootDir, "package.json")),
-    ).version;
+    let version = JSON.parse(fs.readFileSync(path.resolve(rootDir, "package.json"))).version;
 
     let baseSource = pack(rootDir);
     let source = baseSource.content.replace(/##version##/g, version);
@@ -92,21 +90,13 @@ function build() {
 
             editionSource = ast.print_to_string({ screw_ie8: false });
         } else {
-            editionSource +=
-                "//@ sourceMappingURL=" + path.join("./", fileName + ".map");
+            editionSource += "//@ sourceMappingURL=" + path.join("./", fileName + ".map");
 
-            assert(
-                typeof path.parse(baseSource.base) === "object",
-                "The base(entry file) must be a file path!",
-            );
+            assert(typeof path.parse(baseSource.base) === "object", "The base(entry file) must be a file path!");
             let map = new MOZ_SourceMap.SourceMapGenerator({
                 file: fileName,
             });
-            let baseLineLength = fs
-                .readFileSync(baseSource.base)
-                .toString("utf8")
-                .split("// #[main-dependencies]")[0]
-                .split("\n").length;
+            let baseLineLength = fs.readFileSync(baseSource.base).toString("utf8").split("// #[main-dependencies]")[0].split("\n").length;
 
             for (let i = 0; i < baseSource.deps.length; i++) {
                 let script = fs.readFileSync(baseSource.deps[i]);
