@@ -1,13 +1,4 @@
-/**
- * Copyright (c) Baidu Inc. All rights reserved.
- *
- * This source code is licensed under the MIT license.
- * See LICENSE file in the project root for license information.
- *
- * @file 是否 IE 并且小于 9
- */
-
-var ie = require('./ie');
+var ie = require("./ie");
 
 // HACK:
 // 1. IE8下，设置innerHTML时如果以html comment开头，comment会被自动滤掉

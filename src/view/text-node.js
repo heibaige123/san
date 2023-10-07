@@ -1,23 +1,13 @@
-/**
- * Copyright (c) Baidu Inc. All rights reserved.
- *
- * This source code is licensed under the MIT license.
- * See LICENSE file in the project root for license information.
- *
- * @file text 节点类
- */
-
-var guid = require('../util/guid');
-var isBrowser = require('../browser/is-browser');
-var removeEl = require('../browser/remove-el');
-var insertBefore = require('../browser/insert-before');
-var changeExprCompare = require('../runtime/change-expr-compare');
-var evalExpr = require('../runtime/eval-expr');
-var NodeType = require('./node-type');
-var warnSetHTML = require('./warn-set-html');
-var isEndStump = require('./is-end-stump');
-var getNodePath = require('./get-node-path');
-
+var guid = require("../util/guid");
+var isBrowser = require("../browser/is-browser");
+var removeEl = require("../browser/remove-el");
+var insertBefore = require("../browser/insert-before");
+var changeExprCompare = require("../runtime/change-expr-compare");
+var evalExpr = require("../runtime/eval-expr");
+var NodeType = require("./node-type");
+var warnSetHTML = require("./warn-set-html");
+var isEndStump = require("./is-end-stump");
+var getNodePath = require("./get-node-path");
 
 /**
  * text 节点类
@@ -41,21 +31,24 @@ function TextNode(aNode, parent, scope, owner, hydrateWalker) {
         if (currentNode) {
             switch (currentNode.nodeType) {
                 case 8:
-                    if (currentNode.data === 's-text') {
+                    if (currentNode.data === "s-text") {
                         this.id = this.id || guid++;
                         this.sel = currentNode;
                         currentNode.data = this.id;
                         hydrateWalker.goNext();
 
-                        while (1) { // eslint-disable-line
+                        while (1) {
+                            // eslint-disable-line
                             currentNode = hydrateWalker.current;
                             /* istanbul ignore if */
                             if (!currentNode) {
-                                throw new Error('[SAN HYDRATE ERROR] Text end flag not found. \nPaths: '
-                                    + getNodePath(this).join(' > '));
+                                throw new Error(
+                                    "[SAN HYDRATE ERROR] Text end flag not found. \nPaths: " +
+                                        getNodePath(this).join(" > "),
+                                );
                             }
 
-                            if (isEndStump(currentNode, 'text')) {
+                            if (isEndStump(currentNode, "text")) {
                                 this.el = currentNode;
                                 hydrateWalker.goNext();
                                 currentNode.data = this.id;
@@ -74,9 +67,8 @@ function TextNode(aNode, parent, scope, owner, hydrateWalker) {
                     }
                     break;
             }
-        }
-        else {
-            this.el = document.createTextNode('');
+        } else {
+            this.el = document.createTextNode("");
             insertBefore(this.el, hydrateWalker.target, hydrateWalker.current);
         }
     }
@@ -94,7 +86,7 @@ TextNode.prototype.nodeType = NodeType.TEXT;
 TextNode.prototype.attach = function (parentEl, beforeEl) {
     this.content = evalExpr(this.aNode.textExpr, this.scope, this.owner);
     if (this.content == null) {
-        this.content = '';
+        this.content = "";
     }
 
     if (this.aNode.textExpr.original) {
@@ -105,12 +97,11 @@ TextNode.prototype.attach = function (parentEl, beforeEl) {
         this.el = document.createComment(this.id);
         insertBefore(this.el, parentEl, beforeEl);
 
-        var tempFlag = document.createElement('script');
+        var tempFlag = document.createElement("script");
         parentEl.insertBefore(tempFlag, this.el);
-        tempFlag.insertAdjacentHTML('beforebegin', this.content);
+        tempFlag.insertAdjacentHTML("beforebegin", this.content);
         parentEl.removeChild(tempFlag);
-    }
-    else {
+    } else {
         this.el = document.createTextNode(this.content);
         insertBefore(this.el, parentEl, beforeEl);
     }
@@ -131,10 +122,11 @@ TextNode.prototype.dispose = function (noDetach) {
     this.sel = null;
 };
 
-var textUpdateProp = isBrowser
-    && (typeof document.createTextNode('').textContent === 'string'
-        ? 'textContent'
-        : 'data');
+var textUpdateProp =
+    isBrowser &&
+    (typeof document.createTextNode("").textContent === "string"
+        ? "textContent"
+        : "data");
 
 /**
  * 更新 text 节点的视图
@@ -148,10 +140,16 @@ TextNode.prototype._update = function (changes) {
 
     var len = changes.length;
     while (len--) {
-        if (changeExprCompare(changes[len].expr, this.aNode.textExpr, this.scope)) {
+        if (
+            changeExprCompare(
+                changes[len].expr,
+                this.aNode.textExpr,
+                this.scope,
+            )
+        ) {
             var text = evalExpr(this.aNode.textExpr, this.scope, this.owner);
             if (text == null) {
-                text = '';
+                text = "";
             }
 
             if (text !== this.content) {
@@ -171,12 +169,11 @@ TextNode.prototype._update = function (changes) {
                     warnSetHTML(parentEl);
                     // #[end]
 
-                    var tempFlag = document.createElement('script');
+                    var tempFlag = document.createElement("script");
                     parentEl.insertBefore(tempFlag, this.el);
-                    tempFlag.insertAdjacentHTML('beforebegin', text);
+                    tempFlag.insertAdjacentHTML("beforebegin", text);
                     parentEl.removeChild(tempFlag);
-                }
-                else {
+                } else {
                     this.el[textUpdateProp] = text;
                 }
             }

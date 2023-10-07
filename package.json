@@ -20,7 +20,8 @@
         "test:types": "rm -f ./types/test/*.js && tsc -p ./types/test/tsconfig.json",
         "build": "node ./tool/build.js",
         "dev-server": "npx http-server",
-        "report-cov": "cat ./coverage/report-lcov/lcov.info | ./node_modules/coveralls/bin/coveralls.js"
+        "report-cov": "cat ./coverage/report-lcov/lcov.info | ./node_modules/coveralls/bin/coveralls.js",
+        "prettier": "prettier . --write"
     },
     "types": "types",
     "main": "dist/index.js",
@@ -62,5 +63,8 @@
         "uglify-js": "^2.8.22",
         "watch": "^1.0.2",
         "webdriverio": "^6.6.6"
+    },
+    "dependencies": {
+        "prettier": "^3.0.3"
     }
 }

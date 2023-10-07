@@ -1,8 +1,6 @@
-
-
-var evalArgs = require('../runtime/eval-args');
-var findMethod = require('../runtime/find-method');
-var Data = require('../runtime/data');
+var evalArgs = require("../runtime/eval-args");
+var findMethod = require("../runtime/find-method");
+var Data = require("../runtime/data");
 
 /**
  * 获取声明式事件的监听函数
@@ -24,10 +22,12 @@ function getEventListener(eventBind, owner, data, isComponentEvent) {
         // #[end]
 
         var method = findMethod(owner, eventBind.expr.name, data);
-        if (typeof method === 'function') {
+        if (typeof method === "function") {
             method.apply(
                 owner,
-                args.length ? evalArgs(args, new Data({ $event: e }, data), owner) : []
+                args.length
+                    ? evalArgs(args, new Data({ $event: e }, data), owner)
+                    : [],
             );
         }
 
@@ -39,8 +39,7 @@ function getEventListener(eventBind, owner, data, isComponentEvent) {
         if (eventBind.modifier.stop) {
             if (e.stopPropagation) {
                 e.stopPropagation();
-            }
-            else {
+            } else {
                 e.cancelBubble = true;
             }
         }

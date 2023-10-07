@@ -1,20 +1,11 @@
-/**
- * Copyright (c) Baidu Inc. All rights reserved.
- *
- * This source code is licensed under the MIT license.
- * See LICENSE file in the project root for license information.
- *
- * @file fragment 节点类
- */
-
-var guid = require('../util/guid');
-var insertBefore = require('../browser/insert-before');
-var removeEl = require('../browser/remove-el');
-var NodeType = require('./node-type');
-var LifeCycle = require('./life-cycle');
-var createHydrateNode = require('./create-hydrate-node');
-var elementDisposeChildren = require('./element-dispose-children');
-var nodeOwnOnlyChildrenAttach = require('./node-own-only-children-attach');
+var guid = require("../util/guid");
+var insertBefore = require("../browser/insert-before");
+var removeEl = require("../browser/remove-el");
+var NodeType = require("./node-type");
+var LifeCycle = require("./life-cycle");
+var createHydrateNode = require("./create-hydrate-node");
+var elementDisposeChildren = require("./element-dispose-children");
+var nodeOwnOnlyChildrenAttach = require("./node-own-only-children-attach");
 
 /**
  * fragment 节点类
@@ -31,9 +22,8 @@ function FragmentNode(aNode, parent, scope, owner, hydrateWalker) {
     this.owner = owner;
     this.scope = scope;
     this.parent = parent;
-    this.parentComponent = parent.nodeType === NodeType.CMPT
-        ? parent
-        : parent.parentComponent;
+    this.parentComponent =
+        parent.nodeType === NodeType.CMPT ? parent : parent.parentComponent;
 
     this.id = guid++;
     this.lifeCycle = LifeCycle.start;
@@ -48,8 +38,7 @@ function FragmentNode(aNode, parent, scope, owner, hydrateWalker) {
             this.sel = hydrateWalker.current;
             hasFlagComment = 1;
             hydrateWalker.goNext();
-        }
-        else {
+        } else {
             this.sel = document.createComment(this.id);
             insertBefore(this.sel, hydrateWalker.target, hydrateWalker.current);
         }
@@ -58,7 +47,13 @@ function FragmentNode(aNode, parent, scope, owner, hydrateWalker) {
         var aNodeChildren = this.aNode.children;
         for (var i = 0, l = aNodeChildren.length; i < l; i++) {
             this.children.push(
-                createHydrateNode(aNodeChildren[i], this, this.scope, this.owner, hydrateWalker)
+                createHydrateNode(
+                    aNodeChildren[i],
+                    this,
+                    this.scope,
+                    this.owner,
+                    hydrateWalker,
+                ),
             );
         }
 
@@ -66,8 +61,7 @@ function FragmentNode(aNode, parent, scope, owner, hydrateWalker) {
         if (hasFlagComment) {
             this.el = hydrateWalker.current;
             hydrateWalker.goNext();
-        }
-        else {
+        } else {
             this.el = document.createComment(this.id);
             insertBefore(this.el, hydrateWalker.target, hydrateWalker.current);
         }
@@ -76,8 +70,6 @@ function FragmentNode(aNode, parent, scope, owner, hydrateWalker) {
     }
     // #[end]
 }
-
-
 
 FragmentNode.prototype.nodeType = NodeType.FRAG;
 

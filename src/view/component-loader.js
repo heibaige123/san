@@ -1,15 +1,5 @@
-/**
- * Copyright (c) Baidu Inc. All rights reserved.
- *
- * This source code is licensed under the MIT license.
- * See LICENSE file in the project root for license information.
- *
- * @file 组件Loader类
- */
-
-var nextTick = require('../util/next-tick');
-var each = require('../util/each');
-
+var nextTick = require("../util/next-tick");
+var each = require("../util/each");
 
 /**
  * 组件Loader类
@@ -27,7 +17,6 @@ function ComponentLoader(load, placeholder, fallback) {
 
     this.listeners = [];
 }
-
 
 /**
  * 开始加载组件
@@ -57,7 +46,7 @@ ComponentLoader.prototype.start = function (onload) {
                 me.done(RealComponent);
             };
 
-            if (startLoad && typeof startLoad.then === 'function') {
+            if (startLoad && typeof startLoad.then === "function") {
                 startLoad.then(done, done);
             }
     }

@@ -1,14 +1,5 @@
-/**
- * Copyright (c) Baidu Inc. All rights reserved.
- *
- * This source code is licensed under the MIT license.
- * See LICENSE file in the project root for license information.
- *
- * @file 比较变更表达式与目标表达式之间的关系
- */
-
-var ExprType = require('../parser/expr-type');
-var evalExpr = require('./eval-expr');
+var ExprType = require("../parser/expr-type");
+var evalExpr = require("./eval-expr");
 
 /**
  * 判断变更表达式与多个表达式之间的关系，0为完全没关系，1为有关系
@@ -60,14 +51,20 @@ function changeExprCompare(changeExpr, expr, data) {
                 var pathExpr = paths[i];
                 var pathExprValue = pathExpr.value;
 
-                if (pathExprValue == null && changeExprCompare(changeExpr, pathExpr, data)) {
+                if (
+                    pathExprValue == null &&
+                    changeExprCompare(changeExpr, pathExpr, data)
+                ) {
                     result = 1;
                     break;
                 }
 
-                if (result && i < changeLen
+                if (
+                    result &&
+                    i < changeLen &&
                     /* eslint-disable eqeqeq */
-                    && (pathExprValue || evalExpr(pathExpr, data)) != changePaths[i].value
+                    (pathExprValue || evalExpr(pathExpr, data)) !=
+                        changePaths[i].value
                     /* eslint-enable eqeqeq */
                 ) {
                     result = 0;
@@ -81,7 +78,6 @@ function changeExprCompare(changeExpr, expr, data) {
 
         case ExprType.UNARY:
             return changeExprCompare(changeExpr, expr.expr, data) ? 1 : 0;
-
 
         case ExprType.TEXT:
         case ExprType.BINARY:
@@ -100,11 +96,16 @@ function changeExprCompare(changeExpr, expr, data) {
 
         case ExprType.INTERP:
             if (changeExprCompare(changeExpr, expr.expr, data)) {
-                return 1
-            }
-            else {
+                return 1;
+            } else {
                 for (var i = 0; i < expr.filters.length; i++) {
-                    if (changeExprCompareExprs(changeExpr, expr.filters[i].args, data)) {
+                    if (
+                        changeExprCompareExprs(
+                            changeExpr,
+                            expr.filters[i].args,
+                            data,
+                        )
+                    ) {
                         return 1;
                     }
                 }
@@ -113,10 +114,11 @@ function changeExprCompare(changeExpr, expr, data) {
             break;
 
         case ExprType.CALL:
-            if (changeExprCompareExprs(changeExpr, expr.name.paths, data)
-                || changeExprCompareExprs(changeExpr, expr.args, data)
+            if (
+                changeExprCompareExprs(changeExpr, expr.name.paths, data) ||
+                changeExprCompareExprs(changeExpr, expr.args, data)
             ) {
-                return 1
+                return 1;
             }
             break;
     }

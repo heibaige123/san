@@ -1,6 +1,4 @@
-
-
-var extend = require('./extend');
+var extend = require("./extend");
 
 /**
  * 构建类之间的继承关系

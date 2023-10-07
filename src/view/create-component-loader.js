@@ -1,13 +1,4 @@
-/**
- * Copyright (c) Baidu Inc. All rights reserved.
- *
- * This source code is licensed under the MIT license.
- * See LICENSE file in the project root for license information.
- *
- * @file 创建组件Loader
- */
-
-var ComponentLoader = require('./component-loader');
+var ComponentLoader = require("./component-loader");
 
 /**
  * 创建组件Loader
@@ -21,7 +12,7 @@ var ComponentLoader = require('./component-loader');
 function createComponentLoader(options) {
     var placeholder = options.placeholder;
     var fallback = options.fallback;
-    var load = typeof options === 'function' ? options : options.load;
+    var load = typeof options === "function" ? options : options.load;
 
     return new ComponentLoader(load, placeholder, fallback);
 }

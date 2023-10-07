@@ -1,7 +1,5 @@
-
-var ExprType = require('./expr-type');
-var readMultiplicativeExpr = require('./read-multiplicative-expr');
-
+var ExprType = require("./expr-type");
+var readMultiplicativeExpr = require("./read-multiplicative-expr");
 
 /**
  * 读取加法表达式
@@ -23,7 +21,7 @@ function readAdditiveExpr(walker) {
                 expr = {
                     type: ExprType.BINARY,
                     operator: code,
-                    segs: [expr, readMultiplicativeExpr(walker)]
+                    segs: [expr, readMultiplicativeExpr(walker)],
                 };
                 continue;
         }

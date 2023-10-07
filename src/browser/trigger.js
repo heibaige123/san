@@ -1,5 +1,3 @@
-
-
 /**
  * 触发元素事件
  *
@@ -8,7 +6,7 @@
  * @param {string} eventName 事件名
  */
 function trigger(el, eventName) {
-    var event = document.createEvent('HTMLEvents');
+    var event = document.createEvent("HTMLEvents");
     event.initEvent(eventName, true, true);
     el.dispatchEvent(event);
 }

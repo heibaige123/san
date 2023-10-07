@@ -1,13 +1,12 @@
-import './list.css'
+import "./list.css";
 
-import san from 'san'
-import Todo from './model'
-import Category from '../category/model'
+import san from "san";
+import Todo from "./model";
+import Category from "../category/model";
 
-import service from '../service'
-import { formatDate } from '../filters'
-import { Link } from 'san-router'
-
+import service from "../service";
+import { formatDate } from "../filters";
+import { Link } from "san-router";
 
 const template = `
 <div class="todos">
@@ -44,47 +43,47 @@ const template = `
 `;
 
 interface ListData {
-    todos: Todo[];
-    categories: Category[];
+  todos: Todo[];
+  categories: Category[];
 }
 
 interface ListBehavior {
-    doneTodo: (index: number) => void;
-    rmTodo: (index: number) => void;
+  doneTodo: (index: number) => void;
+  rmTodo: (index: number) => void;
 }
 
 const List = san.defineComponent<ListData, ListBehavior>({
-    template,
+  template,
 
-    components: {
-        'router-link': Link
-    },
+  components: {
+    "router-link": Link,
+  },
 
-    filters: {
-        formatDate
-    },
+  filters: {
+    formatDate,
+  },
 
-    route() {
-        let route = this.data.get('route');
-        let todos = service.todos(+(route.query.category || 0));
+  route() {
+    let route = this.data.get("route");
+    let todos = service.todos(+(route.query.category || 0));
 
-        this.data.set('todos', todos);
-        this.data.set('categories', service.categories());
-    },
+    this.data.set("todos", todos);
+    this.data.set("categories", service.categories());
+  },
 
-    doneTodo(index) {
-        let todo = this.data.get('todos')[index];
-        service.doneTodo(todo.id);
+  doneTodo(index) {
+    let todo = this.data.get("todos")[index];
+    service.doneTodo(todo.id);
 
-        this.data.set('todos.' + index + '.done', true);
-    },
+    this.data.set("todos." + index + ".done", true);
+  },
 
-    rmTodo(index) {
-        let todo = this.data.get('todos')[index];
-        service.rmTodo(todo.id);
+  rmTodo(index) {
+    let todo = this.data.get("todos")[index];
+    service.rmTodo(todo.id);
 
-        this.data.removeAt('todos', index);
-    }
+    this.data.removeAt("todos", index);
+  },
 });
 
 export default List;

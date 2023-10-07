@@ -1,10 +1,5 @@
 /**
- * Copyright (c) Baidu Inc. All rights reserved.
- *
- * This source code is licensed under the MIT license.
- * See LICENSE file in the project root for license information.
- *
- * @file San 主文件
+ * San 主文件
  */
 
 (function (root) {
@@ -38,28 +33,26 @@
     // require('./view/get-event-listener');
     // require('./view/create-node');
 
-
     // #[main-dependencies]
     /* eslint-disable no-unused-vars */
-    var nextTick = require('./util/next-tick');
-    var inherits = require('./util/inherits');
-    var parseTemplate = require('./parser/parse-template');
-    var parseExpr = require('./parser/parse-expr');
-    var ExprType = require('./parser/expr-type');
-    var unpackANode = require('./parser/unpack-anode');
-    var LifeCycle = require('./view/life-cycle');
-    var NodeType = require('./view/node-type');
-    var Component = require('./view/component');
-    var parseComponentTemplate = require('./view/parse-component-template');
-    var defineComponent = require('./view/define-component');
-    var defineTemplateComponent = require('./view/define-template-component');
-    var createComponentLoader = require('./view/create-component-loader');
-    var emitDevtool = require('./util/emit-devtool');
-    var Data = require('./runtime/data');
-    var evalExpr = require('./runtime/eval-expr');
-    var DataTypes = require('./util/data-types');
-    var hydrateComponent = require('./view/hydrate-component');
-
+    var nextTick = require("./util/next-tick");
+    var inherits = require("./util/inherits");
+    var parseTemplate = require("./parser/parse-template");
+    var parseExpr = require("./parser/parse-expr");
+    var ExprType = require("./parser/expr-type");
+    var unpackANode = require("./parser/unpack-anode");
+    var LifeCycle = require("./view/life-cycle");
+    var NodeType = require("./view/node-type");
+    var Component = require("./view/component");
+    var parseComponentTemplate = require("./view/parse-component-template");
+    var defineComponent = require("./view/define-component");
+    var defineTemplateComponent = require("./view/define-template-component");
+    var createComponentLoader = require("./view/create-component-loader");
+    var emitDevtool = require("./util/emit-devtool");
+    var Data = require("./runtime/data");
+    var evalExpr = require("./runtime/eval-expr");
+    var DataTypes = require("./util/data-types");
+    var hydrateComponent = require("./view/hydrate-component");
 
     var san = {
         /**
@@ -67,7 +60,7 @@
          *
          * @type {string}
          */
-        version: '##version##',
+        version: "##version##",
 
         // #[begin] devtool
         /**
@@ -97,7 +90,7 @@
         // #[begin] hydrate
         /**
          * 组件反解
-         * 
+         *
          * @param {Function} ComponentClass 组件类
          * @param {Object} options 反解选项
          * @param {HTMLElement} options.el 挂载元素
@@ -209,19 +202,17 @@
          *
          * @type {Object}
          */
-        DataTypes: DataTypes
+        DataTypes: DataTypes,
     };
 
     // export
-    if (typeof exports === 'object' && typeof module === 'object') {
+    if (typeof exports === "object" && typeof module === "object") {
         // For CommonJS
         exports = module.exports = san;
-    }
-    else if (typeof define === 'function' && define.amd) {
+    } else if (typeof define === "function" && define.amd) {
         // For AMD
-        define('san', [], san);
-    }
-    else {
+        define("san", [], san);
+    } else {
         // For <script src="..."
         root.san = san;
     }

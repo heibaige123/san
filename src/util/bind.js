@@ -1,5 +1,3 @@
-
-
 /**
  * Function.prototype.bind 方法的兼容性封装
  *
@@ -13,9 +11,9 @@ function bind(func, thisArg) {
     var slice = Array.prototype.slice;
     // #[begin] allua
     if (nativeBind && func.bind === nativeBind) {
-    // #[end]
+        // #[end]
         return nativeBind.apply(func, slice.call(arguments, 1));
-    // #[begin] allua
+        // #[begin] allua
     }
 
     /* istanbul ignore next */

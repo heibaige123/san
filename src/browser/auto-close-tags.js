@@ -1,4 +1,3 @@
-
 /**
  * 自闭合标签列表
  *
@@ -18,7 +17,7 @@ var autoCloseTags = {
     param: 1,
     source: 1,
     track: 1,
-    wbr: 1
+    wbr: 1,
 };
 
 exports = module.exports = autoCloseTags;

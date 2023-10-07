@@ -1,14 +1,5 @@
 /**
- * Copyright (c) Baidu Inc. All rights reserved.
- *
- * This source code is licensed under the MIT license.
- * See LICENSE file in the project root for license information.
- *
- * @file 常用标签表，用于 element 创建优化
- */
-
-/**
- * 常用标签表
+ * 常用标签表，用于 element 创建优化
  *
  * @type {Object}
  */
@@ -43,8 +34,7 @@ var hotTags = {
     aside: 1,
     header: 1,
     footer: 1,
-    nav: 1
-
+    nav: 1,
 };
 
 exports = module.exports = hotTags;

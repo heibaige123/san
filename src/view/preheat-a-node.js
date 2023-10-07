@@ -1,25 +1,16 @@
-/**
- * Copyright (c) Baidu Inc. All rights reserved.
- *
- * This source code is licensed under the MIT license.
- * See LICENSE file in the project root for license information.
- *
- * @file ANode预热
- */
-
-var ExprType = require('../parser/expr-type');
-var each = require('../util/each');
-var kebab2camel = require('../util/kebab2camel');
-var hotTags = require('../browser/hot-tags');
-var getPropHandler = require('./get-prop-handler');
-var getANodeProp = require('./get-a-node-prop');
-var isBrowser = require('../browser/is-browser');
-var TextNode = require('./text-node');
-var SlotNode = require('./slot-node');
-var ForNode = require('./for-node');
-var IfNode = require('./if-node');
-var IsNode = require('./is-node');
-var FragmentNode = require('./fragment-node');
+var ExprType = require("../parser/expr-type");
+var each = require("../util/each");
+var kebab2camel = require("../util/kebab2camel");
+var hotTags = require("../browser/hot-tags");
+var getPropHandler = require("./get-prop-handler");
+var getANodeProp = require("./get-a-node-prop");
+var isBrowser = require("../browser/is-browser");
+var TextNode = require("./text-node");
+var SlotNode = require("./slot-node");
+var ForNode = require("./for-node");
+var IfNode = require("./if-node");
+var IsNode = require("./is-node");
+var FragmentNode = require("./fragment-node");
 
 /**
  * ANode预热，分析的数据引用等信息
@@ -49,28 +40,28 @@ function preheatANode(aNode, componentInstance) {
         }
     }
 
-
     function analyseANodeHotspot(aNode) {
         if (!aNode._ht) {
             stack.push(aNode);
-
 
             if (aNode.textExpr) {
                 aNode._ht = true;
                 aNode.Clazz = TextNode;
                 recordHotspotData(aNode.textExpr);
-            }
-            else {
+            } else {
                 aNode._ht = true;
                 aNode._i = 0; // hotspot: instance count
                 aNode._dp = []; // hotspot: dynamic props
                 aNode._xp = []; // hotspot: x props
                 aNode._pi = {}; // hotspot: props index
                 aNode._b = []; // hotspot: binds
-                aNode._ce = !aNode.directives.is // cache element
-                    && aNode.tagName && aNode.tagName.indexOf('-') < 0
-                    && !/^(template|select|input|option|button|video|audio|canvas|img|embed|object|iframe)$/i.test(aNode.tagName);
-
+                aNode._ce =
+                    !aNode.directives.is && // cache element
+                    aNode.tagName &&
+                    aNode.tagName.indexOf("-") < 0 &&
+                    !/^(template|select|input|option|button|video|audio|canvas|img|embed|object|iframe)$/i.test(
+                        aNode.tagName,
+                    );
 
                 // === analyse hotspot data: start
                 each(aNode.vars, function (varItem) {
@@ -84,11 +75,12 @@ function preheatANode(aNode, componentInstance) {
                     var prop = props[i];
                     aNode._b.push({
                         name: kebab2camel(prop.name),
-                        expr: prop.noValue != null
-                            ? {type: ExprType.BOOL, value: true}
-                            : prop.expr,
+                        expr:
+                            prop.noValue != null
+                                ? { type: ExprType.BOOL, value: true }
+                                : prop.expr,
                         x: prop.x,
-                        noValue: prop.noValue
+                        noValue: prop.noValue,
                     });
                     recordHotspotData(prop.expr);
                 }
@@ -99,15 +91,16 @@ function preheatANode(aNode, componentInstance) {
                         var directive = aNode.directives[key];
                         recordHotspotData(
                             directive.value,
-                            !/^(html|bind)$/.test(key)
+                            !/^(html|bind)$/.test(key),
                         );
 
                         // init trackBy getKey function
-                        if (key === 'for') {
+                        if (key === "for") {
                             var trackBy = directive.trackBy;
-                            if (trackBy
-                                && trackBy.type === ExprType.ACCESSOR
-                                && trackBy.paths[0].value === directive.item
+                            if (
+                                trackBy &&
+                                trackBy.type === ExprType.ACCESSOR &&
+                                trackBy.paths[0].value === directive.item
                             ) {
                                 // hotspot: getForKey
                                 aNode._gfk = genItemKeyGetter(trackBy.paths);
@@ -125,7 +118,6 @@ function preheatANode(aNode, componentInstance) {
                 }
                 // === analyse hotspot data: end
 
-
                 // === analyse hotspot props: start
                 for (var i = 0; i < propsLen; i++) {
                     var prop = props[i];
@@ -142,21 +134,23 @@ function preheatANode(aNode, componentInstance) {
 
                 // ie 下，如果 option 没有 value 属性，select.value = xx 操作不会选中 option
                 // 所以没有设置 value 时，默认把 option 的内容作为 value
-                if (aNode.tagName === 'option'
-                    && !getANodeProp(aNode, 'value')
-                    && aNode.children[0]
+                if (
+                    aNode.tagName === "option" &&
+                    !getANodeProp(aNode, "value") &&
+                    aNode.children[0]
                 ) {
                     var valueProp = {
-                        name: 'value',
+                        name: "value",
                         expr: aNode.children[0].textExpr,
-                        handler: getPropHandler(aNode.tagName, 'value')
+                        handler: getPropHandler(aNode.tagName, "value"),
                     };
                     aNode.props.push(valueProp);
                     aNode._dp.push(valueProp);
                     aNode._pi.value = props.length - 1;
                 }
 
-                if (aNode.directives['if']) { // eslint-disable-line dot-notation
+                if (aNode.directives["if"]) {
+                    // eslint-disable-line dot-notation
                     aNode.ifRinsed = {
                         children: aNode.children,
                         props: props,
@@ -171,13 +165,14 @@ function preheatANode(aNode, componentInstance) {
                         _xp: aNode._xp,
                         _pi: aNode._pi,
                         _b: aNode._b,
-                        _ce: aNode._ce
+                        _ce: aNode._ce,
                     };
                     aNode.Clazz = IfNode;
                     aNode = aNode.ifRinsed;
                 }
 
-                if (aNode.directives['for']) { // eslint-disable-line dot-notation
+                if (aNode.directives["for"]) {
+                    // eslint-disable-line dot-notation
                     aNode.forRinsed = {
                         children: aNode.children,
                         props: props,
@@ -192,7 +187,7 @@ function preheatANode(aNode, componentInstance) {
                         _xp: aNode._xp,
                         _pi: aNode._pi,
                         _b: aNode._b,
-                        _ce: aNode._ce
+                        _ce: aNode._ce,
                     };
                     aNode.Clazz = ForNode;
                     aNode = aNode.forRinsed;
@@ -213,32 +208,38 @@ function preheatANode(aNode, componentInstance) {
                         _xp: aNode._xp,
                         _pi: aNode._pi,
                         _b: aNode._b,
-                        _ce: aNode._ce
+                        _ce: aNode._ce,
                     };
                     aNode.Clazz = IsNode;
                     aNode = aNode.isRinsed;
                 }
 
                 switch (aNode.tagName) {
-                    case 'slot':
+                    case "slot":
                         aNode.Clazz = SlotNode;
                         break;
 
-                    case 'template':
-                    case 'fragment':
+                    case "template":
+                    case "fragment":
                         aNode.Clazz = FragmentNode;
                         break;
 
                     default:
                         if (!aNode.directives.is && hotTags[aNode.tagName]) {
-                            var components = componentInstance && componentInstance.components;
+                            var components =
+                                componentInstance &&
+                                componentInstance.components;
                             if (!components || !components[aNode.tagName]) {
                                 aNode.elem = true;
                             }
 
                             // #[begin] error
                             if (components && components[aNode.tagName]) {
-                                warn('\`' + aNode.tagName + '\` as sub-component tag is a bad practice.');
+                                warn(
+                                    "`" +
+                                        aNode.tagName +
+                                        "` as sub-component tag is a bad practice.",
+                                );
                             }
                             // #[end]
                         }
@@ -268,7 +269,9 @@ function analyseExprDataHotspot(expr, accessorMeanDynamic) {
 
     function analyseExprs(exprs, accessorMeanDynamic) {
         for (var i = 0, l = exprs.length; i < l; i++) {
-            refs = refs.concat(analyseExprDataHotspot(exprs[i], accessorMeanDynamic));
+            refs = refs.concat(
+                analyseExprDataHotspot(exprs[i], accessorMeanDynamic),
+            );
             isDynamic = isDynamic || exprs[i].dynamic;
         }
     }
@@ -281,7 +284,7 @@ function analyseExprDataHotspot(expr, accessorMeanDynamic) {
             refs.push(paths[0].value);
 
             if (paths.length > 1) {
-                refs.push(paths[0].value + '.' + (paths[1].value || '*'));
+                refs.push(paths[0].value + "." + (paths[1].value || "*"));
             }
 
             analyseExprs(paths.slice(1), 1);

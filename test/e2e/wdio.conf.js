@@ -1,10 +1,8 @@
-var httpServer = require('http-server');
-var path = require('path');
+var httpServer = require("http-server");
+var path = require("path");
 var server;
 
-
 var config = {
-
     //
     // ==================
     // Specify Test Files
@@ -14,9 +12,7 @@ var config = {
     // NPM script (see https://docs.npmjs.com/cli/run-script) then the current working
     // directory is where your package.json resides, so `wdio` will be called from there.
     //
-    specs: [
-        './test/e2e/wdio-spec.js'
-    ],
+    specs: ["./test/e2e/wdio-spec.js"],
     // Patterns to exclude.
     exclude: [
         // 'path/to/excluded/files'
@@ -43,14 +39,16 @@ var config = {
     // Sauce Labs platform configurator - a great tool to configure your capabilities:
     // https://docs.saucelabs.com/reference/platforms-configurator
     //
-    capabilities: [{
-        // maxInstances can get overwritten per capability. So if you have an in-house Selenium
-        // grid with only 5 firefox instances available you can make sure that not more than
-        // 5 instances get started at a time.
-        maxInstances: 5,
-        //
-        browserName: 'chrome'
-    }],
+    capabilities: [
+        {
+            // maxInstances can get overwritten per capability. So if you have an in-house Selenium
+            // grid with only 5 firefox instances available you can make sure that not more than
+            // 5 instances get started at a time.
+            maxInstances: 5,
+            //
+            browserName: "chrome",
+        },
+    ],
     //
     // ===================
     // Test Configurations
@@ -63,7 +61,7 @@ var config = {
     sync: true,
     //
     // Level of logging verbosity: silent | verbose | command | data | result | error
-    logLevel: 'silent',
+    logLevel: "silent",
     //
     // Enables colors for log output.
     coloredLogs: true,
@@ -73,11 +71,11 @@ var config = {
     bail: 0,
     //
     // Saves a screenshot to a given path if a command fails.
-    screenshotPath: './errorShots/',
+    screenshotPath: "./errorShots/",
     //
     // Set a base URL in order to shorten url command calls. If your url parameter starts
     // with "/", then the base url gets prepended.
-    baseUrl: 'http://localhost:8009',
+    baseUrl: "http://localhost:8009",
     //
     // Default timeout for all waitFor* commands.
     waitforTimeout: 10000,
@@ -118,12 +116,12 @@ var config = {
     //
     // Make sure you have the wdio adapter package for the specific framework installed
     // before running any tests.
-    framework: 'jasmine',
+    framework: "jasmine",
     //
     // Test reporter for stdout.
     // The only one supported by default is 'dot'
     // see also: http://webdriver.io/guide/testrunner/reporters.html
-    reporters: ['spec'],
+    reporters: ["spec"],
     //
     // Options to be passed to Jasmine.
     jasmineNodeOpts: {
@@ -134,9 +132,9 @@ var config = {
         // The Jasmine framework allows interception of each assertion in order to log the state of the application
         // or website depending on the result. For example, it is pretty handy to take a screenshot every time
         // an assertion fails.
-        expectationResultHandler: function(passed, assertion) {
+        expectationResultHandler: function (passed, assertion) {
             // do something
-        }
+        },
     },
 
     //
@@ -150,11 +148,11 @@ var config = {
     //
     // Gets executed once before all workers get launched.
     onPrepare: function (config, capabilities) {
-
-        server = httpServer.createServer({
-            root: path.resolve(__dirname, '../../')
-        }).listen(8009);
-
+        server = httpServer
+            .createServer({
+                root: path.resolve(__dirname, "../../"),
+            })
+            .listen(8009);
     },
     //
     // Gets executed just before initialising the webdriver session and test framework. It allows you
@@ -212,16 +210,15 @@ var config = {
     //
     // Gets executed after all workers got shut down and the process is about to exit. It is not
     // possible to defer the end of the process using a promise.
-    onComplete: function(exitCode) {
+    onComplete: function (exitCode) {
         server && server.close();
-    }
+    },
 };
 
-var devices = require('./devices').devices;
+var devices = require("./devices").devices;
 var group = devices[process.argv[2]];
 
 if (group) {
-
     config.capabilities = Object.keys(group).map(function (key) {
         var capabilities = group[key];
 
@@ -235,14 +232,10 @@ if (group) {
     // run tests on sauce instead locally
     config.user = process.env.SAUCE_USERNAME;
     config.key = process.env.SAUCE_ACCESS_KEY;
-    config.services = ['sauce'];
+    config.services = ["sauce"];
     config.sauceConnect = true;
 
     config.jasmineNodeOpts.defaultTimeoutInterval = 5 * 60 * 1000;
-
 }
-
-
-
 
 exports.config = config;

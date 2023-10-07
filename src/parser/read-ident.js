@@ -1,13 +1,4 @@
 /**
- * Copyright (c) Baidu Inc. All rights reserved.
- *
- * This source code is licensed under the MIT license.
- * See LICENSE file in the project root for license information.
- *
- * @file 读取ident
- */
-
-/**
  * 读取ident
  * 这里的 ident 指标识符(identifier)，也就是通常意义上的变量名
  * 这里默认的变量名规则为：由美元符号($)、数字、字母或者下划线(_)构成的字符串
@@ -17,11 +8,13 @@
  * @return {string}
  */
 function readIdent(walker) {
-    var match = walker.match(/\s*([\$0-9a-z_]+)/ig, 1);
+    var match = walker.match(/\s*([\$0-9a-z_]+)/gi, 1);
 
     // #[begin] error
     if (!match) {
-        throw new Error('[SAN FATAL] expect an ident: ' + walker.source.slice(walker.index));
+        throw new Error(
+            "[SAN FATAL] expect an ident: " + walker.source.slice(walker.index),
+        );
     }
     // #[end]
 
