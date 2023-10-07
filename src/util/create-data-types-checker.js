@@ -7,7 +7,6 @@
  * @file 创建数据检测函数
  */
 
-
 // #[begin] error
 
 /**
@@ -18,24 +17,25 @@
  * @return {Function}
  */
 function createDataTypesChecker(dataTypes, componentName) {
-
     /**
      * 校验 data 是否满足 data types 的格式
      *
      * @param  {*} data 数据
      */
     return function (data) {
-
         for (var dataTypeName in dataTypes) {
             /* istanbul ignore else  */
             if (dataTypes.hasOwnProperty(dataTypeName)) {
-
                 var dataTypeChecker = dataTypes[dataTypeName];
 
-                if (typeof dataTypeChecker !== 'function') {
-                    throw new Error('[SAN ERROR] '
-                        + componentName + ':' + dataTypeName + ' is invalid; '
-                        + 'it must be a function, usually from san.DataTypes'
+                if (typeof dataTypeChecker !== "function") {
+                    throw new Error(
+                        "[SAN ERROR] " +
+                            componentName +
+                            ":" +
+                            dataTypeName +
+                            " is invalid; " +
+                            "it must be a function, usually from san.DataTypes",
                     );
                 }
 
@@ -43,15 +43,11 @@ function createDataTypesChecker(dataTypes, componentName) {
                     data,
                     dataTypeName,
                     componentName,
-                    dataTypeName
+                    dataTypeName,
                 );
-
-
             }
         }
-
     };
-
 }
 
 // #[end]

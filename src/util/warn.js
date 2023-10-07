@@ -14,14 +14,13 @@
  * @param {string} message 警告信息
  */
 function warn(message) {
-    message = '[SAN WARNING] ' + message;
+    message = "[SAN WARNING] " + message;
 
     /* eslint-disable no-console */
     /* istanbul ignore next */
-    if (typeof console === 'object' && console.warn) {
+    if (typeof console === "object" && console.warn) {
         console.warn(message);
-    }
-    else {
+    } else {
         // 防止警告中断调用堆栈
         setTimeout(function () {
             throw new Error(message);
