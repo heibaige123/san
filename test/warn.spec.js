@@ -1,121 +1,124 @@
-
-typeof console !== 'undefined' &&  san.debug && describe('warn', function () {
-    beforeEach(function () {
-        spyOn(console, 'warn');
-    });
-
-    it('reserved component method', function () {
-        var MyComponent = san.defineComponent({
-            template: '<div></div>',
-            attach: function () {}
+typeof console !== "undefined" &&
+    san.debug &&
+    describe("warn", function () {
+        beforeEach(function () {
+            spyOn(console, "warn");
         });
 
-        new MyComponent();
-        expect(console.warn).toHaveBeenCalled();
+        it("reserved component method", function () {
+            var MyComponent = san.defineComponent({
+                template: "<div></div>",
+                attach: function () {},
+            });
 
-        var msg = console.warn.calls.first().args[0];
-        expect(msg).toContain('attach');
-        expect(msg).toContain('[SAN WARNING]');
-        expect(msg).toContain('reserved key');
-    });
+            new MyComponent();
+            expect(console.warn).toHaveBeenCalled();
 
-    it('event bind to not exists method', function () {
-        var MyComponent = san.defineComponent({
-            template: '<div on-click="nomethod"></div>'
+            var msg = console.warn.calls.first().args[0];
+            expect(msg).toContain("attach");
+            expect(msg).toContain("[SAN WARNING]");
+            expect(msg).toContain("reserved key");
         });
 
-        var myComponent = new MyComponent();
-        var wrap = document.createElement('div');
-        document.body.appendChild(wrap);
-        myComponent.attach(wrap);
+        it("event bind to not exists method", function () {
+            var MyComponent = san.defineComponent({
+                template: '<div on-click="nomethod"></div>',
+            });
 
-        expect(console.warn).toHaveBeenCalled();
+            var myComponent = new MyComponent();
+            var wrap = document.createElement("div");
+            document.body.appendChild(wrap);
+            myComponent.attach(wrap);
 
-        var msg = console.warn.calls.first().args[0];
-        expect(msg).toContain('not exist');
-        expect(msg).toContain('[SAN WARNING]');
-        expect(msg).toContain('nomethod');
+            expect(console.warn).toHaveBeenCalled();
 
-        myComponent.dispose();
-        document.body.removeChild(wrap);
-    });
+            var msg = console.warn.calls.first().args[0];
+            expect(msg).toContain("not exist");
+            expect(msg).toContain("[SAN WARNING]");
+            expect(msg).toContain("nomethod");
 
-    it('set html', function () {
-        var MyComponent = san.defineComponent({
-            template: '<div><select s-html="selectText"></select></div>',
-            initData: function () {
-                return {
-                    selectText: '<option>1</option>'
-                };
-            }
+            myComponent.dispose();
+            document.body.removeChild(wrap);
         });
 
-        var myComponent = new MyComponent();
-        var wrap = document.createElement('div');
-        document.body.appendChild(wrap);
-        myComponent.attach(wrap);
+        it("set html", function () {
+            var MyComponent = san.defineComponent({
+                template: '<div><select s-html="selectText"></select></div>',
+                initData: function () {
+                    return {
+                        selectText: "<option>1</option>",
+                    };
+                },
+            });
 
-        expect(console.warn).toHaveBeenCalled();
+            var myComponent = new MyComponent();
+            var wrap = document.createElement("div");
+            document.body.appendChild(wrap);
+            myComponent.attach(wrap);
 
-        var msg = console.warn.calls.first().args[0];
-        expect(msg).toContain('may cause an error in old IE');
-        expect(msg).toContain('[SAN WARNING]');
+            expect(console.warn).toHaveBeenCalled();
 
-        myComponent.dispose();
-        document.body.removeChild(wrap);
-    });
+            var msg = console.warn.calls.first().args[0];
+            expect(msg).toContain("may cause an error in old IE");
+            expect(msg).toContain("[SAN WARNING]");
 
-
-    it('component undefined template', function () {
-        var MyComponent = san.defineComponent({
-            initData: function () {
-                return {
-                    selectText: '<option>1</option>'
-                };
-            }
+            myComponent.dispose();
+            document.body.removeChild(wrap);
         });
 
-        var myComponent = new MyComponent();
-        var wrap = document.createElement('div');
-        document.body.appendChild(wrap);
-        myComponent.attach(wrap);
+        it("component undefined template", function () {
+            var MyComponent = san.defineComponent({
+                initData: function () {
+                    return {
+                        selectText: "<option>1</option>",
+                    };
+                },
+            });
 
-        expect(console.warn).toHaveBeenCalled();
+            var myComponent = new MyComponent();
+            var wrap = document.createElement("div");
+            document.body.appendChild(wrap);
+            myComponent.attach(wrap);
 
-        var msg = console.warn.calls.first().args[0];
-        expect(msg).toContain('Component template must have a root element');
-        expect(msg).toContain('[SAN WARNING]');
+            expect(console.warn).toHaveBeenCalled();
 
-        myComponent.dispose();
-        document.body.removeChild(wrap);
-    });
+            var msg = console.warn.calls.first().args[0];
+            expect(msg).toContain(
+                "Component template must have a root element",
+            );
+            expect(msg).toContain("[SAN WARNING]");
 
-    it('component allow just one root element', function () {
-
-        var MyComponent = san.defineComponent({
-            template: '<div></div><div></div>'
+            myComponent.dispose();
+            document.body.removeChild(wrap);
         });
-        new MyComponent();
 
-        expect(console.warn).toHaveBeenCalled();
+        it("component allow just one root element", function () {
+            var MyComponent = san.defineComponent({
+                template: "<div></div><div></div>",
+            });
+            new MyComponent();
 
-        var msg = console.warn.calls.first().args[0];
-        expect(msg).toContain('Component template must have a root element');
-        expect(msg).toContain('[SAN WARNING]');
-    });
+            expect(console.warn).toHaveBeenCalled();
 
-    it('component template not allow text', function () {
-
-        var MyComponent = san.defineComponent({
-            template: 'hello san'
+            var msg = console.warn.calls.first().args[0];
+            expect(msg).toContain(
+                "Component template must have a root element",
+            );
+            expect(msg).toContain("[SAN WARNING]");
         });
-        new MyComponent();
 
-        expect(console.warn).toHaveBeenCalled();
+        it("component template not allow text", function () {
+            var MyComponent = san.defineComponent({
+                template: "hello san",
+            });
+            new MyComponent();
 
-        var msg = console.warn.calls.first().args[0];
-        expect(msg).toContain('Component template must have a root element');
-        expect(msg).toContain('[SAN WARNING]');
+            expect(console.warn).toHaveBeenCalled();
 
+            var msg = console.warn.calls.first().args[0];
+            expect(msg).toContain(
+                "Component template must have a root element",
+            );
+            expect(msg).toContain("[SAN WARNING]");
+        });
     });
-});

@@ -13,7 +13,6 @@
  */
 
 (function (global) {
-
     /**
      * 一个队
      *
@@ -28,7 +27,6 @@
     }
 
     Queue.prototype = {
-
         /**
          * 发送
          *
@@ -91,7 +89,7 @@
                     return item;
                 }
             }
-        }
+        },
     };
 
     /**
@@ -100,7 +98,6 @@
      * @type {Object}
      */
     var WDBridge = {
-
         reset: function () {
             this.message = new Queue();
             this.action = new Queue();
@@ -113,7 +110,7 @@
          * @param  {string} value value
          * @return {string}       ret
          */
-        getHandler: function(key) {
+        getHandler: function (key) {
             var me = this;
             return function (type, value) {
                 return me[type][key](value);
@@ -121,7 +118,6 @@
         },
 
         init: function () {
-
             this.reset();
 
             // 统一个 API
@@ -129,32 +125,27 @@
             for (var key in Queue.prototype) {
                 me[key] = me.getHandler(key);
             }
-
         },
 
         nextTick: function (done) {
-
             var ret = {
-                message: '',
-                action: ''
+                message: "",
+                action: "",
             };
 
             var me = this;
 
-            ['message', 'action'].forEach(function (key) {
+            ["message", "action"].forEach(function (key) {
                 if (me[key].assert()) {
                     ret[key] = me[key].consume();
                 }
             });
 
             done(ret);
-        }
-
+        },
     };
 
     WDBridge.init();
 
     global.WDBridge = WDBridge;
-
 })(window);
-

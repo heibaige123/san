@@ -3,24 +3,34 @@
  * @author zhoumin
  */
 
+const fs = require("fs");
+const path = require("path");
 
-const fs = require('fs');
-const path = require('path');
-
-let html = '';
-let specTpls = '';
+let html = "";
+let specTpls = "";
 
 // generate html
-function genContent({ componentClass, componentSource, compontentData, componentDataLiteral, specTpl, dirName, result}) {
+function genContent({
+    componentClass,
+    componentSource,
+    compontentData,
+    componentDataLiteral,
+    specTpl,
+    dirName,
+    result,
+}) {
     let id = dirName;
     let noDataOutput = /-ndo$/.test(dirName);
     let noInject = false;
 
     // if no inject mark, add it
     if (!/\/\/\s*\[inject\]/.test(specTpl)) {
-        specTpl = specTpl.replace(/function\s*\([a-z0-9_,$\s]*\)\s*\{/, function ($0) {
-            return $0 + '\n// [inject] init';
-        });
+        specTpl = specTpl.replace(
+            /function\s*\([a-z0-9_,$\s]*\)\s*\{/,
+            function ($0) {
+                return $0 + "\n// [inject] init";
+            },
+        );
         noInject = true;
     }
 
@@ -36,14 +46,14 @@ function genContent({ componentClass, componentSource, compontentData, component
             el: wrap.firstChild
             `;
         if (noDataOutput) {
-            preCode += ',data:' + componentDataLiteral
+            preCode += ",data:" + componentDataLiteral;
         }
-        preCode += '        });'
+        preCode += "        });";
     }
 
     specTpl = specTpl.replace(/\/\/\s*\[inject\]\s* init/, preCode);
     specTpls += specTpl;
-};
+}
 
 function buildFile(filePath) {
     let files = fs.readdirSync(filePath);
@@ -54,13 +64,13 @@ function buildFile(filePath) {
     let componentDataLiteral;
     let dirName;
     let result;
-    let sourceFile = '';
+    let sourceFile = "";
 
     if (!files.length) {
         return;
     }
 
-    files.forEach(filename => {
+    files.forEach((filename) => {
         // absolute path
         let abFilePath = path.join(filePath, filename);
         let stats = fs.statSync(abFilePath);
@@ -70,49 +80,54 @@ function buildFile(filePath) {
         // if it's a file, init data
         if (isFile) {
             switch (filename) {
-                case 'component.js':
+                case "component.js":
                     componentClass = require(abFilePath);
-                    componentSource = fs.readFileSync(path.resolve(abFilePath), 'UTF-8')
-                        .split('\n')
-                        .map(line => {
-                            if (/(\.|\s)exports\s*=/.test(line)
-                                || /san\s*=\s*require\(/.test(line)
+                    componentSource = fs
+                        .readFileSync(path.resolve(abFilePath), "UTF-8")
+                        .split("\n")
+                        .map((line) => {
+                            if (
+                                /(\.|\s)exports\s*=/.test(line) ||
+                                /san\s*=\s*require\(/.test(line)
                             ) {
-                                return '';
+                                return "";
                             }
 
                             if (/^\s*console.log/.test(line)) {
-                                return '//' + line;
+                                return "//" + line;
                             }
 
                             return line;
                         })
-                        .join('\n');
+                        .join("\n");
                     sourceFile = filename;
                     break;
 
-                case 'spec.js':
-                    specTpl = fs.readFileSync(path.resolve(abFilePath), 'UTF-8').replace('console.log', '//console.log');
+                case "spec.js":
+                    specTpl = fs
+                        .readFileSync(path.resolve(abFilePath), "UTF-8")
+                        .replace("console.log", "//console.log");
                     break;
 
-                case 'data.js':
+                case "data.js":
                     compontentData = require(abFilePath);
-                    componentDataLiteral = fs.readFileSync(abFilePath, 'UTF-8');
+                    componentDataLiteral = fs.readFileSync(abFilePath, "UTF-8");
                     componentDataLiteral = componentDataLiteral
-                        .slice(componentDataLiteral.indexOf('{'))
-                        .replace(/;\s*$/, '');
+                        .slice(componentDataLiteral.indexOf("{"))
+                        .replace(/;\s*$/, "");
                     break;
 
-                case 'data.json':
+                case "data.json":
                     compontentData = require(abFilePath);
-                    componentDataLiteral = fs.readFileSync(abFilePath, 'UTF-8');
+                    componentDataLiteral = fs.readFileSync(abFilePath, "UTF-8");
                     break;
 
-                case 'expected.html':
-                    result = fs.readFileSync(path.resolve(abFilePath), 'UTF-8').replace('\n', '');
+                case "expected.html":
+                    result = fs
+                        .readFileSync(path.resolve(abFilePath), "UTF-8")
+                        .replace("\n", "");
                     break;
             }
-
         }
 
         // iterate
@@ -134,46 +149,54 @@ function buildFile(filePath) {
             componentDataLiteral,
             specTpl,
             dirName,
-            result
+            result,
         });
     }
-};
+}
 
-function writeIn({html, specTpls}) {
-    let karmaHtml = fs.readFileSync(path.resolve(__dirname, 'karma-context.html.tpl'), 'UTF-8');
+function writeIn({ html, specTpls }) {
+    let karmaHtml = fs.readFileSync(
+        path.resolve(__dirname, "karma-context.html.tpl"),
+        "UTF-8",
+    );
     fs.writeFileSync(
-        path.resolve(__dirname, 'karma-context.html'),
-        karmaHtml.replace('##rendered-elements##', html),
-        'UTF-8'
+        path.resolve(__dirname, "karma-context.html"),
+        karmaHtml.replace("##rendered-elements##", html),
+        "UTF-8",
     );
 
-    let alluaHtml = fs.readFileSync(path.resolve(__dirname, 'index-hydrate-allua.html.tpl'), 'UTF-8');
+    let alluaHtml = fs.readFileSync(
+        path.resolve(__dirname, "index-hydrate-allua.html.tpl"),
+        "UTF-8",
+    );
     fs.writeFileSync(
-        path.resolve(__dirname, 'index-hydrate-allua.html'),
-        alluaHtml.replace('##rendered-elements##', html),
-        'UTF-8'
+        path.resolve(__dirname, "index-hydrate-allua.html"),
+        alluaHtml.replace("##rendered-elements##", html),
+        "UTF-8",
     );
 
-    let htmlTpl = fs.readFileSync(path.resolve(__dirname, 'index-hydrate.html.tpl'), 'UTF-8');
+    let htmlTpl = fs.readFileSync(
+        path.resolve(__dirname, "index-hydrate.html.tpl"),
+        "UTF-8",
+    );
     fs.writeFileSync(
-        path.resolve(__dirname, 'index-hydrate.html'),
-        htmlTpl.replace('##rendered-elements##', html),
-        'UTF-8'
+        path.resolve(__dirname, "index-hydrate.html"),
+        htmlTpl.replace("##rendered-elements##", html),
+        "UTF-8",
     );
 
     fs.writeFileSync(
-        path.resolve(__dirname, 'hydrate.spec.js'),
+        path.resolve(__dirname, "hydrate.spec.js"),
         specTpls,
-        'UTF-8'
+        "UTF-8",
     );
-};
+}
 
 console.log();
-console.log('----- Build Hydrate Specs -----');
+console.log("----- Build Hydrate Specs -----");
 
-
-buildFile(path.join(__dirname, '../node_modules/san-html-cases/src'));
+buildFile(path.join(__dirname, "../node_modules/san-html-cases/src"));
 // write into file
-writeIn({html, specTpls});
+writeIn({ html, specTpls });
 
 console.log();

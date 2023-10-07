@@ -1,5 +1,4 @@
-todos-ts
-===
+# todos-ts
 
 > todos demo use `typescript`
 
@@ -31,4 +30,3 @@ First, run dev script:
 ```
 $ npm start
 ```
-

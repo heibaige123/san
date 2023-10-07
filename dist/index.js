@@ -1,5 +1,5 @@
-if (process.env.NODE_ENV === 'production') {
-    module.exports = require('./san.js');
+if (process.env.NODE_ENV === "production") {
+    module.exports = require("./san.js");
 } else {
-    module.exports = require('./san.dev.js');
+    module.exports = require("./san.dev.js");
 }

@@ -1,135 +1,136 @@
-
-const fs = require('fs');
-const path = require('path');
-const assert = require('assert');
-const pack = require('./pack');
-const uglifyJS = require('uglify-js');
-const MOZ_SourceMap = require('source-map');
+const fs = require("fs");
+const path = require("path");
+const assert = require("assert");
+const pack = require("./pack");
+const uglifyJS = require("uglify-js");
+const MOZ_SourceMap = require("source-map");
 
 let editions = {
-    '__': {
-        ignoreFeatures: ['devtool', 'error', 'modern']
+    __: {
+        ignoreFeatures: ["devtool", "error", "modern"],
     },
 
     min: {
-        ignoreFeatures: ['devtool', 'error', 'modern'],
-        compress: 1
+        ignoreFeatures: ["devtool", "error", "modern"],
+        compress: 1,
     },
 
     dev: {
-        ignoreFeatures: ['modern']
+        ignoreFeatures: ["modern"],
     },
 
-    'modern': {
-        ignoreFeatures: ['devtool', 'error', 'allua']
+    modern: {
+        ignoreFeatures: ["devtool", "error", "allua"],
     },
 
-    'modern.min': {
-        ignoreFeatures: ['devtool', 'error', 'allua'],
-        compress: 1
+    "modern.min": {
+        ignoreFeatures: ["devtool", "error", "allua"],
+        compress: 1,
     },
 
-    'modern.dev': {
-        ignoreFeatures: ['allua']
+    "modern.dev": {
+        ignoreFeatures: ["allua"],
     },
 
     spa: {
-        ignoreFeatures: ['devtool', 'hydrate', 'error', 'modern']
+        ignoreFeatures: ["devtool", "hydrate", "error", "modern"],
     },
 
-    'spa.min': {
-        ignoreFeatures: ['devtool', 'hydrate', 'error', 'modern'],
-        compress: 1
+    "spa.min": {
+        ignoreFeatures: ["devtool", "hydrate", "error", "modern"],
+        compress: 1,
     },
 
-    'spa.dev': {
-        ignoreFeatures: ['hydrate', 'modern']
+    "spa.dev": {
+        ignoreFeatures: ["hydrate", "modern"],
     },
 
-    'spa.modern': {
-        ignoreFeatures: ['devtool', 'hydrate', 'error', 'allua']
+    "spa.modern": {
+        ignoreFeatures: ["devtool", "hydrate", "error", "allua"],
     },
 
-    'spa.modern.min': {
-        ignoreFeatures: ['devtool', 'hydrate', 'error', 'allua'],
-        compress: 1
+    "spa.modern.min": {
+        ignoreFeatures: ["devtool", "hydrate", "error", "allua"],
+        compress: 1,
     },
 
-    'spa.modern.dev': {
-        ignoreFeatures: ['hydrate', 'allua']
-    }
+    "spa.modern.dev": {
+        ignoreFeatures: ["hydrate", "allua"],
+    },
 };
 
 function build() {
-    let rootDir = path.resolve(__dirname, '..');
-    let distDir = path.resolve(rootDir, 'dist');
+    let rootDir = path.resolve(__dirname, "..");
+    let distDir = path.resolve(rootDir, "dist");
 
     if (!fs.existsSync(distDir)) {
         fs.mkdirSync(distDir);
     }
 
-    let version = JSON.parse(fs.readFileSync(path.resolve(rootDir, 'package.json'))).version;
+    let version = JSON.parse(
+        fs.readFileSync(path.resolve(rootDir, "package.json")),
+    ).version;
 
     let baseSource = pack(rootDir);
     let source = baseSource.content.replace(/##version##/g, version);
 
-
-    Object.keys(editions).forEach(edition => {
+    Object.keys(editions).forEach((edition) => {
         let option = editions[edition];
         let editionSource = clearFeatureCode(source, option.ignoreFeatures);
-        let fileName = edition === '__' ? `san.js` : `san.${edition}.js`;
+        let fileName = edition === "__" ? `san.js` : `san.${edition}.js`;
         let filePath = path.join(distDir, fileName);
 
         if (option.compress) {
             let ast = uglifyJS.parse(editionSource);
-            ast.figure_out_scope({screw_ie8: false});
-            ast = ast.transform(new uglifyJS.Compressor({screw_ie8: false}));
+            ast.figure_out_scope({ screw_ie8: false });
+            ast = ast.transform(new uglifyJS.Compressor({ screw_ie8: false }));
 
             // need to figure out scope again so mangler works optimally
-            ast.figure_out_scope({screw_ie8: false});
-            ast.compute_char_frequency({screw_ie8: false});
-            ast.mangle_names({screw_ie8: false});
+            ast.figure_out_scope({ screw_ie8: false });
+            ast.compute_char_frequency({ screw_ie8: false });
+            ast.mangle_names({ screw_ie8: false });
 
-            editionSource = ast.print_to_string({screw_ie8: false});
-        }
-        else {
-            editionSource += '//@ sourceMappingURL=' + path.join('./', fileName + '.map');
+            editionSource = ast.print_to_string({ screw_ie8: false });
+        } else {
+            editionSource +=
+                "//@ sourceMappingURL=" + path.join("./", fileName + ".map");
 
-            assert(typeof path.parse(baseSource.base) === 'object', 'The base(entry file) must be a file path!');
+            assert(
+                typeof path.parse(baseSource.base) === "object",
+                "The base(entry file) must be a file path!",
+            );
             let map = new MOZ_SourceMap.SourceMapGenerator({
-                file: fileName
+                file: fileName,
             });
-            let baseLineLength = fs.readFileSync(baseSource.base)
-                .toString('utf8').split('// #[main-dependencies]')[0]
-                .split('\n').length;
+            let baseLineLength = fs
+                .readFileSync(baseSource.base)
+                .toString("utf8")
+                .split("// #[main-dependencies]")[0]
+                .split("\n").length;
 
             for (let i = 0; i < baseSource.deps.length; i++) {
                 let script = fs.readFileSync(baseSource.deps[i]);
-                let fileSplit = script.toString('utf8').split('\n');
+                let fileSplit = script.toString("utf8").split("\n");
                 let fileLineLength = fileSplit.length;
                 for (let j = 0; j < fileLineLength; j++) {
                     map.addMapping({
                         source: path.relative(distDir, baseSource.deps[i]),
                         original: {
                             line: j + 1,
-                            column: 0
+                            column: 0,
                         },
                         generated: {
                             line: baseLineLength + j,
-                            column: 0
-                        }
+                            column: 0,
+                        },
                     });
                 }
                 baseLineLength = fileLineLength + 1 + baseLineLength;
             }
-            fs.writeFileSync(`${filePath}.map`, map.toString(), 'UTF-8');
+            fs.writeFileSync(`${filePath}.map`, map.toString(), "UTF-8");
         }
 
-        fs.writeFileSync(
-            filePath,
-            editionSource,
-            'UTF-8'
-        );
+        fs.writeFileSync(filePath, editionSource, "UTF-8");
     });
 }
 
@@ -141,33 +142,31 @@ function clearFeatureCode(source, ignoreFeatures) {
     let beginRule = /^\s*\/\/\s*#\[begin\]\s*(\w+)\s*$/;
     let endRule = /^\s*\/\/\s*#\[end\]\s*$/;
 
-    let featureRule = new RegExp('(' + ignoreFeatures.join('|') + ')');
+    let featureRule = new RegExp("(" + ignoreFeatures.join("|") + ")");
     let states = [];
     let state = 0;
-    return source.split('\n')
-        .map(line => {
+    return source
+        .split("\n")
+        .map((line) => {
             let match;
             if ((match = beginRule.exec(line))) {
                 if (featureRule.test(match[1])) {
                     states.push(match[1]);
                     state++;
-                }
-                else {
+                } else {
                     states.push(0);
                 }
-            }
-            else if (endRule.test(line)) {
+            } else if (endRule.test(line)) {
                 if (states.pop()) {
                     state--;
                 }
+            } else if (state) {
+                return "// " + line;
             }
-            else if (state) {
-                return '// ' + line;
-            }
-            
+
             return line;
         })
-        .join('\n');
+        .join("\n");
 }
 
 exports = module.exports = build;
