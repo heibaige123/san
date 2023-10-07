@@ -7,7 +7,7 @@
  * @file 是否 IE 并且小于 9
  */
 
-var ie = require('./ie');
+var ie = require("./ie");
 
 // HACK:
 // 1. IE8下，设置innerHTML时如果以html comment开头，comment会被自动滤掉

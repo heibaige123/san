@@ -13,8 +13,9 @@
  *
  * @type {Array}
  */
-var ieVersionMatch = typeof navigator !== 'undefined'
-    && navigator.userAgent.match(/(msie|trident)(\s*|\/)([0-9]+)/i);
+var ieVersionMatch =
+    typeof navigator !== "undefined" &&
+    navigator.userAgent.match(/(msie|trident)(\s*|\/)([0-9]+)/i);
 
 /**
  * ie版本号，非ie时为0

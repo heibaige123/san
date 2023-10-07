@@ -1,4 +1,3 @@
-
 /**
  * DOM 事件挂载
  *
@@ -12,12 +11,11 @@ function on(el, eventName, listener, capture) {
     // #[begin] allua
     /* istanbul ignore else */
     if (el.addEventListener) {
-    // #[end]
+        // #[end]
         el.addEventListener(eventName, listener, capture);
-    // #[begin] allua
-    }
-    else {
-        el.attachEvent('on' + eventName, listener);
+        // #[begin] allua
+    } else {
+        el.attachEvent("on" + eventName, listener);
     }
     // #[end]
 }

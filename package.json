@@ -21,7 +21,8 @@
         "build": "node ./tool/build.js",
         "dev-server": "npx http-server",
         "report-cov": "cat ./coverage/report-lcov/lcov.info | ./node_modules/coveralls/bin/coveralls.js",
-        "prettier": "prettier . --write"
+        "prettier": "prettier . --write",
+        "pb": "npm run prettier && npm run build"
     },
     "types": "types",
     "main": "dist/index.js",
