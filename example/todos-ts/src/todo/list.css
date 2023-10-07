@@ -106,7 +106,7 @@
 
 .todo-list .todo-done {
     cursor: default;
-    opacity: .4;
+    opacity: 0.4;
 }
 
 .todo-meta {
