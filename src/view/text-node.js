@@ -49,7 +49,7 @@ function TextNode(aNode, parent, scope, owner, hydrateWalker) {
 
                         while (1) { // eslint-disable-line
                             currentNode = hydrateWalker.current;
-                            /* istanbul ignore if */
+                            
                             if (!currentNode) {
                                 throw new Error('[SAN HYDRATE ERROR] Text end flag not found. \nPaths: '
                                     + getNodePath(this).join(' > '));
@@ -80,7 +80,7 @@ function TextNode(aNode, parent, scope, owner, hydrateWalker) {
             insertBefore(this.el, hydrateWalker.target, hydrateWalker.current);
         }
     }
-    // #[end]
+    
 }
 
 TextNode.prototype.nodeType = NodeType.TEXT;
@@ -169,7 +169,7 @@ TextNode.prototype._update = function (changes) {
 
                     // #[begin] error
                     warnSetHTML(parentEl);
-                    // #[end]
+                    
 
                     var tempFlag = document.createElement('script');
                     parentEl.insertBefore(tempFlag, this.el);

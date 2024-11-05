@@ -49,7 +49,7 @@ function IsNode(aNode, parent, scope, owner, hydrateWalker) {
             this.cmpt
         );
     }
-    // #[end]
+    
 }
 
 IsNode.prototype.nodeType = NodeType.IS;

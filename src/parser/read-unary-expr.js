@@ -148,7 +148,7 @@ function readUnaryExpr(walker) {
                 else {
                     // #[begin] error
                     var walkerIndexBeforeName = walker.index;
-                    // #[end]
+                    
 
                     item.name = readUnaryExpr(walker);
 
@@ -159,7 +159,7 @@ function readUnaryExpr(walker) {
                             + walker.source.slice(walkerIndexBeforeName, walker.index)
                         );
                     }
-                    // #[end]
+                    
 
                     if (walker.goUntil(58)) { // :
                         item.expr = readTertiaryExpr(walker);

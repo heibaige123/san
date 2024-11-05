@@ -37,7 +37,7 @@ function parseComponentTemplate(ComponentClass) {
     if (tplANode.children.length !== 1 || !aNode) {
         warn('Component template must have a root element.');
     }
-    // #[end]
+    
 
     aNode = aNode || {
         directives: {},

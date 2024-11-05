@@ -26,7 +26,7 @@ function getXPath(stack, currentTagName) {
     }
     return path.join('>');
 }
-// #[end]
+
 
 /* eslint-disable fecs-max-statements */
 
@@ -98,7 +98,7 @@ function parseTemplate(source, options) {
                 ) {
                     throw new Error('[SAN ERROR] ' + getXPath(stack) + ' is closed with ' + tagName);
                 }
-                // #[end]
+                
 
 
                 pushTextNode(source.slice(beforeLastIndex, tagMatchStart));
@@ -130,7 +130,7 @@ function parseTemplate(source, options) {
                     + '\'s close tag has attributes'
                 );
             }
-            // #[end]
+            
         }
         else {
             var aElement = {
@@ -179,7 +179,7 @@ function parseTemplate(source, options) {
                 if (nextCharCode === 60) {
                     throw new Error('[SAN ERROR] ' + getXPath(stack, tagName) + ' is not closed');
                 }
-                // #[end]
+                
 
                 // 读取 attribute
                 var attrMatch = walker.match(attrReg, 1);
@@ -267,7 +267,7 @@ function parseTemplate(source, options) {
                     if (!ifANode || !parentChild.directives['if']) { // eslint-disable-line dot-notation
                         throw new Error('[SAN FATEL] else not match if.');
                     }
-                    // #[end]
+                    
 
                     if (ifANode) {
                         ifANode.elses = ifANode.elses || [];

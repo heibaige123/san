@@ -203,7 +203,7 @@ function ForNode(aNode, parent, scope, owner, hydrateWalker) {
         this._create();
         insertBefore(this.el, hydrateWalker.target, hydrateWalker.current);
     }
-    // #[end]
+    
 }
 
 
@@ -347,17 +347,17 @@ ForNode.prototype._disposeChildren = function (children, callback) {
     }
 
     if (violentClear) {
-        // #[begin] allua
-        /* istanbul ignore next */
+        
+        
         if (ie) {
             parentEl.innerHTML = '';
         }
         else {
-            // #[end]
+            
             parentEl.textContent = '';
-            // #[begin] allua
+            
         }
-        // #[end]
+        
 
         this.el = document.createComment(this.id);
         parentEl.appendChild(this.el);

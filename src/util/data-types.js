@@ -33,7 +33,7 @@ function getDataType(obj) {
         .slice(8, -1)
         .toLowerCase();
 }
-// #[end]
+
 
 /**
  * 创建链式的数据类型校验器
@@ -42,7 +42,7 @@ function getDataType(obj) {
  * @return {Function}
  */
 function createChainableChecker(validate) {
-    /* istanbul ignore next */
+    
     var chainedChecker = function () {};
     chainedChecker.isRequired = empty;
 
@@ -54,7 +54,7 @@ function createChainableChecker(validate) {
         var dataValue = data[dataName];
         var dataType = getDataType(dataValue);
 
-        /* istanbul ignore next */
+        
         componentName = componentName || ANONYMOUS_CLASS_NAME;
 
         // 如果是 null 或 undefined，那么要提前返回啦
@@ -77,7 +77,7 @@ function createChainableChecker(validate) {
 
     chainedChecker = bind(checkType, null, false);
     chainedChecker.isRequired = bind(checkType, null, true);
-    // #[end]
+    
 
     return chainedChecker;
 
@@ -165,9 +165,9 @@ function createInstanceOfChecker(expectedClass) {
 
         var dataValueClassName = dataValue.constructor && dataValue.constructor.name
             ? dataValue.constructor.name
-            : /* istanbul ignore next */ ANONYMOUS_CLASS_NAME;
+            :  ANONYMOUS_CLASS_NAME;
 
-        /* istanbul ignore next */
+        
         var expectedClassName = expectedClass.name || ANONYMOUS_CLASS_NAME;
 
         throw new Error('[SAN ERROR] '
@@ -422,7 +422,7 @@ function createExactChecker(shapeTypes) {
     });
 
 }
-// #[end]
+
 
 
 
@@ -470,7 +470,7 @@ DataTypes = {
 
 };
 /* eslint-enable fecs-valid-var-jsdoc */
-// #[end]
+
 
 
 module.exports = DataTypes;

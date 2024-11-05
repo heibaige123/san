@@ -45,7 +45,7 @@ Data.prototype.setTypeChecker = function (typeChecker) {
     this.typeChecker = typeChecker;
 };
 
-// #[end]
+
 
 /**
  * 添加数据变更的事件监听器
@@ -200,7 +200,7 @@ Data.prototype.set = function (expr, value, option) {
 
     // #[begin] error
     var exprRaw = expr;
-    // #[end]
+    
 
     expr = parseExpr(expr);
 
@@ -208,7 +208,7 @@ Data.prototype.set = function (expr, value, option) {
     if (expr.type !== ExprType.ACCESSOR) {
         throw new Error('[SAN ERROR] Invalid Expression in Data set: ' + exprRaw);
     }
-    // #[end]
+    
 
     if (this.get(expr) === value && !option.force) {
         return;
@@ -231,7 +231,7 @@ Data.prototype.set = function (expr, value, option) {
 
     // #[begin] error
     this.checkDataTypes();
-    // #[end]
+    
 
 };
 
@@ -272,7 +272,7 @@ Data.prototype.merge = function (expr, source, option) {
 
     // #[begin] error
     var exprRaw = expr;
-    // #[end]
+    
 
     expr = parseExpr(expr);
 
@@ -288,7 +288,7 @@ Data.prototype.merge = function (expr, source, option) {
     if (typeof source !== 'object') {
         throw new Error('[SAN ERROR] Merge Expects a Source of Type \'object\'; got ' + typeof source);
     }
-    // #[end]
+    
 
     for (var key in source) { // eslint-disable-line
         this.set(
@@ -320,7 +320,7 @@ Data.prototype.merge = function (expr, source, option) {
 Data.prototype.apply = function (expr, fn, option) {
     // #[begin] error
     var exprRaw = expr;
-    // #[end]
+    
 
     expr = parseExpr(expr);
 
@@ -328,7 +328,7 @@ Data.prototype.apply = function (expr, fn, option) {
     if (expr.type !== ExprType.ACCESSOR) {
         throw new Error('[SAN ERROR] Invalid Expression in Data apply: ' + exprRaw);
     }
-    // #[end]
+    
 
     var oldValue = this.get(expr);
 
@@ -339,7 +339,7 @@ Data.prototype.apply = function (expr, fn, option) {
             + 'Expected Function but got ' + typeof fn
         );
     }
-    // #[end]
+    
 
     this.set(expr, fn(oldValue), option);
 };
@@ -357,7 +357,7 @@ Data.prototype.splice = function (expr, args, option) {
     option = option || {};
     // #[begin] error
     var exprRaw = expr;
-    // #[end]
+    
 
     expr = parseExpr(expr);
 
@@ -365,7 +365,7 @@ Data.prototype.splice = function (expr, args, option) {
     if (expr.type !== ExprType.ACCESSOR) {
         throw new Error('[SAN ERROR] Invalid Expression in Data splice: ' + exprRaw);
     }
-    // #[end]
+    
 
     expr = {
         type: ExprType.ACCESSOR,
@@ -406,7 +406,7 @@ Data.prototype.splice = function (expr, args, option) {
 
     // #[begin] error
     this.checkDataTypes();
-    // #[end]
+    
 
     return returnValue;
 };

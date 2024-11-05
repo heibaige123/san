@@ -147,7 +147,7 @@ function SlotNode(aNode, parent, scope, owner, hydrateWalker) {
 
         this.lifeCycle = LifeCycle.attached;
     }
-    // #[end]
+    
 }
 
 SlotNode.prototype.nodeType = NodeType.SLOT;

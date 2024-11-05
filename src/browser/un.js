@@ -17,17 +17,11 @@
  * @param {boolean} capture 是否是捕获阶段
  */
 function un(el, eventName, listener, capture) {
-    // #[begin] allua
-    /* istanbul ignore else */
     if (el.addEventListener) {
-    // #[end]
         el.removeEventListener(eventName, listener, capture);
-    // #[begin] allua
+    } else {
+        el.detachEvent("on" + eventName, listener);
     }
-    else {
-        el.detachEvent('on' + eventName, listener);
-    }
-    // #[end]
 }
 
 exports = module.exports = un;

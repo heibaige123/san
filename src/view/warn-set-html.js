@@ -17,7 +17,7 @@ var warn = require('../util/warn');
  */
 function warnSetHTML(el) {
     // dont warn if not in browser runtime
-    /* istanbul ignore if */
+    
     if (!(typeof window !== 'undefined' && typeof navigator !== 'undefined' && window.document)) {
         return;
     }
@@ -29,6 +29,6 @@ function warnSetHTML(el) {
         warn('set html for element "' + el.tagName + '" may cause an error in old IE');
     }
 }
-// #[end]
+
 
 exports = module.exports = warnSetHTML;

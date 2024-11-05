@@ -54,6 +54,6 @@ function createDataTypesChecker(dataTypes, componentName) {
 
 }
 
-// #[end]
+
 
 module.exports = createDataTypesChecker;

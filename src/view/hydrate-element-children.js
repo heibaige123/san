@@ -32,6 +32,6 @@ function hydrateElementChildren(element, scope, owner) {
         }
     }
 }
-// #[end]
+
 
 exports = module.exports = hydrateElementChildren;

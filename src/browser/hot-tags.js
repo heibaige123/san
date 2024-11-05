@@ -43,8 +43,7 @@ var hotTags = {
     aside: 1,
     header: 1,
     footer: 1,
-    nav: 1
-
+    nav: 1,
 };
 
 exports = module.exports = hotTags;

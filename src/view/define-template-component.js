@@ -33,7 +33,7 @@ function defineTemplateComponent(template) {
 
         default:
             throw new Error('[SAN FATAL] defineTemplateComponent need string or plain object.');
-        // #[end]
+        
     }
  
     function ComponentClass(option) { // eslint-disable-line

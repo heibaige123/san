@@ -25,11 +25,11 @@ function getEventListener(eventBind, owner, data, isComponentEvent) {
     var args = eventBind.expr.args;
 
     return function (e) {
-        // #[begin] allua
+        
         if (!isComponentEvent) {
             e = e || window.event;
         }
-        // #[end]
+        
 
         var method = findMethod(owner, eventBind.expr.name, data);
         if (typeof method === 'function') {

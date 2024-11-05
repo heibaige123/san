@@ -17,7 +17,7 @@ var NodeType = require('./node-type');
  * @param {Node} node 节点对象
  * @return {Array}
  */
-/* istanbul ignore next */
+
 function getNodePath(node) {
     var nodePaths = [];
     var nodeParent = node;
@@ -57,6 +57,6 @@ function getNodePath(node) {
 
     return nodePaths;
 }
-// #[end]
+
 
 exports = module.exports = getNodePath;

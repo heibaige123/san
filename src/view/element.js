@@ -54,13 +54,13 @@ function Element(aNode, parent, scope, owner, tagName, hydrateWalker) {
 
     this.tagName = tagName || aNode.tagName;
 
-    // #[begin] allua
+    
     // ie8- 不支持innerHTML输出自定义标签
-    /* istanbul ignore if */
+    
     if (ieOldThan9 && this.tagName.indexOf('-') > 0) {
         this.tagName = 'div';
     }
-    // #[end]
+    
 
     aNode._i++;
     this._sbindData = nodeSBindInit(aNode.directives.bind, this.scope, this.owner);
@@ -70,20 +70,20 @@ function Element(aNode, parent, scope, owner, tagName, hydrateWalker) {
     if (hydrateWalker) {
         var currentNode = hydrateWalker.current;
 
-        /* istanbul ignore if */
+        
         if (!currentNode) {
             throw new Error('[SAN HYDRATE ERROR] Element not found. \nPaths: '
                 + getNodePath(this).join(' > '));
         }
 
-        /* istanbul ignore if */
+        
         if (currentNode.nodeType !== 1) {
             throw new Error('[SAN HYDRATE ERROR] Element type not match, expect 1 but '
                 + currentNode.nodeType + '.\nPaths: '
                 + getNodePath(this).join(' > '));
         }
 
-        /* istanbul ignore if */
+        
         if (currentNode.tagName !== this.tagName.toUpperCase()
             && currentNode.tagName !== this.tagName) {
             throw new Error('[SAN HYDRATE ERROR] Element tagName not match, expect '
@@ -100,7 +100,7 @@ function Element(aNode, parent, scope, owner, tagName, hydrateWalker) {
         this._attached();
         this.lifeCycle = LifeCycle.attached;
     }
-    // #[end]
+    
 }
 
 
@@ -163,7 +163,7 @@ Element.prototype.attach = function (parentEl, beforeEl) {
             if (htmlDirective) {
                 // #[begin] error
                 warnSetHTML(this.el);
-                // #[end]
+                
 
                 this.el.innerHTML = evalExpr(htmlDirective.value, this.scope, this.owner);
             }
@@ -206,13 +206,13 @@ Element.prototype._leave = function () {
                 this._elFns = null;
             }
 
-            // #[begin] allua
-            /* istanbul ignore if */
+            
+            
             if (this._inputTimer) {
                 clearInterval(this._inputTimer);
                 this._inputTimer = null;
             }
-            // #[end]
+            
 
             // 如果没有parent，说明是一个root component，一定要从dom树中remove
             if (!this.disposeNoDetach || !this.parent) {
@@ -289,7 +289,7 @@ Element.prototype._update = function (changes) {
                 if (changeExprCompare(changes[len].expr, htmlDirective.value, this.scope)) {
                     // #[begin] error
                     warnSetHTML(this.el);
-                    // #[end]
+                    
 
                     this.el.innerHTML = evalExpr(htmlDirective.value, this.scope, this.owner);
                     break;

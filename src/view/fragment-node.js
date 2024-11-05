@@ -74,7 +74,7 @@ function FragmentNode(aNode, parent, scope, owner, hydrateWalker) {
 
         this.lifeCycle = LifeCycle.attached;
     }
-    // #[end]
+    
 }
 
 

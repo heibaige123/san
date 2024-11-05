@@ -66,7 +66,7 @@ function Component(options) { // eslint-disable-line
             /* eslint-enable max-len */
         }
     }
-    // #[end]
+    
 
 
     options = options || {};
@@ -115,7 +115,7 @@ function Component(options) { // eslint-disable-line
 
     // #[begin] devtool
     this._toPhase('beforeCompile');
-    // #[end]
+    
 
     var proto = clazz.prototype;
 
@@ -162,7 +162,7 @@ function Component(options) { // eslint-disable-line
                 var stumpText = stumpMatch[1];
                 
                 // fill component data
-                // #[begin] allua
+                
                 options.data = (new Function('return '
                     + stumpText
                         .replace(/^[\s\n]*/, '')
@@ -174,7 +174,7 @@ function Component(options) { // eslint-disable-line
                             }
                         )
                 ))();
-                // #[end]
+                
                 // #[begin] modern
                 options.data = JSON.parse(
                     stumpText.replace(/\\([^\\\/"bfnrtu])/g, "$1"), 
@@ -188,7 +188,7 @@ function Component(options) { // eslint-disable-line
                         return value;
                     }
                 );
-                // #[end]
+                
 
                 if (firstCommentNode.previousSibling) {
                     removeEl(firstCommentNode.previousSibling);
@@ -197,7 +197,7 @@ function Component(options) { // eslint-disable-line
             }
         }
     }
-    // #[end]
+    
 
 
     if (this.source) {
@@ -215,7 +215,7 @@ function Component(options) { // eslint-disable-line
             else {
                 // #[begin] error
                 warnEventListenMethod(eventBind, options.owner);
-                // #[end]
+                
 
                 this.on(
                     eventBind.name,
@@ -237,7 +237,7 @@ function Component(options) { // eslint-disable-line
 
     // #[begin] devtool
     this._toPhase('beforeInit');
-    // #[end]
+    
 
     // init data
     var initData;
@@ -264,13 +264,13 @@ function Component(options) { // eslint-disable-line
     this.data = new Data(initData);
 
     this.tagName = this.tagName || 'div';
-    // #[begin] allua
+    
     // ie8- 不支持innerHTML输出自定义标签
-    /* istanbul ignore if */
+    
     if (ieOldThan9 && this.tagName.indexOf('-') > 0) {
         this.tagName = 'div';
     }
-    // #[end]
+    
 
 
     // #[begin] error
@@ -285,7 +285,7 @@ function Component(options) { // eslint-disable-line
         this.data.setTypeChecker(dataTypeChecker);
         this.data.checkDataTypes();
     }
-    // #[end]
+    
 
     this.computedDeps = {};
     for (var expr in this.computed) {
@@ -339,7 +339,7 @@ function Component(options) { // eslint-disable-line
         this._attached();
         this._toPhase('attached');
     }
-    // #[end]
+    
 }
 
 
@@ -422,7 +422,7 @@ Component.prototype._toPhase = function (name) {
         // 通知devtool
         // #[begin] devtool
         emitDevtool('comp-' + name, this);
-        // #[end]
+        
     }
 };
 /* eslint-enable operator-linebreak */
@@ -476,7 +476,7 @@ Component.prototype.fire = function (name, event) {
         event: event,
         target: this
     });
-    // #[end]
+    
 
     each(this.listeners[name], function (listener) {
         try {
@@ -509,7 +509,7 @@ Component.prototype._calcComputed = function (computedExpr) {
                     if (!expr) {
                         throw new Error('[SAN ERROR] call get method in computed need argument');
                     }
-                    // #[end]
+                    
 
                     if (!computedDeps[expr]) {
                         computedDeps[expr] = 1;
@@ -554,7 +554,7 @@ Component.prototype.dispatch = function (name, value) {
                 name: name,
                 receiver: parentComponent
             });
-            // #[end]
+            
 
             try {
                 handler.call(
@@ -573,7 +573,7 @@ Component.prototype.dispatch = function (name, value) {
 
     // #[begin] devtool
     emitDevtool('comp-message', {target: this, value: value, name: name});
-    // #[end]
+    
 };
 
 /**
@@ -779,7 +779,7 @@ Component.prototype._update = function (changes) {
     if (dataChanges) {
         // #[begin] devtool
         this._toPhase('beforeUpdate');
-        // #[end]
+        
 
         this._dataChanges = null;
 
@@ -810,7 +810,7 @@ Component.prototype._update = function (changes) {
                 if (changeExprCompare(dataChanges[len].expr, htmlDirective.value, this.data)) {
                     // #[begin] error
                     warnSetHTML(this.el);
-                    // #[end]
+                    
 
                     this.el.innerHTML = evalExpr(htmlDirective.value, this.data, this);
                     break;
@@ -1007,14 +1007,14 @@ Component.prototype.attach = function (parentEl, beforeEl) {
     if (!this.lifeCycle.attached) {
         // #[begin] devtool
         this._toPhase('beforeAttach');
-        // #[end]
+        
 
         var aNode = this.aNode;
 
         if (aNode.Clazz || this.components[aNode.tagName]) {
             // #[begin] devtool
             this._toPhase('beforeCreate');
-            // #[end]
+            
             this._rootNode = this._rootNode || createNode(aNode, this, this.data, this);
             this._rootNode.attach(parentEl, beforeEl);
             this._rootNode._getElAsRootNode && (this.el = this._rootNode._getElAsRootNode());
@@ -1024,7 +1024,7 @@ Component.prototype.attach = function (parentEl, beforeEl) {
             if (!this.el) {
                 // #[begin] devtool
                 this._toPhase('beforeCreate');
-                // #[end]
+                
 
                 var props;
 
@@ -1072,7 +1072,7 @@ Component.prototype.attach = function (parentEl, beforeEl) {
                 if (htmlDirective) {
                     // #[begin] error
                     warnSetHTML(this.el);
-                    // #[end]
+                    
 
                     this.el.innerHTML = evalExpr(htmlDirective.value, this.data, this);
                 }
@@ -1110,7 +1110,7 @@ Component.prototype._leave = function () {
         if (!this.lifeCycle.disposed) {
             // #[begin] devtool
             this._toPhase('beforeDetach');
-            // #[end]
+            
             this.data.unlisten();
             this.dataChanger = null;
             this._dataChanges = null;
@@ -1149,13 +1149,13 @@ Component.prototype._leave = function () {
                     this._elFns = null;
                 }
 
-                // #[begin] allua
-                /* istanbul ignore if */
+                
+                
                 if (this._inputTimer) {
                     clearInterval(this._inputTimer);
                     this._inputTimer = null;
                 }
-                // #[end]
+                
 
                 // 如果没有parent，说明是一个root component，一定要从dom树中remove
                 if (!this.disposeNoDetach || !this.parent) {
@@ -1167,7 +1167,7 @@ Component.prototype._leave = function () {
 
             // #[begin] devtool
             this._toPhase('beforeDispose');
-            // #[end]
+            
 
             this._rootNode = null;
             this.el = null;
@@ -1185,7 +1185,7 @@ Component.prototype._leave = function () {
     else if (this.lifeCycle.attached) {
         // #[begin] devtool
         this._toPhase('beforeDetach');
-        // #[end]
+        
 
         if (this._rootNode) {
             if (this._rootNode.detach) {

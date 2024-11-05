@@ -63,6 +63,6 @@ function createHydrateNode(aNode, parent, scope, owner, hydrateWalker, component
     }
     return new Element(aNode, parent, scope, owner, componentName, hydrateWalker);
 }
-// #[end]
+
 
 exports = module.exports = createHydrateNode;

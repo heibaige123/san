@@ -75,7 +75,7 @@ function IfNode(aNode, parent, scope, owner, hydrateWalker) {
         this._create();
         insertBefore(this.el, hydrateWalker.target, hydrateWalker.current);
     }
-    // #[end]
+    
 }
 
 IfNode.prototype.nodeType = NodeType.IF;

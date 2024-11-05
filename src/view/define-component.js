@@ -28,7 +28,7 @@ function defineComponent(proto, SuperComponent) {
     if (typeof proto !== 'object') {
         throw new Error('[SAN FATAL] defineComponent need a plain object.');
     }
-    // #[end]
+    
 
     SuperComponent = SuperComponent || Component;
     function ComponentClass(option) { // eslint-disable-line

@@ -48,13 +48,13 @@ function getXPropOutputer(element, xProp, data) {
 
 function getInputXPropOutputer(element, xProp, data) {
     return function () {
-        // #[begin] allua
-        /* istanbul ignore if */
+        
+        
         if (element.__bkph) {
             element.__bkph = false;
             return;
         }
-        // #[end]
+        
 
         if (!this.composing) {
             xPropOutput(element, xProp, data);
@@ -62,8 +62,8 @@ function getInputXPropOutputer(element, xProp, data) {
     };
 }
 
-// #[begin] allua
-/* istanbul ignore next */
+
+
 function getInputFocusXPropHandler(element, xProp, data) {
     return function () {
         element._inputTimer = setInterval(function () {
@@ -72,17 +72,17 @@ function getInputFocusXPropHandler(element, xProp, data) {
     };
 }
 
-/* istanbul ignore next */
+
 function getInputBlurXPropHandler(element) {
     return function () {
         clearInterval(element._inputTimer);
         element._inputTimer = null;
     };
 }
-// #[end]
+
 
 function xPropOutput(element, bindInfo, data) {
-    /* istanbul ignore if */
+    
     if (!element.lifeCycle.created) {
         return;
     }
@@ -164,18 +164,18 @@ function elementOwnAttached() {
                             elementOnEl(this, 'compositionend', inputOnCompositionEnd);
                         }
 
-                        // #[begin] allua
-                        /* istanbul ignore else */
+                        
+                        
                         if ('oninput' in this.el) {
-                        // #[end]
+                        
                             elementOnEl(this, 'input', getInputXPropOutputer(this, xProp, data));
-                        // #[begin] allua
+                        
                         }
                         else {
                             elementOnEl(this, 'focusin', getInputFocusXPropHandler(this, xProp, data));
                             elementOnEl(this, 'focusout', getInputBlurXPropHandler(this));
                         }
-                        // #[end]
+                        
 
                         break;
 
@@ -204,7 +204,7 @@ function elementOwnAttached() {
 
         // #[begin] error
         warnEventListenMethod(eventBind, owner);
-        // #[end]
+        
 
         elementOnEl(
             this, 
@@ -220,7 +220,7 @@ function elementOwnAttached() {
 
             // #[begin] error
             warnEventListenMethod(eventBind, this.owner);
-            // #[end]
+            
 
             elementOnEl(
                 this, 

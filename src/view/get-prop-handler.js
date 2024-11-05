@@ -69,10 +69,10 @@ function boolPropHandler(el, value, name) {
     el[propName] = !!value;
 }
 
-// #[begin] allua
+
 // see https://github.com/baidu/san/issues/495
 function placeholderHandler(el, value, name, element) {
-    /* istanbul ignore if */
+    
     if (ie > 9 && !el.value && value) {
         element.__bkph = true;
         nextTick(function () {
@@ -82,7 +82,7 @@ function placeholderHandler(el, value, name, element) {
 
     defaultElementPropHandler(el, value, name);
 }
-// #[end]
+
 
 /* eslint-disable fecs-properties-quote */
 /**
@@ -107,10 +107,10 @@ var defaultElementPropHandlers = {
 
     'class': function (el, value) { // eslint-disable-line
         if (
-            // #[begin] allua
+            
             ie
             ||
-            // #[end]
+            
             el.className !== value
         ) {
             el.className = value;
@@ -169,19 +169,19 @@ var elementPropHandlers = {
 
             boolPropHandler(el, state, 'checked', element);
 
-            // #[begin] allua
+            
             // 代码不用抽出来防重复，allua内的代码在现代浏览器版本会被编译时干掉，gzip也会处理重复问题
             // see: #378
-            /* istanbul ignore if */
+            
             if (ie && ie < 8 && !element.lifeCycle.attached) {
                 boolPropHandler(el, state, 'defaultChecked', element);
             }
-            // #[end]
+            
         },
 
-        // #[begin] allua
+        
         placeholder: placeholderHandler,
-        // #[end]
+        
 
         readonly: boolPropHandler,
         disabled: boolPropHandler,
@@ -207,9 +207,9 @@ var elementPropHandlers = {
     },
 
     textarea: {
-        // #[begin] allua
+        
         placeholder: placeholderHandler,
-        // #[end]
+        
         readonly: boolPropHandler,
         disabled: boolPropHandler,
         autofocus: boolPropHandler,

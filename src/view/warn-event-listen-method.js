@@ -35,6 +35,6 @@ function warnEventListenMethod(eventBind, owner) {
         warn(eventBind.name + ' listen fail,"' + paths.join('.') + '" not exist');
     }
 }
-// #[end]
+
 
 exports = module.exports = warnEventListenMethod;

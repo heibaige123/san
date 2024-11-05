@@ -44,7 +44,7 @@ function AsyncComponent(options, loader) {
         });
     }
     options.hydrateWalker = null;
-    // #[end]
+    
 }
 
 AsyncComponent.prototype._create = nodeOwnCreateStump;

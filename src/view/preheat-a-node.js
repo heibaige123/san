@@ -240,7 +240,7 @@ function preheatANode(aNode, componentInstance) {
                             if (components && components[aNode.tagName]) {
                                 warn('\`' + aNode.tagName + '\` as sub-component tag is a bad practice.');
                             }
-                            // #[end]
+                            
                         }
                 }
                 // === analyse hotspot props: end

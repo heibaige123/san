@@ -18,8 +18,7 @@ function insertBefore(targetEl, parentEl, beforeEl) {
     if (parentEl) {
         if (beforeEl) {
             parentEl.insertBefore(targetEl, beforeEl);
-        }
-        else {
+        } else {
             parentEl.appendChild(targetEl);
         }
     }

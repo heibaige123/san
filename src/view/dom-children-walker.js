@@ -56,6 +56,6 @@ DOMChildrenWalker.prototype.goNext = function () {
     this.current = this.children[++this.index];
     this.next = this.children[this.index + 1];
 };
-// #[end]
+
 
 exports = module.exports = DOMChildrenWalker;

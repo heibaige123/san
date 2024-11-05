@@ -150,13 +150,13 @@ function TemplateComponent(options) { // eslint-disable-line
     this.data = new Data(initData);
 
     this.tagName = this.tagName || 'div';
-    // #[begin] allua
+    
     // ie8- 不支持innerHTML输出自定义标签
-    /* istanbul ignore if */
+    
     if (ieOldThan9 && this.tagName.indexOf('-') > 0) {
         this.tagName = 'div';
     }
-    // #[end]
+    
 
     this._initDataChanger();
     this._sbindData = nodeSBindInit(this.aNode.directives.bind, this.data, this);
@@ -180,7 +180,7 @@ function TemplateComponent(options) { // eslint-disable-line
         this._attached();
         this.lifeCycle = LifeCycle.attached;
     }
-    // #[end]
+    
 }
 
 
@@ -221,14 +221,14 @@ TemplateComponent.prototype.attach = function (parentEl, beforeEl) {
     if (!this.lifeCycle.attached) {
         // #[begin] devtool
         emitDevtool('comp-beforeAttach', this);
-        // #[end]
+        
 
         var aNode = this.aNode;
 
         if (aNode.Clazz) {
             // #[begin] devtool
             emitDevtool('comp-beforeCreate', this);
-            // #[end]
+            
 
             this._rootNode = this._rootNode || createNode(aNode, this, this.data, this);
             this._rootNode.attach(parentEl, beforeEl);
@@ -237,13 +237,13 @@ TemplateComponent.prototype.attach = function (parentEl, beforeEl) {
             this.lifeCycle = LifeCycle.created;
             // #[begin] devtool
             emitDevtool('comp-create', this);
-            // #[end]
+            
         }
         else {
             if (!this.el) {
                 // #[begin] devtool
                 emitDevtool('comp-beforeCreate', this);
-                // #[end]
+                
 
                 var props;
 
@@ -283,7 +283,7 @@ TemplateComponent.prototype.attach = function (parentEl, beforeEl) {
                 this.lifeCycle = LifeCycle.created;
                 // #[begin] devtool
                 emitDevtool('comp-create', this);
-                // #[end]
+                
             }
 
             insertBefore(this.el, parentEl, beforeEl);
@@ -294,7 +294,7 @@ TemplateComponent.prototype.attach = function (parentEl, beforeEl) {
                 if (htmlDirective) {
                     // #[begin] error
                     warnSetHTML(this.el);
-                    // #[end]
+                    
 
                     this.el.innerHTML = evalExpr(htmlDirective.value, this.data, this);
                 }
@@ -318,7 +318,7 @@ TemplateComponent.prototype.attach = function (parentEl, beforeEl) {
         this.lifeCycle = LifeCycle.attached;
         // #[begin] devtool
         emitDevtool('comp-attached', this);
-        // #[end]
+        
     }
 };
 
@@ -443,7 +443,7 @@ TemplateComponent.prototype._update = function (changes) {
     if (dataChanges) {
         // #[begin] devtool
         emitDevtool('comp-beforeUpdate', this);
-        // #[end]
+        
 
         this._dataChanges = null;
 
@@ -474,7 +474,7 @@ TemplateComponent.prototype._update = function (changes) {
                 if (changeExprCompare(dataChanges[len].expr, htmlDirective.value, this.data)) {
                     // #[begin] error
                     warnSetHTML(this.el);
-                    // #[end]
+                    
 
                     this.el.innerHTML = evalExpr(htmlDirective.value, this.data, this);
                     break;
@@ -623,7 +623,7 @@ TemplateComponent.prototype._leave = function () {
         if (!this.lifeCycle.disposed) {
             // #[begin] devtool
             emitDevtool('comp-beforeDetach', this);
-            // #[end]
+            
 
             this.data.unlisten();
             this.dataChanger = null;
@@ -647,13 +647,13 @@ TemplateComponent.prototype._leave = function () {
                     this.children[len].dispose(1, 1);
                 }
 
-                // #[begin] allua
-                /* istanbul ignore if */
+                
+                
                 if (this._inputTimer) {
                     clearInterval(this._inputTimer);
                     this._inputTimer = null;
                 }
-                // #[end]
+                
 
                 // 如果没有parent，说明是一个root component，一定要从dom树中remove
                 if (!this.disposeNoDetach || !this.parent) {
@@ -664,11 +664,11 @@ TemplateComponent.prototype._leave = function () {
             this.lifeCycle = LifeCycle.detached;
             // #[begin] devtool
             emitDevtool('comp-detached', this);
-            // #[end]
+            
 
             // #[begin] devtool
             emitDevtool('comp-beforeDispose', this);
-            // #[end]
+            
 
             this._rootNode = null;
             this.el = null;
@@ -679,7 +679,7 @@ TemplateComponent.prototype._leave = function () {
             this.lifeCycle = LifeCycle.disposed;
             // #[begin] devtool
             emitDevtool('comp-disposed', this);
-            // #[end]
+            
 
             if (this._ondisposed) {
                 this._ondisposed();
@@ -689,7 +689,7 @@ TemplateComponent.prototype._leave = function () {
     else if (this.lifeCycle.attached) {
         // #[begin] devtool
         emitDevtool('comp-beforeDetach', this);
-        // #[end]
+        
 
         if (this._rootNode) {
             if (this._rootNode.detach) {
@@ -707,7 +707,7 @@ TemplateComponent.prototype._leave = function () {
         this.lifeCycle = LifeCycle.detached;
         // #[begin] devtool
         emitDevtool('comp-detached', this);
-        // #[end]
+        
     }
 };
 
