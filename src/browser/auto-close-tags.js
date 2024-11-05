@@ -13,20 +13,20 @@
  * @type {Object}
  */
 var autoCloseTags = {
-    area: 1,
-    base: 1,
-    br: 1,
-    col: 1,
-    embed: 1,
-    hr: 1,
-    img: 1,
-    input: 1,
-    link: 1,
-    meta: 1,
-    param: 1,
-    source: 1,
-    track: 1,
-    wbr: 1
+    area: 1,    // <area> 标签
+    base: 1,    // <base> 标签
+    br: 1,      // <br> 标签
+    col: 1,     // <col> 标签
+    embed: 1,   // <embed> 标签
+    hr: 1,      // <hr> 标签
+    img: 1,     // <img> 标签
+    input: 1,   // <input> 标签
+    link: 1,    // <link> 标签
+    meta: 1,    // <meta> 标签
+    param: 1,   // <param> 标签
+    source: 1,  // <source> 标签
+    track: 1,   // <track> 标签
+    wbr: 1      // <wbr> 标签
 };
 
 exports = module.exports = autoCloseTags;
