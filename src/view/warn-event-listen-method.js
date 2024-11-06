@@ -10,7 +10,7 @@
 var each = require('../util/each');
 var warn = require('../util/warn');
 
-// #[begin] error
+
 /**
  * 事件绑定不存在的 warning
  *

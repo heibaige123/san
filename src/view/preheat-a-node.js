@@ -236,7 +236,7 @@ function preheatANode(aNode, componentInstance) {
                                 aNode.elem = true;
                             }
 
-                            // #[begin] error
+                           
                             if (components && components[aNode.tagName]) {
                                 warn('\`' + aNode.tagName + '\` as sub-component tag is a bad practice.');
                             }

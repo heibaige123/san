@@ -24,7 +24,7 @@ function defineComponent(proto, SuperComponent) {
         return proto;
     }
 
-    // #[begin] error
+   
     if (typeof proto !== 'object') {
         throw new Error('[SAN FATAL] defineComponent need a plain object.');
     }

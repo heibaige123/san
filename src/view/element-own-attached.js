@@ -202,7 +202,7 @@ function elementOwnAttached() {
     for (var i = 0, l = this.aNode.events.length; i < l; i++) {
         var eventBind = this.aNode.events[i];
 
-        // #[begin] error
+       
         warnEventListenMethod(eventBind, owner);
         
 
@@ -218,7 +218,7 @@ function elementOwnAttached() {
         for (var i = 0, l = this.nativeEvents.length; i < l; i++) {
             var eventBind = this.nativeEvents[i];
 
-            // #[begin] error
+           
             warnEventListenMethod(eventBind, this.owner);
             
 

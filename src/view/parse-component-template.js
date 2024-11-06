@@ -33,7 +33,7 @@ function parseComponentTemplate(ComponentClass) {
         aNode = null;
     }
 
-    // #[begin] error
+   
     if (tplANode.children.length !== 1 || !aNode) {
         warn('Component template must have a root element.');
     }

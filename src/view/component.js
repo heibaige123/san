@@ -58,7 +58,7 @@ var DOMChildrenWalker = require('./dom-children-walker');
  * @param {Object} options 初始化参数
  */
 function Component(options) { // eslint-disable-line
-    // #[begin] error
+   
     for (var key in Component.prototype) {
         if (this[key] !== Component.prototype[key]) {
             /* eslint-disable max-len */
@@ -213,7 +213,7 @@ function Component(options) { // eslint-disable-line
                 this.nativeEvents.push(eventBind);
             }
             else {
-                // #[begin] error
+               
                 warnEventListenMethod(eventBind, options.owner);
                 
 
@@ -273,7 +273,7 @@ function Component(options) { // eslint-disable-line
     
 
 
-    // #[begin] error
+   
     // 在初始化 + 数据绑定后，开始数据校验
     // NOTE: 只在开发版本中进行属性校验
     var dataTypes = this.dataTypes || clazz.dataTypes;
@@ -505,7 +505,7 @@ Component.prototype._calcComputed = function (computedExpr) {
         var result = this.computed[computedExpr].call({
             data: {
                 get: function (expr) {
-                    // #[begin] error
+                   
                     if (!expr) {
                         throw new Error('[SAN ERROR] call get method in computed need argument');
                     }
@@ -808,7 +808,7 @@ Component.prototype._update = function (changes) {
             var len = dataChanges.length;
             while (len--) {
                 if (changeExprCompare(dataChanges[len].expr, htmlDirective.value, this.data)) {
-                    // #[begin] error
+                   
                     warnSetHTML(this.el);
                     
 
@@ -1070,7 +1070,7 @@ Component.prototype.attach = function (parentEl, beforeEl) {
                 var htmlDirective = aNode.directives.html;
 
                 if (htmlDirective) {
-                    // #[begin] error
+                   
                     warnSetHTML(this.el);
                     
 

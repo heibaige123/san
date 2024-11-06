@@ -15,7 +15,7 @@ var parseText = require('./parse-text');
 var svgTags = require('../browser/svg-tags');
 var autoCloseTags = require('../browser/auto-close-tags');
 
-// #[begin] error
+
 function getXPath(stack, currentTagName) {
     var path = ['ROOT'];
     for (var i = 1, len = stack.length; i < len; i++) {
@@ -81,7 +81,7 @@ function parseTemplate(source, options) {
                 // 向上查找到对应标签，找不到时忽略关闭
                 var closeIndex = stackIndex;
 
-                // #[begin] error
+               
                 // 如果正在闭合一个自闭合的标签，例如 </input>，报错
                 if (autoCloseTags[tagName]) {
                     throw new Error(''
@@ -112,7 +112,7 @@ function parseTemplate(source, options) {
                 }
                 walker.index++;
             }
-            // #[begin] error
+           
             else {
                 // 处理 </xxx 非正常闭合标签
 
@@ -174,7 +174,7 @@ function parseTemplate(source, options) {
                     break;
                 }
 
-                // #[begin] error
+               
                 // 在处理一个 open 标签时，如果遇到了 <， 即下一个标签的开始，则当前标签未能正常闭合，报错
                 if (nextCharCode === 60) {
                     throw new Error('[SAN ERROR] ' + getXPath(stack, tagName) + ' is not closed');
@@ -263,7 +263,7 @@ function parseTemplate(source, options) {
                         break;
                     }
 
-                    // #[begin] error
+                   
                     if (!ifANode || !parentChild.directives['if']) { // eslint-disable-line dot-notation
                         throw new Error('[SAN FATEL] else not match if.');
                     }

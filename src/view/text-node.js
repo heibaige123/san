@@ -167,7 +167,7 @@ TextNode.prototype._update = function (changes) {
                         removeEl(removeTarget);
                     }
 
-                    // #[begin] error
+                   
                     warnSetHTML(parentEl);
                     
 

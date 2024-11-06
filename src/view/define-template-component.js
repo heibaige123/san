@@ -25,7 +25,7 @@ function defineTemplateComponent(template) {
 
         case 'string':
             template = {template: template};
-        // #[begin] error
+       
             break;
 
         case 'object':

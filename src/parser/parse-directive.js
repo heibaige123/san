@@ -72,7 +72,7 @@ function parseDirective(name, value, options) {
                 return directive;
             }
     
-            // #[begin] error
+           
             throw new Error('[SAN FATAL] for syntax error: ' + value);
             
     }

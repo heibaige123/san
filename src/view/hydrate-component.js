@@ -14,7 +14,7 @@ function hydrateComponent(ComponentClass, options) {
     var el = options.el;
 
     if (!el) {
-        // #[begin] error
+       
         throw new Error('[SAN FATAL] el is required in hydrateComponent.');
         
         return {};

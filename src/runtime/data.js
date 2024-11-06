@@ -25,7 +25,7 @@ function Data(data, parent) {
     this.listeners = [];
 }
 
-// #[begin] error
+
 // 以下两个函数只在开发模式下可用，在生产模式下不存在
 /**
  * DataTypes 检测
@@ -198,13 +198,13 @@ function immutableSet(source, exprPaths, pathsStart, pathsLen, value, data) {
 Data.prototype.set = function (expr, value, option) {
     option = option || {};
 
-    // #[begin] error
+   
     var exprRaw = expr;
     
 
     expr = parseExpr(expr);
 
-    // #[begin] error
+   
     if (expr.type !== ExprType.ACCESSOR) {
         throw new Error('[SAN ERROR] Invalid Expression in Data set: ' + exprRaw);
     }
@@ -229,7 +229,7 @@ Data.prototype.set = function (expr, value, option) {
         option: option
     });
 
-    // #[begin] error
+   
     this.checkDataTypes();
     
 
@@ -270,13 +270,13 @@ Data.prototype.assign = function (source, option) {
 Data.prototype.merge = function (expr, source, option) {
     option = option || {};
 
-    // #[begin] error
+   
     var exprRaw = expr;
     
 
     expr = parseExpr(expr);
 
-    // #[begin] error
+   
     if (expr.type !== ExprType.ACCESSOR) {
         throw new Error('[SAN ERROR] Invalid Expression in Data merge: ' + exprRaw);
     }
@@ -318,13 +318,13 @@ Data.prototype.merge = function (expr, source, option) {
  * @param {boolean} option.silent 静默设置，不触发变更事件
  */
 Data.prototype.apply = function (expr, fn, option) {
-    // #[begin] error
+   
     var exprRaw = expr;
     
 
     expr = parseExpr(expr);
 
-    // #[begin] error
+   
     if (expr.type !== ExprType.ACCESSOR) {
         throw new Error('[SAN ERROR] Invalid Expression in Data apply: ' + exprRaw);
     }
@@ -332,7 +332,7 @@ Data.prototype.apply = function (expr, fn, option) {
 
     var oldValue = this.get(expr);
 
-    // #[begin] error
+   
     if (typeof fn !== 'function') {
         throw new Error(
             '[SAN ERROR] Invalid Argument\'s Type in Data apply: '
@@ -355,13 +355,13 @@ Data.prototype.apply = function (expr, fn, option) {
  */
 Data.prototype.splice = function (expr, args, option) {
     option = option || {};
-    // #[begin] error
+   
     var exprRaw = expr;
     
 
     expr = parseExpr(expr);
 
-    // #[begin] error
+   
     if (expr.type !== ExprType.ACCESSOR) {
         throw new Error('[SAN ERROR] Invalid Expression in Data splice: ' + exprRaw);
     }
@@ -404,7 +404,7 @@ Data.prototype.splice = function (expr, args, option) {
         });
     }
 
-    // #[begin] error
+   
     this.checkDataTypes();
     
 

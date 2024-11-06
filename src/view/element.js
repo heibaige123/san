@@ -161,7 +161,7 @@ Element.prototype.attach = function (parentEl, beforeEl) {
             var htmlDirective = aNode.directives.html;
 
             if (htmlDirective) {
-                // #[begin] error
+               
                 warnSetHTML(this.el);
                 
 
@@ -287,7 +287,7 @@ Element.prototype._update = function (changes) {
             var len = changes.length;
             while (len--) {
                 if (changeExprCompare(changes[len].expr, htmlDirective.value, this.scope)) {
-                    // #[begin] error
+                   
                     warnSetHTML(this.el);
                     
 

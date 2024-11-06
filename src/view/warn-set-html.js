@@ -9,7 +9,7 @@
 
 var warn = require('../util/warn');
 
-// #[begin] error
+
 /**
  * 获取节点 stump 的 comment
  *
