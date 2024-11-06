@@ -1,14 +1,13 @@
-import {Component} from 'san'
+import { Component } from 'san';
 
-import service from '../service'
-import ColorPicker from '../ui/color-picker'
-import Category from './model'
+import service from '../service';
+import ColorPicker from '../ui/color-picker';
+import Category from './model';
 
-import './edit.css'
-
+import './edit.css';
 
 export default class Edit extends Component<{
-    categories: Category[]
+    categories: Category[];
 }> {
     static template = `
     <ul class="edit-category-list">

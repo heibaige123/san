@@ -7,7 +7,6 @@
  * @file 判断变更数组是否影响到数据引用摘要
  */
 
-
 /**
  * 判断变更数组是否影响到数据引用摘要
  *
@@ -30,9 +29,10 @@ function changesIsInDataRef(changes, dataRef) {
                 }
             }
 
-            if (dataRef[change.overview]
-                || change.wildOverview && dataRef[change.wildOverview]
-                || change.extOverview && dataRef[change.extOverview]
+            if (
+                dataRef[change.overview] ||
+                (change.wildOverview && dataRef[change.wildOverview]) ||
+                (change.extOverview && dataRef[change.extOverview])
             ) {
                 return true;
             }

@@ -1,9 +1,8 @@
 const fs = require('fs');
 const path = require('path');
-const san = require('../dist/san')
+const san = require('../dist/san');
 
 console.log('----- Build Specs -----');
-
 
 console.log(`[Build Spec] unpack-anode.spec.js`);
 
@@ -64,11 +63,14 @@ describe("Unpack ANode", function () {
 `;
 
 const packDir = path.resolve(__dirname, '../node_modules/san-anode-cases/pack');
-fs.readdirSync(packDir).forEach(file => {
+fs.readdirSync(packDir).forEach((file) => {
     file = path.parse(file);
     if (file.ext === '.tpl') {
         const tpl = fs.readFileSync(`${packDir}/${file.base}`, 'UTF-8');
-        const packed = fs.readFileSync(`${packDir}/${file.name}.apack`, 'UTF-8');
+        const packed = fs.readFileSync(
+            `${packDir}/${file.name}.apack`,
+            'UTF-8'
+        );
 
         var aNode = JSON.stringify(san.parseTemplate(tpl).children[0]);
         code += `
@@ -85,5 +87,3 @@ fs.readdirSync(packDir).forEach(file => {
 
 code += '\n\n});';
 fs.writeFileSync(`${__dirname}/unpack-anode.spec.js`, code, 'UTF-8');
-
-

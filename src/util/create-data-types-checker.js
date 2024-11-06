@@ -26,14 +26,14 @@ function createDataTypesChecker(dataTypes, componentName) {
             if (dataTypes.hasOwnProperty(dataTypeName)) {
                 var dataTypeChecker = dataTypes[dataTypeName];
 
-                if (typeof dataTypeChecker !== "function") {
+                if (typeof dataTypeChecker !== 'function') {
                     throw new Error(
-                        "[SAN ERROR] " +
+                        '[SAN ERROR] ' +
                             componentName +
-                            ":" +
+                            ':' +
                             dataTypeName +
-                            " is invalid; " +
-                            "it must be a function, usually from san.DataTypes"
+                            ' is invalid; ' +
+                            'it must be a function, usually from san.DataTypes'
                     );
                 }
 

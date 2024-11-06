@@ -7,7 +7,6 @@
  * @file SVG标签表
  */
 
-
 /**
  * svgTags
  *
@@ -119,6 +118,5 @@ var svgTags = {
     // 表示<view> SVG元素
     view: 1
 };
-
 
 exports = module.exports = svgTags;

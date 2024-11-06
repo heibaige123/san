@@ -1,5 +1,5 @@
-import san from 'san'
-import './color-picker.css'
+import san from 'san';
+import './color-picker.css';
 
 const template = `
 <ul class="ui-colorpicker">
@@ -19,12 +19,18 @@ interface ColorPickerData {
 
 export default san.defineComponent<ColorPickerData>({
     template,
-    
+
     initData() {
         return {
             datasource: [
-                '#c23531', '#314656', '#dd8668', '#91c7ae',
-                '#6e7074', '#bda29a', '#44525d', '#c4ccd3'
+                '#c23531',
+                '#314656',
+                '#dd8668',
+                '#91c7ae',
+                '#6e7074',
+                '#bda29a',
+                '#44525d',
+                '#c4ccd3'
             ]
         };
     },

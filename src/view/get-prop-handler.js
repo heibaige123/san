@@ -15,7 +15,6 @@ var evalExpr = require('../runtime/eval-expr');
 var getANodeProp = require('./get-a-node-prop');
 var NodeType = require('./node-type');
 
-
 /**
  * HTML 属性和 DOM 操作属性的对照表
  *
@@ -24,15 +23,15 @@ var NodeType = require('./node-type');
  * @type {Object}
  */
 var HTML_ATTR_PROP_MAP = {
-    'readonly': 'readOnly',
-    'cellpadding': 'cellPadding',
-    'cellspacing': 'cellSpacing',
-    'colspan': 'colSpan',
-    'rowspan': 'rowSpan',
-    'valign': 'vAlign',
-    'usemap': 'useMap',
-    'frameborder': 'frameBorder',
-    'for': 'htmlFor'
+    readonly: 'readOnly',
+    cellpadding: 'cellPadding',
+    cellspacing: 'cellSpacing',
+    colspan: 'colSpan',
+    rowspan: 'rowSpan',
+    valign: 'vAlign',
+    usemap: 'useMap',
+    frameborder: 'frameBorder',
+    for: 'htmlFor'
 };
 
 /**
@@ -50,8 +49,7 @@ function defaultElementPropHandler(el, value, name) {
     // 所以这里直接就不管了
     if (propName in el) {
         el[propName] = valueNotNull ? value : '';
-    }
-    else if (valueNotNull) {
+    } else if (valueNotNull) {
         el.setAttribute(name, value);
     }
 
@@ -69,10 +67,8 @@ function boolPropHandler(el, value, name) {
     el[propName] = !!value;
 }
 
-
 // see https://github.com/baidu/san/issues/495
 function placeholderHandler(el, value, name, element) {
-    
     if (ie > 9 && !el.value && value) {
         element.__bkph = true;
         nextTick(function () {
@@ -82,7 +78,6 @@ function placeholderHandler(el, value, name, element) {
 
     defaultElementPropHandler(el, value, name);
 }
-
 
 /* eslint-disable fecs-properties-quote */
 /**
@@ -95,8 +90,7 @@ var defaultElementPropHandlers = {
     id: function (el, value) {
         if (value != null) {
             el.id = value;
-        }
-        else if (el.id) {
+        } else if (el.id) {
             el.removeAttribute('id');
         }
     },
@@ -105,14 +99,9 @@ var defaultElementPropHandlers = {
         el.style.cssText = value;
     },
 
-    'class': function (el, value) { // eslint-disable-line
-        if (
-            
-            ie
-            ||
-            
-            el.className !== value
-        ) {
+    class: function (el, value) {
+        // eslint-disable-line
+        if (ie || el.className !== value) {
             el.className = value;
         }
     },
@@ -139,7 +128,6 @@ var analInputChecker = {
     }
 };
 
-
 var elementPropHandlers = {
     input: {
         multiple: boolPropHandler,
@@ -150,7 +138,11 @@ var elementPropHandlers = {
             var bindType = getANodeProp(element.aNode, 'type');
 
             if (bindValue && bindType) {
-                var type = evalExpr(bindType.expr, element.scope, element.owner);
+                var type = evalExpr(
+                    bindType.expr,
+                    element.scope,
+                    element.owner
+                );
 
                 if (analInputChecker[type]) {
                     var bindChecked = getANodeProp(element.aNode, 'checked');
@@ -162,26 +154,26 @@ var elementPropHandlers = {
                         value,
                         element.data
                             ? evalExpr(bindValue.expr, element.data, element)
-                            : evalExpr(bindValue.expr, element.scope, element.owner)
+                            : evalExpr(
+                                  bindValue.expr,
+                                  element.scope,
+                                  element.owner
+                              )
                     );
                 }
             }
 
             boolPropHandler(el, state, 'checked', element);
 
-            
             // 代码不用抽出来防重复，allua内的代码在现代浏览器版本会被编译时干掉，gzip也会处理重复问题
             // see: #378
-            
+
             if (ie && ie < 8 && !element.lifeCycle.attached) {
                 boolPropHandler(el, state, 'defaultChecked', element);
             }
-            
         },
 
-        
         placeholder: placeholderHandler,
-        
 
         readonly: boolPropHandler,
         disabled: boolPropHandler,
@@ -207,9 +199,8 @@ var elementPropHandlers = {
     },
 
     textarea: {
-        
         placeholder: placeholderHandler,
-        
+
         readonly: boolPropHandler,
         disabled: boolPropHandler,
         autofocus: boolPropHandler,
@@ -222,8 +213,7 @@ var elementPropHandlers = {
         type: function (el, value) {
             if (value != null) {
                 el.setAttribute('type', value);
-            }
-            else {
+            } else {
                 el.removeAttribute('type');
             }
         }
@@ -240,19 +230,20 @@ function isOptionSelected(element, value) {
         parentSelect = parentSelect.parent;
     }
 
-
     if (parentSelect) {
         var selectValue = null;
         var prop;
         var expr;
 
-        if ((prop = getANodeProp(parentSelect.aNode, 'value'))
-            && (expr = prop.expr)
+        if (
+            (prop = getANodeProp(parentSelect.aNode, 'value')) &&
+            (expr = prop.expr)
         ) {
-            selectValue = parentSelect.nodeType === NodeType.CMPT
-                ? evalExpr(expr, parentSelect.data, parentSelect)
-                : evalExpr(expr, parentSelect.scope, parentSelect.owner)
-                || '';
+            selectValue =
+                parentSelect.nodeType === NodeType.CMPT
+                    ? evalExpr(expr, parentSelect.data, parentSelect)
+                    : evalExpr(expr, parentSelect.scope, parentSelect.owner) ||
+                      '';
         }
 
         if (selectValue === value) {
@@ -260,7 +251,6 @@ function isOptionSelected(element, value) {
         }
     }
 }
-
 
 /**
  * 获取属性处理对象
@@ -281,7 +271,8 @@ function getPropHandler(tagName, attrName) {
 
     var propHandler = tagPropHandlers[attrName];
     if (!propHandler) {
-        propHandler = defaultElementPropHandlers[attrName] || defaultElementPropHandler;
+        propHandler =
+            defaultElementPropHandlers[attrName] || defaultElementPropHandler;
         tagPropHandlers[attrName] = propHandler;
     }
 

@@ -7,7 +7,6 @@
  * @file 读取字符串
  */
 
-
 var ExprType = require('./expr-type');
 
 /**
@@ -18,7 +17,7 @@ var ExprType = require('./expr-type');
  */
 function readString(walker) {
     var startCode = walker.source.charCodeAt(walker.index);
-    var value = "";
+    var value = '';
     var charCode;
 
     walkLoop: while ((charCode = walker.nextCode())) {
@@ -28,16 +27,28 @@ function readString(walker) {
 
                 switch (charCode) {
                     case 117: // \u
-                        value += String.fromCharCode(parseInt(
-                            walker.source.slice(walker.index + 1, walker.index + 5), 16
-                        ));
+                        value += String.fromCharCode(
+                            parseInt(
+                                walker.source.slice(
+                                    walker.index + 1,
+                                    walker.index + 5
+                                ),
+                                16
+                            )
+                        );
                         walker.index += 4;
                         break;
 
                     case 120: // \x
-                        value += String.fromCharCode(parseInt(
-                            walker.source.slice(walker.index + 1, walker.index + 3), 16
-                        ));
+                        value += String.fromCharCode(
+                            parseInt(
+                                walker.source.slice(
+                                    walker.index + 1,
+                                    walker.index + 3
+                                ),
+                                16
+                            )
+                        );
                         walker.index += 2;
                         break;
 

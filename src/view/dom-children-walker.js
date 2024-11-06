@@ -21,13 +21,12 @@ var removeEl = require('../browser/remove-el');
 function DOMChildrenWalker(el, onlyCurrent) {
     this.index = 0;
     this.target = el;
-    
+
     if (onlyCurrent) {
         this.children = [onlyCurrent, onlyCurrent.nextSibling];
         this.current = onlyCurrent;
         this.next = this.children[1];
-    }
-    else {
+    } else {
         this.children = [];
         var child = el.firstChild;
         var next;
@@ -56,6 +55,5 @@ DOMChildrenWalker.prototype.goNext = function () {
     this.current = this.children[++this.index];
     this.next = this.children[this.index + 1];
 };
-
 
 exports = module.exports = DOMChildrenWalker;

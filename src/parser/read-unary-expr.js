@@ -105,7 +105,7 @@ function readUnaryExpr(walker) {
         case 57:
             return {
                 type: ExprType.NUMBER,
-                value: +(walker.match(/[0-9]+(\.[0-9]+)?/g, 1)[0])
+                value: +walker.match(/[0-9]+(\.[0-9]+)?/g, 1)[0]
             };
 
         case 40: // (
@@ -115,11 +115,15 @@ function readUnaryExpr(walker) {
         case 91: // [
             walker.index++;
             var arrItems = [];
-            while (!walker.goUntil(93)) { // ]
+            while (!walker.goUntil(93)) {
+                // ]
                 var item = {};
                 arrItems.push(item);
 
-                if (walker.source.charCodeAt(walker.index) === 46 && walker.match(/\.\.\.\s*/g)) {
+                if (
+                    walker.source.charCodeAt(walker.index) === 46 &&
+                    walker.match(/\.\.\.\s*/g)
+                ) {
                     item.spread = true;
                 }
 
@@ -137,34 +141,36 @@ function readUnaryExpr(walker) {
             walker.index++;
             var objItems = [];
 
-            while (!walker.goUntil(125)) { // }
+            while (!walker.goUntil(125)) {
+                // }
                 var item = {};
                 objItems.push(item);
 
-                if (walker.source.charCodeAt(walker.index) === 46 && walker.match(/\.\.\.\s*/g)) {
+                if (
+                    walker.source.charCodeAt(walker.index) === 46 &&
+                    walker.match(/\.\.\.\s*/g)
+                ) {
                     item.spread = true;
                     item.expr = readTertiaryExpr(walker);
-                }
-                else {
-                   
+                } else {
                     var walkerIndexBeforeName = walker.index;
-                    
 
                     item.name = readUnaryExpr(walker);
 
-                   
                     if (item.name.type > 4) {
                         throw new Error(
-                            '[SAN FATAL] unexpect object name: '
-                            + walker.source.slice(walkerIndexBeforeName, walker.index)
+                            '[SAN FATAL] unexpect object name: ' +
+                                walker.source.slice(
+                                    walkerIndexBeforeName,
+                                    walker.index
+                                )
                         );
                     }
-                    
 
-                    if (walker.goUntil(58)) { // :
+                    if (walker.goUntil(58)) {
+                        // :
                         item.expr = readTertiaryExpr(walker);
-                    }
-                    else {
+                    } else {
                         item.expr = item.name;
                     }
 

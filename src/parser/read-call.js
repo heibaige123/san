@@ -23,15 +23,16 @@ function readCall(walker, defaultArgs) {
     var result = readAccessor(walker);
 
     var args;
-    if (walker.goUntil(40)) { // (
+    if (walker.goUntil(40)) {
+        // (
         args = [];
 
-        while (!walker.goUntil(41)) { // )
+        while (!walker.goUntil(41)) {
+            // )
             args.push(readTertiaryExpr(walker));
             walker.goUntil(44); // ,
         }
-    }
-    else if (defaultArgs) {
+    } else if (defaultArgs) {
         args = defaultArgs;
     }
 

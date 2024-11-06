@@ -1,8 +1,8 @@
-describe("Element", function () {
-
-    it("empty string prop", function () {
+describe('Element', function () {
+    it('empty string prop', function () {
         var MyComponent = san.defineComponent({
-            template: '<a><span class="">test</span><span class="test2">test2</span></a>'
+            template:
+                '<a><span class="">test</span><span class="test2">test2</span></a>'
         });
         var myComponent = new MyComponent();
 
@@ -18,7 +18,7 @@ describe("Element", function () {
         document.body.removeChild(wrap);
     });
 
-    it("empty custom string prop", function () {
+    it('empty custom string prop', function () {
         var MyComponent = san.defineComponent({
             template: '<a><span data-name="">test</span></a>'
         });
@@ -35,7 +35,7 @@ describe("Element", function () {
         document.body.removeChild(wrap);
     });
 
-    it("empty custom string prop, unvalue", function () {
+    it('empty custom string prop, unvalue', function () {
         var MyComponent = san.defineComponent({
             template: '<a><span data-name>test</span></a>'
         });
@@ -52,9 +52,9 @@ describe("Element", function () {
         document.body.removeChild(wrap);
     });
 
-    it("single quotes wrapped attribute", function () {
+    it('single quotes wrapped attribute', function () {
         var MyComponent = san.defineComponent({
-            template: '<a><span title=\'san\'>test</span></a>'
+            template: "<a><span title='san'>test</span></a>"
         });
         var myComponent = new MyComponent();
 
@@ -69,7 +69,7 @@ describe("Element", function () {
         document.body.removeChild(wrap);
     });
 
-    it("no quote wrapped attribute", function () {
+    it('no quote wrapped attribute', function () {
         var MyComponent = san.defineComponent({
             template: '<a><span title=san>test</span></a>'
         });
@@ -86,9 +86,10 @@ describe("Element", function () {
         document.body.removeChild(wrap);
     });
 
-    it("line-break attribute", function () {
+    it('line-break attribute', function () {
         var MyComponent = san.defineComponent({
-            template: '<a title="line1\r\nline2"><span title="line1\r\nline2">test</span><span class="test2">test2</span></a>'
+            template:
+                '<a title="line1\r\nline2"><span title="line1\r\nline2">test</span><span class="test2">test2</span></a>'
         });
         var myComponent = new MyComponent();
 
@@ -107,9 +108,10 @@ describe("Element", function () {
         document.body.removeChild(wrap);
     });
 
-    it("attribute with space around equal operator", function () {
+    it('attribute with space around equal operator', function () {
         var MyComponent = san.defineComponent({
-            template: '<a title = "test0"><span title  ="test1">test1</span><span title=  "test2">test2</span></a>'
+            template:
+                '<a title = "test0"><span title  ="test1">test1</span><span title=  "test2">test2</span></a>'
         });
         var myComponent = new MyComponent();
         var wrap = document.createElement('div');
@@ -124,8 +126,7 @@ describe("Element", function () {
         document.body.removeChild(wrap);
     });
 
-
-    it("bind prop, data change before attach", function () {
+    it('bind prop, data change before attach', function () {
         var MyComponent = san.defineComponent({
             template: '<a><span title="{{name}}">{{name}}</span></a>'
         });
@@ -144,7 +145,7 @@ describe("Element", function () {
         document.body.removeChild(wrap);
     });
 
-    it("bind prop, no quotes", function () {
+    it('bind prop, no quotes', function () {
         var MyComponent = san.defineComponent({
             template: '<a><span title={{name}} class=text>{{name}}</span></a>'
         });
@@ -167,9 +168,10 @@ describe("Element", function () {
         document.body.removeChild(wrap);
     });
 
-    it("bind prop, which has xxx- prefix", function (done) {
+    it('bind prop, which has xxx- prefix', function (done) {
         var MyComponent = san.defineComponent({
-            template: '<a data-name="{{name}}"><span data-name="{{name}}">{{name}}</span></a>'
+            template:
+                '<a data-name="{{name}}"><span data-name="{{name}}">{{name}}</span></a>'
         });
         var myComponent = new MyComponent();
         myComponent.data.set('name', 'errorrik');
@@ -183,7 +185,6 @@ describe("Element", function () {
         expect(span.getAttribute('data-name')).toBe('errorrik');
         expect(a.getAttribute('data-name')).toBe('errorrik');
 
-
         myComponent.data.set('name', 'erik');
 
         san.nextTick(function () {
@@ -195,8 +196,7 @@ describe("Element", function () {
         });
     });
 
-
-    it("bind prop, data change after attach", function (done) {
+    it('bind prop, data change after attach', function (done) {
         var MyComponent = san.defineComponent({
             template: '<a><span title="{{name}}">{{name}}</span></a>'
         });
@@ -219,8 +219,7 @@ describe("Element", function () {
 
         san.nextTick(function () {
             expect(span.title).toBe('varsha');
-            expect(span.innerHTML.indexOf('varsha')).toBe(0)
-
+            expect(span.innerHTML.indexOf('varsha')).toBe(0);
 
             myComponent.dispose();
             document.body.removeChild(wrap);
@@ -229,8 +228,7 @@ describe("Element", function () {
         });
     });
 
-
-    it("bind class", function (done) {
+    it('bind class', function (done) {
         var MyComponent = san.defineComponent({
             template: '<a><span class="msg {{extra}}"></span></a>'
         });
@@ -246,7 +244,6 @@ describe("Element", function () {
 
         myComponent.data.set('extra', 'msg-error');
 
-
         san.nextTick(function () {
             expect(span.className).toBe('msg msg-error');
 
@@ -257,7 +254,7 @@ describe("Element", function () {
         });
     });
 
-    it("bind class, auto expand array by filter", function (done) {
+    it('bind class, auto expand array by filter', function (done) {
         var MyComponent = san.defineComponent({
             template: '<a><span class="{{extra|raw}}"></span></a>'
         });
@@ -274,7 +271,6 @@ describe("Element", function () {
 
         myComponent.data.set('extra', 'msg-error');
 
-
         san.nextTick(function () {
             expect(/(^| )msg( |$)/.test(span.className)).toBeFalsy();
             expect(/(^| )msg-notice( |$)/.test(span.className)).toBeFalsy();
@@ -287,7 +283,7 @@ describe("Element", function () {
         });
     });
 
-    it("bind class, auto expand array", function (done) {
+    it('bind class, auto expand array', function (done) {
         var MyComponent = san.defineComponent({
             template: '<a><span class="msg {{extra}}"></span></a>'
         });
@@ -305,7 +301,6 @@ describe("Element", function () {
 
         myComponent.data.set('extra', 'msg-error');
 
-
         san.nextTick(function () {
             expect(/(^| )msg( |$)/.test(span.className)).toBeTruthy();
             expect(/(^| )msg-notice( |$)/.test(span.className)).toBeFalsy();
@@ -318,7 +313,7 @@ describe("Element", function () {
         });
     });
 
-    it("bind style, auto expand object, only one expr", function (done) {
+    it('bind style, auto expand object, only one expr', function (done) {
         var MyComponent = san.defineComponent({
             template: '<a><span style="{{extra}}"></span></a>'
         });
@@ -339,7 +334,6 @@ describe("Element", function () {
 
         myComponent.data.set('extra.display', 'block');
 
-
         san.nextTick(function () {
             expect(span.style.position).toBe('absolute');
             expect(span.style.display).toBe('block');
@@ -351,9 +345,10 @@ describe("Element", function () {
         });
     });
 
-    it("bind style", function (done) {
+    it('bind style', function (done) {
         var MyComponent = san.defineComponent({
-            template: '<a><span style="position: absolute; display: {{display}}"></span></a>'
+            template:
+                '<a><span style="position: absolute; display: {{display}}"></span></a>'
         });
         var myComponent = new MyComponent();
         myComponent.data.set('display', 'block');
@@ -368,7 +363,6 @@ describe("Element", function () {
 
         myComponent.data.set('display', 'none');
 
-
         san.nextTick(function () {
             expect(span.style.position).toBe('absolute');
             expect(span.style.display).toBe('none');
@@ -380,9 +374,10 @@ describe("Element", function () {
         });
     });
 
-    it("bind style, auto expand object, in text", function (done) {
+    it('bind style, auto expand object, in text', function (done) {
         var MyComponent = san.defineComponent({
-            template: '<a><span style="position: absolute; display: {{display}}; {{extra}}"></span></a>'
+            template:
+                '<a><span style="position: absolute; display: {{display}}; {{extra}}"></span></a>'
         });
         var myComponent = new MyComponent();
         myComponent.data.set('display', 'block');
@@ -404,7 +399,6 @@ describe("Element", function () {
         myComponent.data.set('display', 'none');
         myComponent.data.set('extra.height', '50px');
 
-
         san.nextTick(function () {
             expect(span.style.position).toBe('absolute');
             expect(span.style.display).toBe('none');
@@ -418,7 +412,7 @@ describe("Element", function () {
         });
     });
 
-    it("bind input valued undefined", function (done) {
+    it('bind input valued undefined', function (done) {
         var MyComponent = san.defineComponent({
             template: '<div><input type="text" value="{=info.value=}"></div>'
         });
@@ -431,8 +425,7 @@ describe("Element", function () {
         var input = wrap.getElementsByTagName('input')[0];
         expect(input.value).toBe('');
 
-        myComponent.data.set('info', {value: 'true'});
-
+        myComponent.data.set('info', { value: 'true' });
 
         san.nextTick(function () {
             expect(input.value).toBe('true');
@@ -449,7 +442,7 @@ describe("Element", function () {
         });
     });
 
-    it("bind id", function (done) {
+    it('bind id', function (done) {
         var Button = san.defineComponent({
             template: '<button>btn</button>'
         });
@@ -460,7 +453,6 @@ describe("Element", function () {
             },
             template: '<div><x-btn id="{{id1}}"/><b id="{{id2}}">bb</b></div>'
         });
-
 
         var myComponent = new MyComponent({
             data: {
@@ -493,7 +485,7 @@ describe("Element", function () {
         });
     });
 
-    it("bind draggable", function (done) {
+    it('bind draggable', function (done) {
         var MyComponent = san.defineComponent({
             template: '<a><div draggable="{{draggable}}"></div></a>'
         });
@@ -505,7 +497,6 @@ describe("Element", function () {
         myComponent.attach(wrap);
 
         san.nextTick(function () {
-
             var span = wrap.firstChild.firstChild;
             expect(span.draggable).toBeFalsy();
 
@@ -513,21 +504,18 @@ describe("Element", function () {
             myComponent.data.set('draggable', true);
 
             // next tick
-            san.nextTick(function (){
-
+            san.nextTick(function () {
                 expect(span.draggable).toBeTruthy();
 
                 myComponent.dispose();
                 document.body.removeChild(wrap);
 
                 done();
-
             });
-
         });
     });
 
-    it("bind multiple", function (done) {
+    it('bind multiple', function (done) {
         var MyComponent = san.defineComponent({
             template: '<div><input type="file" multiple="{{ed}}"></div>'
         });
@@ -542,10 +530,8 @@ describe("Element", function () {
 
         myComponent.data.set('ed', true);
 
-
         san.nextTick(function () {
             expect(input.multiple).toBeTruthy();
-
 
             myComponent.dispose();
             document.body.removeChild(wrap);
@@ -554,9 +540,10 @@ describe("Element", function () {
         });
     });
 
-    it("bind disabled", function (done) {
+    it('bind disabled', function (done) {
         var MyComponent = san.defineComponent({
-            template: '<div><input type="text" disabled="{{ed}}"><textarea disabled="{{ed}}"></textarea><button disabled="{{ed}}">btn</button></div>'
+            template:
+                '<div><input type="text" disabled="{{ed}}"><textarea disabled="{{ed}}"></textarea><button disabled="{{ed}}">btn</button></div>'
         });
         var myComponent = new MyComponent();
 
@@ -573,12 +560,10 @@ describe("Element", function () {
 
         myComponent.data.set('ed', true);
 
-
         san.nextTick(function () {
             expect(input.disabled).toBeTruthy();
             expect(textarea.disabled).toBeTruthy();
             expect(btn.disabled).toBeTruthy();
-
 
             myComponent.dispose();
             document.body.removeChild(wrap);
@@ -587,12 +572,13 @@ describe("Element", function () {
         });
     });
 
-    it("bind disabled, init false value", function (done) {
+    it('bind disabled, init false value', function (done) {
         var MyComponent = san.defineComponent({
-            template: '<div><input type="text" disabled="{{ed}}"><textarea disabled="{{ed}}"></textarea><button disabled="{{ed}}">btn</button></div>'
+            template:
+                '<div><input type="text" disabled="{{ed}}"><textarea disabled="{{ed}}"></textarea><button disabled="{{ed}}">btn</button></div>'
         });
         var myComponent = new MyComponent({
-            data: {ed: false}
+            data: { ed: false }
         });
 
         var wrap = document.createElement('div');
@@ -613,7 +599,6 @@ describe("Element", function () {
             expect(textarea.disabled).toBeTruthy();
             expect(btn.disabled).toBeTruthy();
 
-
             myComponent.dispose();
             document.body.removeChild(wrap);
 
@@ -621,12 +606,13 @@ describe("Element", function () {
         });
     });
 
-    it("bind disabled, init true value", function (done) {
+    it('bind disabled, init true value', function (done) {
         var MyComponent = san.defineComponent({
-            template: '<div><input type="text" disabled="{{ed}}"><textarea disabled="{{ed}}"></textarea><button disabled="{{ed}}">btn</button></div>'
+            template:
+                '<div><input type="text" disabled="{{ed}}"><textarea disabled="{{ed}}"></textarea><button disabled="{{ed}}">btn</button></div>'
         });
         var myComponent = new MyComponent({
-            data: {ed: true}
+            data: { ed: true }
         });
 
         var wrap = document.createElement('div');
@@ -654,9 +640,10 @@ describe("Element", function () {
         });
     });
 
-    it("bind readonly", function (done) {
+    it('bind readonly', function (done) {
         var MyComponent = san.defineComponent({
-            template: '<div><input type="text" readonly="{{ed}}"><textarea readonly="{{ed}}"></textarea></div>'
+            template:
+                '<div><input type="text" readonly="{{ed}}"><textarea readonly="{{ed}}"></textarea></div>'
         });
         var myComponent = new MyComponent();
 
@@ -671,11 +658,9 @@ describe("Element", function () {
 
         myComponent.data.set('ed', true);
 
-
         san.nextTick(function () {
             expect(input.readOnly).toBeTruthy();
             expect(textarea.readOnly).toBeTruthy();
-
 
             myComponent.dispose();
             document.body.removeChild(wrap);
@@ -684,7 +669,7 @@ describe("Element", function () {
         });
     });
 
-    it("form no value attribute", function () {
+    it('form no value attribute', function () {
         var MyComponent = san.defineComponent({
             template: '<div><input type="text" disabled></div>'
         });
@@ -697,12 +682,11 @@ describe("Element", function () {
         var input = wrap.getElementsByTagName('input')[0];
         expect(input.disabled).toBeTruthy();
 
-
         myComponent.dispose();
         document.body.removeChild(wrap);
     });
 
-    it("s-html", function (done) {
+    it('s-html', function (done) {
         var MyComponent = san.defineComponent({
             template: '<a><span s-html="html"></span></a>'
         });
@@ -716,12 +700,9 @@ describe("Element", function () {
         var span = wrap.getElementsByTagName('span')[0];
         expect(/^<b>xxx<\/b>/i.test(span.innerHTML)).toBeTruthy();
 
-
         myComponent.data.set('html', '<b>aaa</b>');
 
-
         san.nextTick(function () {
-
             expect(/^<b>aaa<\/b>/i.test(span.innerHTML)).toBeTruthy();
 
             myComponent.dispose();
@@ -731,7 +712,7 @@ describe("Element", function () {
         });
     });
 
-    it("s-html on component root", function (done) {
+    it('s-html on component root', function (done) {
         var MyComponent = san.defineComponent({
             template: '<span s-html="html"></span>'
         });
@@ -755,8 +736,7 @@ describe("Element", function () {
         });
     });
 
-
-    it("complex structure in textnode", function (done) {
+    it('complex structure in textnode', function (done) {
         var MyComponent = san.defineComponent({
             template: '<a><span>aaa</span>hello {{name|raw}}!<b>bbb</b></a>'
         });
@@ -775,7 +755,9 @@ describe("Element", function () {
         myComponent.data.set('name', 'er<span>erik</span>ik');
 
         san.nextTick(function () {
-            expect(/hello er<span>erik<\/span>ik!/i.test(a.innerHTML)).toBeTruthy();
+            expect(
+                /hello er<span>erik<\/span>ik!/i.test(a.innerHTML)
+            ).toBeTruthy();
             expect(b.innerHTML).toBe('bbb');
 
             myComponent.dispose();
@@ -785,7 +767,7 @@ describe("Element", function () {
         });
     });
 
-    it("complex structure in textnode, no prev sibling", function (done) {
+    it('complex structure in textnode, no prev sibling', function (done) {
         var MyComponent = san.defineComponent({
             template: '<a>hello {{name|raw}}!<b>bbb</b></a>'
         });
@@ -805,7 +787,9 @@ describe("Element", function () {
         myComponent.data.set('name', 'er<span>erik</span>ik');
 
         san.nextTick(function () {
-            expect(/hello er<span>erik<\/span>ik!/i.test(a.innerHTML)).toBeTruthy();
+            expect(
+                /hello er<span>erik<\/span>ik!/i.test(a.innerHTML)
+            ).toBeTruthy();
             expect(b.innerHTML).toBe('bbb');
 
             myComponent.dispose();
@@ -815,7 +799,7 @@ describe("Element", function () {
         });
     });
 
-    it("complex structure in textnode, no next sibling", function (done) {
+    it('complex structure in textnode, no next sibling', function (done) {
         var MyComponent = san.defineComponent({
             template: '<a><span>aaa</span>hello {{name|raw}}!</a>'
         });
@@ -832,7 +816,9 @@ describe("Element", function () {
         myComponent.data.set('name', 'er<span>erik</span>ik');
 
         san.nextTick(function () {
-            expect(/hello er<span>erik<\/span>ik!/i.test(a.innerHTML)).toBeTruthy();
+            expect(
+                /hello er<span>erik<\/span>ik!/i.test(a.innerHTML)
+            ).toBeTruthy();
 
             myComponent.dispose();
             document.body.removeChild(wrap);
@@ -841,7 +827,7 @@ describe("Element", function () {
         });
     });
 
-    it("complex structure in textnode, no sibling", function (done) {
+    it('complex structure in textnode, no sibling', function (done) {
         var MyComponent = san.defineComponent({
             template: '<a>hello {{name|raw}}!</a>'
         });
@@ -867,10 +853,10 @@ describe("Element", function () {
         });
     });
 
-
-    it("id prop compatibility", function (done) {
+    it('id prop compatibility', function (done) {
         var MyComponent = san.defineComponent({
-            template: '<ul id="test"><li s-for="name in list" id="it-{{name}}">{{name}}</li></ul>'
+            template:
+                '<ul id="test"><li s-for="name in list" id="it-{{name}}">{{name}}</li></ul>'
         });
         var myComponent = new MyComponent({
             data: {
@@ -885,7 +871,9 @@ describe("Element", function () {
         var ul = document.getElementById('test');
         expect(ul.tagName).toBe('UL');
 
-        expect(document.getElementById('it-errorrik').innerHTML).toBe('errorrik');
+        expect(document.getElementById('it-errorrik').innerHTML).toBe(
+            'errorrik'
+        );
         expect(document.getElementById('it-leeight').innerHTML).toBe('leeight');
 
         myComponent.data.set('list[0]', '2b');
@@ -893,7 +881,9 @@ describe("Element", function () {
         san.nextTick(function () {
             expect(document.getElementById('it-errorrik') == null).toBeTruthy();
             expect(document.getElementById('it-2b').innerHTML).toBe('2b');
-            expect(document.getElementById('it-leeight').innerHTML).toBe('leeight');
+            expect(document.getElementById('it-leeight').innerHTML).toBe(
+                'leeight'
+            );
 
             myComponent.dispose();
             document.body.removeChild(wrap);
@@ -902,7 +892,7 @@ describe("Element", function () {
         });
     });
 
-    it("id prop can change", function (done) {
+    it('id prop can change', function (done) {
         var MyComponent = san.defineComponent({
             template: '<div><a id="a-{{name}}">{{name}}</a></div>'
         });
@@ -932,9 +922,10 @@ describe("Element", function () {
         });
     });
 
-    it("html entity in text should decode collectly", function () {
+    it('html entity in text should decode collectly', function () {
         var MyComponent = san.defineComponent({
-            template: '<div data-text="&lt;&amp;ddddd&quot;&gt;&#39;&#x00021;"></div>'
+            template:
+                '<div data-text="&lt;&amp;ddddd&quot;&gt;&#39;&#x00021;"></div>'
         });
         var myComponent = new MyComponent();
 
@@ -948,8 +939,9 @@ describe("Element", function () {
         document.body.removeChild(wrap);
     });
 
-    it("html entity support is limited", function () {
-        var entityStr = '&#39;&#x00021;&emsp;&ensp;&thinsp;&copy;&lt;p&gt;&reg;&lt;/p&gt;&reg;&zwnj;&zwj;&lt;&nbsp;&gt;&quot;&lll;';
+    it('html entity support is limited', function () {
+        var entityStr =
+            '&#39;&#x00021;&emsp;&ensp;&thinsp;&copy;&lt;p&gt;&reg;&lt;/p&gt;&reg;&zwnj;&zwj;&lt;&nbsp;&gt;&quot;&lll;';
         var MyComponent = san.defineComponent({
             template: '<u>' + entityStr + '</u>'
         });
@@ -969,9 +961,10 @@ describe("Element", function () {
         document.body.removeChild(compare);
     });
 
-    it("has only s-bind attr", function (done) {
+    it('has only s-bind attr', function (done) {
         var MyComponent = san.defineComponent({
-            template: '<div><input s-bind="inputProps"><u>{{inputProps.value}}</u></div>'
+            template:
+                '<div><input s-bind="inputProps"><u>{{inputProps.value}}</u></div>'
         });
         var myComponent = new MyComponent({
             data: {
@@ -1000,12 +993,12 @@ describe("Element", function () {
             document.body.removeChild(wrap);
             done();
         });
-
     });
 
-    it("has s-bind with other attr, confilct", function (done) {
+    it('has s-bind with other attr, confilct', function (done) {
         var MyComponent = san.defineComponent({
-            template: '<div><a s-bind="aProps" target="{{target}}">link</a></div>'
+            template:
+                '<div><a s-bind="aProps" target="{{target}}">link</a></div>'
         });
         var myComponent = new MyComponent({
             data: {
@@ -1048,10 +1041,9 @@ describe("Element", function () {
                 done();
             });
         });
-
     });
 
-    it("disabled attr for normal element", function () {
+    it('disabled attr for normal element', function () {
         var MyComponent = san.defineComponent({
             template: '<div><a disabled checked>san</a></div>'
         });
@@ -1076,7 +1068,7 @@ describe("Element", function () {
         document.body.removeChild(wrap);
     });
 
-    it("disabled attr for form element", function () {
+    it('disabled attr for form element', function () {
         var MyComponent = san.defineComponent({
             template: '<div><button disabled>san</button></div>'
         });
@@ -1093,9 +1085,10 @@ describe("Element", function () {
         document.body.removeChild(wrap);
     });
 
-    it("type attr for button element", function (done) {
+    it('type attr for button element', function (done) {
         var MyComponent = san.defineComponent({
-            template: '<div><form action="https://www.baidu.com/"><input type="text" value="test" name="kw"><button type="button">nosubmit</button></form></div>'
+            template:
+                '<div><form action="https://www.baidu.com/"><input type="text" value="test" name="kw"><button type="button">nosubmit</button></form></div>'
         });
         var myComponent = new MyComponent();
 
@@ -1111,10 +1104,10 @@ describe("Element", function () {
             done();
             myComponent.dispose();
             document.body.removeChild(wrap);
-        }, 2000)
+        }, 2000);
     });
 
-    it("s- and san- attr should be ignore", function () {
+    it('s- and san- attr should be ignore', function () {
         var MyComponent = san.defineComponent({
             template: '<div><a s-b="b" san-c="c">test</a></div>'
         });
@@ -1132,9 +1125,10 @@ describe("Element", function () {
         document.body.removeChild(wrap);
     });
 
-    it("content attr interp valued null and undefined and false", function () {
+    it('content attr interp valued null and undefined and false', function () {
         var MyComponent = san.defineComponent({
-            template: '<div undef="a{{undef}}b" nul="a{{nul}}b" falsy="a{{falsy}}b">test</div>'
+            template:
+                '<div undef="a{{undef}}b" nul="a{{nul}}b" falsy="a{{falsy}}b">test</div>'
         });
         var myComponent = new MyComponent({
             data: {
@@ -1155,9 +1149,10 @@ describe("Element", function () {
         document.body.removeChild(wrap);
     });
 
-    it("content attr with only one expr interp", function (done) {
+    it('content attr with only one expr interp', function (done) {
         var MyComponent = san.defineComponent({
-            template: '<div undef="{{undef}}" nul="{{nul}}" falsy="{{falsy}}" truth="{{truth}}" estr="{{estr}}" zero="{{0}}">test</div>'
+            template:
+                '<div undef="{{undef}}" nul="{{nul}}" falsy="{{falsy}}" truth="{{truth}}" estr="{{estr}}" zero="{{0}}">test</div>'
         });
         var myComponent = new MyComponent({
             data: {
@@ -1203,7 +1198,7 @@ describe("Element", function () {
         });
     });
 
-    it("s-bind includes null and undefined", function (done) {
+    it('s-bind includes null and undefined', function (done) {
         var MyComponent = san.defineComponent({
             template: '<div><a s-bind="sb">test</a></div>'
         });
@@ -1257,7 +1252,7 @@ describe("Element", function () {
         });
     });
 
-    it("s-bind apply to component root element", function (done) {
+    it('s-bind apply to component root element', function (done) {
         var MyComponent = san.defineComponent({
             template: '<div s-bind="sb">test</div>'
         });
@@ -1278,7 +1273,6 @@ describe("Element", function () {
         var wrap = document.createElement('div');
         document.body.appendChild(wrap);
         myComponent.attach(wrap);
-
 
         expect(myComponent.el.hasAttribute('undef')).toBeFalsy();
         expect(myComponent.el.hasAttribute('nul')).toBeFalsy();
@@ -1310,12 +1304,12 @@ describe("Element", function () {
         });
     });
 
-    it("show directive 4 display style", function (done) {
+    it('show directive 4 display style', function (done) {
         var MyComponent = san.defineComponent({
             template: '<div><span s-show="num == 3">{{num}}</span></div>'
         });
         var myComponent = new MyComponent({
-            data: {num: 2}
+            data: { num: 2 }
         });
 
         var wrap = document.createElement('div');
@@ -1332,15 +1326,16 @@ describe("Element", function () {
             myComponent.dispose();
             document.body.removeChild(wrap);
             done();
-        })
+        });
     });
 
-    it("show directive 4 display style, mix style declaration", function (done) {
+    it('show directive 4 display style, mix style declaration', function (done) {
         var MyComponent = san.defineComponent({
-            template: '<div><span s-show="num == 3" style="position:{{pos}}">{{num}}</span></div>'
+            template:
+                '<div><span s-show="num == 3" style="position:{{pos}}">{{num}}</span></div>'
         });
         var myComponent = new MyComponent({
-            data: {num: 2, pos: 'absolute'}
+            data: { num: 2, pos: 'absolute' }
         });
 
         var wrap = document.createElement('div');
@@ -1361,6 +1356,6 @@ describe("Element", function () {
             myComponent.dispose();
             document.body.removeChild(wrap);
             done();
-        })
+        });
     });
 });

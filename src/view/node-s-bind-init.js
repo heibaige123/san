@@ -7,7 +7,6 @@
  * @file 初始化节点的 s-bind 数据
  */
 
-
 var evalExpr = require('../runtime/eval-expr');
 
 /**

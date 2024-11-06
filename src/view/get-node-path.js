@@ -7,7 +7,6 @@
  * @file 获取节点在组件树中的路径
  */
 
-
 var NodeType = require('./node-type');
 
 // #[begin] hydrate
@@ -32,11 +31,15 @@ function getNodePath(node) {
                 break;
 
             case NodeType.FOR:
-                nodePaths.unshift('for[' + nodeParent.aNode.directives['for'].item + ']'); // eslint-disable-line dot-notation
+                nodePaths.unshift(
+                    'for[' + nodeParent.aNode.directives['for'].item + ']'
+                ); // eslint-disable-line dot-notation
                 break;
 
             case NodeType.SLOT:
-                nodePaths.unshift('slot[' + (nodeParent.name || 'default') + ']');
+                nodePaths.unshift(
+                    'slot[' + (nodeParent.name || 'default') + ']'
+                );
                 break;
 
             case NodeType.FRAG:
@@ -44,7 +47,13 @@ function getNodePath(node) {
                 break;
 
             case NodeType.CMPT:
-                nodePaths.unshift('component[' + (nodeParent.source ? nodeParent.source.tagName : 'root') + ']');
+                nodePaths.unshift(
+                    'component[' +
+                        (nodeParent.source
+                            ? nodeParent.source.tagName
+                            : 'root') +
+                        ']'
+                );
                 break;
 
             case NodeType.TEXT:
@@ -57,6 +66,5 @@ function getNodePath(node) {
 
     return nodePaths;
 }
-
 
 exports = module.exports = getNodePath;

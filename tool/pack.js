@@ -1,4 +1,3 @@
-
 const fs = require('fs');
 const path = require('path');
 
@@ -25,7 +24,6 @@ function optiEnumReplaceFn(match, type, prop) {
     return OPTI_ENUM[type][prop];
 }
 
-
 function pack(rootDir, mainFile) {
     let srcDir = path.resolve(rootDir, 'src');
 
@@ -35,7 +33,8 @@ function pack(rootDir, mainFile) {
     return {
         content: fileContent(mainFile, 1, []).replace(
             '// #[main-dependencies]',
-            deps.map(dep => fileContent(dep)).join('\n\n')),
+            deps.map((dep) => fileContent(dep)).join('\n\n')
+        ),
         deps: deps,
         base: mainFile
     };
@@ -59,7 +58,7 @@ function depAnalyse(targetFile) {
         depsIndex[file] = 1;
 
         let lines = fs.readFileSync(file, 'UTF-8').split(/\r?\n/);
-        lines.forEach(line => {
+        lines.forEach((line) => {
             let requireMatch = REQ_RULE.exec(line);
 
             if (requireMatch) {
@@ -97,10 +96,13 @@ function resolveDep(dep, inFile) {
  * @return {string} 处理后的源码
  */
 function fileContent(file, dontIgnoreExports) {
-    return fs.readFileSync(file, 'UTF-8').split(/\r?\n/)
-        .map(line => {
-            if (/(=|^|\s)require\(['"]/.test(line)
-                || (!dontIgnoreExports && /^\s*(module\.)?exports\s+=/.test(line))
+    return fs
+        .readFileSync(file, 'UTF-8')
+        .split(/\r?\n/)
+        .map((line) => {
+            if (
+                /(=|^|\s)require\(['"]/.test(line) ||
+                (!dontIgnoreExports && /^\s*(module\.)?exports\s+=/.test(line))
             ) {
                 return '// ' + line;
             }
@@ -109,6 +111,5 @@ function fileContent(file, dontIgnoreExports) {
         })
         .join('\n');
 }
-
 
 exports = module.exports = pack;

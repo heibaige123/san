@@ -20,7 +20,8 @@ function readLogicalORExpr(walker) {
     var expr = readLogicalANDExpr(walker);
     walker.goUntil();
 
-    if (walker.source.charCodeAt(walker.index) === 124) { // |
+    if (walker.source.charCodeAt(walker.index) === 124) {
+        // |
         if (walker.nextCode() === 124) {
             walker.index++;
             return {

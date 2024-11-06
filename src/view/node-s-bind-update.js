@@ -41,7 +41,6 @@ function nodeSBindUpdate(sBind, oldBindData, scope, owner, changes, updater) {
 
                 return newBindData;
             }
-
         }
 
         return oldBindData;

@@ -39,12 +39,11 @@ function unpackANode(packed) {
                 currentType = typeStack[stackIndex];
                 currentState = stateStack[stackIndex];
                 currentTarget = targetStack[stackIndex];
-            }
-            else {
+            } else {
                 break;
             }
         }
-            
+
         var type = packed[i];
         var node;
         var state = -1;
@@ -84,7 +83,7 @@ function unpackANode(packed) {
                     value: !!packed[++i]
                 };
                 break;
-                
+
             case 19:
                 node = {
                     type: ExprType.NULL
@@ -109,7 +108,7 @@ function unpackANode(packed) {
                 packed[++i] && (node.original = 1);
                 state = -2;
                 break;
-                
+
             case 8:
                 target = [];
                 node = {
@@ -172,7 +171,7 @@ function unpackANode(packed) {
                 break;
 
             case 15:
-                node = {spread: true};
+                node = { spread: true };
                 state = -2;
                 break;
 
@@ -187,7 +186,7 @@ function unpackANode(packed) {
 
             case 17:
             case 18:
-                node = type === 18 ? {spread: true} : {};
+                node = type === 18 ? { spread: true } : {};
                 state = -2;
                 break;
 
@@ -197,8 +196,8 @@ function unpackANode(packed) {
                 node = {
                     name: packed[++i]
                 };
-                (type === 33) && (node.noValue = 1);
-                (type === 34) && (node.x = 1);
+                type === 33 && (node.noValue = 1);
+                type === 34 && (node.x = 1);
                 state = -2;
                 break;
 
@@ -233,7 +232,7 @@ function unpackANode(packed) {
 
                 state = -2;
                 break;
-            
+
             case 38:
             case 39:
             case 41:
@@ -247,7 +246,7 @@ function unpackANode(packed) {
 
             // else
             case 40:
-                node = {value: {}};
+                node = { value: {} };
                 break;
 
             // Node: Text
@@ -257,7 +256,6 @@ function unpackANode(packed) {
                     node = {};
                     state = -2;
                 }
-
         }
 
         if (!root) {
@@ -265,25 +263,23 @@ function unpackANode(packed) {
         }
 
         if (current) {
-
             switch (currentType) {
                 // Node: Tag
                 case 1:
                     if (currentTarget) {
                         current.elses = current.elses || [];
                         current.elses.push(node);
-                        if (!(--stateStack[stackIndex])) {
+                        if (!--stateStack[stackIndex]) {
                             stackIndex--;
                         }
-                    }
-                    else {
+                    } else {
                         switch (type) {
                             case 2:
                             case 33:
                             case 34:
                                 current.props.push(node);
                                 break;
-                            
+
                             case 35:
                                 current.events.push(node);
                                 break;
@@ -312,7 +308,7 @@ function unpackANode(packed) {
                             case 41:
                                 current.directives.ref = node;
                                 break;
-                            
+
                             case 42:
                                 current.directives.bind = node;
                                 break;
@@ -334,12 +330,11 @@ function unpackANode(packed) {
                                 current.children.push(node);
                         }
 
-                        if (!(--stateStack[stackIndex])) {
+                        if (!--stateStack[stackIndex]) {
                             if (current.directives['if']) {
                                 targetStack[stackIndex] = 'elses';
                                 stateStack[stackIndex] = -3;
-                            }
-                            else {
+                            } else {
                                 stackIndex--;
                             }
                         }
@@ -351,10 +346,9 @@ function unpackANode(packed) {
                     if (currentState === -2) {
                         stateStack[stackIndex] = -3;
                         current.expr = node;
-                    }
-                    else {
+                    } else {
                         currentTarget.push(node);
-                        if (!(--stateStack[stackIndex])) {
+                        if (!--stateStack[stackIndex]) {
                             stackIndex--;
                         }
                     }
@@ -365,15 +359,14 @@ function unpackANode(packed) {
                     if (currentState === -2) {
                         stateStack[stackIndex] = -3;
                         current.name = node;
-                    }
-                    else {
+                    } else {
                         currentTarget.push(node);
-                        if (!(--stateStack[stackIndex])) {
+                        if (!--stateStack[stackIndex]) {
                             stackIndex--;
                         }
                     }
                     break;
-                
+
                 // Expr: ACCESSOR, TEXT, BINARY, TERTIARY, OBJECT, ARRAY
                 case 6:
                 case 9:
@@ -382,11 +375,11 @@ function unpackANode(packed) {
                 case 13:
                 case 16:
                     currentTarget.push(node);
-                    if (!(--stateStack[stackIndex])) {
+                    if (!--stateStack[stackIndex]) {
                         stackIndex--;
                     }
                     break;
-                
+
                 // Expr: UNARY
                 // Prop
                 // var
@@ -403,14 +396,12 @@ function unpackANode(packed) {
                     stackIndex--;
                     break;
 
-
                 // Expr: Object Item
                 case 14:
                     if (currentState === -2) {
                         stateStack[stackIndex] = -4;
                         current.name = node;
-                    }
-                    else {
+                    } else {
                         current.expr = node;
                         stackIndex--;
                     }
@@ -421,10 +412,9 @@ function unpackANode(packed) {
                     if (currentState === -2) {
                         stateStack[stackIndex] = -3;
                         current.expr = node;
-                    }
-                    else {
+                    } else {
                         current.modifier[type] = true;
-                        if (!(--stateStack[stackIndex])) {
+                        if (!--stateStack[stackIndex]) {
                             stackIndex--;
                         }
                     }

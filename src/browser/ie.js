@@ -7,14 +7,13 @@
  * @file ie版本号
  */
 
-
 /**
  * 从userAgent中ie版本号的匹配信息
  *
  * @type {Array}
  */
 var ieVersionMatch =
-    typeof navigator !== "undefined" &&
+    typeof navigator !== 'undefined' &&
     navigator.userAgent.match(/(msie|trident)(\s*|\/)([0-9]+)/i);
 
 /**

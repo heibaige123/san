@@ -137,7 +137,7 @@ var boolAttrs = {
      * typemustmatch属性用于<object>标签
      * 类型必须匹配
      */
-    typemustmatch: 1,
+    typemustmatch: 1
 };
 
 exports = module.exports = boolAttrs;

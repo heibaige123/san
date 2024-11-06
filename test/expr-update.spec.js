@@ -1,5 +1,4 @@
-describe("Expression Update Detect", function () {
-
+describe('Expression Update Detect', function () {
     function upxFilter(source, first) {
         if (source) {
             if (first) {
@@ -12,7 +11,7 @@ describe("Expression Update Detect", function () {
         return source;
     }
 
-    it("simple text", function (done) {
+    it('simple text', function (done) {
         var MyComponent = san.defineComponent({
             template: '<a><span title="{{name}}">{{name}}</span></a>'
         });
@@ -38,7 +37,7 @@ describe("Expression Update Detect", function () {
         });
     });
 
-    it("simple text, default html filter(or ignore)", function (done) {
+    it('simple text, default html filter(or ignore)', function (done) {
         var MyComponent = san.defineComponent({
             template: '<a><span>{{name|html}}</span></a>'
         });
@@ -62,9 +61,10 @@ describe("Expression Update Detect", function () {
         });
     });
 
-    it("complex text", function (done) {
+    it('complex text', function (done) {
         var MyComponent = san.defineComponent({
-            template: '<a><span title="hello {{val1}}, have dinner with {{val2}}?"></span></a>'
+            template:
+                '<a><span title="hello {{val1}}, have dinner with {{val2}}?"></span></a>'
         });
         var myComponent = new MyComponent();
         myComponent.data.set('val1', 'er');
@@ -88,10 +88,11 @@ describe("Expression Update Detect", function () {
         });
     });
 
-    it("text has interpolation and filter", function (done) {
+    it('text has interpolation and filter', function (done) {
         var MyComponent = san.defineComponent({
-            template: '<a><span prop-title="hello {{name | upx(!all)}}!"></span></a>',
-            filters: {upx: upxFilter}
+            template:
+                '<a><span prop-title="hello {{name | upx(!all)}}!"></span></a>',
+            filters: { upx: upxFilter }
         });
         var myComponent = new MyComponent();
         myComponent.data.set('name', 'san');
@@ -115,34 +116,34 @@ describe("Expression Update Detect", function () {
         });
     });
 
-    it("text has interpolation and filter in complex context", function (done) {
+    it('text has interpolation and filter in complex context', function (done) {
         var kTypeDefs1 = [
             {
-                "name": "checked",
-                "type": "bool",
-                "bindx": true,
-                "desc": "设置或者获取控件的选中状态",
-                "defaultValue": "false"
+                name: 'checked',
+                type: 'bool',
+                bindx: true,
+                desc: '设置或者获取控件的选中状态',
+                defaultValue: 'false'
             }
         ];
         var kTypeDefs2 = [
             {
-                "name": "disabled",
-                "type": "bool",
-                "desc": "控制按钮的禁用状态",
-                "defaultValue": "false"
+                name: 'disabled',
+                type: 'bool',
+                desc: '控制按钮的禁用状态',
+                defaultValue: 'false'
             }
         ];
 
-
         var DataTypeExplorer = san.defineComponent({
-            template: '<ul><li s-for="typeDef in typeDefs">{{typeDef.name | noop}}<i s-if="typeDef.bindx">ICON: bindx</i></li></ul>',
+            template:
+                '<ul><li s-for="typeDef in typeDefs">{{typeDef.name | noop}}<i s-if="typeDef.bindx">ICON: bindx</i></li></ul>',
             filters: {
                 noop: function (value) {
                     return value;
                 }
             },
-            initData: function() {
+            initData: function () {
                 return {
                     typeDefs: []
                 };
@@ -150,7 +151,8 @@ describe("Expression Update Detect", function () {
         });
 
         var MyComponent = san.defineComponent({
-            template: '<div><ui-datatype-explorer typeDefs="{{typeDefs}}" /></div>',
+            template:
+                '<div><ui-datatype-explorer typeDefs="{{typeDefs}}" /></div>',
             components: {
                 'ui-datatype-explorer': DataTypeExplorer
             }
@@ -171,18 +173,14 @@ describe("Expression Update Detect", function () {
         expect(li0.getElementsByTagName('i').length).toBe(1);
         myComponent.data.set('typeDefs', kTypeDefs2);
 
-
         san.nextTick(function () {
-
             var li0 = wrap.getElementsByTagName('li')[0];
             expect(li0.innerHTML.indexOf('checked') >= 0).toBeFalsy();
             expect(li0.innerHTML.indexOf('disabled') >= 0).toBeTruthy();
             expect(li0.getElementsByTagName('i').length).toBe(0);
 
-
             myComponent.data.set('typeDefs', kTypeDefs1);
             san.nextTick(function () {
-
                 var li0 = wrap.getElementsByTagName('li')[0];
                 expect(li0.innerHTML.indexOf('checked') >= 0).toBeTruthy();
                 expect(li0.getElementsByTagName('i').length).toBe(1);
@@ -195,8 +193,7 @@ describe("Expression Update Detect", function () {
         });
     });
 
-
-    it("bind ident", function (done) {
+    it('bind ident', function (done) {
         var MyComponent = san.defineComponent({
             template: '<div><span title="{{name}}"></span></div>'
         });
@@ -221,7 +218,7 @@ describe("Expression Update Detect", function () {
         });
     });
 
-    it("bind unary", function (done) {
+    it('bind unary', function (done) {
         var MyComponent = san.defineComponent({
             template: '<div><span title="{{!val1}}"></span></div>'
         });
@@ -246,7 +243,7 @@ describe("Expression Update Detect", function () {
         });
     });
 
-    it("bind binary", function (done) {
+    it('bind binary', function (done) {
         var MyComponent = san.defineComponent({
             template: '<div><span title="{{val1 + val2}}"></span></div>'
         });
@@ -272,9 +269,10 @@ describe("Expression Update Detect", function () {
         });
     });
 
-    it("bind binary complex", function (done) {
+    it('bind binary complex', function (done) {
         var MyComponent = san.defineComponent({
-            template: '<a><span title="{{val1 + val2 * val3 / val4}}"></span></a>'
+            template:
+                '<a><span title="{{val1 + val2 * val3 / val4}}"></span></a>'
         });
         var myComponent = new MyComponent();
         myComponent.data.set('val1', 10);
@@ -300,7 +298,7 @@ describe("Expression Update Detect", function () {
         });
     });
 
-    it("bind property accessor, set item", function (done) {
+    it('bind property accessor, set item', function (done) {
         var MyComponent = san.defineComponent({
             template: '<a><span title="{{p.name}}"></span></a>'
         });
@@ -328,7 +326,7 @@ describe("Expression Update Detect", function () {
         });
     });
 
-    it("bind property accessor, set outer data", function (done) {
+    it('bind property accessor, set outer data', function (done) {
         var MyComponent = san.defineComponent({
             template: '<a><span title="{{p.org.name}}"></span></a>'
         });
@@ -367,7 +365,7 @@ describe("Expression Update Detect", function () {
         });
     });
 
-    it("bind property accessor, set outer data, using merge", function (done) {
+    it('bind property accessor, set outer data, using merge', function (done) {
         var MyComponent = san.defineComponent({
             template: '<a><span title="{{p.org.name}}"></span></a>'
         });
@@ -404,7 +402,7 @@ describe("Expression Update Detect", function () {
         });
     });
 
-    it("bind property accessor, set outer data, using apply", function (done) {
+    it('bind property accessor, set outer data, using apply', function (done) {
         var MyComponent = san.defineComponent({
             template: '<a><span title="{{p.org.name}}"></span></a>'
         });
@@ -445,7 +443,7 @@ describe("Expression Update Detect", function () {
         });
     });
 
-    it("bind property accessor, variable item", function (done) {
+    it('bind property accessor, variable item', function (done) {
         var MyComponent = san.defineComponent({
             template: '<a><span title="{{p.orgs[index].name}}"></span></a>'
         });
@@ -486,7 +484,7 @@ describe("Expression Update Detect", function () {
         });
     });
 
-    it("bind property accessor, after level of variable item", function (done) {
+    it('bind property accessor, after level of variable item', function (done) {
         var MyComponent = san.defineComponent({
             template: '<a><span title="{{p.orgs[index].name}}"></span></a>'
         });
@@ -527,7 +525,7 @@ describe("Expression Update Detect", function () {
         });
     });
 
-    it("bind property accessor, before level of variable item", function (done) {
+    it('bind property accessor, before level of variable item', function (done) {
         var MyComponent = san.defineComponent({
             template: '<a><span title="{{p.orgs[index].name}}"></span></a>'
         });
@@ -577,7 +575,7 @@ describe("Expression Update Detect", function () {
         });
     });
 
-    it("bind property accessor, in variable item", function (done) {
+    it('bind property accessor, in variable item', function (done) {
         var MyComponent = san.defineComponent({
             template: '<a><span title="{{p.orgs[index].name}}"></span></a>'
         });
@@ -621,7 +619,7 @@ describe("Expression Update Detect", function () {
         });
     });
 
-    it("bind property accessor, unary - item", function (done) {
+    it('bind property accessor, unary - item', function (done) {
         var MyComponent = san.defineComponent({
             template: '<a><span title="{{p.orgs[-index].name}}"></span></a>'
         });
@@ -662,7 +660,7 @@ describe("Expression Update Detect", function () {
         });
     });
 
-    it("bind property accessor, before level of unary - item", function (done) {
+    it('bind property accessor, before level of unary - item', function (done) {
         var MyComponent = san.defineComponent({
             template: '<a><span title="{{p.orgs[-index].name}}"></span></a>'
         });
@@ -712,9 +710,10 @@ describe("Expression Update Detect", function () {
         });
     });
 
-    it("bind property accessor, tertiary item", function (done) {
+    it('bind property accessor, tertiary item', function (done) {
         var MyComponent = san.defineComponent({
-            template: '<a><span title="{{p.orgs[index > 0 ? cur : 0].name}}"></span></a>'
+            template:
+                '<a><span title="{{p.orgs[index > 0 ? cur : 0].name}}"></span></a>'
         });
         var myComponent = new MyComponent();
         myComponent.data.set('p', {
@@ -759,9 +758,10 @@ describe("Expression Update Detect", function () {
         });
     });
 
-    it("tertiary expr, condition expr change", function (done) {
+    it('tertiary expr, condition expr change', function (done) {
         var MyComponent = san.defineComponent({
-            template: '<a><span title="{{a1+a2 ? v1 : v2}}">{{a1+a2 ? v1 : v2}}</span></a>'
+            template:
+                '<a><span title="{{a1+a2 ? v1 : v2}}">{{a1+a2 ? v1 : v2}}</span></a>'
         });
         var myComponent = new MyComponent({
             data: {
@@ -789,9 +789,10 @@ describe("Expression Update Detect", function () {
         });
     });
 
-    it("tertiary expr, value expr change", function (done) {
+    it('tertiary expr, value expr change', function (done) {
         var MyComponent = san.defineComponent({
-            template: '<a><span title="{{a1+a2 ? v1 : v2}}">{{a1+a2 ? v1 : v2}}</span></a>'
+            template:
+                '<a><span title="{{a1+a2 ? v1 : v2}}">{{a1+a2 ? v1 : v2}}</span></a>'
         });
         var myComponent = new MyComponent({
             data: {
@@ -819,7 +820,7 @@ describe("Expression Update Detect", function () {
         });
     });
 
-    it("array literal", function (done) {
+    it('array literal', function (done) {
         var List = san.defineComponent({
             template: '<ul><li s-for="item in list">{{item}}</li></ul>'
         });
@@ -828,7 +829,8 @@ describe("Expression Update Detect", function () {
             components: {
                 'x-l': List
             },
-            template: '<div><x-l list="{{[1, true, \'erik\', four, five + four + \'2\']}}"/></div>'
+            template:
+                "<div><x-l list=\"{{[1, true, 'erik', four, five + four + '2']}}\"/></div>"
         });
         var myComponent = new MyComponent({
             data: {
@@ -852,7 +854,6 @@ describe("Expression Update Detect", function () {
         myComponent.data.set('four', 40);
         myComponent.data.set('five', 15);
         san.nextTick(function () {
-
             expect(lis[3].innerHTML).toBe('40');
             expect(lis[4].innerHTML).toBe('552');
 
@@ -863,8 +864,7 @@ describe("Expression Update Detect", function () {
         });
     });
 
-    it("array literal in class", function (done) {
-
+    it('array literal in class', function (done) {
         var MyComponent = san.defineComponent({
             template: '<div><u class="{{[\'test\', cls]}}">test</u></div>'
         });
@@ -892,7 +892,7 @@ describe("Expression Update Detect", function () {
         });
     });
 
-    it("array literal with spread", function (done) {
+    it('array literal with spread', function (done) {
         var List = san.defineComponent({
             template: '<ul><li s-for="item in list">{{item}}</li></ul>'
         });
@@ -901,7 +901,8 @@ describe("Expression Update Detect", function () {
             components: {
                 'x-l': List
             },
-            template: '<div><x-l list="{{[1, true, ...ext, \'erik\', ...ext2]}}"/></div>'
+            template:
+                '<div><x-l list="{{[1, true, ...ext, \'erik\', ...ext2]}}"/></div>'
         });
         var myComponent = new MyComponent({
             data: {
@@ -951,12 +952,11 @@ describe("Expression Update Detect", function () {
                 document.body.removeChild(wrap);
 
                 done();
-            })
-
+            });
         });
     });
 
-    it("array literal with spread, in multi-line attr", function (done) {
+    it('array literal with spread, in multi-line attr', function (done) {
         var List = san.defineComponent({
             template: '<ul><li s-for="item in list">{{item}}</li></ul>'
         });
@@ -965,7 +965,8 @@ describe("Expression Update Detect", function () {
             components: {
                 'x-l': List
             },
-            template: '<div><x-l list="{{[1, \n    true, \n    ...ext, \n    \'erik\', \n    ...ext2]}}"/></div>'
+            template:
+                '<div><x-l list="{{[1, \n    true, \n    ...ext, \n    \'erik\', \n    ...ext2]}}"/></div>'
         });
         var myComponent = new MyComponent({
             data: {
@@ -1015,21 +1016,22 @@ describe("Expression Update Detect", function () {
                 document.body.removeChild(wrap);
 
                 done();
-            })
-
+            });
         });
     });
 
-    it("object literal", function (done) {
+    it('object literal', function (done) {
         var Article = san.defineComponent({
-            template: '<div><h3>{{a.title}}</h3><b s-if="a.hot">hot</b><div s-if="a.author"><u>{{a.author.name}}</u><a>{{a.author.email}}</a></div><p>{{a.content}}</p></div>'
+            template:
+                '<div><h3>{{a.title}}</h3><b s-if="a.hot">hot</b><div s-if="a.author"><u>{{a.author.name}}</u><a>{{a.author.email}}</a></div><p>{{a.content}}</p></div>'
         });
 
         var MyComponent = san.defineComponent({
             components: {
                 'x-a': Article
             },
-            template: '<div><x-a a="{{{title: aTitle, hot: true, author:aAuthor, content: aContent}}}"/></div>'
+            template:
+                '<div><x-a a="{{{title: aTitle, hot: true, author:aAuthor, content: aContent}}}"/></div>'
         });
         var myComponent = new MyComponent({
             data: {
@@ -1050,13 +1052,17 @@ describe("Expression Update Detect", function () {
         expect(wrap.getElementsByTagName('b').length).toBe(1);
         expect(wrap.getElementsByTagName('p')[0].innerHTML).toBe('framework');
         expect(wrap.getElementsByTagName('u')[0].innerHTML).toBe('erik');
-        expect(wrap.getElementsByTagName('a')[0].innerHTML).toBe('errorrik@gmail.com');
+        expect(wrap.getElementsByTagName('a')[0].innerHTML).toBe(
+            'errorrik@gmail.com'
+        );
 
         myComponent.data.set('aAuthor', null);
         san.nextTick(function () {
             expect(wrap.getElementsByTagName('h3')[0].innerHTML).toBe('san');
             expect(wrap.getElementsByTagName('b').length).toBe(1);
-            expect(wrap.getElementsByTagName('p')[0].innerHTML).toBe('framework');
+            expect(wrap.getElementsByTagName('p')[0].innerHTML).toBe(
+                'framework'
+            );
             expect(wrap.getElementsByTagName('u').length).toBe(0);
             expect(wrap.getElementsByTagName('a').length).toBe(0);
 
@@ -1067,16 +1073,18 @@ describe("Expression Update Detect", function () {
         });
     });
 
-    it("object literal with spread", function (done) {
+    it('object literal with spread', function (done) {
         var Article = san.defineComponent({
-            template: '<div><h3>{{a.title}}</h3><h4>{{a.from}}</h4><b s-if="a.hot">hot</b><div s-if="a.author"><u>{{a.author.name}}</u><a>{{a.author.email}}</a></div><p>{{a.content}}</p></div>'
+            template:
+                '<div><h3>{{a.title}}</h3><h4>{{a.from}}</h4><b s-if="a.hot">hot</b><div s-if="a.author"><u>{{a.author.name}}</u><a>{{a.author.email}}</a></div><p>{{a.content}}</p></div>'
         });
 
         var MyComponent = san.defineComponent({
             components: {
                 'x-a': Article
             },
-            template: '<div><x-a a="{{{author:aAuthor, from, ...article}}}"/></div>'
+            template:
+                '<div><x-a a="{{{author:aAuthor, from, ...article}}}"/></div>'
         });
         var myComponent = new MyComponent({
             data: {
@@ -1103,18 +1111,20 @@ describe("Expression Update Detect", function () {
         expect(wrap.getElementsByTagName('b').length).toBe(0);
         expect(wrap.getElementsByTagName('p')[0].innerHTML).toBe('framework');
         expect(wrap.getElementsByTagName('u')[0].innerHTML).toBe('erik');
-        expect(wrap.getElementsByTagName('a')[0].innerHTML).toBe('errorrik@gmail.com');
+        expect(wrap.getElementsByTagName('a')[0].innerHTML).toBe(
+            'errorrik@gmail.com'
+        );
 
         myComponent.data.set('aAuthor', null);
         myComponent.data.set('from', 'bj');
         myComponent.data.set('article.content', 'component');
         san.nextTick(function () {
-
-
             expect(wrap.getElementsByTagName('h3')[0].innerHTML).toBe('san');
             expect(wrap.getElementsByTagName('h4')[0].innerHTML).toBe('bj');
             expect(wrap.getElementsByTagName('b').length).toBe(0);
-            expect(wrap.getElementsByTagName('p')[0].innerHTML).toBe('component');
+            expect(wrap.getElementsByTagName('p')[0].innerHTML).toBe(
+                'component'
+            );
             expect(wrap.getElementsByTagName('u').length).toBe(0);
             expect(wrap.getElementsByTagName('a').length).toBe(0);
 
@@ -1125,16 +1135,17 @@ describe("Expression Update Detect", function () {
         });
     });
 
-    it("object literal to component", function (done) {
+    it('object literal to component', function (done) {
         var Child = san.defineComponent({
             template: '<u>{{d.msg}}</u>'
         });
 
         var MyComponent = san.defineComponent({
-            template: ''
-                + '<div><div>'
-                + '<x-c d="{{{msg}}}"></x-c>'
-                + '</div></div>',
+            template:
+                '' +
+                '<div><div>' +
+                '<x-c d="{{{msg}}}"></x-c>' +
+                '</div></div>',
             components: {
                 'x-c': Child
             },
@@ -1162,8 +1173,7 @@ describe("Expression Update Detect", function () {
         });
     });
 
-    it("simple call expr", function (done) {
-
+    it('simple call expr', function (done) {
         var MyComponent = san.defineComponent({
             template: '<u>Hello {{numText(num, isTrans)}}</u>',
 
@@ -1189,11 +1199,15 @@ describe("Expression Update Detect", function () {
 
         myComponent.data.set('isTrans', true);
         san.nextTick(function () {
-            expect(wrap.getElementsByTagName('u')[0].innerHTML).toBe('Hello er');
+            expect(wrap.getElementsByTagName('u')[0].innerHTML).toBe(
+                'Hello er'
+            );
             myComponent.data.set('num', 3);
 
             san.nextTick(function () {
-                expect(wrap.getElementsByTagName('u')[0].innerHTML).toBe('Hello san');
+                expect(wrap.getElementsByTagName('u')[0].innerHTML).toBe(
+                    'Hello san'
+                );
                 myComponent.dispose();
                 document.body.removeChild(wrap);
 
@@ -1202,8 +1216,7 @@ describe("Expression Update Detect", function () {
         });
     });
 
-    it("nest call expr", function (done) {
-
+    it('nest call expr', function (done) {
         var MyComponent = san.defineComponent({
             template: '<u>result {{enhance(num, square(base))}}</u>',
 
@@ -1230,11 +1243,15 @@ describe("Expression Update Detect", function () {
 
         myComponent.data.set('num', 4);
         san.nextTick(function () {
-            expect(wrap.getElementsByTagName('u')[0].innerHTML).toBe('result 36');
+            expect(wrap.getElementsByTagName('u')[0].innerHTML).toBe(
+                'result 36'
+            );
             myComponent.data.set('base', 10);
 
             san.nextTick(function () {
-                expect(wrap.getElementsByTagName('u')[0].innerHTML).toBe('result 400');
+                expect(wrap.getElementsByTagName('u')[0].innerHTML).toBe(
+                    'result 400'
+                );
                 myComponent.dispose();
                 document.body.removeChild(wrap);
 
@@ -1243,10 +1260,10 @@ describe("Expression Update Detect", function () {
         });
     });
 
-    it("call expr in complex expr", function (done) {
-
+    it('call expr in complex expr', function (done) {
         var MyComponent = san.defineComponent({
-            template: '<u>result {{10 + (base > 0 ? enhance(num, square(base)) : enhance(num, 1))}}</u>',
+            template:
+                '<u>result {{10 + (base > 0 ? enhance(num, square(base)) : enhance(num, 1))}}</u>',
 
             enhance: function (num, times) {
                 return num * times;
@@ -1271,11 +1288,15 @@ describe("Expression Update Detect", function () {
 
         myComponent.data.set('base', 0);
         san.nextTick(function () {
-            expect(wrap.getElementsByTagName('u')[0].innerHTML).toBe('result 12');
+            expect(wrap.getElementsByTagName('u')[0].innerHTML).toBe(
+                'result 12'
+            );
             myComponent.data.set('num', 10);
 
             san.nextTick(function () {
-                expect(wrap.getElementsByTagName('u')[0].innerHTML).toBe('result 20');
+                expect(wrap.getElementsByTagName('u')[0].innerHTML).toBe(
+                    'result 20'
+                );
                 myComponent.dispose();
                 document.body.removeChild(wrap);
 
@@ -1284,10 +1305,10 @@ describe("Expression Update Detect", function () {
         });
     });
 
-    it("call expr eval with component instance this", function (done) {
-
+    it('call expr eval with component instance this', function (done) {
         var MyComponent = san.defineComponent({
-            template: '<u>result {{10 + (base !== 0 ? enhance(num, abs(base)) : enhance(num, 1))}}</u>',
+            template:
+                '<u>result {{10 + (base !== 0 ? enhance(num, abs(base)) : enhance(num, 1))}}</u>',
 
             enhance: function (num, times) {
                 return num * this.square(times);
@@ -1320,15 +1341,21 @@ describe("Expression Update Detect", function () {
 
         myComponent.data.set('base', 0);
         san.nextTick(function () {
-            expect(wrap.getElementsByTagName('u')[0].innerHTML).toBe('result 12');
+            expect(wrap.getElementsByTagName('u')[0].innerHTML).toBe(
+                'result 12'
+            );
             myComponent.data.set('num', 10);
 
             san.nextTick(function () {
-                expect(wrap.getElementsByTagName('u')[0].innerHTML).toBe('result 20');
+                expect(wrap.getElementsByTagName('u')[0].innerHTML).toBe(
+                    'result 20'
+                );
                 myComponent.data.set('base', -5);
 
                 san.nextTick(function () {
-                    expect(wrap.getElementsByTagName('u')[0].innerHTML).toBe('result 260');
+                    expect(wrap.getElementsByTagName('u')[0].innerHTML).toBe(
+                        'result 260'
+                    );
                     myComponent.dispose();
                     document.body.removeChild(wrap);
 
@@ -1338,10 +1365,10 @@ describe("Expression Update Detect", function () {
         });
     });
 
-    it("call expr with dynamic name accessor", function (done) {
-
+    it('call expr with dynamic name accessor', function (done) {
         var MyComponent = san.defineComponent({
-            template: '<u>result {{op[isUp ? "plus" : "minus"](num1, num2)}}</u>',
+            template:
+                '<u>result {{op[isUp ? "plus" : "minus"](num1, num2)}}</u>',
 
             op: {
                 plus: function (a, b) {
@@ -1369,11 +1396,15 @@ describe("Expression Update Detect", function () {
 
         myComponent.data.set('isUp', 0);
         san.nextTick(function () {
-            expect(wrap.getElementsByTagName('u')[0].innerHTML).toBe('result 2');
+            expect(wrap.getElementsByTagName('u')[0].innerHTML).toBe(
+                'result 2'
+            );
             myComponent.data.set('num1', 10);
 
             san.nextTick(function () {
-                expect(wrap.getElementsByTagName('u')[0].innerHTML).toBe('result 7');
+                expect(wrap.getElementsByTagName('u')[0].innerHTML).toBe(
+                    'result 7'
+                );
                 myComponent.dispose();
                 document.body.removeChild(wrap);
 
@@ -1382,7 +1413,7 @@ describe("Expression Update Detect", function () {
         });
     });
 
-    it("update using data assign", function (done) {
+    it('update using data assign', function (done) {
         var MyComponent = san.defineComponent({
             template: '<a><b>{{title}}</b><span>{{text}}</span></a>'
         });

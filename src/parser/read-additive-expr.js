@@ -10,7 +10,6 @@
 var ExprType = require('./expr-type');
 var readMultiplicativeExpr = require('./read-multiplicative-expr');
 
-
 /**
  * 读取加法表达式
  *

@@ -11,8 +11,6 @@ var warn = require('../util/warn');
 var parseTemplate = require('../parser/parse-template');
 var ExprType = require('../parser/expr-type');
 
-
-
 /**
  * 解析组件的模板
  *
@@ -22,7 +20,6 @@ var ExprType = require('../parser/expr-type');
 function parseComponentTemplate(ComponentClass) {
     var proto = ComponentClass.prototype;
 
-    
     var tplANode = parseTemplate(ComponentClass.template || proto.template, {
         trimWhitespace: proto.trimWhitespace || ComponentClass.trimWhitespace,
         delimiters: proto.delimiters || ComponentClass.delimiters
@@ -33,11 +30,9 @@ function parseComponentTemplate(ComponentClass) {
         aNode = null;
     }
 
-   
     if (tplANode.children.length !== 1 || !aNode) {
         warn('Component template must have a root element.');
     }
-    
 
     aNode = aNode || {
         directives: {},
@@ -50,7 +45,10 @@ function parseComponentTemplate(ComponentClass) {
         delete aNode.tagName;
     }
 
-    if (proto.autoFillStyleAndId !== false && ComponentClass.autoFillStyleAndId !== false) {
+    if (
+        proto.autoFillStyleAndId !== false &&
+        ComponentClass.autoFillStyleAndId !== false
+    ) {
         fillStyleAndId(aNode.props);
 
         if (aNode.elses) {
@@ -65,7 +63,7 @@ function parseComponentTemplate(ComponentClass) {
 
 /**
  * 为组件 ANode 填充 props：class、style、id
- * 
+ *
  * @param {Array} props ANode 属性列表
  */
 function fillStyleAndId(props) {
@@ -82,26 +80,28 @@ function fillStyleAndId(props) {
                     type: ExprType.INTERP,
                     expr: {
                         type: ExprType.ACCESSOR,
-                        paths: [
-                            {type: ExprType.STRING, value: prop.name}
-                        ]
+                        paths: [{ type: ExprType.STRING, value: prop.name }]
                     },
-                    filters: [{
-                        type: ExprType.CALL,
-                        args: [prop.expr],
-                        name: {
-                            type: ExprType.ACCESSOR,
-                            paths: [
-                                {type: ExprType.STRING, value: '_x' + prop.name}
-                            ]
+                    filters: [
+                        {
+                            type: ExprType.CALL,
+                            args: [prop.expr],
+                            name: {
+                                type: ExprType.ACCESSOR,
+                                paths: [
+                                    {
+                                        type: ExprType.STRING,
+                                        value: '_x' + prop.name
+                                    }
+                                ]
+                            }
                         }
-                    }]
-                }
+                    ]
+                };
                 break;
 
             case 'id':
                 extraPropExists[prop.name] = true;
-
         }
     }
 
@@ -112,20 +112,18 @@ function fillStyleAndId(props) {
                 type: ExprType.INTERP,
                 expr: {
                     type: ExprType.ACCESSOR,
-                    paths: [
-                        {type: ExprType.STRING, value: 'class'}
-                    ]
+                    paths: [{ type: ExprType.STRING, value: 'class' }]
                 },
-                filters: [{
-                    type: ExprType.CALL,
-                    args: [],
-                    name: {
-                        type: ExprType.ACCESSOR,
-                        paths: [
-                            {type: ExprType.STRING, value: '_class'}
-                        ]
+                filters: [
+                    {
+                        type: ExprType.CALL,
+                        args: [],
+                        name: {
+                            type: ExprType.ACCESSOR,
+                            paths: [{ type: ExprType.STRING, value: '_class' }]
+                        }
                     }
-                }]
+                ]
             }
         });
     }
@@ -137,20 +135,18 @@ function fillStyleAndId(props) {
                 type: ExprType.INTERP,
                 expr: {
                     type: ExprType.ACCESSOR,
-                    paths: [
-                        {type: ExprType.STRING, value: 'style'}
-                    ]
+                    paths: [{ type: ExprType.STRING, value: 'style' }]
                 },
-                filters: [{
-                    type: ExprType.CALL,
-                    args: [],
-                    name: {
-                        type: ExprType.ACCESSOR,
-                        paths: [
-                            {type: ExprType.STRING, value: '_style'}
-                        ]
+                filters: [
+                    {
+                        type: ExprType.CALL,
+                        args: [],
+                        name: {
+                            type: ExprType.ACCESSOR,
+                            paths: [{ type: ExprType.STRING, value: '_style' }]
+                        }
                     }
-                }]
+                ]
             }
         });
     }
@@ -160,9 +156,7 @@ function fillStyleAndId(props) {
             name: 'id',
             expr: {
                 type: ExprType.ACCESSOR,
-                paths: [
-                    {type: ExprType.STRING, value: 'id'}
-                ]
+                paths: [{ type: ExprType.STRING, value: 'id' }]
             }
         });
     }

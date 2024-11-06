@@ -1,17 +1,15 @@
-import service from '../service'
-import AddCategory from '../category/add'
-import EditCategory from '../category/edit'
-import CategoryPicker from '../ui/category-picker'
-import TimePicker from '../ui/time-picker'
-import Calendar from '../ui/calendar'
+import service from '../service';
+import AddCategory from '../category/add';
+import EditCategory from '../category/edit';
+import CategoryPicker from '../ui/category-picker';
+import TimePicker from '../ui/time-picker';
+import Calendar from '../ui/calendar';
 
-import san, {Component} from 'san'
+import san, { Component } from 'san';
 
-import './form.css'
-import Todo from './model'
-import Category from '../category/model'
-
-
+import './form.css';
+import Todo from './model';
+import Category from '../category/model';
 
 const AddCategoryDialog = san.defineComponent({
     template: `
@@ -39,7 +37,7 @@ const AddCategoryDialog = san.defineComponent({
         this.data.set('left', -1000);
     },
 
-    finish(e: {returnValue?: boolean}) {
+    finish(e: { returnValue?: boolean }) {
         this.hide();
         this.fire('finished');
         e.returnValue = false;
@@ -78,7 +76,6 @@ class EditCategoryDialog extends Component {
     }
 }
 
-
 const template = `
 <div class="form">
     <input type="text" class="form-title" placeholder="标题" value="{= todo.title =}">
@@ -102,8 +99,8 @@ interface FormData {
     categories: Category[];
     route?: {
         query: {
-            id:string
-        }
+            id: string;
+        };
     };
 }
 
@@ -115,7 +112,6 @@ interface IForm {
     startEditCategory: () => void;
     updateCategories: () => void;
 }
-
 
 export default san.defineComponent<FormData, IForm>({
     template,
@@ -130,10 +126,10 @@ export default san.defineComponent<FormData, IForm>({
         endTimeHour() {
             let todo = this.data.get('todo');
             if (todo) {
-                return (new Date(todo.endTime)).getHours();
+                return new Date(todo.endTime).getHours();
             }
 
-            return (new Date()).getHours();
+            return new Date().getHours();
         },
 
         endTimeDate() {
@@ -168,14 +164,14 @@ export default san.defineComponent<FormData, IForm>({
                 endTime: new Date().getTime(),
                 done: false,
                 categoryId: 1
-            }
+            };
         }
         this.setTodo(todo);
         this.updateCategories();
     },
 
     setTodo(todo: Todo) {
-      this.data.set("todo", todo);
+        this.data.set('todo', todo);
     },
 
     joinEndTime() {
@@ -189,8 +185,7 @@ export default san.defineComponent<FormData, IForm>({
         let todo = this.data.get('todo');
         if (!todo.id) {
             service.addTodo(todo);
-        }
-        else {
+        } else {
             service.editTodo(todo);
         }
 
@@ -209,7 +204,10 @@ export default san.defineComponent<FormData, IForm>({
         if (!this.addCategoryDialog) {
             this.addCategoryDialog = new AddCategoryDialog();
             this.addCategoryDialog.attach(document.body);
-            this.addCategoryDialog.on('finished', this.updateCategories.bind(this));
+            this.addCategoryDialog.on(
+                'finished',
+                this.updateCategories.bind(this)
+            );
         }
         this.addCategoryDialog.show();
     },
@@ -218,7 +216,10 @@ export default san.defineComponent<FormData, IForm>({
         if (!this.editCategoryDialog) {
             this.editCategoryDialog = new EditCategoryDialog();
             this.editCategoryDialog.attach(document.body);
-            this.editCategoryDialog.on('edited', this.updateCategories.bind(this));
+            this.editCategoryDialog.on(
+                'edited',
+                this.updateCategories.bind(this)
+            );
         }
         this.editCategoryDialog.show();
     },

@@ -26,8 +26,8 @@ function propsToBinds(props) {
         // TODO: 看看在preheat时候是不是已经做掉了，或者能不能做掉
         result.push({
             name: kebab2camel(prop.name),
-            expr: prop.noValue 
-                ? {type: ExprType.BOOL, value: true}
+            expr: prop.noValue
+                ? { type: ExprType.BOOL, value: true }
                 : prop.expr,
             x: prop.x,
             noValue: prop.noValue

@@ -3,7 +3,6 @@ define(function (require) {
     var service = require('service');
     var template = require('tpl!./Add.html');
 
-
     return san.defineComponent({
         template: template,
 

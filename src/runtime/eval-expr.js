@@ -114,7 +114,6 @@ function evalExpr(expr, data, owner) {
                 case 248:
                     value = value || rightValue;
                     break;
-
             }
             /* eslint-enable eqeqeq */
             return value;
@@ -126,7 +125,6 @@ function evalExpr(expr, data, owner) {
                 owner
             );
 
-
         case ExprType.ARRAY:
             value = [];
             for (var i = 0, l = expr.items.length; i < l; i++) {
@@ -135,8 +133,7 @@ function evalExpr(expr, data, owner) {
 
                 if (item.spread) {
                     itemValue && (value = value.concat(itemValue));
-                }
-                else {
+                } else {
                     value.push(itemValue);
                 }
             }
@@ -150,8 +147,7 @@ function evalExpr(expr, data, owner) {
 
                 if (item.spread) {
                     itemValue && extend(value, itemValue);
-                }
-                else {
+                } else {
                     value[evalExpr(item.name, data, owner)] = itemValue;
                 }
             }
@@ -159,7 +155,6 @@ function evalExpr(expr, data, owner) {
 
         case ExprType.ACCESSOR:
             return data.get(expr);
-
 
         case ExprType.INTERP:
             value = evalExpr(expr.expr, data, owner);
@@ -178,17 +173,23 @@ function evalExpr(expr, data, owner) {
 
                         case '_xclass':
                         case '_xstyle':
-                            value = DEFAULT_FILTERS[filterName](value, evalExpr(filter.args[0], data, owner));
+                            value = DEFAULT_FILTERS[filterName](
+                                value,
+                                evalExpr(filter.args[0], data, owner)
+                            );
                             break;
 
                         default:
                             try {
-                                value = owner.filters[filterName] && owner.filters[filterName].apply(
-                                    owner,
-                                    [value].concat(evalArgs(filter.args, data, owner))
-                                );
-                            }
-                            catch (e) {
+                                value =
+                                    owner.filters[filterName] &&
+                                    owner.filters[filterName].apply(
+                                        owner,
+                                        [value].concat(
+                                            evalArgs(filter.args, data, owner)
+                                        )
+                                    );
+                            } catch (e) {
                                 handleError(e, owner, 'filter:' + filterName);
                             }
                     }
@@ -211,7 +212,10 @@ function evalExpr(expr, data, owner) {
                 }
 
                 if (method) {
-                    value = method.apply(owner, evalArgs(expr.args, data, owner));
+                    value = method.apply(
+                        owner,
+                        evalArgs(expr.args, data, owner)
+                    );
                 }
             }
 

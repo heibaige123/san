@@ -1,6 +1,6 @@
-import san from '../index'
-import InputComponent from './input-def-noopt'
-import LabelComponent from './label-ext-static-nodata'
+import san from '../index';
+import InputComponent from './input-def-noopt';
+import LabelComponent from './label-ext-static-nodata';
 
 // AutoComplete: san.defineComponent
 export default san.defineComponent({
@@ -8,7 +8,6 @@ export default san.defineComponent({
     components: {
         // AutoComplete: san.createComponentLoader
         'x-input': san.createComponentLoader({
-            
             // AutoComplete: load
             load: function () {
                 return new Promise(function (resolve) {
@@ -18,7 +17,6 @@ export default san.defineComponent({
                 });
             },
 
-            
             // AutoComplete: placeholder
             placeholder: LabelComponent,
 

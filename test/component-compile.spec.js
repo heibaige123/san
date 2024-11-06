@@ -1,6 +1,5 @@
-describe("Component Compile", function () {
-
-    it("simple component use san.parseComponentTemplate, and remove template", function (done) {
+describe('Component Compile', function () {
+    it('simple component use san.parseComponentTemplate, and remove template', function (done) {
         var MyComponent = san.defineComponent({
             template: '<a><span title="{{name}}">{{name}}</span></a>'
         });
@@ -32,12 +31,70 @@ describe("Component Compile", function () {
 
             done();
         });
-
     });
 
-    it("unpack from prototype aPack", function (done) {
+    it('unpack from prototype aPack', function (done) {
         var MyComponent = san.defineComponent({
-            aPack: [1,"a",4,2,"class",7,,6,1,3,"class",1,8,6,1,3,"_class",,2,"style",7,,6,1,3,"style",1,8,6,1,3,"_style",,2,"id",6,1,3,"id",1,"span",2,2,"title",6,1,3,"name",,9,,1,7,,6,1,3,"name",]
+            aPack: [
+                1,
+                'a',
+                4,
+                2,
+                'class',
+                7,
+                ,
+                6,
+                1,
+                3,
+                'class',
+                1,
+                8,
+                6,
+                1,
+                3,
+                '_class',
+                ,
+                2,
+                'style',
+                7,
+                ,
+                6,
+                1,
+                3,
+                'style',
+                1,
+                8,
+                6,
+                1,
+                3,
+                '_style',
+                ,
+                2,
+                'id',
+                6,
+                1,
+                3,
+                'id',
+                1,
+                'span',
+                2,
+                2,
+                'title',
+                6,
+                1,
+                3,
+                'name',
+                ,
+                9,
+                ,
+                1,
+                7,
+                ,
+                6,
+                1,
+                3,
+                'name'
+            ]
         });
 
         expect(MyComponent.prototype.aNode == null).toBeTruthy();
@@ -65,13 +122,70 @@ describe("Component Compile", function () {
 
             done();
         });
-
     });
 
-    it("unpack from aPack static prop", function (done) {
-        var MyComponent = san.defineComponent({
-        });
-        MyComponent.aPack = [1,"a",4,2,"class",7,,6,1,3,"class",1,8,6,1,3,"_class",,2,"style",7,,6,1,3,"style",1,8,6,1,3,"_style",,2,"id",6,1,3,"id",1,"span",2,2,"title",6,1,3,"name",,9,,1,7,,6,1,3,"name",];
+    it('unpack from aPack static prop', function (done) {
+        var MyComponent = san.defineComponent({});
+        MyComponent.aPack = [
+            1,
+            'a',
+            4,
+            2,
+            'class',
+            7,
+            ,
+            6,
+            1,
+            3,
+            'class',
+            1,
+            8,
+            6,
+            1,
+            3,
+            '_class',
+            ,
+            2,
+            'style',
+            7,
+            ,
+            6,
+            1,
+            3,
+            'style',
+            1,
+            8,
+            6,
+            1,
+            3,
+            '_style',
+            ,
+            2,
+            'id',
+            6,
+            1,
+            3,
+            'id',
+            1,
+            'span',
+            2,
+            2,
+            'title',
+            6,
+            1,
+            3,
+            'name',
+            ,
+            9,
+            ,
+            1,
+            7,
+            ,
+            6,
+            1,
+            3,
+            'name'
+        ];
 
         expect(MyComponent.prototype.aNode == null).toBeTruthy();
 
@@ -98,6 +212,5 @@ describe("Component Compile", function () {
 
             done();
         });
-
     });
 });

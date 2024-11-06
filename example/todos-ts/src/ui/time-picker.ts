@@ -1,22 +1,21 @@
-import san from 'san'
+import san from 'san';
 import $ from 'jquery';
-import './time-picker.css'
+import './time-picker.css';
 
 import { formatHour } from '../filters';
-
 
 class Layer extends san.Component<{
     datasource: number[];
     left: number;
     top: number;
     value: number;
-}>{
-    static filters = {formatHour};
+}> {
+    static filters = { formatHour };
     static template = `
     <ul class="ui-layer ui-timepicker-layer" style="left: {{left}}px; top: {{top}}px">
         <li s-for="item, index in datasource" class="{{item == value ? 'selected' : ''}}" on-click="itemClick(item)">{{ item | formatHour }}</li>
     </ul>`;
-    
+
     initData() {
         let datasource = [];
         for (let i = 0; i <= 23; i++) {
@@ -29,22 +28,22 @@ class Layer extends san.Component<{
             top: 0
         };
     }
-    
+
     itemClick(value: number) {
         this.data.set('value', value);
         this.fire('valueChange', value);
         this.hide();
     }
-    
+
     hide() {
         this.data.set('left', -1000);
     }
-    
-    show(pos: {left:number; top:number}) {
+
+    show(pos: { left: number; top: number }) {
         this.data.set('left', pos.left);
         this.data.set('top', pos.top);
     }
-    
+
     isHide() {
         return this.data.get('left') < 0;
     }
@@ -55,13 +54,14 @@ interface Pos {
     top: number;
 }
 
-export default class TimePicker extends san.Component<{value: number}> {
-    static template = `<div on-click="mainClick" class="ui-timepicker">{{ value | formatHour }}</div>`;
+export default class TimePicker extends san.Component<{ value: number }> {
+    static template =
+        `<div on-click="mainClick" class="ui-timepicker">{{ value | formatHour }}</div>`;
 
-    static filters = {formatHour};
+    static filters = { formatHour };
 
     layer?: Layer;
-    _docClicker?: (e:MouseEvent) => void;
+    _docClicker?: (e: MouseEvent) => void;
 
     initLayer() {
         let layer = new Layer();
@@ -74,12 +74,15 @@ export default class TimePicker extends san.Component<{value: number}> {
             this.data.set('value', value);
         });
 
-        this._docClicker = (e:MouseEvent) => {
+        this._docClicker = (e: MouseEvent) => {
             let target = e.target as Element;
-            if (this.el && this.layer && this.layer.el 
-                && target !== this.el
-                && $(target).closest(this.el).length === 0
-                && $(target).closest(this.layer.el).length === 0
+            if (
+                this.el &&
+                this.layer &&
+                this.layer.el &&
+                target !== this.el &&
+                $(target).closest(this.el).length === 0 &&
+                $(target).closest(this.layer.el).length === 0
             ) {
                 this.hideLayer();
             }
@@ -91,8 +94,7 @@ export default class TimePicker extends san.Component<{value: number}> {
     mainClick() {
         if (this.layer) {
             this.layer.isHide() ? this.showLayer() : this.hideLayer();
-        }
-        else {
+        } else {
             this.initLayer();
         }
     }
@@ -100,10 +102,11 @@ export default class TimePicker extends san.Component<{value: number}> {
     showLayer() {
         if (this.el) {
             let pos = $(this.el).offset() as Pos;
-            this.layer && this.layer.show({
-                left: pos.left,
-                top: pos.top + (this.el as HTMLElement).offsetHeight + 1
-            });
+            this.layer &&
+                this.layer.show({
+                    left: pos.left,
+                    top: pos.top + (this.el as HTMLElement).offsetHeight + 1
+                });
         }
     }
 
@@ -114,7 +117,8 @@ export default class TimePicker extends san.Component<{value: number}> {
     disposed() {
         if (this.layer) {
             this.layer.dispose();
-            this._docClicker && document.removeEventListener('click', this._docClicker);
+            this._docClicker &&
+                document.removeEventListener('click', this._docClicker);
         }
     }
 }

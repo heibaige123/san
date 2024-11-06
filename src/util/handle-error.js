@@ -7,7 +7,6 @@
  * @file 处理组件异常
  */
 
-
 function handleError(e, component, info) {
     var current = component;
 
@@ -17,7 +16,7 @@ function handleError(e, component, info) {
             return;
         }
 
-        current = current.parentComponent
+        current = current.parentComponent;
     }
 
     throw e;

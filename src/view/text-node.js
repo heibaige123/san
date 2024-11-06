@@ -18,7 +18,6 @@ var warnSetHTML = require('./warn-set-html');
 var isEndStump = require('./is-end-stump');
 var getNodePath = require('./get-node-path');
 
-
 /**
  * text 节点类
  *
@@ -47,12 +46,15 @@ function TextNode(aNode, parent, scope, owner, hydrateWalker) {
                         currentNode.data = this.id;
                         hydrateWalker.goNext();
 
-                        while (1) { // eslint-disable-line
+                        while (1) {
+                            // eslint-disable-line
                             currentNode = hydrateWalker.current;
-                            
+
                             if (!currentNode) {
-                                throw new Error('[SAN HYDRATE ERROR] Text end flag not found. \nPaths: '
-                                    + getNodePath(this).join(' > '));
+                                throw new Error(
+                                    '[SAN HYDRATE ERROR] Text end flag not found. \nPaths: ' +
+                                        getNodePath(this).join(' > ')
+                                );
                             }
 
                             if (isEndStump(currentNode, 'text')) {
@@ -74,13 +76,11 @@ function TextNode(aNode, parent, scope, owner, hydrateWalker) {
                     }
                     break;
             }
-        }
-        else {
+        } else {
             this.el = document.createTextNode('');
             insertBefore(this.el, hydrateWalker.target, hydrateWalker.current);
         }
     }
-    
 }
 
 TextNode.prototype.nodeType = NodeType.TEXT;
@@ -109,8 +109,7 @@ TextNode.prototype.attach = function (parentEl, beforeEl) {
         parentEl.insertBefore(tempFlag, this.el);
         tempFlag.insertAdjacentHTML('beforebegin', this.content);
         parentEl.removeChild(tempFlag);
-    }
-    else {
+    } else {
         this.el = document.createTextNode(this.content);
         insertBefore(this.el, parentEl, beforeEl);
     }
@@ -131,8 +130,9 @@ TextNode.prototype.dispose = function (noDetach) {
     this.sel = null;
 };
 
-var textUpdateProp = isBrowser
-    && (typeof document.createTextNode('').textContent === 'string'
+var textUpdateProp =
+    isBrowser &&
+    (typeof document.createTextNode('').textContent === 'string'
         ? 'textContent'
         : 'data');
 
@@ -148,7 +148,13 @@ TextNode.prototype._update = function (changes) {
 
     var len = changes.length;
     while (len--) {
-        if (changeExprCompare(changes[len].expr, this.aNode.textExpr, this.scope)) {
+        if (
+            changeExprCompare(
+                changes[len].expr,
+                this.aNode.textExpr,
+                this.scope
+            )
+        ) {
             var text = evalExpr(this.aNode.textExpr, this.scope, this.owner);
             if (text == null) {
                 text = '';
@@ -167,16 +173,13 @@ TextNode.prototype._update = function (changes) {
                         removeEl(removeTarget);
                     }
 
-                   
                     warnSetHTML(parentEl);
-                    
 
                     var tempFlag = document.createElement('script');
                     parentEl.insertBefore(tempFlag, this.el);
                     tempFlag.insertAdjacentHTML('beforebegin', text);
                     parentEl.removeChild(tempFlag);
-                }
-                else {
+                } else {
                     this.el[textUpdateProp] = text;
                 }
             }

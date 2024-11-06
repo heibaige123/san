@@ -7,7 +7,6 @@
  * @file 解析指令
  */
 
-
 var Walker = require('./walker');
 var parseExpr = require('./parse-expr');
 var parseCall = require('./parse-call');
@@ -39,8 +38,8 @@ function parseDirective(name, value, options) {
             return {
                 value: {}
             };
-        
-        case 'transition': 
+
+        case 'transition':
             return {
                 value: parseCall(value)
             };
@@ -52,29 +51,33 @@ function parseDirective(name, value, options) {
 
         case 'for':
             var walker = new Walker(value);
-            var match = walker.match(/^\s*([$0-9a-z_]+)(\s*,\s*([$0-9a-z_]+))?\s+in\s+/ig, 1);
-    
+            var match = walker.match(
+                /^\s*([$0-9a-z_]+)(\s*,\s*([$0-9a-z_]+))?\s+in\s+/gi,
+                1
+            );
+
             if (match) {
                 var directive = {
                     item: match[1],
                     value: readUnaryExpr(walker)
                 };
-    
+
                 if (match[3]) {
                     directive.index = match[3];
                 }
-    
-                if (walker.match(/\s*trackby\s+/ig, 1)) {
+
+                if (walker.match(/\s*trackby\s+/gi, 1)) {
                     var start = walker.index;
                     directive.trackBy = readAccessor(walker);
-                    directive.trackByRaw = walker.source.slice(start, walker.index);
+                    directive.trackByRaw = walker.source.slice(
+                        start,
+                        walker.index
+                    );
                 }
                 return directive;
             }
-    
-           
+
             throw new Error('[SAN FATAL] for syntax error: ' + value);
-            
     }
 }
 

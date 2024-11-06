@@ -9,15 +9,12 @@
 var DataTypes = san.DataTypes;
 
 describe('DataTypes', function () {
-
     it('should be a object', function () {
         expect(typeof DataTypes === 'object').toBe(true);
     });
 
     it('all the values of property in `dataTypes` should be a function', function () {
-
         expect(function () {
-
             var Test = san.defineComponent({
                 template: '<div>{{name}}</div>',
                 dataTypes: {
@@ -26,13 +23,10 @@ describe('DataTypes', function () {
             });
 
             new Test();
-
         }).toThrow();
-
     });
 
     it('custom checker', function () {
-
         var Test = san.defineComponent({
             template: '<div>{name}</div>',
             displayName: 'Test',
@@ -60,11 +54,9 @@ describe('DataTypes', function () {
                 }
             });
         }).not.toThrow();
-
     });
 
     it('array', function () {
-
         var Test = san.defineComponent({
             template: '<div>{name}</div>',
             displayName: 'Test',
@@ -100,11 +92,9 @@ describe('DataTypes', function () {
                 }
             });
         }).not.toThrow();
-
     });
 
     it('object', function () {
-
         var Test = san.defineComponent({
             template: '<div>{name}</div>',
             displayName: 'Test',
@@ -135,16 +125,14 @@ describe('DataTypes', function () {
         expect(function () {
             new Test({
                 data: {
-                    object1: {object: true},
-                    object2: {object: false}
+                    object1: { object: true },
+                    object2: { object: false }
                 }
             });
         }).not.toThrow();
-
     });
 
     it('bool', function () {
-
         var Test = san.defineComponent({
             template: '<div>{name}</div>',
             displayName: 'Test',
@@ -180,11 +168,9 @@ describe('DataTypes', function () {
                 }
             });
         }).not.toThrow();
-
     });
 
     it('number', function () {
-
         var Test = san.defineComponent({
             template: '<div>{name}</div>',
             displayName: 'Test',
@@ -220,11 +206,9 @@ describe('DataTypes', function () {
                 }
             });
         }).not.toThrow();
-
     });
 
     it('func', function () {
-
         var Test = san.defineComponent({
             template: '<div>{name}</div>',
             displayName: 'Test',
@@ -260,11 +244,9 @@ describe('DataTypes', function () {
                 }
             });
         }).not.toThrow();
-
     });
 
     it('string', function () {
-
         var Test = san.defineComponent({
             template: '<div>{name}</div>',
             displayName: 'Test',
@@ -288,7 +270,7 @@ describe('DataTypes', function () {
         expect(function () {
             new Test({
                 data: {
-                    string1: {name: 'not a string'},
+                    string1: { name: 'not a string' },
                     string2: 'a string'
                 }
             });
@@ -302,11 +284,9 @@ describe('DataTypes', function () {
                 }
             });
         }).not.toThrow();
-
     });
 
     it('shape', function () {
-
         expect(typeof DataTypes.shape).toBe('function');
         expect(typeof DataTypes.shape({}).isRequired).toBe('function');
 
@@ -336,15 +316,11 @@ describe('DataTypes', function () {
             });
         }).not.toThrow();
 
-
         // isRequired
         expect(function () {
-
             new Test({
-                data: {
-                }
+                data: {}
             });
-
         }).toThrow();
 
         // 内部结构不合法
@@ -372,7 +348,6 @@ describe('DataTypes', function () {
 
         // shape 参数不合法
         expect(function () {
-
             var Test = san.defineComponent({
                 template: '<div>{name}</div>',
                 displayName: 'Test',
@@ -387,12 +362,10 @@ describe('DataTypes', function () {
                     shape: {}
                 }
             });
-
         }).toThrow();
 
         // shape 内部的数据项检测函数不是一个 function 会被跳过
         expect(function () {
-
             var Test = san.defineComponent({
                 template: '<div>{name}</div>',
                 displayName: 'Test',
@@ -410,21 +383,16 @@ describe('DataTypes', function () {
                     }
                 }
             });
-
         }).not.toThrow();
-
     });
 
     it('instanceOf', function () {
-
         expect(typeof DataTypes.instanceOf).toBe('function');
         expect(typeof DataTypes.instanceOf([]).isRequired).toBe('function');
 
         /* eslint-disable */
-        function TestClass() {
-        }
-        function TestClass2() {
-        }
+        function TestClass() {}
+        function TestClass2() {}
         /* eslint-enable */
 
         var Test = san.defineComponent({
@@ -460,11 +428,9 @@ describe('DataTypes', function () {
                 }
             });
         }).toThrow();
-
     });
 
     it('oneOf', function () {
-
         expect(typeof DataTypes.oneOf).toBe('function');
         expect(typeof DataTypes.oneOf([]).isRequired).toBe('function');
 
@@ -488,8 +454,7 @@ describe('DataTypes', function () {
 
         expect(function () {
             new Test({
-                data: {
-                }
+                data: {}
             });
         }).toThrow();
 
@@ -510,11 +475,9 @@ describe('DataTypes', function () {
                 }
             });
         }).toThrow();
-
     });
 
     it('oneOfType', function () {
-
         expect(typeof DataTypes.oneOfType).toBe('function');
         expect(typeof DataTypes.oneOfType([]).isRequired).toBe('function');
 
@@ -550,8 +513,7 @@ describe('DataTypes', function () {
 
         expect(function () {
             new Test({
-                data: {
-                }
+                data: {}
             });
         }).toThrow();
 
@@ -581,14 +543,13 @@ describe('DataTypes', function () {
                 }
             });
         }).not.toThrow();
-
-
     });
 
     it('arrayOf', function () {
-
         expect(typeof DataTypes.arrayOf).toBe('function');
-        expect(typeof DataTypes.arrayOf(DataTypes.any).isRequired).toBe('function');
+        expect(typeof DataTypes.arrayOf(DataTypes.any).isRequired).toBe(
+            'function'
+        );
 
         var Test = san.defineComponent({
             template: '<div>{name}</div>',
@@ -610,8 +571,7 @@ describe('DataTypes', function () {
         // required
         expect(function () {
             new Test({
-                data: {
-                }
+                data: {}
             });
         }).toThrow();
 
@@ -642,13 +602,13 @@ describe('DataTypes', function () {
                 }
             });
         }).toThrow();
-
     });
 
     it('objectOf', function () {
-
         expect(typeof DataTypes.objectOf).toBe('function');
-        expect(typeof DataTypes.objectOf(DataTypes.string).isRequired).toBe('function');
+        expect(typeof DataTypes.objectOf(DataTypes.string).isRequired).toBe(
+            'function'
+        );
 
         var Test = san.defineComponent({
             template: '<div>{name}</div>',
@@ -663,7 +623,7 @@ describe('DataTypes', function () {
         expect(function () {
             new Test({
                 data: {
-                    objectOf1: {age: 1, count: 2}
+                    objectOf1: { age: 1, count: 2 }
                 }
             });
         }).not.toThrow();
@@ -671,8 +631,7 @@ describe('DataTypes', function () {
         // required
         expect(function () {
             new Test({
-                data: {
-                }
+                data: {}
             });
         }).toThrow();
 
@@ -689,7 +648,7 @@ describe('DataTypes', function () {
         expect(function () {
             new Test({
                 data: {
-                    objectOf1: {age: 1, count: '2'}
+                    objectOf1: { age: 1, count: '2' }
                 }
             });
         }).toThrow();
@@ -698,16 +657,14 @@ describe('DataTypes', function () {
         expect(function () {
             new Test({
                 data: {
-                    objectOf1: {age: 1, count: 2},
-                    objectOf2: {age: 1, count: 2}
+                    objectOf1: { age: 1, count: 2 },
+                    objectOf2: { age: 1, count: 2 }
                 }
             });
         }).toThrow();
-
     });
 
     it('exact', function () {
-
         expect(typeof DataTypes.exact).toBe('function');
         expect(typeof DataTypes.exact({}).isRequired).toBe('function');
 
@@ -715,7 +672,7 @@ describe('DataTypes', function () {
             template: '<div>{name}</div>',
             displayName: 'Test',
             dataTypes: {
-                exact1: DataTypes.exact({x: DataTypes.number}).isRequired,
+                exact1: DataTypes.exact({ x: DataTypes.number }).isRequired,
                 exact2: DataTypes.exact(null)
             }
         });
@@ -724,7 +681,7 @@ describe('DataTypes', function () {
         expect(function () {
             new Test({
                 data: {
-                    exact1: {x: 1}
+                    exact1: { x: 1 }
                 }
             });
         }).not.toThrow();
@@ -732,8 +689,7 @@ describe('DataTypes', function () {
         // required
         expect(function () {
             new Test({
-                data: {
-                }
+                data: {}
             });
         }).toThrow();
 
@@ -762,8 +718,7 @@ describe('DataTypes', function () {
         expect(function () {
             new Test({
                 data: {
-                    exact1: {
-                    }
+                    exact1: {}
                 }
             });
         }).toThrow();
@@ -772,7 +727,7 @@ describe('DataTypes', function () {
         expect(function () {
             new Test({
                 data: {
-                    exact1: {x: 'not a number'}
+                    exact1: { x: 'not a number' }
                 }
             });
         }).toThrow();
@@ -781,16 +736,14 @@ describe('DataTypes', function () {
         expect(function () {
             new Test({
                 data: {
-                    exact1: {x: 1},
-                    exact2: {x: 1}
+                    exact1: { x: 1 },
+                    exact2: { x: 1 }
                 }
             });
         }).toThrow();
-
     });
 
     it('will trigger a validation while data change', function () {
-
         var Avatar = san.defineComponent({
             template: '<div>{{name}}</div>',
             dataTypes: {
@@ -801,23 +754,19 @@ describe('DataTypes', function () {
         var main;
 
         expect(function () {
-
             main = new Avatar({
                 data: {
                     name: 'a string'
                 }
             });
-
         }).not.toThrow();
 
         expect(function () {
             main.data.set('name', false);
         }).toThrow();
-
     });
 
     it('will check after data binding', function () {
-
         var MyButton = san.defineComponent({
             template: '<button>hello, {{text}}</button>',
             dataTypes: {
@@ -826,10 +775,7 @@ describe('DataTypes', function () {
         });
 
         var Avatar = san.defineComponent({
-            template: ''
-                + '<div>'
-                +     '<my-button text="{{name}}" />'
-                + '</div>',
+            template: '' + '<div>' + '<my-button text="{{name}}" />' + '</div>',
             components: {
                 'my-button': MyButton
             }
@@ -838,7 +784,6 @@ describe('DataTypes', function () {
         var avatar;
 
         expect(function () {
-
             avatar = new Avatar({
                 data: {
                     name: 'world'
@@ -848,17 +793,12 @@ describe('DataTypes', function () {
             avatar.attach(document.body);
 
             avatar.dispose();
-
         }).not.toThrow();
 
         expect(function () {
             new Avatar({
-                data: {
-                }
+                data: {}
             }).attach(document.body);
         }).toThrow();
-
     });
-
-
 });

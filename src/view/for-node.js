@@ -24,7 +24,6 @@ var createHydrateNode = require('./create-hydrate-node');
 var nodeOwnSimpleDispose = require('./node-own-simple-dispose');
 var nodeOwnCreateStump = require('./node-own-create-stump');
 
-
 /**
  * 循环项的数据容器类
  *
@@ -56,7 +55,10 @@ function ForItemData(forElement, item, index) {
 ForItemData.prototype.exprResolve = function (expr) {
     var directive = this.directive;
 
-    if (expr.type === ExprType.ACCESSOR && expr.paths[0].value === directive.item) {
+    if (
+        expr.type === ExprType.ACCESSOR &&
+        expr.paths[0].value === directive.item
+    ) {
         expr = {
             type: ExprType.ACCESSOR,
             paths: directive.value.paths.concat(
@@ -139,9 +141,8 @@ function ForNode(aNode, parent, scope, owner, hydrateWalker) {
     this.owner = owner;
     this.scope = scope;
     this.parent = parent;
-    this.parentComponent = parent.nodeType === NodeType.CMPT
-        ? parent
-        : parent.parentComponent;
+    this.parentComponent =
+        parent.nodeType === NodeType.CMPT ? parent : parent.parentComponent;
 
     this.id = guid++;
     this.children = [];
@@ -164,38 +165,45 @@ function ForNode(aNode, parent, scope, owner, hydrateWalker) {
     if (this.param.index) {
         this.indexExpr = {
             type: ExprType.ACCESSOR,
-            paths: [{
-                type: ExprType.STRING,
-                value: '' + this.param.index
-            }]
+            paths: [
+                {
+                    type: ExprType.STRING,
+                    value: '' + this.param.index
+                }
+            ]
         };
     }
-
 
     // #[begin] hydrate
     if (hydrateWalker) {
         this.listData = evalExpr(this.param.value, this.scope, this.owner);
         if (this.listData instanceof Array) {
             for (var i = 0; i < this.listData.length; i++) {
-                this.children.push(createHydrateNode(
-                    this.aNode.forRinsed,
-                    this,
-                    new ForItemData(this, this.listData[i], i),
-                    this.owner,
-                    hydrateWalker
-                ));
-            }
-        }
-        else if (this.listData && typeof this.listData === 'object') {
-            for (var i in this.listData) {
-                if (this.listData.hasOwnProperty(i) && this.listData[i] != null) {
-                    this.children.push(createHydrateNode(
+                this.children.push(
+                    createHydrateNode(
                         this.aNode.forRinsed,
                         this,
                         new ForItemData(this, this.listData[i], i),
                         this.owner,
                         hydrateWalker
-                    ));
+                    )
+                );
+            }
+        } else if (this.listData && typeof this.listData === 'object') {
+            for (var i in this.listData) {
+                if (
+                    this.listData.hasOwnProperty(i) &&
+                    this.listData[i] != null
+                ) {
+                    this.children.push(
+                        createHydrateNode(
+                            this.aNode.forRinsed,
+                            this,
+                            new ForItemData(this, this.listData[i], i),
+                            this.owner,
+                            hydrateWalker
+                        )
+                    );
                 }
             }
         }
@@ -203,9 +211,7 @@ function ForNode(aNode, parent, scope, owner, hydrateWalker) {
         this._create();
         insertBefore(this.el, hydrateWalker.target, hydrateWalker.current);
     }
-    
 }
-
 
 ForNode.prototype.nodeType = NodeType.FOR;
 ForNode.prototype._create = nodeOwnCreateStump;
@@ -236,20 +242,39 @@ ForNode.prototype._createChildren = function () {
         for (var i = 0; i < listData.length; i++) {
             var childANode = this.aNode.forRinsed;
             var child = childANode.Clazz
-                        ? new childANode.Clazz(childANode, this, new ForItemData(this, listData[i], i), this.owner)
-                        : createNode(childANode, this, new ForItemData(this, listData[i], i), this.owner);
+                ? new childANode.Clazz(
+                      childANode,
+                      this,
+                      new ForItemData(this, listData[i], i),
+                      this.owner
+                  )
+                : createNode(
+                      childANode,
+                      this,
+                      new ForItemData(this, listData[i], i),
+                      this.owner
+                  );
 
             this.children.push(child);
             child.attach(parentEl, this.el);
         }
-    }
-    else if (listData && typeof listData === 'object') {
+    } else if (listData && typeof listData === 'object') {
         for (var i in listData) {
             if (listData.hasOwnProperty(i) && listData[i] != null) {
                 var childANode = this.aNode.forRinsed;
                 var child = childANode.Clazz
-                        ? new childANode.Clazz(childANode, this, new ForItemData(this, listData[i], i), this.owner)
-                        : createNode(childANode, this, new ForItemData(this, listData[i], i), this.owner);
+                    ? new childANode.Clazz(
+                          childANode,
+                          this,
+                          new ForItemData(this, listData[i], i),
+                          this.owner
+                      )
+                    : createNode(
+                          childANode,
+                          this,
+                          new ForItemData(this, listData[i], i),
+                          this.owner
+                      );
                 this.children.push(child);
                 child.attach(parentEl, this.el);
             }
@@ -270,33 +295,41 @@ ForNode.prototype._update = function (changes) {
     var newIsArr = listData instanceof Array;
 
     if (this.children.length) {
-        if (!listData || newIsArr && listData.length === 0) {
+        if (!listData || (newIsArr && listData.length === 0)) {
             this._disposeChildren();
             this.listData = listData;
-        }
-        else if (oldIsArr !== newIsArr || !newIsArr) {
+        } else if (oldIsArr !== newIsArr || !newIsArr) {
             // 就是这么暴力
             // 不推荐使用for遍历object，用的话自己负责
             this.listData = listData;
 
             var isListChanged;
-            for (var cIndex = 0; !isListChanged && cIndex < changes.length; cIndex++) {
-                isListChanged = changeExprCompare(changes[cIndex].expr, this.param.value, this.scope);
+            for (
+                var cIndex = 0;
+                !isListChanged && cIndex < changes.length;
+                cIndex++
+            ) {
+                isListChanged = changeExprCompare(
+                    changes[cIndex].expr,
+                    this.param.value,
+                    this.scope
+                );
             }
             var dataHotspot = this.aNode._d;
-            if (isListChanged || dataHotspot && changesIsInDataRef(changes, dataHotspot)) {
+            if (
+                isListChanged ||
+                (dataHotspot && changesIsInDataRef(changes, dataHotspot))
+            ) {
                 var me = this;
                 this._disposeChildren(null, function () {
                     me._createChildren();
                 });
             }
-        }
-        else {
+        } else {
             this._updateArray(changes, listData);
             this.listData = listData;
         }
-    }
-    else {
+    } else {
         this.listData = listData;
         this._createChildren();
     }
@@ -315,17 +348,18 @@ ForNode.prototype._disposeChildren = function (children, callback) {
 
     var len = this.children.length;
 
-    var violentClear = !this.aNode.directives.transition
-        && !children
+    var violentClear =
+        !this.aNode.directives.transition &&
+        !children &&
         // 是否 parent 的唯一 child
-        && len && parentFirstChild === this.children[0].el && parentLastChild === this.el
-        ;
+        len &&
+        parentFirstChild === this.children[0].el &&
+        parentLastChild === this.el;
 
     if (!children) {
         children = this.children;
         this.children = [];
     }
-
 
     var disposedChildCount = 0;
     len = children.length;
@@ -336,28 +370,20 @@ ForNode.prototype._disposeChildren = function (children, callback) {
 
         if (violentClear) {
             disposeChild && disposeChild.dispose(violentClear, violentClear);
-        }
-        else if (disposeChild) {
+        } else if (disposeChild) {
             disposeChild._ondisposed = childDisposed;
             disposeChild.dispose();
-        }
-        else {
+        } else {
             childDisposed();
         }
     }
 
     if (violentClear) {
-        
-        
         if (ie) {
             parentEl.innerHTML = '';
-        }
-        else {
-            
+        } else {
             parentEl.textContent = '';
-            
         }
-        
 
         this.el = document.createComment(this.id);
         parentEl.appendChild(this.el);
@@ -372,8 +398,9 @@ ForNode.prototype._disposeChildren = function (children, callback) {
     }
 };
 
-ForNode.prototype.opti = typeof navigator !== 'undefined'
-    && /chrome\/[0-9]+/i.test(navigator.userAgent);
+ForNode.prototype.opti =
+    typeof navigator !== 'undefined' &&
+    /chrome\/[0-9]+/i.test(navigator.userAgent);
 /**
  * 数组类型的视图更新
  *
@@ -409,55 +436,66 @@ ForNode.prototype._updateArray = function (changes, newList) {
     /* eslint-disable no-redeclare */
     for (var cIndex = 0; cIndex < changes.length; cIndex++) {
         var change = changes[cIndex];
-        var relation = changeExprCompare(change.expr, this.param.value, this.scope);
+        var relation = changeExprCompare(
+            change.expr,
+            this.param.value,
+            this.scope
+        );
 
         if (!relation) {
             // 无关时，直接传递给子元素更新，列表本身不需要动
             pushToChildrenChanges(change);
-        }
-        else {
+        } else {
             if (relation > 2) {
                 // 变更表达式是list绑定表达式的子项
                 // 只需要对相应的子项进行更新
                 var changePaths = change.expr.paths;
                 var forLen = this.param.value.paths.length;
-                var changeIndex = +evalExpr(changePaths[forLen], this.scope, this.owner);
+                var changeIndex = +evalExpr(
+                    changePaths[forLen],
+                    this.scope,
+                    this.owner
+                );
 
                 if (isNaN(changeIndex)) {
                     pushToChildrenChanges(change);
-                }
-                else if (!isChildrenRebuild) {
+                } else if (!isChildrenRebuild) {
                     isOnlyDispose = false;
                     childrenNeedUpdate && (childrenNeedUpdate[changeIndex] = 1);
 
-                    childrenChanges[changeIndex] = childrenChanges[changeIndex] || [];
+                    childrenChanges[changeIndex] =
+                        childrenChanges[changeIndex] || [];
                     if (this.param.index) {
                         childrenChanges[changeIndex].push(change);
                     }
 
-                    change = change.type === DataChangeType.SET
-                        ? {
-                            type: change.type,
-                            expr: {
-                                type: ExprType.ACCESSOR,
-                                paths: this.itemPaths.concat(changePaths.slice(forLen + 1))
-                            },
-                            value: change.value,
-                            option: change.option
-                        }
-                        : {
-                            index: change.index,
-                            deleteCount: change.deleteCount,
-                            insertions: change.insertions,
-                            type: change.type,
-                            expr: {
-                                type: ExprType.ACCESSOR,
-                                paths: this.itemPaths.concat(changePaths.slice(forLen + 1))
-                            },
-                            value: change.value,
-                            option: change.option
-                        };
-
+                    change =
+                        change.type === DataChangeType.SET
+                            ? {
+                                  type: change.type,
+                                  expr: {
+                                      type: ExprType.ACCESSOR,
+                                      paths: this.itemPaths.concat(
+                                          changePaths.slice(forLen + 1)
+                                      )
+                                  },
+                                  value: change.value,
+                                  option: change.option
+                              }
+                            : {
+                                  index: change.index,
+                                  deleteCount: change.deleteCount,
+                                  insertions: change.insertions,
+                                  type: change.type,
+                                  expr: {
+                                      type: ExprType.ACCESSOR,
+                                      paths: this.itemPaths.concat(
+                                          changePaths.slice(forLen + 1)
+                                      )
+                                  },
+                                  value: change.value,
+                                  option: change.option
+                              };
 
                     childrenChanges[changeIndex].push(change);
 
@@ -470,29 +508,33 @@ ForNode.prototype._updateArray = function (changes, newList) {
                                     silent: 1
                                 }
                             );
-                        }
-                        else {
+                        } else {
                             // 设置数组项的索引可能超出数组长度，此时需要新增
                             // 比如当前数组只有2项，但是set list[4]
                             this.children[changeIndex] = 0;
                         }
-                    }
-                    else if (this.children[changeIndex]) {
+                    } else if (this.children[changeIndex]) {
                         this.children[changeIndex].scope._splice(
                             change.expr,
-                            [].concat(change.index, change.deleteCount, change.insertions),
+                            [].concat(
+                                change.index,
+                                change.deleteCount,
+                                change.insertions
+                            ),
                             {
                                 silent: 1
                             }
                         );
                     }
                 }
-            }
-            else if (isChildrenRebuild) {
+            } else if (isChildrenRebuild) {
                 continue;
-            }
-            else if (relation === 2 && change.type === DataChangeType.SPLICE
-                && (this.owner.updateMode !== 'optimized' || !this.opti || this.aNode.directives.transition)
+            } else if (
+                relation === 2 &&
+                change.type === DataChangeType.SPLICE &&
+                (this.owner.updateMode !== 'optimized' ||
+                    !this.opti ||
+                    this.aNode.directives.transition)
             ) {
                 childrenNeedUpdate = null;
 
@@ -506,21 +548,27 @@ ForNode.prototype._updateArray = function (changes, newList) {
                 if (newCount) {
                     var indexChange = this.param.index
                         ? {
-                            type: DataChangeType.SET,
-                            option: change.option,
-                            expr: this.indexExpr
-                        }
+                              type: DataChangeType.SET,
+                              option: change.option,
+                              expr: this.indexExpr
+                          }
                         : null;
 
-                    for (var i = changeStart + deleteCount; i < this.children.length; i++) {
+                    for (
+                        var i = changeStart + deleteCount;
+                        i < this.children.length;
+                        i++
+                    ) {
                         if (indexChange) {
                             isOnlyDispose = false;
-                            (childrenChanges[i] = childrenChanges[i] || []).push(indexChange);
+                            (childrenChanges[i] =
+                                childrenChanges[i] || []).push(indexChange);
                         }
 
                         var child = this.children[i];
                         if (child) {
-                            child.scope.raw[child.scope.indexName] = i - deleteCount + insertionsLen;
+                            child.scope.raw[child.scope.indexName] =
+                                i - deleteCount + insertionsLen;
                         }
                     }
                 }
@@ -538,25 +586,32 @@ ForNode.prototype._updateArray = function (changes, newList) {
                             value: change.insertions[deleteLen]
                         });
                         if (this.children[i]) {
-                            this.children[i].scope.raw[this.param.item] = change.insertions[deleteLen];
+                            this.children[i].scope.raw[this.param.item] =
+                                change.insertions[deleteLen];
                         }
                     }
                 }
 
                 if (newCount < 0) {
                     disposeChildren = disposeChildren.concat(
-                        this.children.splice(changeStart + insertionsLen, -newCount)
+                        this.children.splice(
+                            changeStart + insertionsLen,
+                            -newCount
+                        )
                     );
-                    childrenChanges.splice(changeStart + insertionsLen, -newCount);
-                }
-                else if (newCount > 0) {
+                    childrenChanges.splice(
+                        changeStart + insertionsLen,
+                        -newCount
+                    );
+                } else if (newCount > 0) {
                     isOnlyDispose = false;
-                    var spliceArgs = [changeStart + deleteCount, 0].concat(new Array(newCount));
+                    var spliceArgs = [changeStart + deleteCount, 0].concat(
+                        new Array(newCount)
+                    );
                     this.children.splice.apply(this.children, spliceArgs);
                     childrenChanges.splice.apply(childrenChanges, spliceArgs);
                 }
-            }
-            else {
+            } else {
                 childrenNeedUpdate = null;
                 isOnlyDispose = false;
 
@@ -577,7 +632,7 @@ ForNode.prototype._updateArray = function (changes, newList) {
                         var itemKey = getItemKey(newList[i]);
                         newListKeys.push(itemKey);
                         newListKeysMap[itemKey] = i;
-                    };
+                    }
 
                     for (var i = 0; i < this.listData.length; i++) {
                         var itemKey = getItemKey(this.listData[i]);
@@ -587,12 +642,11 @@ ForNode.prototype._updateArray = function (changes, newList) {
 
                         if (newListKeysMap[itemKey] != null) {
                             oldListInNew[i] = newListKeysMap[itemKey];
-                        }
-                        else {
+                        } else {
                             oldListInNew[i] = -1;
                             disposeChildren.push(this.children[i]);
                         }
-                    };
+                    }
 
                     var newIndexStart = 0;
                     var newIndexEnd = newLen;
@@ -600,13 +654,21 @@ ForNode.prototype._updateArray = function (changes, newList) {
                     var oldIndexEnd = oldChildrenLen;
 
                     // 优化：从头开始比对新旧 list 项是否相同
-                    while (newIndexStart < newLen
-                        && oldIndexStart < oldChildrenLen
-                        && newListKeys[newIndexStart] === oldListKeys[oldIndexStart]
+                    while (
+                        newIndexStart < newLen &&
+                        oldIndexStart < oldChildrenLen &&
+                        newListKeys[newIndexStart] ===
+                            oldListKeys[oldIndexStart]
                     ) {
-                        if (this.listData[oldIndexStart] !== newList[newIndexStart]) {
-                            this.children[oldIndexStart].scope.raw[this.param.item] = newList[newIndexStart];
-                            (childrenChanges[oldIndexStart] = childrenChanges[oldIndexStart] || []).push({
+                        if (
+                            this.listData[oldIndexStart] !==
+                            newList[newIndexStart]
+                        ) {
+                            this.children[oldIndexStart].scope.raw[
+                                this.param.item
+                            ] = newList[newIndexStart];
+                            (childrenChanges[oldIndexStart] =
+                                childrenChanges[oldIndexStart] || []).push({
                                 type: DataChangeType.SET,
                                 option: change.option,
                                 expr: this.itemExpr,
@@ -616,7 +678,10 @@ ForNode.prototype._updateArray = function (changes, newList) {
 
                         // 对list更上级数据的直接设置
                         if (relation < 2) {
-                            (childrenChanges[oldIndexStart] = childrenChanges[oldIndexStart] || []).push(change);
+                            (childrenChanges[oldIndexStart] =
+                                childrenChanges[oldIndexStart] || []).push(
+                                change
+                            );
                         }
 
                         newIndexStart++;
@@ -625,23 +690,31 @@ ForNode.prototype._updateArray = function (changes, newList) {
 
                     var indexChange = this.param.index
                         ? {
-                            type: DataChangeType.SET,
-                            option: change.option,
-                            expr: this.indexExpr
-                        }
+                              type: DataChangeType.SET,
+                              option: change.option,
+                              expr: this.indexExpr
+                          }
                         : null;
 
                     // 优化：从尾开始比对新旧 list 项是否相同
-                    while (newIndexEnd > newIndexStart && oldIndexEnd > oldIndexStart
-                        && newListKeys[newIndexEnd - 1] === oldListKeys[oldIndexEnd - 1]
+                    while (
+                        newIndexEnd > newIndexStart &&
+                        oldIndexEnd > oldIndexStart &&
+                        newListKeys[newIndexEnd - 1] ===
+                            oldListKeys[oldIndexEnd - 1]
                     ) {
                         newIndexEnd--;
                         oldIndexEnd--;
 
-                        if (this.listData[oldIndexEnd] !== newList[newIndexEnd]) {
+                        if (
+                            this.listData[oldIndexEnd] !== newList[newIndexEnd]
+                        ) {
                             // refresh item
-                            this.children[oldIndexEnd].scope.raw[this.param.item] = newList[newIndexEnd];
-                            (childrenChanges[oldIndexEnd] = childrenChanges[oldIndexEnd] || []).push({
+                            this.children[oldIndexEnd].scope.raw[
+                                this.param.item
+                            ] = newList[newIndexEnd];
+                            (childrenChanges[oldIndexEnd] =
+                                childrenChanges[oldIndexEnd] || []).push({
                                 type: DataChangeType.SET,
                                 option: change.option,
                                 expr: this.itemExpr,
@@ -651,23 +724,34 @@ ForNode.prototype._updateArray = function (changes, newList) {
 
                         // refresh index
                         if (newIndexEnd !== oldIndexEnd) {
-                            this.children[oldIndexEnd].scope.raw[this.children[oldIndexEnd].scope.indexName] = newIndexEnd;
+                            this.children[oldIndexEnd].scope.raw[
+                                this.children[oldIndexEnd].scope.indexName
+                            ] = newIndexEnd;
 
                             if (indexChange) {
-                                (childrenChanges[oldIndexEnd] = childrenChanges[oldIndexEnd] || []).push(indexChange);
+                                (childrenChanges[oldIndexEnd] =
+                                    childrenChanges[oldIndexEnd] || []).push(
+                                    indexChange
+                                );
                             }
                         }
 
                         // 对list更上级数据的直接设置
                         if (relation < 2) {
-                            (childrenChanges[oldIndexEnd] = childrenChanges[oldIndexEnd] || []).push(change);
+                            (childrenChanges[oldIndexEnd] =
+                                childrenChanges[oldIndexEnd] || []).push(
+                                change
+                            );
                         }
                     }
 
                     var oldListLIS = [];
                     var lisIdx = [];
                     var lisPos = -1;
-                    var lisSource = oldListInNew.slice(oldIndexStart, oldIndexEnd);
+                    var lisSource = oldListInNew.slice(
+                        oldIndexStart,
+                        oldIndexEnd
+                    );
                     var len = oldIndexEnd - oldIndexStart;
                     var preIdx = new Array(len);
 
@@ -680,10 +764,12 @@ ForNode.prototype._updateArray = function (changes, newList) {
                         var rePos = -1;
                         var rePosEnd = oldListLIS.length;
 
-                        if (rePosEnd > 0 && oldListLIS[rePosEnd - 1] <= oldItemInNew) {
+                        if (
+                            rePosEnd > 0 &&
+                            oldListLIS[rePosEnd - 1] <= oldItemInNew
+                        ) {
                             rePos = rePosEnd - 1;
-                        }
-                        else {
+                        } else {
                             while (rePosEnd - rePos > 1) {
                                 var mid = Math.floor((rePos + rePosEnd) / 2);
                                 if (oldListLIS[mid] > oldItemInNew) {
@@ -708,12 +794,20 @@ ForNode.prototype._updateArray = function (changes, newList) {
                         }
                     }
 
-                    for (var i = lisIdx[lisPos]; lisPos >= 0; i = preIdx[i], lisPos--) {
+                    for (
+                        var i = lisIdx[lisPos];
+                        lisPos >= 0;
+                        i = preIdx[i], lisPos--
+                    ) {
                         oldListLIS[lisPos] = i;
                     }
 
                     var oldListLISPos = oldListLIS.length;
-                    var staticPos = oldListLISPos ? oldListInNew[oldListLIS[--oldListLISPos] + oldIndexStart] : -1;
+                    var staticPos = oldListLISPos
+                        ? oldListInNew[
+                              oldListLIS[--oldListLISPos] + oldIndexStart
+                          ]
+                        : -1;
 
                     var newChildren = [];
                     var newChildrenChanges = [];
@@ -722,27 +816,34 @@ ForNode.prototype._updateArray = function (changes, newList) {
                     var parentEl = childIsElem && beforeEl.parentNode;
                     for (var i = newLen - 1; i >= 0; i--) {
                         if (i >= newIndexEnd) {
-                            newChildren[i] = this.children[oldChildrenLen - newLen + i];
-                            newChildrenChanges[i] = childrenChanges[oldChildrenLen - newLen + i];
+                            newChildren[i] =
+                                this.children[oldChildrenLen - newLen + i];
+                            newChildrenChanges[i] =
+                                childrenChanges[oldChildrenLen - newLen + i];
                             if (childIsElem) {
                                 beforeEl = newChildren[i].el;
                             }
-                        }
-                        else if (i < newIndexStart) {
+                        } else if (i < newIndexStart) {
                             newChildren[i] = this.children[i];
                             newChildrenChanges[i] = childrenChanges[i];
-                        }
-                        else {
+                        } else {
                             var oldListIndex = oldListKeyIndex[newListKeys[i]];
                             var oldListNode = this.children[oldListIndex];
 
-                            if (oldListNode && (childIsElem || i === staticPos)) {
+                            if (
+                                oldListNode &&
+                                (childIsElem || i === staticPos)
+                            ) {
                                 var oldScope = oldListNode.scope;
 
                                 // 如果数据本身引用发生变化，设置变更
-                                if (this.listData[oldListIndex] !== newList[i]) {
+                                if (
+                                    this.listData[oldListIndex] !== newList[i]
+                                ) {
                                     oldScope.raw[this.param.item] = newList[i];
-                                    (childrenChanges[oldListIndex] = childrenChanges[oldListIndex] || []).push({
+                                    (childrenChanges[oldListIndex] =
+                                        childrenChanges[oldListIndex] ||
+                                        []).push({
                                         type: DataChangeType.SET,
                                         option: change.option,
                                         expr: this.itemExpr,
@@ -755,31 +856,43 @@ ForNode.prototype._updateArray = function (changes, newList) {
                                     oldScope.raw[oldScope.indexName] = i;
 
                                     if (indexChange) {
-                                        (childrenChanges[oldListIndex] = childrenChanges[oldListIndex] || []).push(indexChange);
+                                        (childrenChanges[oldListIndex] =
+                                            childrenChanges[oldListIndex] ||
+                                            []).push(indexChange);
                                     }
                                 }
 
                                 // 对list更上级数据的直接设置
                                 if (relation < 2) {
-                                    (childrenChanges[oldListIndex] = childrenChanges[oldListIndex] || []).push(change);
+                                    (childrenChanges[oldListIndex] =
+                                        childrenChanges[oldListIndex] ||
+                                        []).push(change);
                                 }
 
                                 newChildren[i] = oldListNode;
-                                newChildrenChanges[i] = childrenChanges[oldListIndex];
+                                newChildrenChanges[i] =
+                                    childrenChanges[oldListIndex];
 
                                 if (i === staticPos) {
-                                    staticPos = oldListLISPos ? oldListInNew[oldListLIS[--oldListLISPos] + oldIndexStart] : -1;
-                                }
-                                else {
-                                    parentEl.insertBefore(oldListNode.el, beforeEl);
+                                    staticPos = oldListLISPos
+                                        ? oldListInNew[
+                                              oldListLIS[--oldListLISPos] +
+                                                  oldIndexStart
+                                          ]
+                                        : -1;
+                                } else {
+                                    parentEl.insertBefore(
+                                        oldListNode.el,
+                                        beforeEl
+                                    );
                                 }
 
                                 if (childIsElem) {
                                     beforeEl = oldListNode.el;
                                 }
-                            }
-                            else {
-                                oldListNode && disposeChildren.push(oldListNode);
+                            } else {
+                                oldListNode &&
+                                    disposeChildren.push(oldListNode);
                                 newChildren[i] = 0;
                                 newChildrenChanges[i] = 0;
                             }
@@ -789,11 +902,12 @@ ForNode.prototype._updateArray = function (changes, newList) {
                     this.children = newChildren;
                     childrenChanges = newChildrenChanges;
                     // 如果设置了trackBy，用lis更新。结束 ====
-                }
-                else {
+                } else {
                     // 老的比新的多的部分，标记需要dispose
                     if (oldChildrenLen > newLen) {
-                        disposeChildren = disposeChildren.concat(this.children.slice(newLen));
+                        disposeChildren = disposeChildren.concat(
+                            this.children.slice(newLen)
+                        );
                         childrenChanges = childrenChanges.slice(0, newLen);
                         this.children = this.children.slice(0, newLen);
                     }
@@ -802,28 +916,32 @@ ForNode.prototype._updateArray = function (changes, newList) {
                     for (var i = 0; i < newLen; i++) {
                         // 对list更上级数据的直接设置
                         if (relation < 2) {
-                            (childrenChanges[i] = childrenChanges[i] || []).push(change);
+                            (childrenChanges[i] =
+                                childrenChanges[i] || []).push(change);
                         }
 
                         if (this.children[i]) {
-                            if (this.children[i].scope.raw[this.param.item] !== newList[i]) {
-                                this.children[i].scope.raw[this.param.item] = newList[i];
-                                (childrenChanges[i] = childrenChanges[i] || []).push({
+                            if (
+                                this.children[i].scope.raw[this.param.item] !==
+                                newList[i]
+                            ) {
+                                this.children[i].scope.raw[this.param.item] =
+                                    newList[i];
+                                (childrenChanges[i] =
+                                    childrenChanges[i] || []).push({
                                     type: DataChangeType.SET,
                                     option: change.option,
                                     expr: this.itemExpr,
                                     value: newList[i]
                                 });
                             }
-                        }
-                        else {
+                        } else {
                             this.children[i] = 0;
                         }
                     }
                 }
             }
         }
-
     }
 
     // 标记 length 是否发生变化
@@ -851,8 +969,7 @@ ForNode.prototype._updateArray = function (changes, newList) {
     var me = this;
     if (disposeChildren.length === 0) {
         doCreateAndUpdate();
-    }
-    else {
+    } else {
         this._disposeChildren(disposeChildren, function () {
             if (doCreateAndUpdate === me._doCreateAndUpdate) {
                 doCreateAndUpdate();
@@ -877,11 +994,13 @@ ForNode.prototype._updateArray = function (changes, newList) {
             var child = me.children[i];
 
             if (child) {
-                if (childrenChanges[i] && (!childrenNeedUpdate || childrenNeedUpdate[i])) {
+                if (
+                    childrenChanges[i] &&
+                    (!childrenNeedUpdate || childrenNeedUpdate[i])
+                ) {
                     child._update(childrenChanges[i]);
                 }
-            }
-            else {
+            } else {
                 if (j < i) {
                     j = i + 1;
                     beforeEl = null;
@@ -895,7 +1014,12 @@ ForNode.prototype._updateArray = function (changes, newList) {
                     }
                 }
 
-                me.children[i] = createNode(me.aNode.forRinsed, me, new ForItemData(me, newList[i], i), me.owner);
+                me.children[i] = createNode(
+                    me.aNode.forRinsed,
+                    me,
+                    new ForItemData(me, newList[i], i),
+                    me.owner
+                );
                 me.children[i].attach(parentEl, beforeEl || me.el);
             }
         }

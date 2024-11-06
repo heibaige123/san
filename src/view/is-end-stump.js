@@ -19,5 +19,4 @@ function isEndStump(target, type) {
     return target.nodeType === 8 && target.data === '/s-' + type;
 }
 
-
 exports = module.exports = isEndStump;

@@ -49,28 +49,28 @@ function preheatANode(aNode, componentInstance) {
         }
     }
 
-
     function analyseANodeHotspot(aNode) {
         if (!aNode._ht) {
             stack.push(aNode);
-
 
             if (aNode.textExpr) {
                 aNode._ht = true;
                 aNode.Clazz = TextNode;
                 recordHotspotData(aNode.textExpr);
-            }
-            else {
+            } else {
                 aNode._ht = true;
                 aNode._i = 0; // hotspot: instance count
                 aNode._dp = []; // hotspot: dynamic props
                 aNode._xp = []; // hotspot: x props
                 aNode._pi = {}; // hotspot: props index
                 aNode._b = []; // hotspot: binds
-                aNode._ce = !aNode.directives.is // cache element
-                    && aNode.tagName && aNode.tagName.indexOf('-') < 0
-                    && !/^(template|select|input|option|button|video|audio|canvas|img|embed|object|iframe)$/i.test(aNode.tagName);
-
+                aNode._ce =
+                    !aNode.directives.is && // cache element
+                    aNode.tagName &&
+                    aNode.tagName.indexOf('-') < 0 &&
+                    !/^(template|select|input|option|button|video|audio|canvas|img|embed|object|iframe)$/i.test(
+                        aNode.tagName
+                    );
 
                 // === analyse hotspot data: start
                 each(aNode.vars, function (varItem) {
@@ -84,9 +84,10 @@ function preheatANode(aNode, componentInstance) {
                     var prop = props[i];
                     aNode._b.push({
                         name: kebab2camel(prop.name),
-                        expr: prop.noValue != null
-                            ? {type: ExprType.BOOL, value: true}
-                            : prop.expr,
+                        expr:
+                            prop.noValue != null
+                                ? { type: ExprType.BOOL, value: true }
+                                : prop.expr,
                         x: prop.x,
                         noValue: prop.noValue
                     });
@@ -105,9 +106,10 @@ function preheatANode(aNode, componentInstance) {
                         // init trackBy getKey function
                         if (key === 'for') {
                             var trackBy = directive.trackBy;
-                            if (trackBy
-                                && trackBy.type === ExprType.ACCESSOR
-                                && trackBy.paths[0].value === directive.item
+                            if (
+                                trackBy &&
+                                trackBy.type === ExprType.ACCESSOR &&
+                                trackBy.paths[0].value === directive.item
                             ) {
                                 // hotspot: getForKey
                                 aNode._gfk = genItemKeyGetter(trackBy.paths);
@@ -125,7 +127,6 @@ function preheatANode(aNode, componentInstance) {
                 }
                 // === analyse hotspot data: end
 
-
                 // === analyse hotspot props: start
                 for (var i = 0; i < propsLen; i++) {
                     var prop = props[i];
@@ -142,9 +143,10 @@ function preheatANode(aNode, componentInstance) {
 
                 // ie 下，如果 option 没有 value 属性，select.value = xx 操作不会选中 option
                 // 所以没有设置 value 时，默认把 option 的内容作为 value
-                if (aNode.tagName === 'option'
-                    && !getANodeProp(aNode, 'value')
-                    && aNode.children[0]
+                if (
+                    aNode.tagName === 'option' &&
+                    !getANodeProp(aNode, 'value') &&
+                    aNode.children[0]
                 ) {
                     var valueProp = {
                         name: 'value',
@@ -156,7 +158,8 @@ function preheatANode(aNode, componentInstance) {
                     aNode._pi.value = props.length - 1;
                 }
 
-                if (aNode.directives['if']) { // eslint-disable-line dot-notation
+                if (aNode.directives['if']) {
+                    // eslint-disable-line dot-notation
                     aNode.ifRinsed = {
                         children: aNode.children,
                         props: props,
@@ -177,7 +180,8 @@ function preheatANode(aNode, componentInstance) {
                     aNode = aNode.ifRinsed;
                 }
 
-                if (aNode.directives['for']) { // eslint-disable-line dot-notation
+                if (aNode.directives['for']) {
+                    // eslint-disable-line dot-notation
                     aNode.forRinsed = {
                         children: aNode.children,
                         props: props,
@@ -231,16 +235,20 @@ function preheatANode(aNode, componentInstance) {
 
                     default:
                         if (!aNode.directives.is && hotTags[aNode.tagName]) {
-                            var components = componentInstance && componentInstance.components;
+                            var components =
+                                componentInstance &&
+                                componentInstance.components;
                             if (!components || !components[aNode.tagName]) {
                                 aNode.elem = true;
                             }
 
-                           
                             if (components && components[aNode.tagName]) {
-                                warn('\`' + aNode.tagName + '\` as sub-component tag is a bad practice.');
+                                warn(
+                                    '`' +
+                                        aNode.tagName +
+                                        '` as sub-component tag is a bad practice.'
+                                );
                             }
-                            
                         }
                 }
                 // === analyse hotspot props: end
@@ -268,7 +276,9 @@ function analyseExprDataHotspot(expr, accessorMeanDynamic) {
 
     function analyseExprs(exprs, accessorMeanDynamic) {
         for (var i = 0, l = exprs.length; i < l; i++) {
-            refs = refs.concat(analyseExprDataHotspot(exprs[i], accessorMeanDynamic));
+            refs = refs.concat(
+                analyseExprDataHotspot(exprs[i], accessorMeanDynamic)
+            );
             isDynamic = isDynamic || exprs[i].dynamic;
         }
     }

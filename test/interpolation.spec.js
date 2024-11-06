@@ -1,7 +1,5 @@
-describe("Interpolation", function () {
-
-
-    it("alone", function () {
+describe('Interpolation', function () {
+    it('alone', function () {
         var MyComponent = san.defineComponent({
             template: '<a>{{name}}</a>'
         });
@@ -12,14 +10,15 @@ describe("Interpolation", function () {
         document.body.appendChild(wrap);
         myComponent.attach(wrap);
 
-        expect(wrap.firstChild.textContent || wrap.firstChild.innerText).toBe('errorrik');
+        expect(wrap.firstChild.textContent || wrap.firstChild.innerText).toBe(
+            'errorrik'
+        );
 
         myComponent.dispose();
         document.body.removeChild(wrap);
     });
 
-
-    it("+static text", function () {
+    it('+static text', function () {
         var MyComponent = san.defineComponent({
             template: '<a>Hello {{name}}!</a>'
         });
@@ -30,14 +29,15 @@ describe("Interpolation", function () {
         document.body.appendChild(wrap);
         myComponent.attach(wrap);
 
-        expect(wrap.firstChild.textContent || wrap.firstChild.innerText).toBe('Hello errorrik!');
+        expect(wrap.firstChild.textContent || wrap.firstChild.innerText).toBe(
+            'Hello errorrik!'
+        );
 
         myComponent.dispose();
         document.body.removeChild(wrap);
     });
 
-
-    it("default filter", function () {
+    it('default filter', function () {
         var MyComponent = san.defineComponent({
             template: '<a>{{name}}</a>'
         });
@@ -48,14 +48,15 @@ describe("Interpolation", function () {
         document.body.appendChild(wrap);
         myComponent.attach(wrap);
 
-        expect(wrap.firstChild.innerHTML).toContain('&lt;u&gt;errorrik&lt;/u&gt;');
+        expect(wrap.firstChild.innerHTML).toContain(
+            '&lt;u&gt;errorrik&lt;/u&gt;'
+        );
 
         myComponent.dispose();
         document.body.removeChild(wrap);
     });
 
-
-    it("component filter", function () {
+    it('component filter', function () {
         var MyComponent = san.defineComponent({
             template: '<a>{{name|uppercase}}</a>',
 
@@ -76,14 +77,15 @@ describe("Interpolation", function () {
         document.body.appendChild(wrap);
         myComponent.attach(wrap);
 
-        expect(wrap.firstChild.textContent || wrap.firstChild.innerText).toBe('ERRORRIK');
+        expect(wrap.firstChild.textContent || wrap.firstChild.innerText).toBe(
+            'ERRORRIK'
+        );
 
         myComponent.dispose();
         document.body.removeChild(wrap);
     });
 
-
-    it("set after attach", function (done) {
+    it('set after attach', function (done) {
         var MyComponent = san.defineComponent({
             template: '<a>Hello {{name}}!</a>'
         });
@@ -95,15 +97,17 @@ describe("Interpolation", function () {
         myComponent.data.set('name', 'errorrik');
         expect(wrap.firstChild.innerHTML.indexOf('Hello !')).toBe(0);
 
-        san.nextTick(function() {
-            expect(wrap.firstChild.textContent || wrap.firstChild.innerText).toBe('Hello errorrik!');
+        san.nextTick(function () {
+            expect(
+                wrap.firstChild.textContent || wrap.firstChild.innerText
+            ).toBe('Hello errorrik!');
             myComponent.dispose();
             document.body.removeChild(wrap);
             done();
         });
     });
 
-    it("start with empty string", function (done) {
+    it('start with empty string', function (done) {
         var MyComponent = san.defineComponent({
             template: '<a>{{name}}</a>'
         });
@@ -116,13 +120,13 @@ describe("Interpolation", function () {
 
         myComponent.data.set('name', 'errorrik');
 
-
         san.nextTick(function () {
-            expect(wrap.firstChild.textContent || wrap.firstChild.innerText).toBe('errorrik');
+            expect(
+                wrap.firstChild.textContent || wrap.firstChild.innerText
+            ).toBe('errorrik');
             myComponent.dispose();
             document.body.removeChild(wrap);
             done();
-        })
+        });
     });
-
 });

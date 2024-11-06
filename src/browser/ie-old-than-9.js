@@ -7,7 +7,7 @@
  * @file 是否 IE 并且小于 9
  */
 
-var ie = require("./ie");
+var ie = require('./ie');
 
 // HACK:
 // 1. IE8下，设置innerHTML时如果以html comment开头，comment会被自动滤掉
@@ -17,11 +17,9 @@ var ie = require("./ie");
 //    但是由于上面多个兼容场景都用 < 9 判断，所以字符串连接也沿用
 //    所以结果是IE8下字符串连接用的是数组join的方式
 
-
 /**
  * 是否 IE 并且小于 9
  */
-var ieOldThan9 = ie &&  ie < 9;
-
+var ieOldThan9 = ie && ie < 9;
 
 exports = module.exports = ieOldThan9;

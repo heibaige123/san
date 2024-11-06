@@ -7,7 +7,6 @@
  * @file 解析调用
  */
 
-
 var Walker = require('./walker');
 var ExprType = require('./expr-type');
 var readCall = require('./read-call');
@@ -29,7 +28,7 @@ function parseCall(source, defaultArgs) {
             args: defaultArgs || []
         };
     }
-    
+
     return expr;
 }
 

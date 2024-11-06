@@ -1,15 +1,14 @@
-
-import data from './data'
-import Todo from './todo/model'
-import Category from './category/model'
+import data from './data';
+import Todo from './todo/model';
+import Category from './category/model';
 
 interface CategoryMap {
-    [key: number]:Category
+    [key: number]: Category;
 }
 
 export default {
     todos(categoryId: number) {
-        let categoryMap:CategoryMap = {};
+        let categoryMap: CategoryMap = {};
 
         for (let i = 0; i < data.category.length; i++) {
             let item = data.category[i];
@@ -25,7 +24,10 @@ export default {
                 todos.push(item);
 
                 if (item.categoryId) {
-                    item.category = Object.assign({}, categoryMap[item.categoryId]);
+                    item.category = Object.assign(
+                        {},
+                        categoryMap[item.categoryId]
+                    );
                 }
             }
         }
@@ -34,7 +36,7 @@ export default {
     },
 
     todo(id: number) {
-        let categoryMap:CategoryMap = {};
+        let categoryMap: CategoryMap = {};
         for (let i = 0; i < data.category.length; i++) {
             let item = data.category[i];
             item.id && (categoryMap[item.id] = item);
@@ -46,7 +48,10 @@ export default {
             if (item.id === id) {
                 if (item.categoryId) {
                     item = Object.assign({}, item);
-                    item.category = Object.assign({}, categoryMap[item.categoryId]);
+                    item.category = Object.assign(
+                        {},
+                        categoryMap[item.categoryId]
+                    );
                 }
 
                 return item;
@@ -149,4 +154,4 @@ export default {
             }
         }
     }
-}
+};

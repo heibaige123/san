@@ -4,9 +4,7 @@
     "scripts": {
         "dev": "npx http-server"
     },
-    "keywords": [
-        "san"
-    ],
+    "keywords": ["san"],
     "devDependencies": {
         "http-server": "0.11.1"
     },

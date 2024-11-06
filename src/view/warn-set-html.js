@@ -9,7 +9,6 @@
 
 var warn = require('../util/warn');
 
-
 /**
  * 获取节点 stump 的 comment
  *
@@ -17,18 +16,31 @@ var warn = require('../util/warn');
  */
 function warnSetHTML(el) {
     // dont warn if not in browser runtime
-    
-    if (!(typeof window !== 'undefined' && typeof navigator !== 'undefined' && window.document)) {
+
+    if (
+        !(
+            typeof window !== 'undefined' &&
+            typeof navigator !== 'undefined' &&
+            window.document
+        )
+    ) {
         return;
     }
 
     // some html elements cannot set innerHTML in old ie
     // see: https://msdn.microsoft.com/en-us/library/ms533897(VS.85).aspx
-    
-    if (/^(col|colgroup|frameset|style|table|tbody|tfoot|thead|tr|select)$/i.test(el.tagName)) {
-        warn('set html for element "' + el.tagName + '" may cause an error in old IE');
+
+    if (
+        /^(col|colgroup|frameset|style|table|tbody|tfoot|thead|tr|select)$/i.test(
+            el.tagName
+        )
+    ) {
+        warn(
+            'set html for element "' +
+                el.tagName +
+                '" may cause an error in old IE'
+        );
     }
 }
-
 
 exports = module.exports = warnSetHTML;

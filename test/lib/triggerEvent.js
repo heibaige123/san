@@ -1,11 +1,11 @@
-window.triggerEvent = function() {
-
+window.triggerEvent = (function () {
     function nodeName(elem, name) {
-        return elem.nodeName && elem.nodeName.toLowerCase() === name.toLowerCase();
+        return (
+            elem.nodeName && elem.nodeName.toLowerCase() === name.toLowerCase()
+        );
     }
 
     function byBrowser(elem, type, value) {
-
         if (typeof elem === 'string') {
             elem = document.querySelector(elem);
         }
@@ -24,8 +24,10 @@ window.triggerEvent = function() {
         }
 
         // hack checkbox
-        if ((elem.type === 'checkbox' || elem.type === 'radio')
-            && elem.click && nodeName(elem, 'input')
+        if (
+            (elem.type === 'checkbox' || elem.type === 'radio') &&
+            elem.click &&
+            nodeName(elem, 'input')
         ) {
             elem.click();
             return false;
@@ -41,7 +43,6 @@ window.triggerEvent = function() {
         }
 
         try {
-
             var event;
 
             if (document.createEvent) {
@@ -51,8 +52,9 @@ window.triggerEvent = function() {
             }
 
             if (document.createEventObject) {
-                if ((nodeName(elem, 'input') || nodeName(elem, 'textarea'))
-                    && ontype === 'oninput'
+                if (
+                    (nodeName(elem, 'input') || nodeName(elem, 'textarea')) &&
+                    ontype === 'oninput'
                 ) {
                     elem.fireEvent('onfocusin', document.createEventObject());
                 }
@@ -60,10 +62,7 @@ window.triggerEvent = function() {
                 event = document.createEventObject();
                 return elem.fireEvent(ontype, event);
             }
-        }
-        catch (ex) {}
-
-
+        } catch (ex) {}
     }
 
     var acts = {
@@ -73,25 +72,22 @@ window.triggerEvent = function() {
     };
 
     function byWebDriver(elem, type, value) {
-
         var act = acts[type];
 
         if (act) {
-
             var action = [
                 act,
                 ':',
                 elem,
-                value !== undefined ? ('|' + value) : ''
+                value !== undefined ? '|' + value : ''
             ].join('');
 
             window.WDBridge.send('action', action);
-
         }
     }
 
     if (location.search.indexOf('trigger=no') > -1) {
-        return function() {};
+        return function () {};
     }
 
     if (location.search.indexOf('trigger=wd') > -1) {
@@ -99,5 +95,4 @@ window.triggerEvent = function() {
     }
 
     return byBrowser;
-
-}();
+})();

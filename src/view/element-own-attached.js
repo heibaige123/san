@@ -7,7 +7,6 @@
  * @file 完成元素 attached 后的行为
  */
 
-
 var empty = require('../util/empty');
 var isBrowser = require('../browser/is-browser');
 var trigger = require('../browser/trigger');
@@ -48,21 +47,16 @@ function getXPropOutputer(element, xProp, data) {
 
 function getInputXPropOutputer(element, xProp, data) {
     return function () {
-        
-        
         if (element.__bkph) {
             element.__bkph = false;
             return;
         }
-        
 
         if (!this.composing) {
             xPropOutput(element, xProp, data);
         }
     };
 }
-
-
 
 function getInputFocusXPropHandler(element, xProp, data) {
     return function () {
@@ -72,7 +66,6 @@ function getInputFocusXPropHandler(element, xProp, data) {
     };
 }
 
-
 function getInputBlurXPropHandler(element) {
     return function () {
         clearInterval(element._inputTimer);
@@ -80,9 +73,7 @@ function getInputBlurXPropHandler(element) {
     };
 }
 
-
 function xPropOutput(element, bindInfo, data) {
-    
     if (!element.lifeCycle.created) {
         return;
     }
@@ -96,16 +87,24 @@ function xPropOutput(element, bindInfo, data) {
         if (bindValue && bindType) {
             switch (el.type) {
                 case 'checkbox':
-                    data[el.checked ? 'push' : 'remove'](bindInfo.expr, evalExpr(bindValue.expr, data));
+                    data[el.checked ? 'push' : 'remove'](
+                        bindInfo.expr,
+                        evalExpr(bindValue.expr, data)
+                    );
                     return;
 
                 case 'radio':
-                    el.checked && data.set(bindInfo.expr, evalExpr(bindValue.expr, data), {
-                        target: {
-                            node: element,
-                            prop: bindInfo.name
-                        }
-                    });
+                    el.checked &&
+                        data.set(
+                            bindInfo.expr,
+                            evalExpr(bindValue.expr, data),
+                            {
+                                target: {
+                                    node: element,
+                                    prop: bindInfo.name
+                                }
+                            }
+                        );
                     return;
             }
         }
@@ -126,7 +125,7 @@ function xPropOutput(element, bindInfo, data) {
  * @param {Function} listener 监听器
  * @param {boolean} capture 是否是捕获阶段触发
  */
- function elementOnEl(element, name, listener, capture) {
+function elementOnEl(element, name, listener, capture) {
     capture = !!capture;
     element._elFns = element._elFns || [];
     element._elFns.push([name, listener, capture]);
@@ -160,27 +159,45 @@ function elementOwnAttached() {
                     case 'textarea':
                         if (isBrowser) {
                             elementOnEl(this, 'change', inputOnCompositionEnd);
-                            elementOnEl(this, 'compositionstart', inputOnCompositionStart);
-                            elementOnEl(this, 'compositionend', inputOnCompositionEnd);
+                            elementOnEl(
+                                this,
+                                'compositionstart',
+                                inputOnCompositionStart
+                            );
+                            elementOnEl(
+                                this,
+                                'compositionend',
+                                inputOnCompositionEnd
+                            );
                         }
 
-                        
-                        
                         if ('oninput' in this.el) {
-                        
-                            elementOnEl(this, 'input', getInputXPropOutputer(this, xProp, data));
-                        
+                            elementOnEl(
+                                this,
+                                'input',
+                                getInputXPropOutputer(this, xProp, data)
+                            );
+                        } else {
+                            elementOnEl(
+                                this,
+                                'focusin',
+                                getInputFocusXPropHandler(this, xProp, data)
+                            );
+                            elementOnEl(
+                                this,
+                                'focusout',
+                                getInputBlurXPropHandler(this)
+                            );
                         }
-                        else {
-                            elementOnEl(this, 'focusin', getInputFocusXPropHandler(this, xProp, data));
-                            elementOnEl(this, 'focusout', getInputBlurXPropHandler(this));
-                        }
-                        
 
                         break;
 
                     case 'select':
-                        elementOnEl(this, 'change', getXPropOutputer(this, xProp, data));
+                        elementOnEl(
+                            this,
+                            'change',
+                            getXPropOutputer(this, xProp, data)
+                        );
                         break;
                 }
                 break;
@@ -191,7 +208,11 @@ function elementOwnAttached() {
                         switch (this.el.type) {
                             case 'checkbox':
                             case 'radio':
-                                elementOnEl(this, 'click', getXPropOutputer(this, xProp, data));
+                                elementOnEl(
+                                    this,
+                                    'click',
+                                    getXPropOutputer(this, xProp, data)
+                                );
                         }
                 }
                 break;
@@ -202,12 +223,10 @@ function elementOwnAttached() {
     for (var i = 0, l = this.aNode.events.length; i < l; i++) {
         var eventBind = this.aNode.events[i];
 
-       
         warnEventListenMethod(eventBind, owner);
-        
 
         elementOnEl(
-            this, 
+            this,
             eventBind.name,
             getEventListener(eventBind, owner, data, eventBind.modifier),
             eventBind.modifier.capture
@@ -218,12 +237,10 @@ function elementOwnAttached() {
         for (var i = 0, l = this.nativeEvents.length; i < l; i++) {
             var eventBind = this.nativeEvents[i];
 
-           
             warnEventListenMethod(eventBind, this.owner);
-            
 
             elementOnEl(
-                this, 
+                this,
                 eventBind.name,
                 getEventListener(eventBind, this.owner, this.scope),
                 eventBind.modifier.capture
@@ -235,9 +252,12 @@ function elementOwnAttached() {
     if (transition && transition.enter) {
         try {
             transition.enter(this.el, empty);
-        }
-        catch (e) {
-            handleError(e, isComponent ? owner.parentComponent : owner, 'transitionEnter');
+        } catch (e) {
+            handleError(
+                e,
+                isComponent ? owner.parentComponent : owner,
+                'transitionEnter'
+            );
         }
     }
 }

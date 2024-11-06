@@ -1,9 +1,8 @@
-import san from "../index";
+import san from '../index';
 
 export default san.defineComponent({
     template: '<div>{name}</div>',
 
-    
     // AutoComplete: dataTypes, and san.DataTypes.xxx
     dataTypes: {
         arrayOf1: san.DataTypes.arrayOf(san.DataTypes.number).isRequired,

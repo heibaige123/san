@@ -9,14 +9,12 @@
 
 var preprocessComponents = require('./preprocess-components');
 
-
 function hydrateComponent(ComponentClass, options) {
     var el = options.el;
 
     if (!el) {
-       
         throw new Error('[SAN FATAL] el is required in hydrateComponent.');
-        
+
         return {};
     }
 
@@ -38,8 +36,7 @@ function hydrateComponent(ComponentClass, options) {
             }
 
             currEl = stack[stackIndex--].nextSibling;
-        }
-        else {
+        } else {
             switch (currEl.nodeType) {
                 case 1:
                     if (currEl.hasAttribute('data-sanssr-cmpt')) {
@@ -50,8 +47,7 @@ function hydrateComponent(ComponentClass, options) {
                     if (firstChild) {
                         stack[++stackIndex] = currEl;
                         currEl = firstChild;
-                    }
-                    else {
+                    } else {
                         currEl = currEl.nextSibling;
                     }
                     break;
@@ -77,14 +73,16 @@ function hydrateComponent(ComponentClass, options) {
 
             TargetComponent = cmptProto.components[cmptPathSegs[j]];
         }
-        
+
         var componentsBucket = components[cmptPath];
         if (!componentsBucket) {
             componentsBucket = components[cmptPath] = [];
         }
-        componentsBucket.push(new TargetComponent({
-            el: cmptEl
-        }));
+        componentsBucket.push(
+            new TargetComponent({
+                el: cmptEl
+            })
+        );
     }
 
     return {
@@ -92,6 +90,5 @@ function hydrateComponent(ComponentClass, options) {
         components: components
     };
 }
-
 
 exports = module.exports = hydrateComponent;

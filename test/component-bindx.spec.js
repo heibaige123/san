@@ -1,24 +1,23 @@
-describe("Component-TwoWay Binding", function () {
+describe('Component-TwoWay Binding', function () {
     function ColorPicker(options) {
         san.Component.call(this, options);
     }
     san.inherits(ColorPicker, san.Component);
 
-    ColorPicker.prototype.template = ''
-        + '<ul class="ui-colorpicker">'
-        +    '<li '
-        +        'san-for="item in datasource" '
-        +        'style="cursor:pointer; background: {{item}};{{item == value ? \'border:2px solid #ccc;\' : \'\'}}" '
-        +        'on-click="itemClick(item)"'
-        +    '>click</li>'
-        + '</ul>';
+    ColorPicker.prototype.template =
+        '' +
+        '<ul class="ui-colorpicker">' +
+        '<li ' +
+        'san-for="item in datasource" ' +
+        "style=\"cursor:pointer; background: {{item}};{{item == value ? 'border:2px solid #ccc;' : ''}}\" " +
+        'on-click="itemClick(item)"' +
+        '>click</li>' +
+        '</ul>';
 
     ColorPicker.prototype.initData = function () {
         return {
-            datasource: [
-                'red', 'blue', 'yellow', 'green'
-            ]
-        }
+            datasource: ['red', 'blue', 'yellow', 'green']
+        };
     };
 
     ColorPicker.prototype.itemClick = function (item) {
@@ -37,11 +36,12 @@ describe("Component-TwoWay Binding", function () {
             }
         }
 
-        setTimeout(function () {me.itemClick(nextValue)}, 20);
+        setTimeout(function () {
+            me.itemClick(nextValue);
+        }, 20);
     };
 
-
-    it("value", function (done) {
+    it('value', function (done) {
         var MyComponent = function (options) {
             san.Component.call(this, options);
         };
@@ -50,7 +50,8 @@ describe("Component-TwoWay Binding", function () {
         MyComponent.prototype.components = {
             'ui-color': ColorPicker
         };
-        MyComponent.prototype.template = '<div><span title="{{color}}">{{color}}</span> <ui-color value="{= color =}" san-ref="colorPicker"></ui-color></div>';
+        MyComponent.prototype.template =
+            '<div><span title="{{color}}">{{color}}</span> <ui-color value="{= color =}" san-ref="colorPicker"></ui-color></div>';
 
         var myComponent = new MyComponent();
         myComponent.data.set('color', 'green');
@@ -75,8 +76,7 @@ describe("Component-TwoWay Binding", function () {
         }, 500);
     });
 
-
-    it("value in for, set op directly", function (done) {
+    it('value in for, set op directly', function (done) {
         function MyComponent(options) {
             san.Component.call(this, options);
         }
@@ -85,16 +85,13 @@ describe("Component-TwoWay Binding", function () {
         MyComponent.prototype.components = {
             'ui-color': ColorPicker
         };
-        MyComponent.prototype.template = '<div><div san-for="item in colors">'
-            + '<span title="{{item}}">{{item}}</span><ui-color value="{=item=}"></ui-color>'
-            + '</div></div>';
-
+        MyComponent.prototype.template =
+            '<div><div san-for="item in colors">' +
+            '<span title="{{item}}">{{item}}</span><ui-color value="{=item=}"></ui-color>' +
+            '</div></div>';
 
         var myComponent = new MyComponent();
-        myComponent.data.set('colors', [
-            'blue',
-            'yellow'
-        ]);
+        myComponent.data.set('colors', ['blue', 'yellow']);
 
         var wrap = document.createElement('div');
         document.body.appendChild(wrap);
@@ -103,7 +100,6 @@ describe("Component-TwoWay Binding", function () {
         var spans = wrap.getElementsByTagName('span');
         expect(spans[0].title).toBe('blue');
         expect(spans[1].title).toBe('yellow');
-
 
         setTimeout(function () {
             var colors = myComponent.data.get('colors');
@@ -120,7 +116,7 @@ describe("Component-TwoWay Binding", function () {
         }, 1500);
     });
 
-    it("value in for, set op", function (done) {
+    it('value in for, set op', function (done) {
         function MyComponent(options) {
             san.Component.call(this, options);
         }
@@ -130,15 +126,13 @@ describe("Component-TwoWay Binding", function () {
             'ui-color': ColorPicker
         };
 
-        MyComponent.prototype.template = '<div><div san-for="item in colors">'
-            + '<span title="{{item.name}}">{{item.name}}</span><ui-color value="{=item.name=}"></ui-color>'
-            + '</div></div>';
+        MyComponent.prototype.template =
+            '<div><div san-for="item in colors">' +
+            '<span title="{{item.name}}">{{item.name}}</span><ui-color value="{=item.name=}"></ui-color>' +
+            '</div></div>';
 
         var myComponent = new MyComponent();
-        myComponent.data.set('colors', [
-            {name: 'blue'},
-            {name: 'yellow'}
-        ]);
+        myComponent.data.set('colors', [{ name: 'blue' }, { name: 'yellow' }]);
 
         var wrap = document.createElement('div');
         document.body.appendChild(wrap);
@@ -147,7 +141,6 @@ describe("Component-TwoWay Binding", function () {
         var spans = wrap.getElementsByTagName('span');
         expect(spans[0].title).toBe('blue');
         expect(spans[1].title).toBe('yellow');
-
 
         setTimeout(function () {
             var colors = myComponent.data.get('colors');
@@ -164,7 +157,7 @@ describe("Component-TwoWay Binding", function () {
         }, 500);
     });
 
-    it("in nested for, set op", function (done) {
+    it('in nested for, set op', function (done) {
         function MyComponent(options) {
             san.Component.call(this, options);
         }
@@ -174,27 +167,21 @@ describe("Component-TwoWay Binding", function () {
             'ui-color': ColorPicker
         };
 
-        MyComponent.prototype.template = '<div><a san-for="p in persons">'
-            + '<b title="{{p.name}}">{{p.name}}</b>'
-            + '<h5 san-for="color in p.colors"><span title="{{color.name}}">{{color.name}}</span><ui-color value="{=color.name=}"></ui-color></h5>'
-            + '</a></div>';
-
+        MyComponent.prototype.template =
+            '<div><a san-for="p in persons">' +
+            '<b title="{{p.name}}">{{p.name}}</b>' +
+            '<h5 san-for="color in p.colors"><span title="{{color.name}}">{{color.name}}</span><ui-color value="{=color.name=}"></ui-color></h5>' +
+            '</a></div>';
 
         var myComponent = new MyComponent();
         myComponent.data.set('persons', [
             {
                 name: 'erik',
-                colors: [
-                    {name: 'blue'},
-                    {name: 'yellow'}
-                ]
+                colors: [{ name: 'blue' }, { name: 'yellow' }]
             },
             {
                 name: 'firede',
-                colors: [
-                    {name: 'red'},
-                    {name: 'green'}
-                ]
+                colors: [{ name: 'red' }, { name: 'green' }]
             }
         ]);
 
@@ -226,7 +213,7 @@ describe("Component-TwoWay Binding", function () {
         }, 500);
     });
 
-    it("nested", function (done) {
+    it('nested', function (done) {
         function PersonView(options) {
             san.Component.call(this, options);
         }
@@ -235,11 +222,12 @@ describe("Component-TwoWay Binding", function () {
         PersonView.prototype.components = {
             'ui-color': ColorPicker
         };
-        PersonView.prototype.template = '<div>'
-            + '<b title="{{value.name}}">{{value.name}}</b>'
-            + '<b title="{{value.color}}">{{value.color}}</b>'
-            + '<ui-color value="{=value.color=}"></ui-color>'
-            + '</div>';
+        PersonView.prototype.template =
+            '<div>' +
+            '<b title="{{value.name}}">{{value.name}}</b>' +
+            '<b title="{{value.color}}">{{value.color}}</b>' +
+            '<ui-color value="{=value.color=}"></ui-color>' +
+            '</div>';
 
         function MyComponent(options) {
             san.Component.call(this, options);
@@ -250,8 +238,8 @@ describe("Component-TwoWay Binding", function () {
             'ui-person': PersonView
         };
 
-        MyComponent.prototype.template = '<div><ui-person value="{=person=}"></ui-person></div>';
-
+        MyComponent.prototype.template =
+            '<div><ui-person value="{=person=}"></ui-person></div>';
 
         var myComponent = new MyComponent();
         myComponent.data.set('person', {
@@ -280,13 +268,14 @@ describe("Component-TwoWay Binding", function () {
         }, 500);
     });
 
-    it("nested, simple data", function (done) {
+    it('nested, simple data', function (done) {
         function Person(options) {
             san.Component.call(this, options);
         }
         san.inherits(Person, san.Component);
 
-        Person.prototype.template = '<div><b title="{{name}}">{{name}}</b></div>';
+        Person.prototype.template =
+            '<div><b title="{{name}}">{{name}}</b></div>';
 
         Person.prototype.attached = function () {
             var me = this;
@@ -304,61 +293,8 @@ describe("Component-TwoWay Binding", function () {
             'ui-person': Person
         };
 
-        MyComponent.prototype.template = '<div><ui-person name="{=person.name=}"></ui-person><b title="{{person.name}}">{{person.name}}</b></div>';
-
-
-        var myComponent = new MyComponent();
-        myComponent.data.set('person', {
-            name: 'erik',
-            sex: 1
-        });
-
-        var wrap = document.createElement('div');
-        document.body.appendChild(wrap);
-        myComponent.attach(wrap);
-
-        var bs = wrap.getElementsByTagName('b');
-        expect(bs[0].title).toBe('erik');
-        expect(bs[1].title).toBe('erik');
-
-        setTimeout(function () {
-            var bs = wrap.getElementsByTagName('b');
-            expect(bs[0].title).toBe('errorrik');
-            expect(bs[1].title).toBe('errorrik');
-            expect(myComponent.data.get('person.name')).toBe('errorrik');
-
-            myComponent.dispose();
-            document.body.removeChild(wrap);
-            done();
-        }, 1500);
-    });
-
-    it("nested, complex data", function (done) {
-        function Person(options) {
-            san.Component.call(this, options);
-        }
-        san.inherits(Person, san.Component);
-
-        Person.prototype.template = '<div><b title="{{info.name}}">{{info.name}}</b></div>';
-
-        Person.prototype.attached = function () {
-            var me = this;
-            setTimeout(function () {
-                me.data.set('info.name', 'errorrik');
-            }, 500);
-        };
-
-        function MyComponent(options) {
-            san.Component.call(this, options);
-        }
-        san.inherits(MyComponent, san.Component);
-
-        MyComponent.prototype.components = {
-            'ui-person': Person
-        };
-
-        MyComponent.prototype.template = '<div><ui-person info="{=person=}"></ui-person><b title="{{person.name}}">{{person.name}}</b></div>';
-
+        MyComponent.prototype.template =
+            '<div><ui-person name="{=person.name=}"></ui-person><b title="{{person.name}}">{{person.name}}</b></div>';
 
         var myComponent = new MyComponent();
         myComponent.data.set('person', {
@@ -386,13 +322,14 @@ describe("Component-TwoWay Binding", function () {
         }, 1500);
     });
 
-    it("nested, more complex data", function (done) {
+    it('nested, complex data', function (done) {
         function Person(options) {
             san.Component.call(this, options);
         }
         san.inherits(Person, san.Component);
 
-        Person.prototype.template = '<div><b title="{{info.name}}">{{info.name}}</b></div>';
+        Person.prototype.template =
+            '<div><b title="{{info.name}}">{{info.name}}</b></div>';
 
         Person.prototype.attached = function () {
             var me = this;
@@ -410,11 +347,65 @@ describe("Component-TwoWay Binding", function () {
             'ui-person': Person
         };
 
-        MyComponent.prototype.template = '<div>'
-            + '<ui-person info="{=dep.persons[0]=}"></ui-person><b title="{{dep.persons[0].name}}">{{dep.persons[0].name}}</b>'
-            + '<ui-person info="{=dep.persons[1]=}"></ui-person><b title="{{dep.persons[1].name}}">{{dep.persons[1].name}}</b>'
-            + '</div>';
+        MyComponent.prototype.template =
+            '<div><ui-person info="{=person=}"></ui-person><b title="{{person.name}}">{{person.name}}</b></div>';
 
+        var myComponent = new MyComponent();
+        myComponent.data.set('person', {
+            name: 'erik',
+            sex: 1
+        });
+
+        var wrap = document.createElement('div');
+        document.body.appendChild(wrap);
+        myComponent.attach(wrap);
+
+        var bs = wrap.getElementsByTagName('b');
+        expect(bs[0].title).toBe('erik');
+        expect(bs[1].title).toBe('erik');
+
+        setTimeout(function () {
+            var bs = wrap.getElementsByTagName('b');
+            expect(bs[0].title).toBe('errorrik');
+            expect(bs[1].title).toBe('errorrik');
+            expect(myComponent.data.get('person.name')).toBe('errorrik');
+
+            myComponent.dispose();
+            document.body.removeChild(wrap);
+            done();
+        }, 1500);
+    });
+
+    it('nested, more complex data', function (done) {
+        function Person(options) {
+            san.Component.call(this, options);
+        }
+        san.inherits(Person, san.Component);
+
+        Person.prototype.template =
+            '<div><b title="{{info.name}}">{{info.name}}</b></div>';
+
+        Person.prototype.attached = function () {
+            var me = this;
+            setTimeout(function () {
+                me.data.set('info.name', 'errorrik');
+            }, 500);
+        };
+
+        function MyComponent(options) {
+            san.Component.call(this, options);
+        }
+        san.inherits(MyComponent, san.Component);
+
+        MyComponent.prototype.components = {
+            'ui-person': Person
+        };
+
+        MyComponent.prototype.template =
+            '<div>' +
+            '<ui-person info="{=dep.persons[0]=}"></ui-person><b title="{{dep.persons[0].name}}">{{dep.persons[0].name}}</b>' +
+            '<ui-person info="{=dep.persons[1]=}"></ui-person><b title="{{dep.persons[1].name}}">{{dep.persons[1].name}}</b>' +
+            '</div>';
 
         var myComponent = new MyComponent();
         myComponent.data.set('dep', {
@@ -454,7 +445,7 @@ describe("Component-TwoWay Binding", function () {
         }, 1500);
     });
 
-    it("nested, simple data with if, data change by root", function (done) {
+    it('nested, simple data with if, data change by root', function (done) {
         var Text = san.defineComponent({
             template: '<span title="{{text}}">{{text}}</span>'
         });
@@ -464,7 +455,8 @@ describe("Component-TwoWay Binding", function () {
                 'ui-text': Text
             },
 
-            template: '<div><b san-if="!name">null</b><ui-text text="{= name =}"></ui-text></div>'
+            template:
+                '<div><b san-if="!name">null</b><ui-text text="{= name =}"></ui-text></div>'
         });
 
         var wrap = document.createElement('div');
@@ -493,7 +485,7 @@ describe("Component-TwoWay Binding", function () {
         }, 1500);
     });
 
-    it("nested, simple data with if, data change by sub", function (done) {
+    it('nested, simple data with if, data change by sub', function (done) {
         var Text = san.defineComponent({
             template: '<span title="{{text}}">{{text}}</span>',
 
@@ -510,7 +502,8 @@ describe("Component-TwoWay Binding", function () {
                 'ui-text': Text
             },
 
-            template: '<div><b san-if="!name">null</b><ui-text text="{= name =}"></ui-text></div>'
+            template:
+                '<div><b san-if="!name">null</b><ui-text text="{= name =}"></ui-text></div>'
         });
 
         var wrap = document.createElement('div');
@@ -535,7 +528,7 @@ describe("Component-TwoWay Binding", function () {
         }, 1500);
     });
 
-    it("binding expr use index variable", function (done) {
+    it('binding expr use index variable', function (done) {
         var Color = san.defineComponent({
             template: '<div><input type="text" value="{=color=}"></div>'
         });
@@ -543,13 +536,14 @@ describe("Component-TwoWay Binding", function () {
             components: {
                 'ui-color': Color
             },
-            template: '<div>'
-                + '<a san-for="item, index in list">'
-                    + '<ui-color color="{=colors[index]=}"></ui-color>'
-                + '</a>'
-                + '<b title="{{colors[0]}}"></b>'
-                + '<b title="{{colors[1]}}"></b>'
-            + '</div>'
+            template:
+                '<div>' +
+                '<a san-for="item, index in list">' +
+                '<ui-color color="{=colors[index]=}"></ui-color>' +
+                '</a>' +
+                '<b title="{{colors[0]}}"></b>' +
+                '<b title="{{colors[1]}}"></b>' +
+                '</div>'
         });
 
         var wrap = document.createElement('div');
@@ -557,7 +551,7 @@ describe("Component-TwoWay Binding", function () {
         var myComponent = new MyComponent({
             data: {
                 colors: ['red', 'blue'],
-                list: [1,2]
+                list: [1, 2]
             }
         });
         myComponent.attach(wrap);
@@ -580,22 +574,23 @@ describe("Component-TwoWay Binding", function () {
         }, 500);
     });
 
-    it("child component set default value in inited, owner should update", function (done) {
+    it('child component set default value in inited, owner should update', function (done) {
         var Input = san.defineComponent({
             template: '<input value="{=value=}">',
 
             inited: function () {
-              if (!this.data.get('value')) {
-                this.data.set('value', 'default');
-              }
+                if (!this.data.get('value')) {
+                    this.data.set('value', 'default');
+                }
             }
         });
 
         var MyComponent = san.defineComponent({
             components: {
-              'x-input': Input
+                'x-input': Input
             },
-            template: '<div><b>{{name}}</b><x-input value="{=name=}"/><span>{{name}}</span></div>'
+            template:
+                '<div><b>{{name}}</b><x-input value="{=name=}"/><span>{{name}}</span></div>'
         });
         var myComponent = new MyComponent();
         expect(myComponent.data.get('name') == null).toBeTruthy();

@@ -22,47 +22,76 @@ var AsyncComponent = require('./async-component');
  * @param {DOMChildrenWalker} hydrateWalker 子元素遍历对象
  * @return {Node}
  */
-function createHydrateNode(aNode, parent, scope, owner, hydrateWalker, componentName) {
+function createHydrateNode(
+    aNode,
+    parent,
+    scope,
+    owner,
+    hydrateWalker,
+    componentName
+) {
     if (aNode.elem) {
-        return new Element(aNode, parent, scope, owner, componentName, hydrateWalker);
+        return new Element(
+            aNode,
+            parent,
+            scope,
+            owner,
+            componentName,
+            hydrateWalker
+        );
     }
 
     if (aNode.Clazz) {
         return new aNode.Clazz(aNode, parent, scope, owner, hydrateWalker);
     }
 
-    var ComponentOrLoader = owner.components && owner.components[componentName || aNode.tagName];
+    var ComponentOrLoader =
+        owner.components && owner.components[componentName || aNode.tagName];
 
     if (ComponentOrLoader) {
         return typeof ComponentOrLoader === 'function'
             ? new ComponentOrLoader({
-                source: aNode,
-                owner: owner,
-                scope: scope,
-                parent: parent,
-                hydrateWalker: hydrateWalker
-            })
-            : new AsyncComponent({
-                source: aNode,
-                owner: owner,
-                scope: scope,
-                parent: parent,
-                hydrateWalker: hydrateWalker
-            }, ComponentOrLoader);
+                  source: aNode,
+                  owner: owner,
+                  scope: scope,
+                  parent: parent,
+                  hydrateWalker: hydrateWalker
+              })
+            : new AsyncComponent(
+                  {
+                      source: aNode,
+                      owner: owner,
+                      scope: scope,
+                      parent: parent,
+                      hydrateWalker: hydrateWalker
+                  },
+                  ComponentOrLoader
+              );
     }
 
     if (aNode.directives.is) {
         switch (componentName) {
             case 'fragment':
             case 'template':
-                    return new FragmentNode(aNode, parent, scope, owner, hydrateWalker);
+                return new FragmentNode(
+                    aNode,
+                    parent,
+                    scope,
+                    owner,
+                    hydrateWalker
+                );
         }
-    }
-    else {
+    } else {
         aNode.elem = true;
     }
-    return new Element(aNode, parent, scope, owner, componentName, hydrateWalker);
+    return new Element(
+        aNode,
+        parent,
+        scope,
+        owner,
+        componentName,
+        hydrateWalker
+    );
 }
-
 
 exports = module.exports = createHydrateNode;

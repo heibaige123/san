@@ -1,7 +1,7 @@
-import san from "../index";
+import san from '../index';
 
 interface InputData {
-    value: string
+    value: string;
 }
 
 const Input = san.defineComponent<InputData>({
@@ -19,6 +19,6 @@ const input = new Input({
         // AutoComplete: value
         value: '22'
     }
-})
+});
 
-export default Input
+export default Input;

@@ -20,7 +20,7 @@ function on(el, eventName, listener, capture) {
     if (el.addEventListener) {
         el.addEventListener(eventName, listener, capture);
     } else {
-        el.attachEvent("on" + eventName, listener);
+        el.attachEvent('on' + eventName, listener);
     }
 }
 

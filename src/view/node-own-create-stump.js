@@ -7,8 +7,6 @@
  * @file 创建节点对应的 stump comment 元素
  */
 
-
-
 /**
  * 创建节点对应的 stump comment 主元素
  */

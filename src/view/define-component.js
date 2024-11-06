@@ -24,14 +24,13 @@ function defineComponent(proto, SuperComponent) {
         return proto;
     }
 
-   
     if (typeof proto !== 'object') {
         throw new Error('[SAN FATAL] defineComponent need a plain object.');
     }
-    
 
     SuperComponent = SuperComponent || Component;
-    function ComponentClass(option) { // eslint-disable-line
+    function ComponentClass(option) {
+        // eslint-disable-line
         SuperComponent.call(this, option);
     }
 

@@ -10,7 +10,6 @@
 // 该方法参照了vue2.5.0的实现，感谢vue团队
 // SEE: https://github.com/vuejs/vue/blob/0948d999f2fddf9f90991956493f976273c5da1f/src/core/util/env.js#L68
 
-
 var bind = require('./bind');
 
 /**
@@ -36,7 +35,8 @@ var nextHandler;
  * @inner
  * @type {boolean}
  */
-var isNativePromise = typeof Promise === 'function' && /native code/.test(Promise);
+var isNativePromise =
+    typeof Promise === 'function' && /native code/.test(Promise);
 
 /**
  * 浏览器是否支持原生setImmediate
@@ -44,7 +44,8 @@ var isNativePromise = typeof Promise === 'function' && /native code/.test(Promis
  * @inner
  * @type {boolean}
  */
-var isNativeSetImmediate = typeof setImmediate === 'function' && /native code/.test(setImmediate);
+var isNativeSetImmediate =
+    typeof setImmediate === 'function' && /native code/.test(setImmediate);
 
 /**
  * 在下一个时间周期运行任务
@@ -74,7 +75,7 @@ function nextTick(fn, thisArg) {
     };
 
     // 非标准方法，但是此方法非常吻合要求。
-    
+
     if (isNativeSetImmediate) {
         setImmediate(nextHandler);
     }
@@ -89,8 +90,7 @@ function nextTick(fn, thisArg) {
     // for native app
     else if (isNativePromise) {
         Promise.resolve().then(nextHandler);
-    }
-    else {
+    } else {
         setTimeout(nextHandler, 0);
     }
 }

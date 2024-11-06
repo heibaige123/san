@@ -7,9 +7,7 @@
  * @file 默认filter
  */
 
-
 /* eslint-disable fecs-camelcase */
-
 
 function defaultStyleFilter(source) {
     if (typeof source === 'object') {
@@ -34,7 +32,6 @@ function defaultStyleFilter(source) {
  * @type {Object}
  */
 var DEFAULT_FILTERS = {
-
     /**
      * URL编码filter
      *

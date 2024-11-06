@@ -1,14 +1,12 @@
-import {Component} from 'san'
-import './category-picker.css'
+import { Component } from 'san';
+import './category-picker.css';
 
-import Category from '../category/model'
-
+import Category from '../category/model';
 
 interface CategoryPickerData {
     value: number;
     datasource: Category[];
 }
-
 
 export default class CategoryPicker extends Component<CategoryPickerData> {
     static template = `
@@ -23,7 +21,7 @@ export default class CategoryPicker extends Component<CategoryPickerData> {
     `;
 
     initData() {
-        return {datasource: []};
+        return { datasource: [] };
     }
 
     itemClick(id: number) {

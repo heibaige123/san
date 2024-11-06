@@ -10,7 +10,6 @@
 var each = require('../util/each');
 var warn = require('../util/warn');
 
-
 /**
  * 事件绑定不存在的 warning
  *
@@ -32,9 +31,10 @@ function warnEventListenMethod(eventBind, owner) {
             paths.push(path.value);
         });
 
-        warn(eventBind.name + ' listen fail,"' + paths.join('.') + '" not exist');
+        warn(
+            eventBind.name + ' listen fail,"' + paths.join('.') + '" not exist'
+        );
     }
 }
-
 
 exports = module.exports = warnEventListenMethod;

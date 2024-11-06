@@ -1,10 +1,9 @@
-import {Component} from 'san'
+import { Component } from 'san';
 
-import service from '../service'
-import ColorPicker from '../ui/color-picker'
+import service from '../service';
+import ColorPicker from '../ui/color-picker';
 
-import './add.css'
-
+import './add.css';
 
 export default class Add extends Component<{
     title: string;
@@ -51,7 +50,7 @@ export default class Add extends Component<{
     }
 
     finish() {
-        let e: {returnValue?: boolean} = {};
+        let e: { returnValue?: boolean } = {};
         this.fire('finished', e);
 
         if (e.returnValue !== false) {

@@ -1,14 +1,14 @@
 define(function (require) {
-
     var san = require('san');
 
     var service = require('../service');
     var template = require('tpl!./Form.html');
 
     var AddCategoryDialog = san.defineComponent({
-        template: '<div class="ui-layer add-category-layer" style="width: {{width}}px; top: {{top}}px; left: {{left}}px;">'
-            + '<ui-addcategory san-ref="add" on-finished="finish($event)"></ui-addcategory>'
-            + '</div>',
+        template:
+            '<div class="ui-layer add-category-layer" style="width: {{width}}px; top: {{top}}px; left: {{left}}px;">' +
+            '<ui-addcategory san-ref="add" on-finished="finish($event)"></ui-addcategory>' +
+            '</div>',
 
         components: {
             'ui-addcategory': require('../category/Add')
@@ -38,10 +38,11 @@ define(function (require) {
     });
 
     var EditCategoryDialog = san.defineComponent({
-        template: '<div class="ui-layer edit-category-layer" style="width: {{width}}px; top: {{top}}px; left: {{left}}px;">'
-            +   '<i class="fa fa-times-circle-o" on-click="hide"></i>'
-            +   '<ui-editcategory on-rm="edited" on-edit="edited"></ui-editcategory>'
-            + '</div>',
+        template:
+            '<div class="ui-layer edit-category-layer" style="width: {{width}}px; top: {{top}}px; left: {{left}}px;">' +
+            '<i class="fa fa-times-circle-o" on-click="hide"></i>' +
+            '<ui-editcategory on-rm="edited" on-edit="edited"></ui-editcategory>' +
+            '</div>',
 
         components: {
             'ui-editcategory': require('../category/Edit')
@@ -67,7 +68,6 @@ define(function (require) {
             this.fire('edited');
         }
     });
-
 
     return san.defineComponent({
         template: template,
@@ -112,11 +112,14 @@ define(function (require) {
         splitEndTime: function () {
             var endTime = new Date(this.data.get('todo.endTime'));
             this.data.set('endTimeHour', endTime.getHours());
-            this.data.set('endTimeDate', new Date(
-                endTime.getFullYear(),
-                endTime.getMonth(),
-                endTime.getDate()
-            ));
+            this.data.set(
+                'endTimeDate',
+                new Date(
+                    endTime.getFullYear(),
+                    endTime.getMonth(),
+                    endTime.getDate()
+                )
+            );
         },
 
         joinEndTime: function () {
@@ -131,8 +134,7 @@ define(function (require) {
             var id = this.data.get('id');
             if (!todo.id) {
                 service.addTodo(todo);
-            }
-            else {
+            } else {
                 service.editTodo(todo);
             }
 
@@ -151,7 +153,10 @@ define(function (require) {
             if (!this.addCategoryDialog) {
                 this.addCategoryDialog = new AddCategoryDialog();
                 this.addCategoryDialog.attach(document.body);
-                this.addCategoryDialog.on('finished', this.updateCategories.bind(this));
+                this.addCategoryDialog.on(
+                    'finished',
+                    this.updateCategories.bind(this)
+                );
             }
             this.addCategoryDialog.show();
         },
@@ -160,7 +165,10 @@ define(function (require) {
             if (!this.editCategoryDialog) {
                 this.editCategoryDialog = new EditCategoryDialog();
                 this.editCategoryDialog.attach(document.body);
-                this.editCategoryDialog.on('edited', this.updateCategories.bind(this));
+                this.editCategoryDialog.on(
+                    'edited',
+                    this.updateCategories.bind(this)
+                );
             }
             this.editCategoryDialog.show();
         },

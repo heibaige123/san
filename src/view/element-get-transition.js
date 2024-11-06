@@ -23,11 +23,11 @@ function elementGetTransition(element) {
     var owner = element.owner;
 
     if (element.nodeType === NodeType.CMPT) {
-        var cmptGivenTransition = element.source && element.source.directives.transition;
+        var cmptGivenTransition =
+            element.source && element.source.directives.transition;
         if (cmptGivenTransition) {
             directive = cmptGivenTransition;
-        }
-        else {
+        } else {
             owner = element;
         }
     }
@@ -42,9 +42,8 @@ function elementGetTransition(element) {
                     owner,
                     evalArgs(directive.value.args, element.scope, owner)
                 );
-            }
-            catch (e) {
-                handleError(e, owner, 'transitionCreate')
+            } catch (e) {
+                handleError(e, owner, 'transitionCreate');
             }
         }
     }

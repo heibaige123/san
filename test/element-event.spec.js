@@ -1,10 +1,10 @@
-describe("Element-Event", function () {
-
-    it("bind click", function (done) {
+describe('Element-Event', function () {
+    it('bind click', function (done) {
         var clicked = 0;
 
         var MyComponent = san.defineComponent({
-            template: '<a on-click="mainClicker"><span title="{{name}}" on-click="clicker(name, email, $event)" style="color: red; cursor: pointer">{{name}}, please click here!</span></a>',
+            template:
+                '<a on-click="mainClicker"><span title="{{name}}" on-click="clicker(name, email, $event)" style="color: red; cursor: pointer">{{name}}, please click here!</span></a>',
 
             mainClicker: function () {
                 expect(clicked).toBe(1);
@@ -15,7 +15,6 @@ describe("Element-Event", function () {
                 expect(name).toBe('errorrik');
                 expect(email).toBe('errorrik@gmail.com');
                 expect(event.target || event.srcElement).toBe(span);
-
 
                 expect(clicked).toBe(0);
                 clicked++;
@@ -33,7 +32,6 @@ describe("Element-Event", function () {
         expect(span.getAttribute('title')).toBe('errorrik');
 
         function doneSpec() {
-
             if (clicked) {
                 done();
                 myComponent.dispose();
@@ -48,12 +46,12 @@ describe("Element-Event", function () {
         triggerEvent(span, 'click');
 
         doneSpec();
-
     });
 
-    it("bind click to noexists method, dont throw error", function (done) {
+    it('bind click to noexists method, dont throw error', function (done) {
         var MyComponent = san.defineComponent({
-            template: '<a><span title="{{name}}" on-click="nothingclicker(name, email, $event)">{{name}}, please click here!</span></a>'
+            template:
+                '<a><span title="{{name}}" on-click="nothingclicker(name, email, $event)">{{name}}, please click here!</span></a>'
         });
         var myComponent = new MyComponent();
         myComponent.data.set('name', 'errorrik');
@@ -76,16 +74,15 @@ describe("Element-Event", function () {
             triggerEvent(span, 'click');
         }).not.toThrow();
 
-
         setTimeout(doneSpec, 500);
-
     });
 
-    it("bind click fire default event when no args description, empty args description dont add default arg", function (done) {
+    it('bind click fire default event when no args description, empty args description dont add default arg', function (done) {
         var clicked = 0;
 
         var MyComponent = san.defineComponent({
-            template: '<a><span title="{{name}}" on-click="clicker()" style="color: red; cursor: pointer">please click here!</span><span title="{{name}}" on-click="clickerNoArgs" style="color: red; cursor: pointer">please click here!</span></a>',
+            template:
+                '<a><span title="{{name}}" on-click="clicker()" style="color: red; cursor: pointer">please click here!</span><span title="{{name}}" on-click="clickerNoArgs" style="color: red; cursor: pointer">please click here!</span></a>',
 
             clicker: function (event) {
                 expect(event == null).toBeTruthy();
@@ -118,8 +115,7 @@ describe("Element-Event", function () {
         doneSpec();
     });
 
-
-    it("native bind click", function (done) {
+    it('native bind click', function (done) {
         var clicked = 0;
         var ChildComponent = san.defineComponent({
             template: '<div><h2>child</h2></div>'
@@ -127,10 +123,10 @@ describe("Element-Event", function () {
 
         var MyComponent = san.defineComponent({
             template:
-            '<div>' +
+                '<div>' +
                 '<child-component s-ref="nativeChild" on-click="native:clicker"></child-component>' +
                 '<child-component s-ref="child"></child-component>' +
-            '</div>',
+                '</div>',
             components: {
                 'child-component': ChildComponent
             },
@@ -165,7 +161,7 @@ describe("Element-Event", function () {
         doneSpec();
     });
 
-    it("native bind dont be invoked in fire", function (done) {
+    it('native bind dont be invoked in fire', function (done) {
         var inCount = 0;
         var outCount = 0;
         var Checkbox = san.defineComponent({
@@ -178,7 +174,8 @@ describe("Element-Event", function () {
         });
 
         var MyComponent = san.defineComponent({
-            template: '<div><label><x-checkbox on-click="native:onNativeClick"/>Click me and see console</label></div>',
+            template:
+                '<div><label><x-checkbox on-click="native:onNativeClick"/>Click me and see console</label></div>',
 
             components: {
                 'x-checkbox': Checkbox
@@ -214,7 +211,7 @@ describe("Element-Event", function () {
         doneSpec();
     });
 
-    it("issue-185", function (done) {
+    it('issue-185', function (done) {
         var clicked = 0;
 
         var Button = san.defineComponent({
@@ -223,19 +220,15 @@ describe("Element-Event", function () {
 
         var MyComponent = san.defineComponent({
             template:
-            '<div>' +
+                '<div>' +
                 '<ui-button on-click="native:clicker(i, $event)" s-ref="btn-{{i}}" text="{{btn.text}}" s-for="btn,i in buttons" />' +
-            '</div>',
+                '</div>',
             components: {
                 'ui-button': Button
             },
             initData: function () {
                 return {
-                    buttons: [
-                        {text: 'a'},
-                        {text: 'b'},
-                        {text: 'c'}
-                    ]
+                    buttons: [{ text: 'a' }, { text: 'b' }, { text: 'c' }]
                 };
             },
             clicker: function (i, event) {
@@ -255,7 +248,7 @@ describe("Element-Event", function () {
         var cBtn = wrap.firstChild.children[2];
 
         function doneSpec() {
-            if (clicked === (0 + 1 + 2)) {
+            if (clicked === 0 + 1 + 2) {
                 done();
                 myComponent.dispose();
                 document.body.removeChild(wrap);
@@ -269,7 +262,7 @@ describe("Element-Event", function () {
         doneSpec();
     });
 
-    it("capture modifier", function (done) {
+    it('capture modifier', function (done) {
         if (!document.addEventListener) {
             done();
             return;
@@ -278,7 +271,8 @@ describe("Element-Event", function () {
         var clicked = 0;
 
         var MyComponent = san.defineComponent({
-            template: '<a on-click="capture:mainClicker"><span title="{{name}}" on-click="capture:clicker(name, email, $event)" style="color: red; cursor: pointer">{{name}}, please click here!</span></a>',
+            template:
+                '<a on-click="capture:mainClicker"><span title="{{name}}" on-click="capture:clicker(name, email, $event)" style="color: red; cursor: pointer">{{name}}, please click here!</span></a>',
 
             mainClicker: function () {
                 clicked++;
@@ -305,7 +299,6 @@ describe("Element-Event", function () {
         expect(span.getAttribute('title')).toBe('errorrik');
 
         function doneSpec() {
-
             if (clicked) {
                 done();
                 myComponent.dispose();
@@ -320,10 +313,9 @@ describe("Element-Event", function () {
         triggerEvent(span, 'click');
 
         doneSpec();
-
     });
 
-    it("arg string literal contains colon not means modifier", function (done) {
+    it('arg string literal contains colon not means modifier', function (done) {
         if (!document.addEventListener) {
             done();
             return;
@@ -331,7 +323,8 @@ describe("Element-Event", function () {
 
         var clicked = 0;
         var MyComponent = san.defineComponent({
-            template: '<a><span title="{{name}}" on-click="clicker(\'te:st\')">{{name}}, please click here!</span></a>',
+            template:
+                '<a><span title="{{name}}" on-click="clicker(\'te:st\')">{{name}}, please click here!</span></a>',
 
             mainClicker: function () {
                 clicked++;
@@ -350,7 +343,6 @@ describe("Element-Event", function () {
         myComponent.attach(wrap);
 
         function doneSpec() {
-
             if (clicked) {
                 done();
                 myComponent.dispose();
@@ -366,13 +358,13 @@ describe("Element-Event", function () {
         triggerEvent(span, 'click');
 
         doneSpec();
-
     });
 
-    it("stop modifier", function (done) {
+    it('stop modifier', function (done) {
         var clicked = 0;
         var MyComponent = san.defineComponent({
-            template: '<a on-click="mainClicker"><span on-click="stop:clicker">please click here!</span><b>{{name}}</b></a>',
+            template:
+                '<a on-click="mainClicker"><span on-click="stop:clicker">please click here!</span><b>{{name}}</b></a>',
 
             mainClicker: function () {
                 this.data.set('name', 'erik');
@@ -396,7 +388,6 @@ describe("Element-Event", function () {
         expect(b.innerHTML).toBe('errorrik');
 
         function doneSpec() {
-
             if (clicked) {
                 expect(myComponent.data.get('name')).toBe('errorrik');
                 myComponent.nextTick(function () {
@@ -405,7 +396,7 @@ describe("Element-Event", function () {
                     myComponent.dispose();
                     document.body.removeChild(wrap);
                     done();
-                })
+                });
 
                 return;
             }
@@ -416,13 +407,13 @@ describe("Element-Event", function () {
         triggerEvent(wrap.getElementsByTagName('span')[0], 'click');
 
         doneSpec();
-
     });
 
-    it("prevent modifier", function (done) {
+    it('prevent modifier', function (done) {
         var clicked = 0;
         var MyComponent = san.defineComponent({
-            template: '<a on-click="prevent:mainClicker" href="https://www.baidu.com/">{{name}}</a>',
+            template:
+                '<a on-click="prevent:mainClicker" href="https://www.baidu.com/">{{name}}</a>',
 
             mainClicker: function () {
                 clicked = 1;
@@ -442,7 +433,6 @@ describe("Element-Event", function () {
         expect(wrap.firstChild.innerHTML).toBe('errorrik');
 
         function doneSpec() {
-
             if (clicked) {
                 myComponent.nextTick(function () {
                     expect(wrap.firstChild.innerHTML).toBe('erik');
@@ -450,7 +440,7 @@ describe("Element-Event", function () {
                     myComponent.dispose();
                     document.body.removeChild(wrap);
                     done();
-                })
+                });
 
                 return;
             }
@@ -461,6 +451,5 @@ describe("Element-Event", function () {
         triggerEvent(wrap.firstChild, 'click');
 
         doneSpec();
-
     });
 });

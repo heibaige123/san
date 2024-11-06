@@ -39,7 +39,6 @@ function readMultiplicativeExpr(walker) {
         break;
     }
 
-
     return expr;
 }
 

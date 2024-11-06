@@ -1,19 +1,18 @@
-describe("Component", function () {
+describe('Component', function () {
     var ColorPicker = san.defineComponent({
-        template: '<div><b title="{{value}}">{{value}}</b>'
-            + '<ul class="ui-colorpicker">'
-            +    '<li '
-            +        'san-for="item in datasource" '
-            +        'style="background: {{item}}" '
-            +        'class="{{item == value ? \'selected\' : \'\'}}" '
-            +        'on-click="itemClick(item)"'
-            +    '></li>'
-            + '</ul></div>',
+        template:
+            '<div><b title="{{value}}">{{value}}</b>' +
+            '<ul class="ui-colorpicker">' +
+            '<li ' +
+            'san-for="item in datasource" ' +
+            'style="background: {{item}}" ' +
+            "class=\"{{item == value ? 'selected' : ''}}\" " +
+            'on-click="itemClick(item)"' +
+            '></li>' +
+            '</ul></div>',
 
         initData: {
-            datasource: [
-                'red', 'blue', 'yellow', 'green'
-            ]
+            datasource: ['red', 'blue', 'yellow', 'green']
         },
 
         itemClick: function (item) {
@@ -25,7 +24,7 @@ describe("Component", function () {
         template: '<span title="{{text}}">{{text}}</span>'
     });
 
-    it("life cycle", function () {
+    it('life cycle', function () {
         var mainConstruct = 0;
         var mainInited = 0;
         var mainCreated = 0;
@@ -67,13 +66,14 @@ describe("Component", function () {
             disposed: function () {
                 labelDisposed++;
             }
-        })
+        });
 
         var MyComponent = san.defineComponent({
             components: {
                 'ui-label': Label
             },
-            template: '<div title="{{color}}"><ui-label text="{{color}}"/>{{color}}</div>',
+            template:
+                '<div title="{{color}}"><ui-label text="{{color}}"/>{{color}}</div>',
 
             construct: function () {
                 mainConstruct++;
@@ -171,7 +171,6 @@ describe("Component", function () {
         expect(labelAttached).toBe(1);
         expect(labelDetached).toBe(0);
 
-
         myComponent.dispose();
         expect(myComponent.lifeCycle.is('inited')).toBeFalsy();
         expect(myComponent.lifeCycle.is('created')).toBeFalsy();
@@ -199,7 +198,7 @@ describe("Component", function () {
         expect(myComponent2.lifeCycle.is('disposed')).toBeTruthy();
     });
 
-    it("life cycle and event", function () {
+    it('life cycle and event', function () {
         var phases = {};
 
         var Label = san.defineComponent({
@@ -233,7 +232,6 @@ describe("Component", function () {
             }
         });
 
-
         var myComponent = new MyComponent();
 
         var wrap = document.createElement('div');
@@ -249,7 +247,7 @@ describe("Component", function () {
         expect(phases.detached).toBeTruthy();
     });
 
-    it("life cycle construct", function () {
+    it('life cycle construct', function () {
         var MyComponent = san.defineComponent({
             template: '<a><span title="{{email}}">{{name}}</span></a>',
 
@@ -265,11 +263,10 @@ describe("Component", function () {
         var myComponent = new MyComponent({
             from: 'err',
             data: {
-                'email': 'errorrik@gmail.com',
-                'name': 'errorrik'
+                email: 'errorrik@gmail.com',
+                name: 'errorrik'
             }
         });
-
 
         var wrap = document.createElement('div');
         document.body.appendChild(wrap);
@@ -279,10 +276,9 @@ describe("Component", function () {
         expect(span.innerHTML.indexOf('errorrik')).toBe(0);
         myComponent.dispose();
         document.body.removeChild(wrap);
-
     });
 
-    it("life cycle updated", function (done) {
+    it('life cycle updated', function (done) {
         var times = 0;
 
         var MyComponent = san.defineComponent({
@@ -314,14 +310,13 @@ describe("Component", function () {
             myComponent.dispose();
             document.body.removeChild(wrap);
             done();
-        })
-
+        });
     });
 
-    it("life cycle must correct when call dispose after detach immediately", function () {
+    it('life cycle must correct when call dispose after detach immediately', function () {
         var P = san.defineComponent({
             template: '<p><slot/></p>'
-        })
+        });
         var MyComponent = san.defineComponent({
             components: {
                 'x-p': P
@@ -347,7 +342,7 @@ describe("Component", function () {
         expect(myP.lifeCycle.disposed).toBeTruthy();
     });
 
-    it("owner and child component life cycle, and el is ready when attached", function () {
+    it('owner and child component life cycle, and el is ready when attached', function () {
         var uState = {};
         var U = san.defineComponent({
             template: '<u><slot></slot></u>',
@@ -437,7 +432,6 @@ describe("Component", function () {
         expect(!!u.lifeCycle.is('detached')).toBeFalsy();
         expect(!!u.lifeCycle.is('disposed')).toBeFalsy();
 
-
         expect(mainState.inited).toBe(1);
         expect(mainState.compiled).toBe(1);
         expect(mainState.created).toBe(1);
@@ -462,15 +456,12 @@ describe("Component", function () {
         expect(!!myComponent.lifeCycle.is('detached')).toBeFalsy();
         expect(!!myComponent.lifeCycle.is('disposed')).toBeFalsy();
 
-
         myComponent.dispose();
-
 
         expect(uState.detached).toBe(1);
         expect(uState.disposed).toBe(1);
         expect(mainState.detached).toBe(1);
         expect(mainState.disposed).toBe(1);
-
 
         expect(!!u.lifeCycle.is('inited')).toBeFalsy();
         expect(!!u.lifeCycle.is('compiled')).toBeFalsy();
@@ -478,7 +469,6 @@ describe("Component", function () {
         expect(!!u.lifeCycle.is('attached')).toBeFalsy();
         expect(!!u.lifeCycle.is('detached')).toBeFalsy();
         expect(!!u.lifeCycle.is('disposed')).toBeTruthy();
-
 
         expect(!!myComponent.lifeCycle.is('inited')).toBeFalsy();
         expect(!!myComponent.lifeCycle.is('compiled')).toBeFalsy();
@@ -490,7 +480,7 @@ describe("Component", function () {
         document.body.removeChild(wrap);
     });
 
-    it("defineComponent with SuperComponent", function (done) {
+    it('defineComponent with SuperComponent', function (done) {
         var Counter = san.defineComponent({
             template: '<u on-click="add">{{num}}</u>',
             initData: function () {
@@ -503,11 +493,14 @@ describe("Component", function () {
             }
         });
 
-        var RealCounter = san.defineComponent({
-            add: function () {
-                this.data.set('num', this.data.get('num') + 5);
-            }
-        }, Counter);
+        var RealCounter = san.defineComponent(
+            {
+                add: function () {
+                    this.data.set('num', this.data.get('num') + 5);
+                }
+            },
+            Counter
+        );
 
         var MyComponent = san.defineComponent({
             components: {
@@ -531,10 +524,10 @@ describe("Component", function () {
             myComponent.dispose();
             document.body.removeChild(wrap);
             done();
-        })
+        });
     });
 
-    it("attach without parentEl, and dispose, got collect life cycle", function () {
+    it('attach without parentEl, and dispose, got collect life cycle', function () {
         var MyComponent = san.defineComponent({
             template: '<div>hello san</div>'
         });
@@ -546,13 +539,11 @@ describe("Component", function () {
 
         myComponent.dispose();
         expect(!!myComponent.lifeCycle.is('disposed')).toBeTruthy();
-
     });
 
-    it("data set in inited should not update view", function (done) {
+    it('data set in inited should not update view', function (done) {
         var up = false;
         var MyComponent = san.defineComponent({
-
             template: '<a><span title="{{name}}-{{email}}">{{name}}</span></a>',
 
             inited: function () {
@@ -563,7 +554,7 @@ describe("Component", function () {
                 return {
                     name: 'erik',
                     email: 'errorrik@gmail.com'
-                }
+                };
             },
 
             updated: function () {
@@ -590,10 +581,10 @@ describe("Component", function () {
         });
     });
 
-    it("template as static property", function () {
+    it('template as static property', function () {
         var MyComponent = san.defineComponent({});
         MyComponent.template = '<span title="{{color}}">{{color}}</span>';
-        var myComponent = new MyComponent({data: {color: 'red'}});
+        var myComponent = new MyComponent({ data: { color: 'red' } });
 
         var wrap = document.createElement('div');
         document.body.appendChild(wrap);
@@ -606,7 +597,7 @@ describe("Component", function () {
         document.body.removeChild(wrap);
     });
 
-    it("template as static property in inherits component", function () {
+    it('template as static property in inherits component', function () {
         var B = san.defineComponent({});
         B.template = '<b title="b">b</b>';
 
@@ -632,7 +623,7 @@ describe("Component", function () {
         document.body.removeChild(wrap);
     });
 
-    it("custom delims", function () {
+    it('custom delims', function () {
         var MyComponent = san.defineComponent({
             delimiters: ['{%', '%}'],
             template: '<a><span title="Good {%name%}">Hello {%name%}</span></a>'
@@ -655,7 +646,7 @@ describe("Component", function () {
         document.body.removeChild(wrap);
     });
 
-    it("template trim whitespace, default none", function () {
+    it('template trim whitespace, default none', function () {
         var MyComponent = san.defineComponent({
             template: '<a>  \n    <span>san</span>\n  </a>'
         });
@@ -676,7 +667,7 @@ describe("Component", function () {
         document.body.removeChild(wrap);
     });
 
-    it("template trim whitespace, trim blank", function () {
+    it('template trim whitespace, trim blank', function () {
         var MyComponent = san.defineComponent({
             template: '<a>  \n    <span>san</span>\n  </a>',
             trimWhitespace: 'blank'
@@ -694,7 +685,7 @@ describe("Component", function () {
         document.body.removeChild(wrap);
     });
 
-    it("template trim whitespace, trim all", function () {
+    it('template trim whitespace, trim all', function () {
         var MyComponent = san.defineComponent({
             template: '<a>  begin\n    <span>san</span>\nend  </a>'
         });
@@ -712,7 +703,7 @@ describe("Component", function () {
         document.body.removeChild(wrap);
     });
 
-    it("filters as static property", function () {
+    it('filters as static property', function () {
         var MyComponent = san.defineComponent({});
 
         MyComponent.template = '<span title="{{color|up}}">{{color|up}}</span>';
@@ -721,7 +712,7 @@ describe("Component", function () {
                 return source.toUpperCase();
             }
         };
-        var myComponent = new MyComponent({data: {color: 'red'}});
+        var myComponent = new MyComponent({ data: { color: 'red' } });
 
         var wrap = document.createElement('div');
         document.body.appendChild(wrap);
@@ -734,7 +725,7 @@ describe("Component", function () {
         document.body.removeChild(wrap);
     });
 
-    it("components as static property", function () {
+    it('components as static property', function () {
         var MyComponent = san.defineComponent({});
 
         MyComponent.template = '<div><ui-label text="erik"></ui-label>';
@@ -756,19 +747,19 @@ describe("Component", function () {
         document.body.removeChild(wrap);
     });
 
-    it("components with pascal tagName allowed", function () {
+    it('components with pascal tagName allowed', function () {
         var Label = san.defineComponent({
             template: '<span title="{{text}}">{{text}}</span>',
             initData: function () {
                 return {
                     text: 'erik'
-                }
+                };
             }
         });
 
         var MyComponent = san.defineComponent({
             components: {
-                'Label': Label
+                Label: Label
             },
             template: '<div><Label/></div>'
         });
@@ -786,13 +777,13 @@ describe("Component", function () {
         document.body.removeChild(wrap);
     });
 
-    it("components use s-is", function () {
+    it('components use s-is', function () {
         var Label = san.defineComponent({
             template: '<span title="{{text}}">{{text}}</span>',
             initData: function () {
                 return {
                     text: 'erik'
-                }
+                };
             }
         });
 
@@ -803,7 +794,7 @@ describe("Component", function () {
             initData: function () {
                 return {
                     cmpt: 'x-label'
-                }
+                };
             }
         });
 
@@ -822,13 +813,13 @@ describe("Component", function () {
         document.body.removeChild(wrap);
     });
 
-    it("s-is value update", function (done) {
+    it('s-is value update', function (done) {
         var Label = san.defineComponent({
             template: '<span title="{{text}}" >{{text}}</span>',
             initData: function () {
                 return {
                     text: 'erik'
-                }
+                };
             }
         });
 
@@ -837,7 +828,7 @@ describe("Component", function () {
             initData: function () {
                 return {
                     text: 'erik'
-                }
+                };
             }
         });
 
@@ -849,7 +840,7 @@ describe("Component", function () {
             initData: function () {
                 return {
                     cmpt: 'x-label'
-                }
+                };
             }
         });
 
@@ -875,7 +866,7 @@ describe("Component", function () {
         });
     });
 
-    it("s-is component which fragment rooted", function (done) {
+    it('s-is component which fragment rooted', function (done) {
         var Frag = san.defineComponent({
             template: '<fragment><b>icon</b><slot></slot></fragment>'
         });
@@ -892,11 +883,10 @@ describe("Component", function () {
             initData: function () {
                 return {
                     cmpt: 'x-f'
-                }
+                };
             },
-            template:'<p><test s-is="cmpt">erik</test></p>'
+            template: '<p><test s-is="cmpt">erik</test></p>'
         });
-
 
         var myComponent = new MyComponent();
 
@@ -921,7 +911,7 @@ describe("Component", function () {
         });
     });
 
-    it("s-is for html element and component", function (done) {
+    it('s-is for html element and component', function (done) {
         var Label = san.defineComponent({
             template: '<b><slot/></b>'
         });
@@ -934,11 +924,10 @@ describe("Component", function () {
                 return {
                     cmpt: 'h1',
                     text: 'hello'
-                }
+                };
             },
             template: '<div><span s-is="cmpt" id="comp">{{text}}</span></div>'
         });
-
 
         var myComponent = new MyComponent();
 
@@ -980,7 +969,7 @@ describe("Component", function () {
         });
     });
 
-    it("components in inherits structure", function () {
+    it('components in inherits structure', function () {
         var Span = san.defineComponent({});
         Span.template = '<span title="span">span</span>';
 
@@ -1019,7 +1008,7 @@ describe("Component", function () {
         document.body.removeChild(wrap);
     });
 
-    it("initData", function (done) {
+    it('initData', function (done) {
         var MyComponent = san.defineComponent({
             template: '<a><span title="{{email}}">{{name}}</span></a>',
 
@@ -1027,7 +1016,7 @@ describe("Component", function () {
                 return {
                     email: 'errorrik@gmail.com',
                     name: 'errorrik'
-                }
+                };
             }
         });
 
@@ -1035,7 +1024,6 @@ describe("Component", function () {
         var wrap = document.createElement('div');
         document.body.appendChild(wrap);
         myComponent.attach(wrap);
-
 
         myComponent.data.set('email', 'erik168@163.com');
         myComponent.data.set('name', 'erik');
@@ -1052,11 +1040,10 @@ describe("Component", function () {
             myComponent.dispose();
             document.body.removeChild(wrap);
             done();
-        })
-
+        });
     });
 
-    it("initData merge with option data property", function (done) {
+    it('initData merge with option data property', function (done) {
         var MyComponent = san.defineComponent({
             template: '<a><span title="{{email}}">{{name}}</span></a>',
 
@@ -1077,7 +1064,6 @@ describe("Component", function () {
         document.body.appendChild(wrap);
         myComponent.attach(wrap);
 
-
         myComponent.data.set('email', 'erik168@163.com');
 
         var span = wrap.getElementsByTagName('span')[0];
@@ -1092,16 +1078,16 @@ describe("Component", function () {
             myComponent.dispose();
             document.body.removeChild(wrap);
             done();
-        })
-
+        });
     });
 
-    it("custom event default arg $event", function (done) {
+    it('custom event default arg $event', function (done) {
         var Label = san.defineComponent({
-            template: '<a><span on-click="clicker" style="cursor:pointer">click here to fire change event with no arg</span></a>',
+            template:
+                '<a><span on-click="clicker" style="cursor:pointer">click here to fire change event with no arg</span></a>',
 
             clicker: function () {
-                this.fire('change', "Hello");
+                this.fire('change', 'Hello');
             }
         });
 
@@ -1112,14 +1098,14 @@ describe("Component", function () {
                 'ui-label': Label
             },
 
-            template: '<div><ui-label on-change="labelChange"></ui-label></div>',
+            template:
+                '<div><ui-label on-change="labelChange"></ui-label></div>',
 
             labelChange: function (event) {
-                expect(event).toBe("Hello");
+                expect(event).toBe('Hello');
                 changed = true;
             }
         });
-
 
         var myComponent = new MyComponent();
 
@@ -1144,9 +1130,10 @@ describe("Component", function () {
         doneSpec();
     });
 
-    it("custom event default arg $event valued null", function (done) {
+    it('custom event default arg $event valued null', function (done) {
         var Label = san.defineComponent({
-            template: '<a><span on-click="clicker" style="cursor:pointer">click here to fire change event with no arg</span></a>',
+            template:
+                '<a><span on-click="clicker" style="cursor:pointer">click here to fire change event with no arg</span></a>',
 
             clicker: function () {
                 this.fire('change', null);
@@ -1160,14 +1147,14 @@ describe("Component", function () {
                 'ui-label': Label
             },
 
-            template: '<div><ui-label on-change="labelChange"></ui-label></div>',
+            template:
+                '<div><ui-label on-change="labelChange"></ui-label></div>',
 
             labelChange: function (event) {
                 expect(event).toBe(null);
                 changed = true;
             }
         });
-
 
         var myComponent = new MyComponent();
 
@@ -1192,9 +1179,10 @@ describe("Component", function () {
         doneSpec();
     });
 
-    it("custom event should not pass DOM Event object, when fire with no arg", function (done) {
+    it('custom event should not pass DOM Event object, when fire with no arg', function (done) {
         var Label = san.defineComponent({
-            template: '<a><span on-click="clicker" id="component-custom-event1" style="cursor:pointer">click here to fire change event with no arg</span></a>',
+            template:
+                '<a><span on-click="clicker" id="component-custom-event1" style="cursor:pointer">click here to fire change event with no arg</span></a>',
 
             clicker: function () {
                 this.fire('change');
@@ -1208,14 +1196,14 @@ describe("Component", function () {
                 'ui-label': Label
             },
 
-            template: '<div><ui-label on-change="labelChange($event)"></ui-label></div>',
+            template:
+                '<div><ui-label on-change="labelChange($event)"></ui-label></div>',
 
             labelChange: function (event) {
                 expect(event).toBeUndefined();
                 changed = true;
             }
         });
-
 
         var myComponent = new MyComponent();
 
@@ -1239,9 +1227,10 @@ describe("Component", function () {
         doneSpec();
     });
 
-    it("custom event should not pass DOM Event object, when fire with equal-false value, like 0", function (done) {
+    it('custom event should not pass DOM Event object, when fire with equal-false value, like 0', function (done) {
         var Label = san.defineComponent({
-            template: '<a><span on-click="clicker" id="component-custom-event2" style="cursor:pointer">click here to fire change event with arg 0</span></a>',
+            template:
+                '<a><span on-click="clicker" id="component-custom-event2" style="cursor:pointer">click here to fire change event with arg 0</span></a>',
 
             clicker: function () {
                 this.fire('change', 0);
@@ -1255,14 +1244,14 @@ describe("Component", function () {
                 'ui-label': Label
             },
 
-            template: '<div><ui-label on-change="labelChange($event)"></ui-label></div>',
+            template:
+                '<div><ui-label on-change="labelChange($event)"></ui-label></div>',
 
             labelChange: function (event) {
                 expect(event).toBe(0);
                 changed = true;
             }
         });
-
 
         var myComponent = new MyComponent();
 
@@ -1286,7 +1275,7 @@ describe("Component", function () {
         doneSpec();
     });
 
-    it("subcomponent data binding", function () {
+    it('subcomponent data binding', function () {
         var Label = san.defineComponent({
             template: '<a><span title="{{te_xt}}">{{te_xt}}</span></a>',
 
@@ -1318,10 +1307,9 @@ describe("Component", function () {
 
         myComponent.dispose();
         document.body.removeChild(wrap);
-
     });
 
-    it("data binding can use filter interp", function () {
+    it('data binding can use filter interp', function () {
         var Label = san.defineComponent({
             template: '<a><span title="{{text}}">{{text}}</span></a>',
 
@@ -1338,7 +1326,7 @@ describe("Component", function () {
             template: '<div><ui-label text="{{name|upper}}"></ui-label></div>',
 
             initData: function () {
-                return {name: 'erik'};
+                return { name: 'erik' };
             },
 
             filters: {
@@ -1359,10 +1347,9 @@ describe("Component", function () {
 
         myComponent.dispose();
         document.body.removeChild(wrap);
-
     });
 
-    it("life cycle updated, nested component", function (done) {
+    it('life cycle updated, nested component', function (done) {
         var times = 0;
         var subTimes = 0;
 
@@ -1379,8 +1366,9 @@ describe("Component", function () {
                 'ui-label': Label
             },
 
-            template: '<div><h5><ui-label title="{{name}}" text="{{jokeName}}"></ui-label></h5>'
-                + '<p><a>{{school}}</a><u>{{company}}</u></p></div>',
+            template:
+                '<div><h5><ui-label title="{{name}}" text="{{jokeName}}"></ui-label></h5>' +
+                '<p><a>{{school}}</a><u>{{company}}</u></p></div>',
 
             updated: function () {
                 times++;
@@ -1406,12 +1394,10 @@ describe("Component", function () {
         expect(subTimes).toBe(0);
 
         san.nextTick(function () {
-
             var span = wrap.getElementsByTagName('span')[0];
             expect(span.innerHTML.indexOf('2b')).toBe(0);
             expect(times).toBe(1);
             expect(subTimes).toBe(1);
-
 
             myComponent.data.set('school', 'hainan mid');
             myComponent.data.set('company', 'baidu');
@@ -1425,10 +1411,9 @@ describe("Component", function () {
                 done();
             });
         });
-
     });
 
-    it("dynamic create component", function (done) {
+    it('dynamic create component', function (done) {
         var wrap = document.createElement('div');
         document.body.appendChild(wrap);
 
@@ -1445,7 +1430,7 @@ describe("Component", function () {
                 layer.attach(wrap);
 
                 this.watch('content', function (value) {
-                    layer.data.set('content', value)
+                    layer.data.set('content', value);
                 });
             },
 
@@ -1458,8 +1443,12 @@ describe("Component", function () {
             template: '<b>{{content}}</b>',
 
             updated: function () {
-                expect(wrap.getElementsByTagName('u')[0].innerHTML).toBe('title');
-                expect(wrap.getElementsByTagName('b')[0].innerHTML).toBe('subtitle');
+                expect(wrap.getElementsByTagName('u')[0].innerHTML).toBe(
+                    'title'
+                );
+                expect(wrap.getElementsByTagName('b')[0].innerHTML).toBe(
+                    'subtitle'
+                );
 
                 myComponent.dispose();
                 document.body.removeChild(wrap);
@@ -1472,7 +1461,8 @@ describe("Component", function () {
                 'x-panel': Panel
             },
 
-            template: '<div><x-panel content="{{layerContent}}"></x-panel><u>{{title}}</u></div>'
+            template:
+                '<div><x-panel content="{{layerContent}}"></x-panel><u>{{title}}</u></div>'
         });
 
         var myComponent = new MyComponent({
@@ -1491,7 +1481,7 @@ describe("Component", function () {
         myComponent.data.set('layerContent', 'subtitle');
     });
 
-    it("dynamic create component, and push to children", function (done) {
+    it('dynamic create component, and push to children', function (done) {
         var wrap = document.createElement('div');
         document.body.appendChild(wrap);
 
@@ -1511,13 +1501,17 @@ describe("Component", function () {
                     layer.data.set('content', value);
 
                     this.nextTick(function () {
-                        expect(wrap.getElementsByTagName('u')[0].innerHTML).toBe('title');
-                        expect(wrap.getElementsByTagName('b')[0].innerHTML).toBe('subtitle');
+                        expect(
+                            wrap.getElementsByTagName('u')[0].innerHTML
+                        ).toBe('title');
+                        expect(
+                            wrap.getElementsByTagName('b')[0].innerHTML
+                        ).toBe('subtitle');
 
                         myComponent.dispose();
                         document.body.removeChild(wrap);
                         done();
-                    })
+                    });
                 });
             }
         });
@@ -1530,7 +1524,8 @@ describe("Component", function () {
                 'x-panel': Panel
             },
 
-            template: '<div><x-panel content="{{layerContent}}"></x-panel><u>{{title}}</u></div>'
+            template:
+                '<div><x-panel content="{{layerContent}}"></x-panel><u>{{title}}</u></div>'
         });
 
         var myComponent = new MyComponent({
@@ -1549,7 +1544,7 @@ describe("Component", function () {
         myComponent.data.set('layerContent', 'subtitle');
     });
 
-    it("dynamic create component, with on and un method", function () {
+    it('dynamic create component, with on and un method', function () {
         var wrap = document.createElement('div');
         document.body.appendChild(wrap);
 
@@ -1581,7 +1576,8 @@ describe("Component", function () {
                 'x-panel': Panel
             },
 
-            template: '<div><x-panel content="{{layerContent}}"></x-panel><u>{{title}}</u></div>'
+            template:
+                '<div><x-panel content="{{layerContent}}"></x-panel><u>{{title}}</u></div>'
         });
 
         var myComponent = new MyComponent({
@@ -1617,7 +1613,7 @@ describe("Component", function () {
         document.body.removeChild(wrap);
     });
 
-    it("dispatch should pass message up, util the first component which recieve it", function (done) {
+    it('dispatch should pass message up, util the first component which recieve it', function (done) {
         var Select = san.defineComponent({
             template: '<ul><slot></slot></ul>',
 
@@ -1655,7 +1651,8 @@ describe("Component", function () {
         var selectValue;
         var item;
         var SelectItem = san.defineComponent({
-            template: '<li on-click="select" style="{{value === selectValue ? \'border: 1px solid red\' : \'\'}}"><slot></slot></li>',
+            template:
+                '<li on-click="select" style="{{value === selectValue ? \'border: 1px solid red\' : \'\'}}"><slot></slot></li>',
 
             select: function () {
                 var value = this.data.get('value');
@@ -1679,11 +1676,12 @@ describe("Component", function () {
                 'ui-selectitem': SelectItem
             },
 
-            template: '<div><ui-select value="{=v=}">'
-                + '<ui-selectitem value="1">one</ui-selectitem>'
-                + '<ui-selectitem value="2">two</ui-selectitem>'
-                + '<ui-selectitem value="3">three</ui-selectitem>'
-                + '</ui-select>please click to select a item<b title="{{v}}">{{v}}</b></div>',
+            template:
+                '<div><ui-select value="{=v=}">' +
+                '<ui-selectitem value="1">one</ui-selectitem>' +
+                '<ui-selectitem value="2">two</ui-selectitem>' +
+                '<ui-selectitem value="3">three</ui-selectitem>' +
+                '</ui-select>please click to select a item<b title="{{v}}">{{v}}</b></div>',
 
             messages: {
                 'UI:select-item-selected': function () {
@@ -1707,7 +1705,9 @@ describe("Component", function () {
 
         function detectDone() {
             if (selectValue) {
-                expect(wrap.getElementsByTagName('b')[0].title).toBe(selectValue);
+                expect(wrap.getElementsByTagName('b')[0].title).toBe(
+                    selectValue
+                );
 
                 myComponent.dispose();
                 document.body.removeChild(wrap);
@@ -1720,10 +1720,9 @@ describe("Component", function () {
 
         detectDone();
         triggerEvent(item, 'click');
-
     });
 
-    it("messages static property", function (done) {
+    it('messages static property', function (done) {
         var Select = san.defineComponent({
             template: '<ul><slot></slot></ul>',
 
@@ -1761,7 +1760,8 @@ describe("Component", function () {
         var selectValue;
         var item;
         var SelectItem = san.defineComponent({
-            template: '<li on-click="select" style="{{value === selectValue ? \'border: 1px solid red\' : \'\'}}"><slot></slot></li>',
+            template:
+                '<li on-click="select" style="{{value === selectValue ? \'border: 1px solid red\' : \'\'}}"><slot></slot></li>',
 
             select: function () {
                 var value = this.data.get('value');
@@ -1785,11 +1785,12 @@ describe("Component", function () {
                 'ui-selectitem': SelectItem
             },
 
-            template: '<div><ui-select value="{=v=}">'
-                + '<ui-selectitem value="1">one</ui-selectitem>'
-                + '<ui-selectitem value="2">two</ui-selectitem>'
-                + '<ui-selectitem value="3">three</ui-selectitem>'
-                + '</ui-select>please click to select a item<b title="{{v}}">{{v}}</b></div>'
+            template:
+                '<div><ui-select value="{=v=}">' +
+                '<ui-selectitem value="1">one</ui-selectitem>' +
+                '<ui-selectitem value="2">two</ui-selectitem>' +
+                '<ui-selectitem value="3">three</ui-selectitem>' +
+                '</ui-select>please click to select a item<b title="{{v}}">{{v}}</b></div>'
         });
 
         MyComponent.messages = {
@@ -1813,7 +1814,9 @@ describe("Component", function () {
 
         function detectDone() {
             if (selectValue) {
-                expect(wrap.getElementsByTagName('b')[0].title).toBe(selectValue);
+                expect(wrap.getElementsByTagName('b')[0].title).toBe(
+                    selectValue
+                );
 
                 myComponent.dispose();
                 document.body.removeChild(wrap);
@@ -1826,10 +1829,9 @@ describe("Component", function () {
 
         detectDone();
         triggerEvent(item, 'click');
-
     });
 
-    it("message * would receive all message", function (done) {
+    it('message * would receive all message', function (done) {
         var selectMessageX;
         var justtestReceived;
         var Select = san.defineComponent({
@@ -1877,7 +1879,8 @@ describe("Component", function () {
         var selectValue;
         var item;
         var SelectItem = san.defineComponent({
-            template: '<li on-click="select" style="{{value === selectValue ? \'border: 1px solid red\' : \'\'}}"><slot></slot></li>',
+            template:
+                '<li on-click="select" style="{{value === selectValue ? \'border: 1px solid red\' : \'\'}}"><slot></slot></li>',
 
             select: function () {
                 var value = this.data.get('value');
@@ -1902,11 +1905,12 @@ describe("Component", function () {
                 'ui-selectitem': SelectItem
             },
 
-            template: '<div><ui-select value="{=v=}">'
-                + '<ui-selectitem value="1">one</ui-selectitem>'
-                + '<ui-selectitem value="2">two</ui-selectitem>'
-                + '<ui-selectitem value="3">three</ui-selectitem>'
-                + '</ui-select>please click to select a item<b title="{{v}}">{{v}}</b></div>',
+            template:
+                '<div><ui-select value="{=v=}">' +
+                '<ui-selectitem value="1">one</ui-selectitem>' +
+                '<ui-selectitem value="2">two</ui-selectitem>' +
+                '<ui-selectitem value="3">three</ui-selectitem>' +
+                '</ui-select>please click to select a item<b title="{{v}}">{{v}}</b></div>',
 
             messages: {
                 'UI:select-item-selected': function () {
@@ -1921,11 +1925,11 @@ describe("Component", function () {
                     expect(false).toBeTruthy();
                 },
 
-                'justtest': function () {
+                justtest: function () {
                     justtestReceived = true;
                 },
 
-                'justteststop': function () {
+                justteststop: function () {
                     expect(false).toBeTruthy();
                 }
             }
@@ -1938,7 +1942,9 @@ describe("Component", function () {
 
         function detectDone() {
             if (selectValue) {
-                expect(wrap.getElementsByTagName('b')[0].title).toBe(selectValue);
+                expect(wrap.getElementsByTagName('b')[0].title).toBe(
+                    selectValue
+                );
                 expect(selectMessageX).toBeTruthy();
                 expect(justtestReceived).toBeTruthy();
 
@@ -1953,10 +1959,9 @@ describe("Component", function () {
 
         detectDone();
         triggerEvent(item, 'click');
-
     });
 
-    it("dispatch cross multi parent components", function () {
+    it('dispatch cross multi parent components', function () {
         var received = 0;
         var Child = san.defineComponent({
             template: '<div>child</div>',
@@ -2003,7 +2008,7 @@ describe("Component", function () {
         document.body.removeChild(wrap);
     });
 
-    it("dispatch in inited, parent data change, view should change soon", function (done) {
+    it('dispatch in inited, parent data change, view should change soon', function (done) {
         var Child = san.defineComponent({
             template: '<div>child</div>',
             inited: function () {
@@ -2018,7 +2023,8 @@ describe("Component", function () {
                 }
             },
 
-            template: '<div><b title="{{xx?\'good\':\'bad\'}}"></b><slot></slot><b title="{{xx?\'good\':\'bad\'}}"></b></div>',
+            template:
+                "<div><b title=\"{{xx?'good':'bad'}}\"></b><slot></slot><b title=\"{{xx?'good':'bad'}}\"></b></div>",
 
             initData: function () {
                 return {
@@ -2056,7 +2062,7 @@ describe("Component", function () {
         });
     });
 
-    it("outer bind declaration should not set main element property", function (done) {
+    it('outer bind declaration should not set main element property', function (done) {
         var times = 0;
         var subTimes = 0;
 
@@ -2069,8 +2075,9 @@ describe("Component", function () {
                 'ui-label': Label
             },
 
-            template: '<div><h5><ui-label title="{{name}}" text="{{jokeName}}"></ui-label></h5>'
-                + '<p><a>{{school}}</a><u>{{company}}</u></p></div>'
+            template:
+                '<div><h5><ui-label title="{{name}}" text="{{jokeName}}"></ui-label></h5>' +
+                '<p><a>{{school}}</a><u>{{company}}</u></p></div>'
         });
 
         var myComponent = new MyComponent();
@@ -2099,12 +2106,13 @@ describe("Component", function () {
         });
     });
 
-    it("outer bind declaration can use same name as main element property", function (done) {
+    it('outer bind declaration can use same name as main element property', function (done) {
         var times = 0;
         var subTimes = 0;
 
         var Label = san.defineComponent({
-            template: '<b title="{{title}}"><span title="{{title}}">{{text}}</span></b>'
+            template:
+                '<b title="{{title}}"><span title="{{title}}">{{text}}</span></b>'
         });
 
         var MyComponent = san.defineComponent({
@@ -2112,8 +2120,9 @@ describe("Component", function () {
                 'ui-label': Label
             },
 
-            template: '<div><h5><ui-label title="{{name}}" text="{{jokeName}}"></ui-label></h5>'
-                + '<p><a>{{school}}</a><u>{{company}}</u></p></div>'
+            template:
+                '<div><h5><ui-label title="{{name}}" text="{{jokeName}}"></ui-label></h5>' +
+                '<p><a>{{school}}</a><u>{{company}}</u></p></div>'
         });
 
         var myComponent = new MyComponent();
@@ -2149,10 +2158,11 @@ describe("Component", function () {
             },
 
             initData: function () {
-                return {level: 1}
+                return { level: 1 };
             },
 
-            template: '<u><ui-self level="{{level - 1}}" san-if="level > 0"></ui-self></u>'
+            template:
+                '<u><ui-self level="{{level - 1}}" san-if="level > 0"></ui-self></u>'
         });
 
         var myComponent = new MyComponent();
@@ -2166,10 +2176,9 @@ describe("Component", function () {
 
         myComponent.dispose();
         document.body.removeChild(wrap);
-
     });
 
-    it("given raw object to components config, auto use it to define component", function (done) {
+    it('given raw object to components config, auto use it to define component', function (done) {
         var MyComponent = san.defineComponent({
             components: {
                 'ui-label': {
@@ -2177,8 +2186,9 @@ describe("Component", function () {
                 }
             },
 
-            template: '<div><h5><ui-label title="{{name}}" text="{{jokeName}}"></ui-label></h5>'
-                + '<p><a>{{school}}</a><u>{{company}}</u></p></div>'
+            template:
+                '<div><h5><ui-label title="{{name}}" text="{{jokeName}}"></ui-label></h5>' +
+                '<p><a>{{school}}</a><u>{{company}}</u></p></div>'
         });
 
         var myComponent = new MyComponent();
@@ -2200,12 +2210,12 @@ describe("Component", function () {
             document.body.removeChild(wrap);
             done();
         });
-
     });
 
-    it("template tag in template", function (done) {
+    it('template tag in template', function (done) {
         var Label = san.defineComponent({
-            template: '<template class="ui-label" title="{{text}}">{{text}}</template>'
+            template:
+                '<template class="ui-label" title="{{text}}">{{text}}</template>'
         });
 
         var MyComponent = san.defineComponent({
@@ -2214,7 +2224,6 @@ describe("Component", function () {
             },
             template: '<div><ui-label text="{{name}}"></ui-label></div>'
         });
-
 
         var myComponent = new MyComponent();
         myComponent.data.set('name', 'erik');
@@ -2239,9 +2248,10 @@ describe("Component", function () {
         });
     });
 
-    it("bind data update property-grained", function (done) {
+    it('bind data update property-grained', function (done) {
         var UserInfo = san.defineComponent({
-            template: '<u class="ui-label" title="{{info.name}}-{{info.email}}">{{info.name}}-{{info.email}}</u>',
+            template:
+                '<u class="ui-label" title="{{info.name}}-{{info.email}}">{{info.name}}-{{info.email}}</u>',
 
             attached: function () {
                 this.watch('info.name', function () {
@@ -2259,7 +2269,6 @@ describe("Component", function () {
             },
             template: '<div><ui-user info="{{md.user}}"></ui-user></div>'
         });
-
 
         var myComponent = new MyComponent({
             data: {
@@ -2291,15 +2300,15 @@ describe("Component", function () {
         });
     });
 
-    it("computed", function (done) {
+    it('computed', function (done) {
         var MyComponent = san.defineComponent({
             template: '<div><span title="{{name}}">{{name}}</span></div>',
 
             initData: function () {
                 return {
-                    'first': 'first',
-                    'last': 'last'
-                }
+                    first: 'first',
+                    last: 'last'
+                };
             },
 
             computed: {
@@ -2308,7 +2317,6 @@ describe("Component", function () {
                 }
             }
         });
-
 
         var myComponent = new MyComponent();
 
@@ -2319,7 +2327,7 @@ describe("Component", function () {
         var span = wrap.getElementsByTagName('span')[0];
         expect(span.title).toBe('first last');
 
-        myComponent.data.set('last', 'xxx')
+        myComponent.data.set('last', 'xxx');
 
         san.nextTick(function () {
             var span = wrap.getElementsByTagName('span')[0];
@@ -2329,18 +2337,17 @@ describe("Component", function () {
             document.body.removeChild(wrap);
             done();
         });
-
     });
 
-    it("static computed property", function (done) {
+    it('static computed property', function (done) {
         var MyComponent = san.defineComponent({
             template: '<div><span title="{{name}}">{{name}}</span></div>',
 
             initData: function () {
                 return {
-                    'first': 'first',
-                    'last': 'last'
-                }
+                    first: 'first',
+                    last: 'last'
+                };
             }
         });
 
@@ -2350,7 +2357,6 @@ describe("Component", function () {
             }
         };
 
-
         var myComponent = new MyComponent();
 
         var wrap = document.createElement('div');
@@ -2360,7 +2366,7 @@ describe("Component", function () {
         var span = wrap.getElementsByTagName('span')[0];
         expect(span.title).toBe('first last');
 
-        myComponent.data.set('last', 'xxx')
+        myComponent.data.set('last', 'xxx');
 
         san.nextTick(function () {
             var span = wrap.getElementsByTagName('span')[0];
@@ -2370,10 +2376,9 @@ describe("Component", function () {
             document.body.removeChild(wrap);
             done();
         });
-
     });
 
-    it("computed has computed dependency, computed item change", function (done) {
+    it('computed has computed dependency, computed item change', function (done) {
         var MyComponent = san.defineComponent({
             template: '<div><span title="{{msg}}">{{msg}}</span></div>',
 
@@ -2382,12 +2387,17 @@ describe("Component", function () {
                     first: 'first',
                     last: 'last',
                     email: 'name@name.com'
-                }
+                };
             },
 
             computed: {
                 msg: function () {
-                    return this.data.get('name') + '(' + this.data.get('email') + ')'
+                    return (
+                        this.data.get('name') +
+                        '(' +
+                        this.data.get('email') +
+                        ')'
+                    );
                 },
 
                 name: function () {
@@ -2395,7 +2405,6 @@ describe("Component", function () {
                 }
             }
         });
-
 
         var myComponent = new MyComponent();
 
@@ -2406,7 +2415,7 @@ describe("Component", function () {
         var span = wrap.getElementsByTagName('span')[0];
         expect(span.title).toBe('first last(name@name.com)');
 
-        myComponent.data.set('last', 'xxx')
+        myComponent.data.set('last', 'xxx');
 
         san.nextTick(function () {
             var span = wrap.getElementsByTagName('span')[0];
@@ -2416,10 +2425,9 @@ describe("Component", function () {
             document.body.removeChild(wrap);
             done();
         });
-
     });
 
-    it("computed has computed dependency, normal data change", function (done) {
+    it('computed has computed dependency, normal data change', function (done) {
         var MyComponent = san.defineComponent({
             template: '<div><span title="{{msg}}">{{msg}}</span></div>',
 
@@ -2428,12 +2436,17 @@ describe("Component", function () {
                     first: 'first',
                     last: 'last',
                     email: 'name@name.com'
-                }
+                };
             },
 
             computed: {
                 msg: function () {
-                    return this.data.get('name') + '(' + this.data.get('email') + ')'
+                    return (
+                        this.data.get('name') +
+                        '(' +
+                        this.data.get('email') +
+                        ')'
+                    );
                 },
 
                 name: function () {
@@ -2441,7 +2454,6 @@ describe("Component", function () {
                 }
             }
         });
-
 
         var myComponent = new MyComponent();
 
@@ -2452,7 +2464,7 @@ describe("Component", function () {
         var span = wrap.getElementsByTagName('span')[0];
         expect(span.title).toBe('first last(name@name.com)');
 
-        myComponent.data.set('email', 'san@san.com')
+        myComponent.data.set('email', 'san@san.com');
 
         san.nextTick(function () {
             var span = wrap.getElementsByTagName('span')[0];
@@ -2462,16 +2474,15 @@ describe("Component", function () {
             document.body.removeChild(wrap);
             done();
         });
-
     });
 
-    it("computed item compute once when init", function () {
+    it('computed item compute once when init', function () {
         var nameCount = 0;
         var welcomeCount = 0;
         var MyComponent = san.defineComponent({
             template: '<span>{{text}}</span>',
 
-            initData: function() {
+            initData: function () {
                 return {
                     realname: 'san',
                     hello: 'hello'
@@ -2493,8 +2504,7 @@ describe("Component", function () {
                     return this.data.get('hello') + ' ';
                 }
             }
-        })
-
+        });
 
         var myComponent = new MyComponent();
 
@@ -2509,37 +2519,38 @@ describe("Component", function () {
 
         myComponent.dispose();
         document.body.removeChild(wrap);
-
     });
 
-    san.debug && it("computed method should throw Error when data.get called by empty expr", function () {
-        var MyComponent = san.defineComponent({
-            template: '<div><span title="{{name}}">{{name}}</span></div>',
+    san.debug &&
+        it('computed method should throw Error when data.get called by empty expr', function () {
+            var MyComponent = san.defineComponent({
+                template: '<div><span title="{{name}}">{{name}}</span></div>',
 
-            initData: function () {
-                return {
-                    'first': 'first',
-                    'last': 'last'
+                initData: function () {
+                    return {
+                        first: 'first',
+                        last: 'last'
+                    };
                 }
-            }
+            });
+
+            MyComponent.computed = {
+                name: function () {
+                    return this.data.get();
+                }
+            };
+
+            expect(function () {
+                new MyComponent();
+            }).toThrowError(/call get method in computed need argument/);
         });
 
-        MyComponent.computed = {
-            name: function () {
-                return this.data.get();
-            }
-        };
-
-        expect(function () {
-            new MyComponent()
-        }).toThrowError(/call get method in computed need argument/);
-    });
-
-    it("custom event listen and fire", function () {
+    it('custom event listen and fire', function () {
         var receive;
 
         var Label = san.defineComponent({
-            template: '<template class="ui-label" title="{{text}}">{{text}}</template>',
+            template:
+                '<template class="ui-label" title="{{text}}">{{text}}</template>',
 
             attached: function () {
                 this.fire('haha', this.data.get('text') + 'haha');
@@ -2551,13 +2562,13 @@ describe("Component", function () {
                 'ui-label': Label
             },
 
-            template: '<div><ui-label text="{{name}}" on-haha="labelHaha($event)"></ui-label></div>',
+            template:
+                '<div><ui-label text="{{name}}" on-haha="labelHaha($event)"></ui-label></div>',
 
             labelHaha: function (e) {
                 receive = e;
             }
         });
-
 
         var myComponent = new MyComponent();
         myComponent.data.set('name', 'erik');
@@ -2575,7 +2586,7 @@ describe("Component", function () {
         document.body.removeChild(wrap);
     });
 
-    it("custom event listen, use scope data", function () {
+    it('custom event listen, use scope data', function () {
         var sum = 0;
         var receive = [];
 
@@ -2592,14 +2603,14 @@ describe("Component", function () {
                 'ui-label': Label
             },
 
-            template: '<div><ui-label s-for="item, index in list" text="{{item}}" on-haha="labelHaha($event, index)"/></div>',
+            template:
+                '<div><ui-label s-for="item, index in list" text="{{item}}" on-haha="labelHaha($event, index)"/></div>',
 
             labelHaha: function (e, index) {
                 sum += index;
                 receive.push(e);
             }
         });
-
 
         var myComponent = new MyComponent({
             data: {
@@ -2626,12 +2637,13 @@ describe("Component", function () {
         document.body.removeChild(wrap);
     });
 
-    it("ref", function () {
+    it('ref', function () {
         var MyComponent = san.defineComponent({
             components: {
                 'ui-color': ColorPicker
             },
-            template: '<div><span title="{{color}}">{{color}}</span> <ui-color value="{= color =}" san-ref="colorPicker"></ui-color></div>'
+            template:
+                '<div><span title="{{color}}">{{color}}</span> <ui-color value="{= color =}" san-ref="colorPicker"></ui-color></div>'
         });
         var myComponent = new MyComponent();
         myComponent.data.set('color', 'green');
@@ -2641,20 +2653,22 @@ describe("Component", function () {
         myComponent.attach(wrap);
 
         var span = wrap.firstChild.firstChild;
-        expect(myComponent.ref('colorPicker') instanceof ColorPicker).toBe(true);
+        expect(myComponent.ref('colorPicker') instanceof ColorPicker).toBe(
+            true
+        );
         expect(wrap.getElementsByTagName('b')[0].title).toBe('green');
-
 
         myComponent.dispose();
         document.body.removeChild(wrap);
     });
 
-    it("dynamic ref", function () {
+    it('dynamic ref', function () {
         var MyComponent = san.defineComponent({
             components: {
                 'ui-color': ColorPicker
             },
-            template: '<div><span title="{{color}}">{{color}}</span> <ui-color value="{=color=}" san-ref="{{name}}"></ui-color></div>'
+            template:
+                '<div><span title="{{color}}">{{color}}</span> <ui-color value="{=color=}" san-ref="{{name}}"></ui-color></div>'
         });
         var myComponent = new MyComponent();
         myComponent.data.set('color', 'green');
@@ -2668,12 +2682,11 @@ describe("Component", function () {
         expect(myComponent.ref('c') instanceof ColorPicker).toBe(true);
         expect(wrap.getElementsByTagName('b')[0].title).toBe('green');
 
-
         myComponent.dispose();
         document.body.removeChild(wrap);
     });
 
-    it("dynamic ref in for", function (done) {
+    it('dynamic ref in for', function (done) {
         var MyComponent = san.defineComponent({
             components: {
                 'ui-color': ColorPicker
@@ -2683,7 +2696,8 @@ describe("Component", function () {
                     colors: ['blue', 'green']
                 };
             },
-            template: '<div><p san-for="color, index in colors"><ui-color value="{=color=}" san-ref="color-{{index}}"></ui-color></p></div>'
+            template:
+                '<div><p san-for="color, index in colors"><ui-color value="{=color=}" san-ref="color-{{index}}"></ui-color></p></div>'
         });
         var myComponent = new MyComponent();
 
@@ -2706,14 +2720,13 @@ describe("Component", function () {
             expect(color1 instanceof ColorPicker).toBe(true);
             expect(color1.data.get('value')).toBe('yellow');
 
-
             myComponent.dispose();
             document.body.removeChild(wrap);
             done();
-        })
+        });
     });
 
-    it("dynamic ref in for directly", function (done) {
+    it('dynamic ref in for directly', function (done) {
         var MyComponent = san.defineComponent({
             components: {
                 'ui-color': ColorPicker
@@ -2723,7 +2736,8 @@ describe("Component", function () {
                     colors: ['blue', 'green']
                 };
             },
-            template: '<div><ui-color san-for="color, index in colors" value="{=color=}" san-ref="color-{{index}}"></ui-color></div>'
+            template:
+                '<div><ui-color san-for="color, index in colors" value="{=color=}" san-ref="color-{{index}}"></ui-color></div>'
         });
         var myComponent = new MyComponent();
 
@@ -2746,14 +2760,13 @@ describe("Component", function () {
             expect(color1 instanceof ColorPicker).toBe(true);
             expect(color1.data.get('value')).toBe('yellow');
 
-
             myComponent.dispose();
             document.body.removeChild(wrap);
             done();
-        })
+        });
     });
 
-    it("dynamic ref in if", function (done) {
+    it('dynamic ref in if', function (done) {
         var MyComponent = san.defineComponent({
             components: {
                 'ui-color': ColorPicker
@@ -2764,7 +2777,8 @@ describe("Component", function () {
                     color: 'green'
                 };
             },
-            template: '<div><div san-if="condition"><ui-color value="{=color=}" san-ref="color-{{name}}"></ui-color></div></div>'
+            template:
+                '<div><div san-if="condition"><ui-color value="{=color=}" san-ref="color-{{name}}"></ui-color></div></div>'
         });
         var myComponent = new MyComponent();
 
@@ -2783,14 +2797,13 @@ describe("Component", function () {
             expect(color0 instanceof ColorPicker).toBe(true);
             expect(color0.data.get('value')).toBe('green');
 
-
             myComponent.dispose();
             document.body.removeChild(wrap);
             done();
-        })
+        });
     });
 
-    it("dynamic ref in if directly", function (done) {
+    it('dynamic ref in if directly', function (done) {
         var MyComponent = san.defineComponent({
             components: {
                 'ui-color': ColorPicker
@@ -2801,7 +2814,8 @@ describe("Component", function () {
                     color: 'green'
                 };
             },
-            template: '<div><ui-color value="{=color=}" san-if="condition" san-ref="color-{{name}}"></ui-color></div>'
+            template:
+                '<div><ui-color value="{=color=}" san-if="condition" san-ref="color-{{name}}"></ui-color></div>'
         });
         var myComponent = new MyComponent();
 
@@ -2820,16 +2834,16 @@ describe("Component", function () {
             expect(color0 instanceof ColorPicker).toBe(true);
             expect(color0.data.get('value')).toBe('green');
 
-
             myComponent.dispose();
             document.body.removeChild(wrap);
             done();
-        })
+        });
     });
 
-    it("ref in element", function (done) {
+    it('ref in element', function (done) {
         var MyComponent = san.defineComponent({
-            template: '<ul><li s-for="name in list" s-ref="it-{{name}}">{{name}}</li></ul>'
+            template:
+                '<ul><li s-for="name in list" s-ref="it-{{name}}">{{name}}</li></ul>'
         });
         var myComponent = new MyComponent({
             data: {
@@ -2858,7 +2872,7 @@ describe("Component", function () {
         });
     });
 
-    it("ref when root is component", function (done) {
+    it('ref when root is component', function (done) {
         var Label = san.defineComponent({
             template: '<a><slot/></a>'
         });
@@ -2892,15 +2906,13 @@ describe("Component", function () {
         });
     });
 
-
-    it("update prop", function (done) {
+    it('update prop', function (done) {
         var MyComponent = san.defineComponent({
             components: {
                 'ui-label': Label
             },
             template: '<a><ui-label text="{{name}}"></ui-label></a>'
         });
-
 
         var myComponent = new MyComponent();
         myComponent.data.set('name', 'erik');
@@ -2922,7 +2934,7 @@ describe("Component", function () {
         });
     });
 
-    it("update prop from self attached", function (done) {
+    it('update prop from self attached', function (done) {
         var MyComponent = san.defineComponent({
             components: {
                 'ui-label': Label
@@ -2933,7 +2945,6 @@ describe("Component", function () {
                 this.data.set('name', 'ci');
             }
         });
-
 
         var myComponent = new MyComponent();
         myComponent.data.set('name', 'erik');
@@ -2953,7 +2964,7 @@ describe("Component", function () {
         });
     });
 
-    it("update prop from self attached, root is component", function (done) {
+    it('update prop from self attached, root is component', function (done) {
         var MyComponent = san.defineComponent({
             components: {
                 'ui-label': Label
@@ -2964,7 +2975,6 @@ describe("Component", function () {
                 this.data.set('name', 'errorrik');
             }
         });
-
 
         var myComponent = new MyComponent();
         myComponent.data.set('name', 'erik');
@@ -2984,18 +2994,18 @@ describe("Component", function () {
         });
     });
 
-    it("update prop from self attached, root is not a HTMLElement", function (done) {
+    it('update prop from self attached, root is not a HTMLElement', function (done) {
         var MyComponent = san.defineComponent({
             components: {
                 'ui-label': Label
             },
-            template: '<fragment><ui-label text="{{name}}"></ui-label></fragment>',
+            template:
+                '<fragment><ui-label text="{{name}}"></ui-label></fragment>',
 
             attached: function () {
                 this.data.set('name', 'errorrik');
             }
         });
-
 
         var myComponent = new MyComponent();
         myComponent.data.set('name', 'erik');
@@ -3016,17 +3026,19 @@ describe("Component", function () {
     });
 
     var TelList = san.defineComponent({
-        template: '<ul><li san-for="item in list" title="{{item}}">{{item}}</li></ul>'
+        template:
+            '<ul><li san-for="item in list" title="{{item}}">{{item}}</li></ul>'
     });
 
     var PersonList = san.defineComponent({
         components: {
             'ui-tel': TelList
         },
-        template: '<div><dl san-for="item in list"><dt title="{{item.name}}">{{item.name}}</dt><dd><ui-tel list="{{item.tels}}"></ui-tel></dd></dl></div>'
+        template:
+            '<div><dl san-for="item in list"><dt title="{{item.name}}">{{item.name}}</dt><dd><ui-tel list="{{item.tels}}"></ui-tel></dd></dl></div>'
     });
 
-    it("nested", function (done) {
+    it('nested', function (done) {
         var MyComponent = san.defineComponent({
             components: {
                 'ui-person': PersonList
@@ -3037,17 +3049,11 @@ describe("Component", function () {
         myComponent.data.set('persons', [
             {
                 name: 'erik',
-                tels: [
-                    '12345678',
-                    '123456789',
-                ]
+                tels: ['12345678', '123456789']
             },
             {
                 name: 'firede',
-                tels: [
-                    '2345678',
-                    '23456789',
-                ]
+                tels: ['2345678', '23456789']
             }
         ]);
 
@@ -3064,8 +3070,11 @@ describe("Component", function () {
         expect(p1lis[1].title).toBe('23456789');
 
         myComponent.data.set('persons[1].name', 'leeight');
-        myComponent.data.set('persons[1].tels', ['12121212', '16161616', '18181818']);
-
+        myComponent.data.set('persons[1].tels', [
+            '12121212',
+            '16161616',
+            '18181818'
+        ]);
 
         san.nextTick(function () {
             var dts = wrap.getElementsByTagName('dt');
@@ -3084,28 +3093,23 @@ describe("Component", function () {
         });
     });
 
-    it("in for", function (done) {
+    it('in for', function (done) {
         var MyComponent = san.defineComponent({
             components: {
                 'ui-label': Label
             },
-            template: '<ul><li san-for="p in persons"><b title="{{p.name}}">{{p.name}}</b><h5 san-for="t in p.tels"><ui-label text="{{t}}"></ui-label></h5></li></ul>'
+            template:
+                '<ul><li san-for="p in persons"><b title="{{p.name}}">{{p.name}}</b><h5 san-for="t in p.tels"><ui-label text="{{t}}"></ui-label></h5></li></ul>'
         });
         var myComponent = new MyComponent();
         myComponent.data.set('persons', [
             {
                 name: 'erik',
-                tels: [
-                    '12345678',
-                    '123456789',
-                ]
+                tels: ['12345678', '123456789']
             },
             {
                 name: 'firede',
-                tels: [
-                    '2345678',
-                    '23456789',
-                ]
+                tels: ['2345678', '23456789']
             }
         ]);
 
@@ -3121,8 +3125,11 @@ describe("Component", function () {
         expect(p1tels[1].title).toBe('23456789');
 
         myComponent.data.set('persons[1].name', 'leeight');
-        myComponent.data.set('persons[1].tels', ['12121212', '16161616', '18181818']);
-
+        myComponent.data.set('persons[1].tels', [
+            '12121212',
+            '16161616',
+            '18181818'
+        ]);
 
         san.nextTick(function () {
             var lis = wrap.getElementsByTagName('li');
@@ -3140,12 +3147,13 @@ describe("Component", function () {
         });
     });
 
-    it("inner el event and outer custom event", function (done) {
+    it('inner el event and outer custom event', function (done) {
         var innerClicked;
         var outerReceive;
 
         var Label = san.defineComponent({
-            template: '<template class="ui-label" on-click="clicker" style="cursor:pointer;text-decoration:underline">here</template>',
+            template:
+                '<template class="ui-label" on-click="clicker" style="cursor:pointer;text-decoration:underline">here</template>',
 
             clicker: function () {
                 innerClicked = true;
@@ -3158,13 +3166,13 @@ describe("Component", function () {
                 'ui-label': Label
             },
 
-            template: '<div>Click <ui-label on-haha="labelHaha($event)"></ui-label></div>',
+            template:
+                '<div>Click <ui-label on-haha="labelHaha($event)"></ui-label></div>',
 
             labelHaha: function (e) {
                 outerReceive = e;
             }
         });
-
 
         var myComponent = new MyComponent();
 
@@ -3186,13 +3194,12 @@ describe("Component", function () {
             setTimeout(detect, 500);
         }
 
-
         triggerEvent(wrap.firstChild.getElementsByTagName('*')[0], 'click');
 
         detect();
     });
 
-    it("watch simple data item", function (done) {
+    it('watch simple data item', function (done) {
         var MyComponent = san.defineComponent({
             template: '<a><span title="{{email}}">{{name}}</span></a>'
         });
@@ -3242,13 +3249,13 @@ describe("Component", function () {
                 document.body.removeChild(wrap);
                 done();
             });
-        })
-
+        });
     });
 
-    it("watch property accessor", function (done) {
+    it('watch property accessor', function (done) {
         var MyComponent = san.defineComponent({
-            template: '<a><span title="{{projects[0].author.email}}">{{projects[0].author.email}}</span></a>',
+            template:
+                '<a><span title="{{projects[0].author.email}}">{{projects[0].author.email}}</span></a>',
 
             initData: function () {
                 return {
@@ -3261,7 +3268,6 @@ describe("Component", function () {
                             }
                         }
                     ]
-
                 };
             }
         });
@@ -3310,12 +3316,10 @@ describe("Component", function () {
             myComponent.dispose();
             document.body.removeChild(wrap);
             done();
-        })
-
+        });
     });
 
-
-    it("outer event and inner event should not confilct", function (done) {
+    it('outer event and inner event should not confilct', function (done) {
         var innerClick;
         var outerClick;
         var Button = san.defineComponent({
@@ -3323,10 +3327,9 @@ describe("Component", function () {
 
             clicker: function () {
                 innerClick = 1;
-                this.fire('click')
+                this.fire('click');
             }
         });
-
 
         var MyComponent = san.defineComponent({
             components: {
@@ -3339,7 +3342,6 @@ describe("Component", function () {
                 outerClick = 1;
             }
         });
-
 
         var myComponent = new MyComponent();
 
@@ -3361,11 +3363,10 @@ describe("Component", function () {
         setTimeout(doneSpec, 500);
     });
 
-    it("merge class property to component root element", function () {
+    it('merge class property to component root element', function () {
         var Button = san.defineComponent({
             template: '<button class="button">test</button>'
         });
-
 
         var MyComponent = san.defineComponent({
             components: {
@@ -3374,7 +3375,6 @@ describe("Component", function () {
 
             template: '<div><ui-button class="large"></ui-button></div>'
         });
-
 
         var myComponent = new MyComponent();
 
@@ -3389,11 +3389,10 @@ describe("Component", function () {
         document.body.removeChild(wrap);
     });
 
-    it("merge class property to component root element", function () {
+    it('merge class property to component root element', function () {
         var Button = san.defineComponent({
             template: '<button>test</button>'
         });
-
 
         var MyComponent = san.defineComponent({
             components: {
@@ -3402,7 +3401,6 @@ describe("Component", function () {
 
             template: '<div><ui-button class="large"></ui-button></div>'
         });
-
 
         var myComponent = new MyComponent();
 
@@ -3416,27 +3414,26 @@ describe("Component", function () {
         document.body.removeChild(wrap);
     });
 
-    it("merge class property to component root element and auto expand", function () {
+    it('merge class property to component root element and auto expand', function () {
         var Button = san.defineComponent({
             initData: function () {
-                return {classes: ['button', 'normal']}
+                return { classes: ['button', 'normal'] };
             },
             template: '<button class="ui {{classes}}">test</button>'
         });
 
-
         var MyComponent = san.defineComponent({
             initData: function () {
-                return {classes: ['large', 'huge']}
+                return { classes: ['large', 'huge'] };
             },
 
             components: {
                 'ui-button': Button
             },
 
-            template: '<div><ui-button class="{{classes}} strong"></ui-button></div>'
+            template:
+                '<div><ui-button class="{{classes}} strong"></ui-button></div>'
         });
-
 
         var myComponent = new MyComponent();
 
@@ -3454,20 +3451,19 @@ describe("Component", function () {
         document.body.removeChild(wrap);
     });
 
-    it("merge style property to component root element", function (done) {
+    it('merge style property to component root element', function (done) {
         var Button = san.defineComponent({
             template: '<button style="color: blue">test</button>'
         });
-
 
         var MyComponent = san.defineComponent({
             components: {
                 'ui-button': Button
             },
 
-            template: '<div><ui-button style="height: {{height}}"></ui-button></div>'
+            template:
+                '<div><ui-button style="height: {{height}}"></ui-button></div>'
         });
-
 
         var myComponent = new MyComponent({
             data: {
@@ -3493,23 +3489,22 @@ describe("Component", function () {
             document.body.removeChild(wrap);
 
             done();
-        })
+        });
     });
 
-    it("merge style property to component root element, root element has no style", function (done) {
+    it('merge style property to component root element, root element has no style', function (done) {
         var Button = san.defineComponent({
             template: '<button>test</button>'
         });
-
 
         var MyComponent = san.defineComponent({
             components: {
                 'ui-button': Button
             },
 
-            template: '<div><ui-button style="height: {{height}}"></ui-button></div>'
+            template:
+                '<div><ui-button style="height: {{height}}"></ui-button></div>'
         });
-
 
         var myComponent = new MyComponent({
             data: {
@@ -3533,17 +3528,17 @@ describe("Component", function () {
             document.body.removeChild(wrap);
 
             done();
-        })
+        });
     });
 
-    it("merge style property to component root element, auto expand", function (done) {
+    it('merge style property to component root element, auto expand', function (done) {
         var Button = san.defineComponent({
             template: '<button style="{{myStyle}}">test</button>',
 
             initData: function () {
                 return {
                     display: 'block'
-                }
+                };
             },
 
             computed: {
@@ -3554,7 +3549,6 @@ describe("Component", function () {
                 }
             }
         });
-
 
         var MyComponent = san.defineComponent({
             components: {
@@ -3569,9 +3563,9 @@ describe("Component", function () {
                 }
             },
 
-            template: '<div><ui-button style="height: {{height}}; {{btnStyle}}"></ui-button></div>'
+            template:
+                '<div><ui-button style="height: {{height}}; {{btnStyle}}"></ui-button></div>'
         });
-
 
         var myComponent = new MyComponent({
             data: {
@@ -3587,7 +3581,9 @@ describe("Component", function () {
         var btn = wrap.getElementsByTagName('button')[0];
 
         expect(/height:\s*10px($|;)/i.test(btn.style.cssText)).toBeTruthy();
-        expect(/position:\s*absolute($|;)/i.test(btn.style.cssText)).toBeTruthy();
+        expect(
+            /position:\s*absolute($|;)/i.test(btn.style.cssText)
+        ).toBeTruthy();
         expect(/display:\s*block($|;)/i.test(btn.style.cssText)).toBeTruthy();
 
         myComponent.data.set('height', '5px');
@@ -3595,21 +3591,24 @@ describe("Component", function () {
 
         san.nextTick(function () {
             expect(/height:\s*5px($|;)/i.test(btn.style.cssText)).toBeTruthy();
-            expect(/position:\s*relative($|;)/i.test(btn.style.cssText)).toBeTruthy();
-            expect(/display:\s*block($|;)/i.test(btn.style.cssText)).toBeTruthy();
+            expect(
+                /position:\s*relative($|;)/i.test(btn.style.cssText)
+            ).toBeTruthy();
+            expect(
+                /display:\s*block($|;)/i.test(btn.style.cssText)
+            ).toBeTruthy();
 
             myComponent.dispose();
             document.body.removeChild(wrap);
 
             done();
-        })
+        });
     });
 
-    it("merge style property to component root element, auto expand, root element has no style", function (done) {
+    it('merge style property to component root element, auto expand, root element has no style', function (done) {
         var Button = san.defineComponent({
             template: '<button>test</button>'
         });
-
 
         var MyComponent = san.defineComponent({
             components: {
@@ -3628,7 +3627,6 @@ describe("Component", function () {
             template: '<div><ui-button style="{{btnStyle}}"></ui-button></div>'
         });
 
-
         var myComponent = new MyComponent({
             data: {
                 height: '10px',
@@ -3643,35 +3641,40 @@ describe("Component", function () {
         var btn = wrap.getElementsByTagName('button')[0];
 
         expect(/height:\s*10px($|;)/i.test(btn.style.cssText)).toBeTruthy();
-        expect(/position:\s*absolute($|;)/i.test(btn.style.cssText)).toBeTruthy();
+        expect(
+            /position:\s*absolute($|;)/i.test(btn.style.cssText)
+        ).toBeTruthy();
 
         myComponent.data.set('height', '5px');
         myComponent.data.set('position', 'relative');
 
         san.nextTick(function () {
             expect(/height:\s*5px($|;)/i.test(btn.style.cssText)).toBeTruthy();
-            expect(/position:\s*relative($|;)/i.test(btn.style.cssText)).toBeTruthy();
+            expect(
+                /position:\s*relative($|;)/i.test(btn.style.cssText)
+            ).toBeTruthy();
 
             myComponent.dispose();
             document.body.removeChild(wrap);
 
             done();
-        })
+        });
     });
 
-    it("root with if-else, merge id & class & style prop", function (done) {
+    it('root with if-else, merge id & class & style prop', function (done) {
         var Child = san.defineComponent({
-            template: 
-                '<b s-if="num === 10000" class="a" style="color:blue">test</b>'
-                + '<u s-elif="num === 1000" class="b" style="color:red">test</u>'
-                + '<span s-else class="c" style="color:green">test</span>'
+            template:
+                '<b s-if="num === 10000" class="a" style="color:blue">test</b>' +
+                '<u s-elif="num === 1000" class="b" style="color:red">test</u>' +
+                '<span s-else class="c" style="color:green">test</span>'
         });
 
         var MyComponent = san.defineComponent({
             components: {
                 'x-c': Child
             },
-            template: '<a><x-c id="id{{num}}" class="d" style="height:10px" num="{{num}}"/></a>'
+            template:
+                '<a><x-c id="id{{num}}" class="d" style="height:10px" num="{{num}}"/></a>'
         });
 
         var myComponent = new MyComponent({
@@ -3679,7 +3682,6 @@ describe("Component", function () {
                 num: 10000
             }
         });
-
 
         var wrap = document.createElement('div');
         document.body.appendChild(wrap);
@@ -3701,25 +3703,27 @@ describe("Component", function () {
             expect(/color:\s*red($|;)/i.test(u.style.cssText)).toBeTruthy();
             expect(/height:\s*10px($|;)/i.test(u.style.cssText)).toBeTruthy();
 
-
             myComponent.data.set('num', 1);
             myComponent.nextTick(function () {
                 var span = wrap.getElementsByTagName('span')[0];
                 expect(span.id).toBe('id1');
                 expect(span.className).toContain('c');
                 expect(span.className).toContain('d');
-                expect(/color:\s*green($|;)/i.test(span.style.cssText)).toBeTruthy();
-                expect(/height:\s*10px($|;)/i.test(span.style.cssText)).toBeTruthy();
+                expect(
+                    /color:\s*green($|;)/i.test(span.style.cssText)
+                ).toBeTruthy();
+                expect(
+                    /height:\s*10px($|;)/i.test(span.style.cssText)
+                ).toBeTruthy();
 
                 myComponent.dispose();
                 document.body.removeChild(wrap);
                 done();
             });
         });
-
     });
 
-    it("main element default style prop", function (done) {
+    it('main element default style prop', function (done) {
         var MyComponent = san.defineComponent({
             computed: {
                 style: function () {
@@ -3747,23 +3751,27 @@ describe("Component", function () {
         var btn = wrap.getElementsByTagName('button')[0];
 
         expect(/height:\s*10px($|;)/i.test(btn.style.cssText)).toBeTruthy();
-        expect(/position:\s*absolute($|;)/i.test(btn.style.cssText)).toBeTruthy();
+        expect(
+            /position:\s*absolute($|;)/i.test(btn.style.cssText)
+        ).toBeTruthy();
 
         myComponent.data.set('height', '5px');
         myComponent.data.set('position', 'relative');
 
         san.nextTick(function () {
             expect(/height:\s*5px($|;)/i.test(btn.style.cssText)).toBeTruthy();
-            expect(/position:\s*relative($|;)/i.test(btn.style.cssText)).toBeTruthy();
+            expect(
+                /position:\s*relative($|;)/i.test(btn.style.cssText)
+            ).toBeTruthy();
 
             myComponent.dispose();
             document.body.removeChild(wrap);
 
             done();
-        })
+        });
     });
 
-    it("data binding name auto camel case", function (done) {
+    it('data binding name auto camel case', function (done) {
         var Label = san.defineComponent({
             template: '<a><span title="{{dataTitle}}">{{dataText}}</span></a>'
         });
@@ -3773,7 +3781,8 @@ describe("Component", function () {
                 'ui-label': Label
             },
 
-            template: '<div><ui-label data-title="{{title}}" data-text="{{text}}"></ui-label></div>'
+            template:
+                '<div><ui-label data-title="{{title}}" data-text="{{text}}"></ui-label></div>'
         });
 
         var myComponent = new MyComponent({
@@ -3803,10 +3812,10 @@ describe("Component", function () {
             document.body.removeChild(wrap);
 
             done();
-        })
+        });
     });
 
-    it("data binding name auto camel case, strongly", function (done) {
+    it('data binding name auto camel case, strongly', function (done) {
         var Label = san.defineComponent({
             template: '<a><span title="{{dataTitle}}">{{dataText2B}}</span></a>'
         });
@@ -3816,7 +3825,8 @@ describe("Component", function () {
                 'ui-label': Label
             },
 
-            template: '<div><ui-label data-title="{{title}}" data-Text-2B="{{text}}"></ui-label></div>'
+            template:
+                '<div><ui-label data-title="{{title}}" data-Text-2B="{{text}}"></ui-label></div>'
         });
 
         var myComponent = new MyComponent({
@@ -3846,12 +3856,13 @@ describe("Component", function () {
             document.body.removeChild(wrap);
 
             done();
-        })
+        });
     });
 
-    it("data binding no expr, auto true", function (done) {
+    it('data binding no expr, auto true', function (done) {
         var Label = san.defineComponent({
-            template: '<a><u s-if="hasu"></u><span title="{{dataTitle}}">{{dataText}}</span></a>'
+            template:
+                '<a><u s-if="hasu"></u><span title="{{dataTitle}}">{{dataText}}</span></a>'
         });
 
         var MyComponent = san.defineComponent({
@@ -3859,7 +3870,8 @@ describe("Component", function () {
                 'ui-label': Label
             },
 
-            template: '<div><ui-label s-ref="l" data-title="{{title}}" data-text="{{text}}" hasu></ui-label></div>'
+            template:
+                '<div><ui-label s-ref="l" data-title="{{title}}" data-text="{{text}}" hasu></ui-label></div>'
         });
 
         var myComponent = new MyComponent({
@@ -3883,13 +3895,13 @@ describe("Component", function () {
             document.body.removeChild(wrap);
 
             done();
-        })
+        });
     });
 
-    it("main element not in declare position, need remove when dispose call", function () {
+    it('main element not in declare position, need remove when dispose call', function () {
         var Dialog = san.defineComponent({
             template: '<div class="ui-dialog">HI Dialog</div>',
-            attached: function() {
+            attached: function () {
                 if (this.el.parentNode !== document.body) {
                     document.body.appendChild(this.el);
                 }
@@ -3907,14 +3919,14 @@ describe("Component", function () {
                 'x-dialog': Dialog
             },
 
-            template: '<div><span>Hi Component</span><x-dialog s-ref="dialog"/></div>'
+            template:
+                '<div><span>Hi Component</span><x-dialog s-ref="dialog"/></div>'
         });
 
         var myComponent = new MyComponent();
         var wrap = document.createElement('div');
         document.body.appendChild(wrap);
         myComponent.attach(wrap);
-
 
         var el = myComponent.el;
         var spanEl = el.firstChild;
@@ -3925,8 +3937,12 @@ describe("Component", function () {
         myComponent.dispose();
 
         // ie又变态了，removeChild后element还有parentNode，变成document了。妈蛋的东西
-        expect(dialogEl.parentNode == null || dialogEl.parentNode.tagName == null).toBeTruthy();
-        expect(el.parentNode == null || el.parentNode.tagName == null).toBeTruthy();
+        expect(
+            dialogEl.parentNode == null || dialogEl.parentNode.tagName == null
+        ).toBeTruthy();
+        expect(
+            el.parentNode == null || el.parentNode.tagName == null
+        ).toBeTruthy();
         document.body.removeChild(wrap);
     });
 
@@ -3963,7 +3979,7 @@ describe("Component", function () {
 
         expect(myComponent.getFooValue()).toBe('foo');
         expect(wrap.getElementsByTagName('u')[0].innerHTML).toBe('foo');
-        myComponent.data.set('formData', {foo: 'bar'});
+        myComponent.data.set('formData', { foo: 'bar' });
 
         var myComponent2 = new MyComponent({
             data: {
@@ -3978,7 +3994,6 @@ describe("Component", function () {
             expect(myComponent.getFooValue()).toBe('bar');
             expect(wrap.getElementsByTagName('u')[0].innerHTML).toBe('bar');
 
-
             myComponent2.dispose();
             myComponent.dispose();
             document.body.removeChild(wrap);
@@ -3986,8 +4001,7 @@ describe("Component", function () {
         });
     });
 
-    it("dynamic component attach to inner element", function () {
-
+    it('dynamic component attach to inner element', function () {
         var UnderlinePanel = san.defineComponent({
             template: '<div><u><slot></slot></u></div>'
         });
@@ -4002,8 +4016,9 @@ describe("Component", function () {
                 'x-strong': Strong
             },
 
-            template: '<div>'
-                + '<x-panel><x-strong item="{{item}}" s-if="strongShow">{{item}}</x-strong></x-panel></div>'
+            template:
+                '<div>' +
+                '<x-panel><x-strong item="{{item}}" s-if="strongShow">{{item}}</x-strong></x-panel></div>'
         });
 
         var MyComponent = san.defineComponent({
@@ -4029,7 +4044,6 @@ describe("Component", function () {
         document.body.appendChild(wrap);
         myComponent.attach(wrap);
 
-
         var us = wrap.getElementsByTagName('u');
         expect(us.length).toBe(1);
 
@@ -4040,7 +4054,7 @@ describe("Component", function () {
         document.body.removeChild(wrap);
     });
 
-    it("dynamic component by source, prop data should be auto update", function (done) {
+    it('dynamic component by source, prop data should be auto update', function (done) {
         var Person = san.defineComponent({
             template: '<span><b>{{name}}</b><u>{{email}}</u></span>'
         });
@@ -4069,7 +4083,6 @@ describe("Component", function () {
         document.body.appendChild(wrap);
         myComponent.attach(wrap);
 
-
         var us = wrap.getElementsByTagName('u');
         expect(us.length).toBe(1);
         expect(us[0].innerHTML).toBe('errorrik@gmail.com');
@@ -4094,10 +4107,9 @@ describe("Component", function () {
             document.body.removeChild(wrap);
             done();
         });
-
     });
 
-    it("dynamic component by source, bindx prop data update owner data", function (done) {
+    it('dynamic component by source, bindx prop data update owner data', function (done) {
         var Person = san.defineComponent({
             template: '<span><b>{{name}}</b><u>{{email}}</u></span>'
         });
@@ -4126,7 +4138,6 @@ describe("Component", function () {
         document.body.appendChild(wrap);
         myComponent.attach(wrap);
 
-
         var us = wrap.getElementsByTagName('u');
         expect(us.length).toBe(1);
         expect(us[0].innerHTML).toBe('errorrik@gmail.com');
@@ -4134,7 +4145,6 @@ describe("Component", function () {
         var bs = wrap.getElementsByTagName('b');
         expect(bs.length).toBe(1);
         expect(bs[0].innerHTML).toBe('erik');
-
 
         var as = wrap.getElementsByTagName('a');
         expect(as.length).toBe(1);
@@ -4158,10 +4168,9 @@ describe("Component", function () {
             document.body.removeChild(wrap);
             done();
         });
-
     });
 
-    it("dynamic component by source, custom slot", function (done) {
+    it('dynamic component by source, custom slot', function (done) {
         var Dialog = san.defineComponent({
             template: '<span><slot name="title"/><slot/></span>'
         });
@@ -4180,7 +4189,6 @@ describe("Component", function () {
             }
         });
 
-
         var myComponent = new MyComponent({
             data: {
                 title: 'my dialog',
@@ -4193,14 +4201,12 @@ describe("Component", function () {
         document.body.appendChild(wrap);
         myComponent.attach(wrap);
 
-
         var us = wrap.getElementsByTagName('u');
         expect(us.length).toBe(0);
 
         var bs = wrap.getElementsByTagName('b');
         expect(bs.length).toBe(1);
         expect(bs[0].innerHTML).toBe('hello san');
-
 
         var as = wrap.getElementsByTagName('a');
         expect(as.length).toBe(1);
@@ -4216,7 +4222,6 @@ describe("Component", function () {
             var bs = wrap.getElementsByTagName('b');
             expect(bs.length).toBe(0);
 
-
             var as = wrap.getElementsByTagName('a');
             expect(as.length).toBe(1);
             expect(as[0].innerHTML).toBe('title changed');
@@ -4225,11 +4230,9 @@ describe("Component", function () {
             document.body.removeChild(wrap);
             done();
         });
-
     });
 
-
-    it("dynamic component by owner, fire event to owner", function (done) {
+    it('dynamic component by owner, fire event to owner', function (done) {
         var Person = san.defineComponent({
             template: '<span><b>{{name}}</b><u>{{email}}</u></span>'
         });
@@ -4266,7 +4269,6 @@ describe("Component", function () {
         document.body.appendChild(wrap);
         myComponent.attach(wrap);
 
-
         var us = wrap.getElementsByTagName('u');
         expect(us.length).toBe(1);
         expect(us[0].innerHTML).toBe('errorrik@gmail.com');
@@ -4275,11 +4277,9 @@ describe("Component", function () {
         expect(bs.length).toBe(1);
         expect(bs[0].innerHTML).toBe('erik');
 
-
         var as = wrap.getElementsByTagName('a');
         expect(as.length).toBe(1);
         expect(as[0].innerHTML).toBe('erik');
-
 
         expect(newName).toBe('erik');
         expect(oldName).toBe('erik');
@@ -4292,10 +4292,9 @@ describe("Component", function () {
             document.body.removeChild(wrap);
             done();
         });
-
     });
 
-    it("dynamic component by owner, dispatch event pass to owner", function (done) {
+    it('dynamic component by owner, dispatch event pass to owner', function (done) {
         var Person = san.defineComponent({
             template: '<span><b>{{name}}</b><u>{{email}}</u></span>'
         });
@@ -4317,7 +4316,7 @@ describe("Component", function () {
 
             messages: {
                 'name-change': function (arg) {
-                    this.data.set('author.name', arg.value)
+                    this.data.set('author.name', arg.value);
                     dispatchName = arg.value;
                 }
             }
@@ -4335,7 +4334,6 @@ describe("Component", function () {
         document.body.appendChild(wrap);
         myComponent.attach(wrap);
 
-
         var us = wrap.getElementsByTagName('u');
         expect(us.length).toBe(1);
         expect(us[0].innerHTML).toBe('errorrik@gmail.com');
@@ -4343,7 +4341,6 @@ describe("Component", function () {
         var bs = wrap.getElementsByTagName('b');
         expect(bs.length).toBe(1);
         expect(bs[0].innerHTML).toBe('erik');
-
 
         var as = wrap.getElementsByTagName('a');
         expect(as.length).toBe(1);
@@ -4361,10 +4358,9 @@ describe("Component", function () {
             document.body.removeChild(wrap);
             done();
         });
-
     });
 
-    it("dynamic component by owner, auto dispose", function () {
+    it('dynamic component by owner, auto dispose', function () {
         var Person = san.defineComponent({
             template: '<span><b>{{name}}</b><u>{{email}}</u></span>'
         });
@@ -4408,7 +4404,6 @@ describe("Component", function () {
         expect(bs.length).toBe(1);
         expect(bs[0].innerHTML).toBe('erik');
 
-
         var as = wrap.getElementsByTagName('a');
         expect(as.length).toBe(1);
         expect(as[0].innerHTML).toBe('erik');
@@ -4418,10 +4413,9 @@ describe("Component", function () {
         expect(!pEl.parentNode || !pEl.parentNode.tagName).toBeTruthy();
         expect(myComponent.p.el).toBe(null);
         expect(myComponent.p.lifeCycle.is('disposed')).toBeTruthy();
-
     });
 
-    it("pre compile template to aNode", function (done) {
+    it('pre compile template to aNode', function (done) {
         var Man = san.defineComponent({
             filters: {
                 upper: function (source) {
@@ -4429,7 +4423,9 @@ describe("Component", function () {
                 }
             },
 
-            aNode: san.parseTemplate('<div><slot name="test" var-n="data.name" var-email="data.email" var-sex="data.sex ? \'male\' : \'female\'"><p>{{n}},{{sex}},{{email}}</p></slot></div>').children[0]
+            aNode: san.parseTemplate(
+                '<div><slot name="test" var-n="data.name" var-email="data.email" var-sex="data.sex ? \'male\' : \'female\'"><p>{{n}},{{sex}},{{email}}</p></slot></div>'
+            ).children[0]
         });
 
         var MyComponent = san.defineComponent({
@@ -4443,7 +4439,9 @@ describe("Component", function () {
                 }
             },
 
-            aNode: san.parseTemplate('<div><x-man data="{{man}}"><h3 slot="test">{{n|upper}}</h3><b slot="test">{{sex|upper}}</b><u slot="test">{{email|upper}}</u></x-man></div>').children[0],
+            aNode: san.parseTemplate(
+                '<div><x-man data="{{man}}"><h3 slot="test">{{n|upper}}</h3><b slot="test">{{sex|upper}}</b><u slot="test">{{email|upper}}</u></x-man></div>'
+            ).children[0],
 
             initData: function () {
                 return {
@@ -4462,30 +4460,42 @@ describe("Component", function () {
         document.body.appendChild(wrap);
         myComponent.attach(wrap);
 
-        expect(wrap.getElementsByTagName('h3')[0].innerHTML).toContain('ERRORRIK');
+        expect(wrap.getElementsByTagName('h3')[0].innerHTML).toContain(
+            'ERRORRIK'
+        );
         expect(wrap.getElementsByTagName('b')[0].innerHTML).toContain('MALE');
-        expect(wrap.getElementsByTagName('u')[0].innerHTML).toContain('ERRORRIK@GMAIL.COM');
+        expect(wrap.getElementsByTagName('u')[0].innerHTML).toContain(
+            'ERRORRIK@GMAIL.COM'
+        );
         myComponent.data.set('man.email', 'erik168@163.com');
         san.nextTick(function () {
-
-            expect(wrap.getElementsByTagName('h3')[0].innerHTML).toContain('ERRORRIK');
-            expect(wrap.getElementsByTagName('b')[0].innerHTML).toContain('MALE');
-            expect(wrap.getElementsByTagName('u')[0].innerHTML).toContain('ERIK168@163.COM');
+            expect(wrap.getElementsByTagName('h3')[0].innerHTML).toContain(
+                'ERRORRIK'
+            );
+            expect(wrap.getElementsByTagName('b')[0].innerHTML).toContain(
+                'MALE'
+            );
+            expect(wrap.getElementsByTagName('u')[0].innerHTML).toContain(
+                'ERIK168@163.COM'
+            );
 
             myComponent.dispose();
             document.body.removeChild(wrap);
             done();
-        })
+        });
     });
 
-    it("compile template to aNode, aNode is JSON stringifible", function (done) {
+    it('compile template to aNode, aNode is JSON stringifible', function (done) {
         var stringifier = {
             obj: function (source) {
                 var prefixComma;
                 var result = '{';
 
                 for (var key in source) {
-                    if (!source.hasOwnProperty(key) || typeof source[key] === 'undefined') {
+                    if (
+                        !source.hasOwnProperty(key) ||
+                        typeof source[key] === 'undefined'
+                    ) {
                         continue;
                     }
 
@@ -4494,7 +4504,10 @@ describe("Component", function () {
                     }
                     prefixComma = 1;
 
-                    result += stringifier.str(key) + ':' + stringifier.any(source[key]);
+                    result +=
+                        stringifier.str(key) +
+                        ':' +
+                        stringifier.any(source[key]);
                 }
 
                 return result + '}';
@@ -4518,16 +4531,18 @@ describe("Component", function () {
             },
 
             str: function (source) {
-                return '"'
-                    + source
+                return (
+                    '"' +
+                    source
                         .replace(/\x5C/g, '\\\\')
                         .replace(/"/g, '\\"')
                         .replace(/\x0A/g, '\\n')
                         .replace(/\x09/g, '\\t')
-                        .replace(/\x0D/g, '\\r')
+                        .replace(/\x0D/g, '\\r') +
                     // .replace( /\x08/g, '\\b' )
                     // .replace( /\x0C/g, '\\f' )
-                    + '"';
+                    '"'
+                );
             },
 
             any: function (source) {
@@ -4560,10 +4575,12 @@ describe("Component", function () {
                 throw new Error('Cannot Stringify:' + source);
             }
         };
-        var aNode = san.parseTemplate('<a><span>aaa</span>hello {{name|raw}}!<b>bbb</b></a>').children[0];
-        var MyComponent = eval('san.defineComponent({aNode: '
-            + stringifier.any(aNode)
-            + '})')
+        var aNode = san.parseTemplate(
+            '<a><span>aaa</span>hello {{name|raw}}!<b>bbb</b></a>'
+        ).children[0];
+        var MyComponent = eval(
+            'san.defineComponent({aNode: ' + stringifier.any(aNode) + '})'
+        );
         var myComponent = new MyComponent();
         myComponent.data.set('name', 'er<u>erik</u>ik');
 
@@ -4579,7 +4596,9 @@ describe("Component", function () {
         myComponent.data.set('name', 'er<span>erik</span>ik');
 
         san.nextTick(function () {
-            expect(/hello er<span>erik<\/span>ik!/i.test(a.innerHTML)).toBeTruthy();
+            expect(
+                /hello er<span>erik<\/span>ik!/i.test(a.innerHTML)
+            ).toBeTruthy();
             expect(b.innerHTML).toBe('bbb');
 
             myComponent.dispose();
@@ -4589,7 +4608,7 @@ describe("Component", function () {
         });
     });
 
-    it("id can be pass and change", function (done) {
+    it('id can be pass and change', function (done) {
         var Button = san.defineComponent({
             template: '<button>btn</button>'
         });
@@ -4600,7 +4619,6 @@ describe("Component", function () {
             },
             template: '<div><x-btn id="b-{{name}}"/></div>'
         });
-
 
         var myComponent = new MyComponent({
             data: {
@@ -4628,7 +4646,7 @@ describe("Component", function () {
         });
     });
 
-    it("static bind name is a bool attr name", function () {
+    it('static bind name is a bool attr name', function () {
         var Button = san.defineComponent({
             template: '<a><b s-if="required">btn</b></a>'
         });
@@ -4640,7 +4658,6 @@ describe("Component", function () {
             template: '<div><x-btn required="true"/></div>'
         });
 
-
         var myComponent = new MyComponent();
 
         var wrap = document.createElement('div');
@@ -4650,12 +4667,11 @@ describe("Component", function () {
         var b = wrap.getElementsByTagName('b')[0];
         expect(b.innerHTML).toContain('btn');
 
-
         myComponent.dispose();
         document.body.removeChild(wrap);
     });
 
-    it("root tag name is template, default to div", function () {
+    it('root tag name is template, default to div', function () {
         var Layer = san.defineComponent({
             template: '<template><div s-if="open"></div></template>',
             initData: function () {
@@ -4674,10 +4690,11 @@ describe("Component", function () {
         });
 
         var MyComponent = san.defineComponent({
-            template: '<template>'
-                + '<x-layer s-ref="lay" open="{{open}}" />'
-                + '<button on-click="onClick">Show Layer</button>'
-                + '</template>',
+            template:
+                '<template>' +
+                '<x-layer s-ref="lay" open="{{open}}" />' +
+                '<button on-click="onClick">Show Layer</button>' +
+                '</template>',
             components: {
                 'x-layer': Layer
             },
@@ -4686,7 +4703,6 @@ describe("Component", function () {
             }
         });
 
-
         var myComponent = new MyComponent();
 
         var wrap = document.createElement('div');
@@ -4694,14 +4710,15 @@ describe("Component", function () {
         myComponent.attach(wrap);
 
         expect(myComponent.el.tagName).toBe('DIV');
-        expect(/^(x-layer|div)$/i.test(myComponent.ref('lay').el.tagName)).toBeTruthy();
-
+        expect(
+            /^(x-layer|div)$/i.test(myComponent.ref('lay').el.tagName)
+        ).toBeTruthy();
 
         myComponent.dispose();
         document.body.removeChild(wrap);
     });
 
-    it("set data when value equals origin value, view cannot be updated because immutable", function (done) {
+    it('set data when value equals origin value, view cannot be updated because immutable', function (done) {
         var Panel = san.defineComponent({
             template: '<u>{{h}}</u>',
             attached: function () {
@@ -4710,9 +4727,7 @@ describe("Component", function () {
         });
 
         var MyComponent = san.defineComponent({
-            template: '<div>'
-                + '<x-panel h="{{ph}}" />'
-                + '</div>',
+            template: '<div>' + '<x-panel h="{{ph}}" />' + '</div>',
             components: {
                 'x-panel': Panel
             }
@@ -4742,10 +4757,10 @@ describe("Component", function () {
                 document.body.removeChild(wrap);
                 done();
             });
-        })
+        });
     });
 
-    it("set data force when value equals origin value, view should be updated", function (done) {
+    it('set data force when value equals origin value, view should be updated', function (done) {
         var Panel = san.defineComponent({
             template: '<u>{{h}}</u>',
             attached: function () {
@@ -4754,14 +4769,11 @@ describe("Component", function () {
         });
 
         var MyComponent = san.defineComponent({
-            template: '<div>'
-                + '<x-panel h="{{ph}}" />'
-                + '</div>',
+            template: '<div>' + '<x-panel h="{{ph}}" />' + '</div>',
             components: {
                 'x-panel': Panel
             }
         });
-
 
         var myComponent = new MyComponent({
             data: {
@@ -4778,7 +4790,7 @@ describe("Component", function () {
 
         myComponent.nextTick(function () {
             expect(u.innerHTML).toBe('50');
-            myComponent.data.set('ph', 100, {force: 1});
+            myComponent.data.set('ph', 100, { force: 1 });
 
             myComponent.nextTick(function () {
                 expect(u.innerHTML).toBe('100');
@@ -4787,12 +4799,13 @@ describe("Component", function () {
                 document.body.removeChild(wrap);
                 done();
             });
-        })
+        });
     });
 
-    it("has only s-bind declaration", function (done) {
+    it('has only s-bind declaration', function (done) {
         var Article = san.defineComponent({
-            template: '<div><h3>{{title}}</h3><h4 s-if="subtitle">{{subtitle}}</h4><p>{{content}}</p></div>'
+            template:
+                '<div><h3>{{title}}</h3><h4 s-if="subtitle">{{subtitle}}</h4><p>{{content}}</p></div>'
         });
         var MyComponent = san.defineComponent({
             components: {
@@ -4832,13 +4845,12 @@ describe("Component", function () {
             document.body.removeChild(wrap);
             done();
         });
-
     });
 
-
-    it("has s-bind with other attr, confilct", function (done) {
+    it('has s-bind with other attr, confilct', function (done) {
         var Article = san.defineComponent({
-            template: '<div><h3>{{title}}</h3><h4 s-if="subtitle">{{subtitle}}</h4><p>{{content}}</p></div>'
+            template:
+                '<div><h3>{{title}}</h3><h4 s-if="subtitle">{{subtitle}}</h4><p>{{content}}</p></div>'
         });
         var MyComponent = san.defineComponent({
             components: {
@@ -4884,10 +4896,9 @@ describe("Component", function () {
                 done();
             });
         });
-
     });
 
-    it("modify data in created, dont refresh view in next tick", function (done) {
+    it('modify data in created, dont refresh view in next tick', function (done) {
         var MyComponent = san.defineComponent({
             template: '<ul><li s-for="item in list">{{item}}</li></ul>',
 
@@ -4899,7 +4910,6 @@ describe("Component", function () {
             created: function () {
                 this.data.push('list', 1);
             }
-
         });
         var myComponent = new MyComponent();
 
@@ -4913,16 +4923,16 @@ describe("Component", function () {
             document.body.removeChild(wrap);
             done();
         });
-
     });
 
-    it("set expr contains dynamic assessor, update children component success", function (done) {
+    it('set expr contains dynamic assessor, update children component success', function (done) {
         var Child = san.defineComponent({
             template: '<b>{{d.test1.value}}</b>'
         });
 
         var MyComponent = san.defineComponent({
-            template: '<div><x-child d="{{map}}"/><a>{{map[list[index].title].value}}</a></div>',
+            template:
+                '<div><x-child d="{{map}}"/><a>{{map[list[index].title].value}}</a></div>',
             components: {
                 'x-child': Child
             }
@@ -4959,10 +4969,9 @@ describe("Component", function () {
             document.body.removeChild(wrap);
             done();
         });
-
     });
 
-    it("root element with if, has data when inited", function (done) {
+    it('root element with if, has data when inited', function (done) {
         var num = 0;
         var MyComponent = san.defineComponent({
             template: '<b s-if="person" on-click="add">{{person.name}}</b>',
@@ -5004,7 +5013,7 @@ describe("Component", function () {
         });
     });
 
-    it("root element with if, no data when inited", function (done) {
+    it('root element with if, no data when inited', function (done) {
         var num = 0;
         var MyComponent = san.defineComponent({
             template: '<b s-if="person" on-click="add">{{person.name}}</b>',
@@ -5038,11 +5047,10 @@ describe("Component", function () {
                 document.body.removeChild(wrap);
                 done();
             });
-
         });
     });
 
-    it("root element with if as child, has data when inited", function (done) {
+    it('root element with if as child, has data when inited', function (done) {
         var Child = san.defineComponent({
             template: '<b s-if="person">{{person.name}}</b>'
         });
@@ -5078,10 +5086,9 @@ describe("Component", function () {
             document.body.removeChild(wrap);
             done();
         });
-
     });
 
-    it("root element with if as child, no data when inited", function (done) {
+    it('root element with if as child, no data when inited', function (done) {
         var Child = san.defineComponent({
             template: '<b s-if="person">{{person.name}}</b>'
         });
@@ -5106,18 +5113,20 @@ describe("Component", function () {
 
         myComponent.nextTick(function () {
             expect(wrap.getElementsByTagName('b').length).toBe(1);
-            expect(wrap.getElementsByTagName('b')[0].innerHTML).toBe('errorrik');
+            expect(wrap.getElementsByTagName('b')[0].innerHTML).toBe(
+                'errorrik'
+            );
 
             myComponent.dispose();
             document.body.removeChild(wrap);
             done();
         });
-
     });
 
-    it("checkbox as component root", function (done) {
+    it('checkbox as component root', function (done) {
         var Checkbox = san.defineComponent({
-            template: '<input type="checkbox" value="{{value}}" checked="{{checked}}">'
+            template:
+                '<input type="checkbox" value="{{value}}" checked="{{checked}}">'
         });
 
         var MyComponent = san.defineComponent({
@@ -5125,9 +5134,10 @@ describe("Component", function () {
                 'x-cb': Checkbox
             },
 
-            template: '<div>'
-                + '<label s-for="p in ps"><x-cb value="{{p}}" checked="{{online}}"/>{{p}}</label>'
-                + '</div>',
+            template:
+                '<div>' +
+                '<label s-for="p in ps"><x-cb value="{{p}}" checked="{{online}}"/>{{p}}</label>' +
+                '</div>',
 
             initData: function () {
                 return {
@@ -5149,7 +5159,6 @@ describe("Component", function () {
 
         myComponent.data.push('online', 'errorrik');
         myComponent.nextTick(function () {
-
             expect(inputs[0].checked).toBeTruthy();
             expect(inputs[1].checked).toBeTruthy();
             expect(inputs[2].checked).toBeFalsy();
@@ -5158,10 +5167,9 @@ describe("Component", function () {
             document.body.removeChild(wrap);
             done();
         });
-
     });
 
-    it("s-is in for", function (done) {
+    it('s-is in for', function (done) {
         var Button = san.defineComponent({
             template: '<button><slot/></button>'
         });
@@ -5176,10 +5184,11 @@ describe("Component", function () {
                 'x-link': Link
             },
 
-            template: '<div>'
-                + '<x-what s-for="item in list" s-is="\'x-\' + item.type">{{item.title}}</x-what>'
-                + '<x-button>last</x-button>'
-                + '</div>'
+            template:
+                '<div>' +
+                '<x-what s-for="item in list" s-is="\'x-\' + item.type">{{item.title}}</x-what>' +
+                '<x-button>last</x-button>' +
+                '</div>'
         });
 
         var myComponent = new MyComponent({
@@ -5216,7 +5225,7 @@ describe("Component", function () {
         expect(child.tagName).toBe('BUTTON');
         expect(child.innerHTML).toContain('last');
 
-        myComponent.data.push('list', {type: 'link', title: 'five'});
+        myComponent.data.push('list', { type: 'link', title: 'five' });
         myComponent.nextTick(function () {
             var buttons = myComponent.el.getElementsByTagName('A');
             expect(buttons.length).toBe(3);
@@ -5225,10 +5234,9 @@ describe("Component", function () {
             document.body.removeChild(wrap);
             done();
         });
-
     });
 
-    it("s-is in if", function (done) {
+    it('s-is in if', function (done) {
         var ChildA = san.defineComponent({
             template: '<h2>erik</h2>'
         });
@@ -5243,10 +5251,11 @@ describe("Component", function () {
                 'x-child-b': ChildB
             },
 
-            template: '<div>'
-                + '<x-parent s-if="isOlder" s-is="\'x-child-a\'"/>'
-                + '<x-parent s-else s-is="\'x-child-b\'"/>'
-                + '</div>'
+            template:
+                '<div>' +
+                '<x-parent s-if="isOlder" s-is="\'x-child-a\'"/>' +
+                '<x-parent s-else s-is="\'x-child-b\'"/>' +
+                '</div>'
         });
 
         var myComponent = new MyComponent({
@@ -5274,7 +5283,7 @@ describe("Component", function () {
         });
     });
 
-    it("s-if & s-for & s-is", function (done) {
+    it('s-if & s-for & s-is', function (done) {
         var Button = san.defineComponent({
             template: '<button><slot/></button>'
         });
@@ -5289,18 +5298,19 @@ describe("Component", function () {
                 'x-link': Link
             },
 
-            template: '<div>'
-                + '<div s-if="isShow" s-for="item in list" s-is="\'x-\'+item.type">{{item.title}}</div>'
-                + '</div>'
+            template:
+                '<div>' +
+                '<div s-if="isShow" s-for="item in list" s-is="\'x-\'+item.type">{{item.title}}</div>' +
+                '</div>'
         });
 
         var myComponent = new MyComponent({
             data: {
                 isShow: true,
                 list: [
-                    { type: 'link', title: 'one'},
-                    { type: 'button', title: 'two'},
-                    { type: 'button', title: 'three'},
+                    { type: 'link', title: 'one' },
+                    { type: 'button', title: 'two' },
+                    { type: 'button', title: 'three' },
                     { type: 'link', title: 'four' }
                 ]
             }
@@ -5333,10 +5343,9 @@ describe("Component", function () {
             document.body.removeChild(wrap);
             done();
         });
-
     });
 
-    it("data prop with empty string, should not autotrans true", function () {
+    it('data prop with empty string, should not autotrans true', function () {
         var Child = san.defineComponent({
             template: '<b>{{text}}</b>'
         });
@@ -5360,7 +5369,7 @@ describe("Component", function () {
         document.body.removeChild(wrap);
     });
 
-    it("outer class merge inner class", function (done) {
+    it('outer class merge inner class', function (done) {
         var Child = san.defineComponent({
             template: '<b class="{{clazz}}">{{text}}</b>'
         });
@@ -5386,12 +5395,13 @@ describe("Component", function () {
         myComponent.ref('child').data.set('clazz', ['inn1', 'inn2']);
 
         myComponent.nextTick(function () {
-            expect(myComponent.ref('child').el.className).toBe('inn1 inn2 outer');
+            expect(myComponent.ref('child').el.className).toBe(
+                'inn1 inn2 outer'
+            );
             myComponent.data.set('clazz', '');
 
             myComponent.nextTick(function () {
                 expect(myComponent.ref('child').el.className).toBe('inn1 inn2');
-
 
                 myComponent.dispose();
                 document.body.removeChild(wrap);
@@ -5400,9 +5410,10 @@ describe("Component", function () {
         });
     });
 
-    it("fragment as component root", function (done) {
+    it('fragment as component root', function (done) {
         var MyComponent = san.defineComponent({
-            template: '<fragment>see <a href="{{link}}">{{linkText || name}}</a> to start <b>{{name}}</b> framework</fragment>'
+            template:
+                '<fragment>see <a href="{{link}}">{{linkText || name}}</a> to start <b>{{name}}</b> framework</fragment>'
         });
 
         var myComponent = new MyComponent({
@@ -5441,9 +5452,10 @@ describe("Component", function () {
         });
     });
 
-    it("fragment with if as component root", function (done) {
+    it('fragment with if as component root', function (done) {
         var MyComponent = san.defineComponent({
-            template: '<fragment s-if="!hidd">see <a href="{{link}}">{{linkText || name}}</a> to start <b>{{name}}</b> framework</fragment>'
+            template:
+                '<fragment s-if="!hidd">see <a href="{{link}}">{{linkText || name}}</a> to start <b>{{name}}</b> framework</fragment>'
         });
 
         var myComponent = new MyComponent({
@@ -5460,7 +5472,6 @@ describe("Component", function () {
         document.body.appendChild(wrap);
         myComponent.attach(wrap);
 
-
         expect(wrap.innerHTML).toContain('see');
         expect(wrap.innerHTML).toContain('framework');
 
@@ -5474,7 +5485,6 @@ describe("Component", function () {
         myComponent.data.set('link', 'https://github.com/baidu/san/');
         myComponent.data.set('name', 'san');
         myComponent.nextTick(function () {
-
             expect(wrap.innerHTML).toContain('see');
             expect(wrap.innerHTML).toContain('start');
 
@@ -5498,13 +5508,15 @@ describe("Component", function () {
         });
     });
 
-    it("fragment as component root", function (done) {
+    it('fragment as component root', function (done) {
         var Child = san.defineComponent({
-            template: '<fragment>see <a href="{{link}}">{{linkText || name}}</a> to start <b>{{name}}</b> framework</fragment>'
+            template:
+                '<fragment>see <a href="{{link}}">{{linkText || name}}</a> to start <b>{{name}}</b> framework</fragment>'
         });
 
         var MyComponent = san.defineComponent({
-            template: '<div><x-child link="{{link}}" name="{{name}}" link-text="{{linkText}}"/></div>',
+            template:
+                '<div><x-child link="{{link}}" name="{{name}}" link-text="{{linkText}}"/></div>',
             components: {
                 'x-child': Child
             }
@@ -5544,13 +5556,15 @@ describe("Component", function () {
         });
     });
 
-    it("fragment root el in for", function (done) {
+    it('fragment root el in for', function (done) {
         var Child = san.defineComponent({
-            template: '<fragment>see <a href="{{link}}">{{linkText || name}}</a> to start <b>{{name}}</b> framework</fragment>'
+            template:
+                '<fragment>see <a href="{{link}}">{{linkText || name}}</a> to start <b>{{name}}</b> framework</fragment>'
         });
 
         var MyComponent = san.defineComponent({
-            template: '<div><x-child s-for="f in frameworks" link="{{f.link}}" name="{{f.name}}" link-text="{{f.linkText}}"/></div>',
+            template:
+                '<div><x-child s-for="f in frameworks" link="{{f.link}}" name="{{f.name}}" link-text="{{f.linkText}}"/></div>',
             components: {
                 'x-child': Child
             }
@@ -5575,7 +5589,6 @@ describe("Component", function () {
                         linkText: 'HomePage'
                     }
                 ]
-
             }
         });
 
@@ -5622,13 +5635,15 @@ describe("Component", function () {
         });
     });
 
-    it("component as component root", function (done) {
+    it('component as component root', function (done) {
         var Child = san.defineComponent({
-            template: '<h3>see <a href="{{link}}">{{linkText || name}}</a> to start <b>{{name}}</b> framework</h3>'
+            template:
+                '<h3>see <a href="{{link}}">{{linkText || name}}</a> to start <b>{{name}}</b> framework</h3>'
         });
 
         var MyComponent = san.defineComponent({
-            template: '<x-child link="{{link}}" name="{{framework}}" link-text="{{linkText}}" style="font-size:18px"/>',
+            template:
+                '<x-child link="{{link}}" name="{{framework}}" link-text="{{linkText}}" style="font-size:18px"/>',
             components: {
                 'x-child': Child
             }
@@ -5645,7 +5660,6 @@ describe("Component", function () {
         var wrap = document.createElement('div');
         document.body.appendChild(wrap);
         myComponent.attach(wrap);
-
 
         expect(myComponent.el.tagName).toBe('H3');
         expect(myComponent.el.className).toBe('');
@@ -5674,13 +5688,15 @@ describe("Component", function () {
         });
     });
 
-    it("component as component root by s-is", function (done) {
+    it('component as component root by s-is', function (done) {
         var Child = san.defineComponent({
-            template: '<h3>see <a href="{{link}}">{{linkText || name}}</a> to start <b>{{name}}</b> framework</h3>'
+            template:
+                '<h3>see <a href="{{link}}">{{linkText || name}}</a> to start <b>{{name}}</b> framework</h3>'
         });
 
         var MyComponent = san.defineComponent({
-            template: '<div s-is="type" link="{{link}}" name="{{framework}}" link-text="{{linkText}}" style="font-size:18px"/>',
+            template:
+                '<div s-is="type" link="{{link}}" name="{{framework}}" link-text="{{linkText}}" style="font-size:18px"/>',
             components: {
                 'x-child': Child
             }
@@ -5699,7 +5715,6 @@ describe("Component", function () {
         document.body.appendChild(wrap);
         myComponent.attach(wrap);
 
-
         expect(myComponent.el.tagName).toBe('H3');
         expect(myComponent.el.className).toBe('');
         expect(!!myComponent.el.id).toBeFalsy();
@@ -5727,7 +5742,7 @@ describe("Component", function () {
         });
     });
 
-    it("dynamic s-is value as component root", function (done) {
+    it('dynamic s-is value as component root', function (done) {
         var ChildA = san.defineComponent({
             template: '<h2>erik</h2>'
         });
@@ -5783,7 +5798,7 @@ describe("Component", function () {
         });
     });
 
-    it("s-is valued fragment", function (done) {
+    it('s-is valued fragment', function (done) {
         var Child = san.defineComponent({
             template: '<h2><slot>default</slot></h2>'
         });
@@ -5825,7 +5840,7 @@ describe("Component", function () {
         });
     });
 
-    it("s-is as component root", function (done) {
+    it('s-is as component root', function (done) {
         var Child = san.defineComponent({
             template: '<h2><slot>default</slot></h2>'
         });
@@ -5853,7 +5868,6 @@ describe("Component", function () {
 
         myComponent.data.set('type', 'h3');
         myComponent.nextTick(function () {
-
             expect(wrap.firstChild.tagName).toBe('H3');
             expect(wrap.firstChild.innerHTML).toContain('cxtom');
 
@@ -5869,8 +5883,7 @@ describe("Component", function () {
         });
     });
 
-
-    it("component as component root, check el", function () {
+    it('component as component root, check el', function () {
         var SubChild = san.defineComponent({
             template: '<h3>see framework</h3>'
         });
@@ -5889,23 +5902,21 @@ describe("Component", function () {
             }
         });
 
-        var myComponent = new MyComponent({
-        });
+        var myComponent = new MyComponent({});
 
         var wrap = document.createElement('div');
         document.body.appendChild(wrap);
         myComponent.attach(wrap);
-
 
         expect(myComponent.el.tagName).toBe('H3');
         myComponent.dispose();
         document.body.removeChild(wrap);
     });
 
-
-    it("component as component root, use s-bind", function (done) {
+    it('component as component root, use s-bind', function (done) {
         var Child = san.defineComponent({
-            template: '<h3>see <a href="{{link}}">{{linkText || name}}</a> to start <b>{{name}}</b> framework</h3>'
+            template:
+                '<h3>see <a href="{{link}}">{{linkText || name}}</a> to start <b>{{name}}</b> framework</h3>'
         });
 
         var MyComponent = san.defineComponent({
@@ -5928,7 +5939,6 @@ describe("Component", function () {
         var wrap = document.createElement('div');
         document.body.appendChild(wrap);
         myComponent.attach(wrap);
-
 
         expect(myComponent.el.tagName).toBe('H3');
         expect(myComponent.el.className).toBe('');
@@ -5957,7 +5967,7 @@ describe("Component", function () {
         });
     });
 
-    it("for directive as root", function (done) {
+    it('for directive as root', function (done) {
         var MyComponent = san.defineComponent({
             template: '<a s-for="item in list">{{item}}</a>'
         });
@@ -5995,17 +6005,18 @@ describe("Component", function () {
         });
     });
 
-    it("for directive with fragment as root", function (done) {
+    it('for directive with fragment as root', function (done) {
         var MyComponent = san.defineComponent({
-            template: '<fragment s-for="item in list"><b>{{item.name}}</b><a>{{item.email}}</a></fragment>'
+            template:
+                '<fragment s-for="item in list"><b>{{item.name}}</b><a>{{item.email}}</a></fragment>'
         });
 
         var myComponent = new MyComponent({
             data: {
                 list: [
-                    {name: 'err', email: 'errorrik@gmail.com'},
-                    {name: 'lee', email: 'leeight@gmail.com'},
-                    {name: 'gray', email: 'xxx@outlook.com'}
+                    { name: 'err', email: 'errorrik@gmail.com' },
+                    { name: 'lee', email: 'leeight@gmail.com' },
+                    { name: 'gray', email: 'xxx@outlook.com' }
                 ]
             }
         });
@@ -6040,9 +6051,10 @@ describe("Component", function () {
         });
     });
 
-    it("fragment as component root, detach and re-attach", function (done) {
+    it('fragment as component root, detach and re-attach', function (done) {
         var MyComponent = san.defineComponent({
-            template: '<fragment>see <a href="{{link}}">{{linkText || name}}</a> to start <b>{{name}}</b> framework</fragment>'
+            template:
+                '<fragment>see <a href="{{link}}">{{linkText || name}}</a> to start <b>{{name}}</b> framework</fragment>'
         });
 
         var myComponent = new MyComponent({
@@ -6092,13 +6104,15 @@ describe("Component", function () {
         });
     });
 
-    it("component as component root, detach and re-attach", function (done) {
+    it('component as component root, detach and re-attach', function (done) {
         var Child = san.defineComponent({
-            template: '<h3>see <a href="{{link}}">{{linkText || name}}</a> to start <b>{{name}}</b> framework</h3>'
+            template:
+                '<h3>see <a href="{{link}}">{{linkText || name}}</a> to start <b>{{name}}</b> framework</h3>'
         });
 
         var MyComponent = san.defineComponent({
-            template: '<x-child link="{{link}}" name="{{framework}}" link-text="{{linkText}}" />',
+            template:
+                '<x-child link="{{link}}" name="{{framework}}" link-text="{{linkText}}" />',
             components: {
                 'x-child': Child
             }
@@ -6145,14 +6159,13 @@ describe("Component", function () {
             expect(as[0].innerHTML).toBe('github');
             expect(bs[0].innerHTML).toBe('san');
 
-
             myComponent.dispose();
             document.body.removeChild(wrap);
             done();
         });
     });
 
-    it("for directive as root, detach and re-attach", function (done) {
+    it('for directive as root, detach and re-attach', function (done) {
         var MyComponent = san.defineComponent({
             template: '<a s-for="item in list">{{item}}</a>'
         });
@@ -6188,7 +6201,6 @@ describe("Component", function () {
             expect(wrap.innerHTML).toBe('');
             expect(myComponent.lifeCycle.detached).toBeTruthy();
 
-
             myComponent.attach(wrap);
             expect(myComponent.lifeCycle.detached).toBeFalsy();
             as = wrap.getElementsByTagName('a');
@@ -6203,9 +6215,10 @@ describe("Component", function () {
         });
     });
 
-    it("if as component root, detach and re-attach", function (done) {
+    it('if as component root, detach and re-attach', function (done) {
         var MyComponent = san.defineComponent({
-            template: '<div s-if="!hidd">see <a href="{{link}}">{{linkText || name}}</a> to start <b>{{name}}</b> framework</div>'
+            template:
+                '<div s-if="!hidd">see <a href="{{link}}">{{linkText || name}}</a> to start <b>{{name}}</b> framework</div>'
         });
 
         var myComponent = new MyComponent({
@@ -6220,7 +6233,6 @@ describe("Component", function () {
         document.body.appendChild(wrap);
         myComponent.attach(wrap);
 
-
         expect(wrap.innerHTML).toContain('see');
         expect(wrap.innerHTML).toContain('framework');
 
@@ -6234,7 +6246,6 @@ describe("Component", function () {
         myComponent.data.set('link', 'https://github.com/baidu/san/');
         myComponent.data.set('name', 'san');
         myComponent.nextTick(function () {
-
             expect(wrap.innerHTML).toContain('see');
             expect(wrap.innerHTML).toContain('start');
 
@@ -6248,13 +6259,11 @@ describe("Component", function () {
             expect(wrap.innerHTML).toBe('');
             expect(myComponent.lifeCycle.detached).toBeTruthy();
 
-
             myComponent.attach(wrap);
             expect(myComponent.lifeCycle.detached).toBeFalsy();
             as = wrap.getElementsByTagName('a');
             expect(as.length).toBe(1);
             expect(as[0].innerHTML).toBe('github');
-
 
             myComponent.data.set('hidd', true);
             myComponent.nextTick(function () {
@@ -6266,7 +6275,6 @@ describe("Component", function () {
                 myComponent.detach();
                 expect(wrap.innerHTML).toBe('');
                 expect(myComponent.lifeCycle.detached).toBeTruthy();
-
 
                 myComponent.attach(wrap);
                 expect(wrap.innerHTML).not.toBe('');
@@ -6287,23 +6295,22 @@ describe("Component", function () {
                     document.body.removeChild(wrap);
                     done();
                 });
-
             });
         });
     });
-    it("identify subcomponent with reserved hot tag", function() {
+    it('identify subcomponent with reserved hot tag', function () {
         var Label = san.defineComponent({
             template: '<span title="{{text}}">{{text}}</span>'
         });
 
         var MyComponent = san.defineComponent({
             components: {
-                'b': Label
+                b: Label
             },
 
             template: '<div><b text="{{name}}"></b></div>',
 
-            initData: function() {
+            initData: function () {
                 return { name: 'erik' };
             }
         });
@@ -6320,10 +6327,9 @@ describe("Component", function () {
 
         myComponent.dispose();
         document.body.removeChild(wrap);
-
     });
 
-    it("identify subcomponent with reserved hot tag with s-is", function() {
+    it('identify subcomponent with reserved hot tag with s-is', function () {
         var Label = san.defineComponent({
             template: '<span title="{{text}}">{{text}}<i>{{tip}}</i></span>'
         });
@@ -6332,7 +6338,8 @@ describe("Component", function () {
                 'x-label': Label
             },
 
-            template: '<div><b text="{{name}}" tip="{{company}}" s-is="cmpt"></b></div>'
+            template:
+                '<div><b text="{{name}}" tip="{{company}}" s-is="cmpt"></b></div>'
         });
 
         var myComponent = new MyComponent({
@@ -6358,18 +6365,16 @@ describe("Component", function () {
         document.body.removeChild(wrap);
     });
 
-
-
-    it("show directive apply to component", function (done) {
+    it('show directive apply to component', function (done) {
         var Label = san.defineComponent({
             template: '<span style="position:absolute">span</span>'
-        })
+        });
         var MyComponent = san.defineComponent({
-            components: {'x-l': Label},
+            components: { 'x-l': Label },
             template: '<div><x-l s-show="num == 3" style="top:1px"/></div>'
         });
         var myComponent = new MyComponent({
-            data: {num: 2}
+            data: { num: 2 }
         });
 
         var wrap = document.createElement('div');
@@ -6390,10 +6395,10 @@ describe("Component", function () {
             myComponent.dispose();
             document.body.removeChild(wrap);
             done();
-        })
+        });
     });
 
-    it("watch listener nest invoked", function (done) {
+    it('watch listener nest invoked', function (done) {
         var counter = 0;
         var MyComponent = san.defineComponent({
             template: '<u>{{width}}</u>',
@@ -6405,11 +6410,11 @@ describe("Component", function () {
                     if (typeof value === 'number') {
                         me.data.set('width', value + 'px');
                     }
-                })
+                });
             }
         });
         var myComponent = new MyComponent({
-            data: {width: '600px'}
+            data: { width: '600px' }
         });
 
         var wrap = document.createElement('div');
@@ -6430,7 +6435,6 @@ describe("Component", function () {
             myComponent.dispose();
             document.body.removeChild(wrap);
             done();
-        })
+        });
     });
 });
-

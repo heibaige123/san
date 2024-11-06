@@ -38,7 +38,6 @@
     // require('./view/get-event-listener');
     // require('./view/create-node');
 
-
     // #[main-dependencies]
     /* eslint-disable no-unused-vars */
     var nextTick = require('./util/next-tick');
@@ -60,7 +59,6 @@
     var DataTypes = require('./util/data-types');
     var hydrateComponent = require('./view/hydrate-component');
 
-
     var san = {
         /**
          * san版本号
@@ -76,7 +74,6 @@
          * @type {boolean}
          */
         debug: true,
-        
 
         /**
          * 组件基类
@@ -97,13 +94,12 @@
         // #[begin] hydrate
         /**
          * 组件反解
-         * 
+         *
          * @param {Function} ComponentClass 组件类
          * @param {Object} options 反解选项
          * @param {HTMLElement} options.el 挂载元素
          */
         hydrateComponent: hydrateComponent,
-        
 
         /**
          * 创建组件Loader
@@ -216,17 +212,14 @@
     if (typeof exports === 'object' && typeof module === 'object') {
         // For CommonJS
         exports = module.exports = san;
-    }
-    else if (typeof define === 'function' && define.amd) {
+    } else if (typeof define === 'function' && define.amd) {
         // For AMD
         define('san', [], san);
-    }
-    else {
+    } else {
         // For <script src="..."
         root.san = san;
     }
 
     // #[begin] devtool
     emitDevtool.start(san);
-    
 })(this);

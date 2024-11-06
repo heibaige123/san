@@ -73,5 +73,4 @@ var LifeCycle = {
 };
 /* eslint-enable fecs-valid-var-jsdoc */
 
-
 exports = module.exports = LifeCycle;

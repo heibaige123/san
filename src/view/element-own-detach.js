@@ -26,8 +26,7 @@ function elementOwnDetach() {
         if (transition && transition.leave) {
             if (this._toPhase) {
                 this._toPhase('leaving');
-            }
-            else {
+            } else {
                 this.lifeCycle = LifeCycle.leaving;
             }
 
@@ -37,11 +36,12 @@ function elementOwnDetach() {
                     me._leave();
                 });
                 return;
-            }
-            catch (e) {
+            } catch (e) {
                 handleError(
-                    e, 
-                    this.nodeType === NodeType.CMPT ? this.parentComponent : this.owner, 
+                    e,
+                    this.nodeType === NodeType.CMPT
+                        ? this.parentComponent
+                        : this.owner,
                     'transitionLeave'
                 );
             }
@@ -50,6 +50,5 @@ function elementOwnDetach() {
 
     this._leave();
 }
-
 
 exports = module.exports = elementOwnDetach;

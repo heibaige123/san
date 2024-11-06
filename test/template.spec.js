@@ -1,8 +1,8 @@
-describe("Template Tag", function () {
-
-    it("has text sibling，mix inner text node", function (done) {
+describe('Template Tag', function () {
+    it('has text sibling，mix inner text node', function (done) {
         var MyComponent = san.defineComponent({
-            template: '<a>test<template>{{name}}<p>ppp</p>{{name}}</template>aaaa</a>'
+            template:
+                '<a>test<template>{{name}}<p>ppp</p>{{name}}</template>aaaa</a>'
         });
 
         var myComponent = new MyComponent({
@@ -26,7 +26,6 @@ describe("Template Tag", function () {
         myComponent.data.set('name', 'ByeER');
 
         san.nextTick(function () {
-
             var html = a.innerHTML.toLowerCase();
             expect(/<\/p>\s*byeer/i.test(html)).toBeTruthy();
             expect(/byeer\s*<p/i.test(html)).toBeTruthy();
@@ -39,10 +38,10 @@ describe("Template Tag", function () {
         });
     });
 
-
-    it("has text sibling，mix inner text node, init with empty string", function (done) {
+    it('has text sibling，mix inner text node, init with empty string', function (done) {
         var MyComponent = san.defineComponent({
-            template: '<a>test<template>{{name}}<p>ppp</p>{{name}}</template>aaaa</a>'
+            template:
+                '<a>test<template>{{name}}<p>ppp</p>{{name}}</template>aaaa</a>'
         });
 
         var myComponent = new MyComponent({
@@ -75,9 +74,10 @@ describe("Template Tag", function () {
         });
     });
 
-    it("with if", function (done) {
+    it('with if', function (done) {
         var MyComponent = san.defineComponent({
-            template: '<div><u>Hello {{name}}!</u><template s-if="num">11111</template> <template s-else>22222</template></div>'
+            template:
+                '<div><u>Hello {{name}}!</u><template s-if="num">11111</template> <template s-else>22222</template></div>'
         });
 
         var myComponent = new MyComponent();
@@ -103,7 +103,7 @@ describe("Template Tag", function () {
                 myComponent.dispose();
                 document.body.removeChild(wrap);
                 done();
-            })
+            });
         });
     });
 });

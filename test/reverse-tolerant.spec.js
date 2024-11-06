@@ -2,14 +2,15 @@
  * 规范的 SSR 和反解 HTML 维护在 san-html-cases
  * 这里只维护反解额外兼容的不规范 HTML
  */
-describe("Reverse", function () {
-    it("whitespace between data comment", function (done) {
+describe('Reverse', function () {
+    it('whitespace between data comment', function (done) {
         var MyComponent = san.defineComponent({
             template: '<a><span title="{{email}}">{{name}}</span></a>'
         });
         var wrap = document.createElement('div');
-        wrap.innerHTML = '<a>\n    <!--s-data:{"email":"errorrik@gmail.com","name":"errorrik"}--><span title="errorrik@gmail.com">errorrik</span></a>'
-        document.body.appendChild(wrap)
+        wrap.innerHTML =
+            '<a>\n    <!--s-data:{"email":"errorrik@gmail.com","name":"errorrik"}--><span title="errorrik@gmail.com">errorrik</span></a>';
+        document.body.appendChild(wrap);
         var myComponent = new MyComponent({ el: wrap.firstChild });
 
         expect(myComponent.data.get('email')).toBe('errorrik@gmail.com');
@@ -25,6 +26,6 @@ describe("Reverse", function () {
             myComponent.dispose();
             document.body.removeChild(wrap);
             done();
-        })
+        });
     });
 });

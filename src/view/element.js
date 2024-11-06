@@ -7,7 +7,6 @@
  * @file 元素节点类
  */
 
-
 var changeExprCompare = require('../runtime/change-expr-compare');
 var changesIsInDataRef = require('../runtime/changes-is-in-data-ref');
 var evalExpr = require('../runtime/eval-expr');
@@ -48,47 +47,57 @@ function Element(aNode, parent, scope, owner, tagName, hydrateWalker) {
 
     this.lifeCycle = LifeCycle.start;
     this.children = [];
-    this.parentComponent = parent.nodeType === NodeType.CMPT
-        ? parent
-        : parent.parentComponent;
+    this.parentComponent =
+        parent.nodeType === NodeType.CMPT ? parent : parent.parentComponent;
 
     this.tagName = tagName || aNode.tagName;
 
-    
     // ie8- 不支持innerHTML输出自定义标签
-    
+
     if (ieOldThan9 && this.tagName.indexOf('-') > 0) {
         this.tagName = 'div';
     }
-    
 
     aNode._i++;
-    this._sbindData = nodeSBindInit(aNode.directives.bind, this.scope, this.owner);
+    this._sbindData = nodeSBindInit(
+        aNode.directives.bind,
+        this.scope,
+        this.owner
+    );
     this.lifeCycle = LifeCycle.inited;
 
     // #[begin] hydrate
     if (hydrateWalker) {
         var currentNode = hydrateWalker.current;
 
-        
         if (!currentNode) {
-            throw new Error('[SAN HYDRATE ERROR] Element not found. \nPaths: '
-                + getNodePath(this).join(' > '));
+            throw new Error(
+                '[SAN HYDRATE ERROR] Element not found. \nPaths: ' +
+                    getNodePath(this).join(' > ')
+            );
         }
 
-        
         if (currentNode.nodeType !== 1) {
-            throw new Error('[SAN HYDRATE ERROR] Element type not match, expect 1 but '
-                + currentNode.nodeType + '.\nPaths: '
-                + getNodePath(this).join(' > '));
+            throw new Error(
+                '[SAN HYDRATE ERROR] Element type not match, expect 1 but ' +
+                    currentNode.nodeType +
+                    '.\nPaths: ' +
+                    getNodePath(this).join(' > ')
+            );
         }
 
-        
-        if (currentNode.tagName !== this.tagName.toUpperCase()
-            && currentNode.tagName !== this.tagName) {
-            throw new Error('[SAN HYDRATE ERROR] Element tagName not match, expect '
-                + this.tagName + ' but meet ' + currentNode.tagName + '.\nPaths: '
-                + getNodePath(this).join(' > '));
+        if (
+            currentNode.tagName !== this.tagName.toUpperCase() &&
+            currentNode.tagName !== this.tagName
+        ) {
+            throw new Error(
+                '[SAN HYDRATE ERROR] Element tagName not match, expect ' +
+                    this.tagName +
+                    ' but meet ' +
+                    currentNode.tagName +
+                    '.\nPaths: ' +
+                    getNodePath(this).join(' > ')
+            );
         }
 
         this.el = currentNode;
@@ -100,10 +109,7 @@ function Element(aNode, parent, scope, owner, tagName, hydrateWalker) {
         this._attached();
         this.lifeCycle = LifeCycle.attached;
     }
-    
 }
-
-
 
 Element.prototype.nodeType = NodeType.ELEM;
 
@@ -123,12 +129,15 @@ Element.prototype.attach = function (parentEl, beforeEl) {
             if (aNode._ce && aNode._i > 2) {
                 props = aNode._dp;
                 this.el = (aNode._el || preheatEl(aNode)).cloneNode(false);
-            }
-            else {
+            } else {
                 props = aNode.props;
-                this.el = svgTags[this.tagName] && document.createElementNS
-                    ? document.createElementNS('http://www.w3.org/2000/svg', this.tagName)
-                    : document.createElement(this.tagName);
+                this.el =
+                    svgTags[this.tagName] && document.createElementNS
+                        ? document.createElementNS(
+                              'http://www.w3.org/2000/svg',
+                              this.tagName
+                          )
+                        : document.createElement(this.tagName);
             }
 
             if (this._sbindData) {
@@ -161,17 +170,23 @@ Element.prototype.attach = function (parentEl, beforeEl) {
             var htmlDirective = aNode.directives.html;
 
             if (htmlDirective) {
-               
                 warnSetHTML(this.el);
-                
 
-                this.el.innerHTML = evalExpr(htmlDirective.value, this.scope, this.owner);
-            }
-            else {
+                this.el.innerHTML = evalExpr(
+                    htmlDirective.value,
+                    this.scope,
+                    this.owner
+                );
+            } else {
                 for (var i = 0, l = aNode.children.length; i < l; i++) {
                     var childANode = aNode.children[i];
                     var child = childANode.Clazz
-                        ? new childANode.Clazz(childANode, this, this.scope, this.owner)
+                        ? new childANode.Clazz(
+                              childANode,
+                              this,
+                              this.scope,
+                              this.owner
+                          )
                         : createNode(childANode, this, this.scope, this.owner);
                     this.children.push(child);
                     child.attach(this.el);
@@ -206,13 +221,10 @@ Element.prototype._leave = function () {
                 this._elFns = null;
             }
 
-            
-            
             if (this._inputTimer) {
                 clearInterval(this._inputTimer);
                 this._inputTimer = null;
             }
-            
 
             // 如果没有parent，说明是一个root component，一定要从dom树中remove
             if (!this.disposeNoDetach || !this.parent) {
@@ -242,7 +254,6 @@ Element.prototype._leave = function () {
 Element.prototype._update = function (changes) {
     var dataHotspot = this.aNode._d;
     if (dataHotspot && changesIsInDataRef(changes, dataHotspot)) {
-
         // update s-bind
         var me = this;
         this._sbindData = nodeSBindUpdate(
@@ -269,13 +280,22 @@ Element.prototype._update = function (changes) {
             for (var j = 0, changeLen = changes.length; j < changeLen; j++) {
                 var change = changes[j];
 
-                if (!isDataChangeByElement(change, this, propName)
-                    && (
-                        changeExprCompare(change.expr, prop.expr, this.scope)
-                        || prop.hintExpr && changeExprCompare(change.expr, prop.hintExpr, this.scope)
-                    )
+                if (
+                    !isDataChangeByElement(change, this, propName) &&
+                    (changeExprCompare(change.expr, prop.expr, this.scope) ||
+                        (prop.hintExpr &&
+                            changeExprCompare(
+                                change.expr,
+                                prop.hintExpr,
+                                this.scope
+                            )))
                 ) {
-                    prop.handler(this.el, evalExpr(prop.expr, this.scope, this.owner), propName, this);
+                    prop.handler(
+                        this.el,
+                        evalExpr(prop.expr, this.scope, this.owner),
+                        propName,
+                        this
+                    );
                     break;
                 }
             }
@@ -286,17 +306,24 @@ Element.prototype._update = function (changes) {
         if (htmlDirective) {
             var len = changes.length;
             while (len--) {
-                if (changeExprCompare(changes[len].expr, htmlDirective.value, this.scope)) {
-                   
+                if (
+                    changeExprCompare(
+                        changes[len].expr,
+                        htmlDirective.value,
+                        this.scope
+                    )
+                ) {
                     warnSetHTML(this.el);
-                    
 
-                    this.el.innerHTML = evalExpr(htmlDirective.value, this.scope, this.owner);
+                    this.el.innerHTML = evalExpr(
+                        htmlDirective.value,
+                        this.scope,
+                        this.owner
+                    );
                     break;
                 }
             }
-        }
-        else {
+        } else {
             for (var i = 0, l = this.children.length; i < l; i++) {
                 this.children[i]._update(changes);
             }

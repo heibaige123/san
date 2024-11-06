@@ -25,7 +25,6 @@ var createHydrateNode = require('./create-hydrate-node');
 var elementDisposeChildren = require('./element-dispose-children');
 var nodeOwnOnlyChildrenAttach = require('./node-own-only-children-attach');
 
-
 /**
  * slot 节点类
  *
@@ -40,9 +39,8 @@ function SlotNode(aNode, parent, scope, owner, hydrateWalker) {
     this.owner = owner;
     this.scope = scope;
     this.parent = parent;
-    this.parentComponent = parent.nodeType === NodeType.CMPT
-        ? parent
-        : parent.parentComponent;
+    this.parentComponent =
+        parent.nodeType === NodeType.CMPT ? parent : parent.parentComponent;
 
     this.id = guid++;
 
@@ -60,7 +58,9 @@ function SlotNode(aNode, parent, scope, owner, hydrateWalker) {
     var sourceSlots = owner.sourceSlots;
     var matchedSlots;
     if (sourceSlots) {
-        matchedSlots = this.isNamed ? sourceSlots.named[this.name] : sourceSlots.noname;
+        matchedSlots = this.isNamed
+            ? sourceSlots.named[this.name]
+            : sourceSlots.noname;
     }
 
     if (matchedSlots) {
@@ -75,7 +75,11 @@ function SlotNode(aNode, parent, scope, owner, hydrateWalker) {
         vars: aNode.vars
     };
 
-    this._sbindData = nodeSBindInit(aNode.directives.bind, this.scope, this.owner);
+    this._sbindData = nodeSBindInit(
+        aNode.directives.bind,
+        this.scope,
+        this.owner
+    );
 
     // calc scoped slot vars
     var initData;
@@ -101,7 +105,6 @@ function SlotNode(aNode, parent, scope, owner, hydrateWalker) {
         this.childScope = new Data(initData, this.childScope || this.scope);
     }
 
-
     owner.slotChildren.push(this);
 
     // #[begin] hydrate
@@ -110,44 +113,53 @@ function SlotNode(aNode, parent, scope, owner, hydrateWalker) {
         var hasFlagComment;
 
         // start flag
-        if (currentNode && currentNode.nodeType === 8 && currentNode.data === 's-slot') {
+        if (
+            currentNode &&
+            currentNode.nodeType === 8 &&
+            currentNode.data === 's-slot'
+        ) {
             this.sel = hydrateWalker.current;
             hasFlagComment = 1;
             hydrateWalker.goNext();
-        }
-        else {
+        } else {
             this.sel = document.createComment(this.id);
             hydrateWalker.current
-                ? hydrateWalker.target.insertBefore(this.sel, hydrateWalker.current)
+                ? hydrateWalker.target.insertBefore(
+                      this.sel,
+                      hydrateWalker.current
+                  )
                 : hydrateWalker.target.appendChild(this.sel);
         }
 
         var aNodeChildren = this.aNode.children;
         for (var i = 0, l = aNodeChildren.length; i < l; i++) {
-            this.children.push(createHydrateNode(
-                aNodeChildren[i],
-                this,
-                this.childScope || this.scope,
-                this.childOwner || this.owner,
-                hydrateWalker
-            ));
+            this.children.push(
+                createHydrateNode(
+                    aNodeChildren[i],
+                    this,
+                    this.childScope || this.scope,
+                    this.childOwner || this.owner,
+                    hydrateWalker
+                )
+            );
         }
 
         // end flag
         if (hasFlagComment) {
             this.el = hydrateWalker.current;
             hydrateWalker.goNext();
-        }
-        else {
+        } else {
             this.el = document.createComment(this.id);
             hydrateWalker.current
-                ? hydrateWalker.target.insertBefore(this.el, hydrateWalker.current)
+                ? hydrateWalker.target.insertBefore(
+                      this.el,
+                      hydrateWalker.current
+                  )
                 : hydrateWalker.target.appendChild(this.el);
         }
 
         this.lifeCycle = LifeCycle.attached;
     }
-    
 }
 
 SlotNode.prototype.nodeType = NodeType.SLOT;
@@ -194,7 +206,10 @@ SlotNode.prototype.attach = nodeOwnOnlyChildrenAttach;
 SlotNode.prototype._update = function (changes, isFromOuter) {
     var me = this;
 
-    if (this.nameBind && evalExpr(this.nameBind.expr, this.scope, this.owner) !== this.name) {
+    if (
+        this.nameBind &&
+        evalExpr(this.nameBind.expr, this.scope, this.owner) !== this.name
+    ) {
         this.owner._notifyNeedReload();
         return false;
     }
@@ -205,13 +220,15 @@ SlotNode.prototype._update = function (changes, isFromOuter) {
                 this.children[i]._update(changes);
             }
         }
-    }
-    else {
+    } else {
         if (this.isScoped) {
             var varKeys = {};
             each(this.aNode.vars, function (varItem) {
                 varKeys[varItem.name] = 1;
-                me.childScope.set(varItem.name, evalExpr(varItem.expr, me.scope, me.owner));
+                me.childScope.set(
+                    varItem.name,
+                    evalExpr(varItem.expr, me.scope, me.owner)
+                );
             });
 
             var scopedChanges = [];
@@ -232,9 +249,7 @@ SlotNode.prototype._update = function (changes, isFromOuter) {
                         type: DataChangeType.SET,
                         expr: {
                             type: ExprType.ACCESSOR,
-                            paths: [
-                                {type: ExprType.STRING, value: name}
-                            ]
+                            paths: [{ type: ExprType.STRING, value: name }]
                         },
                         value: value,
                         option: {}
@@ -249,7 +264,11 @@ SlotNode.prototype._update = function (changes, isFromOuter) {
 
                 each(me.aNode.vars, function (varItem) {
                     var name = varItem.name;
-                    var relation = changeExprCompare(change.expr, varItem.expr, me.scope);
+                    var relation = changeExprCompare(
+                        change.expr,
+                        varItem.expr,
+                        me.scope
+                    );
 
                     if (relation < 1) {
                         return;
@@ -260,21 +279,16 @@ SlotNode.prototype._update = function (changes, isFromOuter) {
                             type: DataChangeType.SET,
                             expr: {
                                 type: ExprType.ACCESSOR,
-                                paths: [
-                                    {type: ExprType.STRING, value: name}
-                                ]
+                                paths: [{ type: ExprType.STRING, value: name }]
                             },
                             value: me.childScope.get(name),
                             option: change.option
                         });
-                    }
-                    else if (relation === 2) {
+                    } else if (relation === 2) {
                         scopedChanges.push({
                             expr: {
                                 type: ExprType.ACCESSOR,
-                                paths: [
-                                    {type: ExprType.STRING, value: name}
-                                ]
+                                paths: [{ type: ExprType.STRING, value: name }]
                             },
                             type: DataChangeType.SPLICE,
                             index: change.index,
@@ -290,8 +304,7 @@ SlotNode.prototype._update = function (changes, isFromOuter) {
             for (var i = 0; i < this.children.length; i++) {
                 this.children[i]._update(scopedChanges);
             }
-        }
-        else if (!this.isInserted) {
+        } else if (!this.isInserted) {
             for (var i = 0; i < this.children.length; i++) {
                 this.children[i]._update(changes);
             }

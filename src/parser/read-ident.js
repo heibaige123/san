@@ -17,13 +17,13 @@
  * @return {string}
  */
 function readIdent(walker) {
-    var match = walker.match(/\s*([\$0-9a-z_]+)/ig, 1);
+    var match = walker.match(/\s*([\$0-9a-z_]+)/gi, 1);
 
-   
     if (!match) {
-        throw new Error('[SAN FATAL] expect an ident: ' + walker.source.slice(walker.index));
+        throw new Error(
+            '[SAN FATAL] expect an ident: ' + walker.source.slice(walker.index)
+        );
     }
-    
 
     return match[1];
 }

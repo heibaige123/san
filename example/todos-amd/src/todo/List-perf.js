@@ -26,10 +26,9 @@ define(function (require) {
             }
 
             san.nextTick(function () {
-                alert('List render: ' + ((new Date) - now));
+                alert('List render: ' + (new Date() - now));
             });
         },
-
 
         doneTodo: function (index) {
             var todo = this.data.get('todos', index);
@@ -38,7 +37,7 @@ define(function (require) {
             var now = new Date();
             this.data.set('todos.' + index + '.done', true);
             san.nextTick(function () {
-                alert('List item modify: ' + ((new Date) - now));
+                alert('List item modify: ' + (new Date() - now));
             });
         },
 
@@ -49,7 +48,7 @@ define(function (require) {
             var now = new Date();
             this.data.removeAt('todos', index);
             san.nextTick(function () {
-                alert('List item delete: ' + ((new Date) - now));
+                alert('List item delete: ' + (new Date() - now));
             });
         }
     });

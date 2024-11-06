@@ -7,7 +7,6 @@
  * @file 开发时的警告提示
  */
 
-
 /**
  * 开发时的警告提示
  *
@@ -17,11 +16,10 @@ function warn(message) {
     message = '[SAN WARNING] ' + message;
 
     /* eslint-disable no-console */
-    
+
     if (typeof console === 'object' && console.warn) {
         console.warn(message);
-    }
-    else {
+    } else {
         // 防止警告中断调用堆栈
         setTimeout(function () {
             throw new Error(message);
@@ -29,6 +27,5 @@ function warn(message) {
     }
     /* eslint-enable no-console */
 }
-
 
 exports = module.exports = warn;

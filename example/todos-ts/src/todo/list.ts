@@ -1,13 +1,12 @@
-import './list.css'
+import './list.css';
 
-import san from 'san'
-import Todo from './model'
-import Category from '../category/model'
+import san from 'san';
+import Todo from './model';
+import Category from '../category/model';
 
-import service from '../service'
-import { formatDate } from '../filters'
-import { Link } from 'san-router'
-
+import service from '../service';
+import { formatDate } from '../filters';
+import { Link } from 'san-router';
 
 const template = `
 <div class="todos">

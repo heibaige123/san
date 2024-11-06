@@ -15,7 +15,6 @@ var parseCall = require('./parse-call');
 var parseText = require('./parse-text');
 var parseDirective = require('./parse-directive');
 
-
 /**
  * 解析抽象节点属性
  *
@@ -59,9 +58,7 @@ function integrateAttr(aNode, name, value, options) {
             event.expr = parseCall(value, [
                 {
                     type: ExprType.ACCESSOR,
-                    paths: [
-                        {type: ExprType.STRING, value: '$event'}
-                    ]
+                    paths: [{ type: ExprType.STRING, value: '$event' }]
                 }
             ]);
             break;
@@ -93,7 +90,11 @@ function integrateAttr(aNode, name, value, options) {
             }
 
             // parse two way binding, e.g. value="{=ident=}"
-            if (value && value.indexOf('{=') === 0 && value.slice(-2) === '=}') {
+            if (
+                value &&
+                value.indexOf('{=') === 0 &&
+                value.slice(-2) === '=}'
+            ) {
                 aNode.props.push({
                     name: name,
                     expr: parseExpr(value.slice(2, -2)),
@@ -111,22 +112,27 @@ function integrateAttr(aNode, name, value, options) {
                         value: true
                     };
                 }
-            }
-            else {
+            } else {
                 switch (name) {
                     case 'class':
                     case 'style':
-
                         switch (expr.type) {
                             case ExprType.TEXT:
-                                for (var i = 0, l = expr.segs.length; i < l; i++) {
+                                for (
+                                    var i = 0, l = expr.segs.length;
+                                    i < l;
+                                    i++
+                                ) {
                                     if (expr.segs[i].type === ExprType.INTERP) {
                                         expr.segs[i].filters.push({
                                             type: ExprType.CALL,
                                             name: {
                                                 type: ExprType.ACCESSOR,
                                                 paths: [
-                                                    {type: ExprType.STRING, value: '_' + name}
+                                                    {
+                                                        type: ExprType.STRING,
+                                                        value: '_' + name
+                                                    }
                                                 ]
                                             },
                                             args: []
@@ -141,7 +147,10 @@ function integrateAttr(aNode, name, value, options) {
                                     name: {
                                         type: ExprType.ACCESSOR,
                                         paths: [
-                                            {type: ExprType.STRING, value: '_' + name}
+                                            {
+                                                type: ExprType.STRING,
+                                                value: '_' + name
+                                            }
                                         ]
                                     },
                                     args: []
@@ -153,30 +162,33 @@ function integrateAttr(aNode, name, value, options) {
                                     expr = {
                                         type: ExprType.INTERP,
                                         expr: expr,
-                                        filters: [{
-                                            type: ExprType.CALL,
-                                            name: {
-                                                type: ExprType.ACCESSOR,
-                                                paths: [
-                                                    {type: ExprType.STRING, value: '_' + name}
-                                                ]
-                                            },
-                                            args: []
-                                        }]
-                                    }
+                                        filters: [
+                                            {
+                                                type: ExprType.CALL,
+                                                name: {
+                                                    type: ExprType.ACCESSOR,
+                                                    paths: [
+                                                        {
+                                                            type: ExprType.STRING,
+                                                            value: '_' + name
+                                                        }
+                                                    ]
+                                                },
+                                                args: []
+                                            }
+                                        ]
+                                    };
                                 }
                         }
                 }
-
             }
 
             aNode.props.push(
                 value != null
-                    ? {name: name, expr: expr}
-                    : {name: name, expr: expr, noValue: 1}
+                    ? { name: name, expr: expr }
+                    : { name: name, expr: expr, noValue: 1 }
             );
     }
 }
-
 
 exports = module.exports = integrateAttr;

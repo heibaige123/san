@@ -20,7 +20,7 @@ function un(el, eventName, listener, capture) {
     if (el.addEventListener) {
         el.removeEventListener(eventName, listener, capture);
     } else {
-        el.detachEvent("on" + eventName, listener);
+        el.detachEvent('on' + eventName, listener);
     }
 }
 

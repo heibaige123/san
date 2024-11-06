@@ -4,23 +4,19 @@
  */
 
 var devices = {
-
     modern: {
-
         chrome: {
             browserName: 'chrome',
             platform: 'Windows 7'
         },
         firefox: {
             browserName: 'firefox'
-        },
+        }
         // mac_safari: {
         //     browserName: 'safari',
         //     platform: 'OS X 10.10'
         // }
-
     },
-
 
     ie_family: {
         // ie_8: {
@@ -32,7 +28,7 @@ var devices = {
             browserName: 'internet explorer',
             platform: 'Windows 7',
             version: '9'
-        },
+        }
         // ie_11: {
         //     browserName: 'internet explorer',
         //     platform: 'Windows 8.1',
@@ -44,7 +40,6 @@ var devices = {
         // }
     },
 
-
     mobile: {
         // ios_safari_10: {
         //     browserName: 'iphone',
@@ -55,9 +50,6 @@ var devices = {
             version: '5.1'
         }
     }
-
 };
-
-
 
 module.exports.devices = devices;

@@ -34,14 +34,12 @@ function readAccessor(walker) {
 
     var result = {
         type: ExprType.ACCESSOR,
-        paths: [
-            {type: ExprType.STRING, value: firstSeg}
-        ]
+        paths: [{ type: ExprType.STRING, value: firstSeg }]
     };
 
     /* eslint-disable no-constant-condition */
     accessorLoop: while (1) {
-    /* eslint-enable no-constant-condition */
+        /* eslint-enable no-constant-condition */
 
         switch (walker.source.charCodeAt(walker.index)) {
             case 46: // .

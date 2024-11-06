@@ -10,7 +10,6 @@
 var nextTick = require('../util/next-tick');
 var each = require('../util/each');
 
-
 /**
  * 组件Loader类
  *
@@ -27,7 +26,6 @@ function ComponentLoader(load, placeholder, fallback) {
 
     this.listeners = [];
 }
-
 
 /**
  * 开始加载组件

@@ -1,5 +1,5 @@
-describe("TemplateComponent", function () {
-    it("as sub component", function (done) {
+describe('TemplateComponent', function () {
+    it('as sub component', function (done) {
         var MyTplComponent = san.defineTemplateComponent({
             template: '<span title="{{t}}">{{n}}</span>'
         });
@@ -11,14 +11,12 @@ describe("TemplateComponent", function () {
             template: '<a><x-tpl t="{{email}}" n="{{name}}"/></a>'
         });
 
-        
         var myComponent = new MyComponent({
             data: {
-                'email': 'errorrik@gmail.com',
-                'name': 'errorrik'
+                email: 'errorrik@gmail.com',
+                name: 'errorrik'
             }
         });
-
 
         var wrap = document.createElement('div');
         document.body.appendChild(wrap);
@@ -39,22 +37,19 @@ describe("TemplateComponent", function () {
             document.body.removeChild(wrap);
             done();
         });
-
     });
 
-    it("as root component", function (done) {
+    it('as root component', function (done) {
         var MyComponent = san.defineTemplateComponent({
             template: '<span title="{{t}}">{{n}}</span>'
         });
 
-        
         var myComponent = new MyComponent({
             data: {
-                't': 'errorrik@gmail.com',
-                'n': 'errorrik'
+                t: 'errorrik@gmail.com',
+                n: 'errorrik'
             }
         });
-
 
         var wrap = document.createElement('div');
         document.body.appendChild(wrap);
@@ -75,10 +70,9 @@ describe("TemplateComponent", function () {
             document.body.removeChild(wrap);
             done();
         });
-
     });
 
-    it("with slot", function (done) {
+    it('with slot', function (done) {
         var MyTplComponent = san.defineTemplateComponent({
             template: '<span title="{{t}}"><slot/></span>'
         });
@@ -90,14 +84,12 @@ describe("TemplateComponent", function () {
             template: '<a><x-tpl t="{{email}}">{{name}}</x-tpl></a>'
         });
 
-        
         var myComponent = new MyComponent({
             data: {
-                'email': 'errorrik@gmail.com',
-                'name': 'errorrik'
+                email: 'errorrik@gmail.com',
+                name: 'errorrik'
             }
         });
-
 
         var wrap = document.createElement('div');
         document.body.appendChild(wrap);
@@ -118,29 +110,28 @@ describe("TemplateComponent", function () {
             document.body.removeChild(wrap);
             done();
         });
-
     });
 
-    it("with fragment", function (done) {
+    it('with fragment', function (done) {
         var MyTplComponent = san.defineTemplateComponent({
-            template: '<fragment><h3><slot name="title"/></h3><span><slot/></span></fragment>'
+            template:
+                '<fragment><h3><slot name="title"/></h3><span><slot/></span></fragment>'
         });
 
         var MyComponent = san.defineComponent({
             components: {
                 'x-tpl': MyTplComponent
             },
-            template: '<div><x-tpl><a slot="title">{{name}}</a>{{email}}</x-tpl></div>'
+            template:
+                '<div><x-tpl><a slot="title">{{name}}</a>{{email}}</x-tpl></div>'
         });
 
-        
         var myComponent = new MyComponent({
             data: {
-                'email': 'errorrik@gmail.com',
-                'name': 'errorrik'
+                email: 'errorrik@gmail.com',
+                name: 'errorrik'
             }
         });
-
 
         var wrap = document.createElement('div');
         document.body.appendChild(wrap);
@@ -162,10 +153,9 @@ describe("TemplateComponent", function () {
             document.body.removeChild(wrap);
             done();
         });
-
     });
 
-    it("merge root element class literal", function (done) {
+    it('merge root element class literal', function (done) {
         var MyTplComponent = san.defineTemplateComponent({
             template: '<span title="{{t}}" class="c">{{n}}</span>'
         });
@@ -177,14 +167,12 @@ describe("TemplateComponent", function () {
             template: '<a><x-tpl t="{{email}}" n="{{name}}" class="a b"/></a>'
         });
 
-        
         var myComponent = new MyComponent({
             data: {
-                'email': 'errorrik@gmail.com',
-                'name': 'errorrik'
+                email: 'errorrik@gmail.com',
+                name: 'errorrik'
             }
         });
-
 
         var wrap = document.createElement('div');
         document.body.appendChild(wrap);
@@ -208,10 +196,9 @@ describe("TemplateComponent", function () {
             document.body.removeChild(wrap);
             done();
         });
-
     });
 
-    it("merge root element class literal", function (done) {
+    it('merge root element class literal', function (done) {
         var MyTplComponent = san.defineTemplateComponent({
             template: '<span title="{{t}}" class="{{xc}}">{{n}}</span>'
         });
@@ -220,19 +207,18 @@ describe("TemplateComponent", function () {
             components: {
                 'x-tpl': MyTplComponent
             },
-            template: '<a><x-tpl t="{{email}}" n="{{name}}" class="{{cla}}" xc="{{xc}}"/></a>'
+            template:
+                '<a><x-tpl t="{{email}}" n="{{name}}" class="{{cla}}" xc="{{xc}}"/></a>'
         });
 
-        
         var myComponent = new MyComponent({
             data: {
-                'email': 'errorrik@gmail.com',
-                'name': 'errorrik',
-                'cla': ['a', 'b'],
-                'xc': 'c'
+                email: 'errorrik@gmail.com',
+                name: 'errorrik',
+                cla: ['a', 'b'],
+                xc: 'c'
             }
         });
-
 
         var wrap = document.createElement('div');
         document.body.appendChild(wrap);
@@ -262,10 +248,9 @@ describe("TemplateComponent", function () {
             document.body.removeChild(wrap);
             done();
         });
-
     });
 
-    it("merge root element style literal", function (done) {
+    it('merge root element style literal', function (done) {
         var MyTplComponent = san.defineTemplateComponent({
             template: '<span style="color:blue">test</span>'
         });
@@ -277,7 +262,6 @@ describe("TemplateComponent", function () {
             template: '<a><x-tpl style="height:{{h}}"/></a>'
         });
 
-        
         var myComponent = new MyComponent({
             data: {
                 h: '10px'
@@ -304,10 +288,9 @@ describe("TemplateComponent", function () {
             document.body.removeChild(wrap);
             done();
         });
-
     });
 
-    it("merge root element style, auto expand", function (done) {
+    it('merge root element style, auto expand', function (done) {
         var MyTplComponent = san.defineTemplateComponent({
             template: '<span style="{{xs}}">test</span>'
         });
@@ -319,7 +302,6 @@ describe("TemplateComponent", function () {
             template: '<a><x-tpl style="{{sty}}" xs="{{xs}}"/></a>'
         });
 
-        
         var myComponent = new MyComponent({
             data: {
                 sty: {
@@ -330,14 +312,15 @@ describe("TemplateComponent", function () {
             }
         });
 
-
         var wrap = document.createElement('div');
         document.body.appendChild(wrap);
         myComponent.attach(wrap);
 
         var span = wrap.getElementsByTagName('span')[0];
         expect(/height:\s*10px($|;)/i.test(span.style.cssText)).toBeTruthy();
-        expect(/position:\s*absolute($|;)/i.test(span.style.cssText)).toBeTruthy();
+        expect(
+            /position:\s*absolute($|;)/i.test(span.style.cssText)
+        ).toBeTruthy();
         expect(/color:\s*blue($|;)/i.test(span.style.cssText)).toBeTruthy();
 
         myComponent.data.set('xs', {
@@ -349,7 +332,9 @@ describe("TemplateComponent", function () {
         myComponent.nextTick(function () {
             expect(/width:\s*5px($|;)/i.test(span.style.cssText)).toBeTruthy();
             expect(/top:\s*10px($|;)/i.test(span.style.cssText)).toBeTruthy();
-            expect(/position:\s*relative($|;)/i.test(span.style.cssText)).toBeTruthy();
+            expect(
+                /position:\s*relative($|;)/i.test(span.style.cssText)
+            ).toBeTruthy();
 
             expect(/color/i.test(span.style.cssText)).toBeFalsy();
 
@@ -357,21 +342,21 @@ describe("TemplateComponent", function () {
             document.body.removeChild(wrap);
             done();
         });
-
     });
 
-    it("root with if-else, merge id & class & style prop", function (done) {
+    it('root with if-else, merge id & class & style prop', function (done) {
         var MyTplComponent = san.defineTemplateComponent({
-            template: 
-                '<b s-if="isShow" class="a" style="color:blue">test</b>'
-                + '<u s-else class="b" style="color:red">test</u>'
+            template:
+                '<b s-if="isShow" class="a" style="color:blue">test</b>' +
+                '<u s-else class="b" style="color:red">test</u>'
         });
 
         var MyComponent = san.defineComponent({
             components: {
                 'x-tpl': MyTplComponent
             },
-            template: '<a><x-tpl id="outerId" class="c" style="height:10px" isShow="{{isShow}}"/></a>'
+            template:
+                '<a><x-tpl id="outerId" class="c" style="height:10px" isShow="{{isShow}}"/></a>'
         });
 
         var myComponent = new MyComponent({
@@ -379,7 +364,6 @@ describe("TemplateComponent", function () {
                 isShow: true
             }
         });
-
 
         var wrap = document.createElement('div');
         document.body.appendChild(wrap);
@@ -405,17 +389,16 @@ describe("TemplateComponent", function () {
             document.body.removeChild(wrap);
             done();
         });
-
     });
 
-    it("initData", function (done) {
+    it('initData', function (done) {
         var MyTplComponent = san.defineTemplateComponent({
             template: '<span class="{{c}}">test</span>',
 
             initData: function () {
                 return {
                     c: ['c', 'd']
-                }
+                };
             }
         });
 
@@ -426,13 +409,11 @@ describe("TemplateComponent", function () {
             template: '<a><x-tpl class="{{clz}}"/></a>'
         });
 
-        
         var myComponent = new MyComponent({
             data: {
-                'clz': 'a b'
+                clz: 'a b'
             }
         });
-
 
         var wrap = document.createElement('div');
         document.body.appendChild(wrap);
@@ -456,10 +437,9 @@ describe("TemplateComponent", function () {
             document.body.removeChild(wrap);
             done();
         });
-
     });
 
-    it("root element with if, has data when inited", function (done) {
+    it('root element with if, has data when inited', function (done) {
         var MyTplComponent = san.defineTemplateComponent({
             template: '<b s-if="person">{{person.name}}</b>'
         });
@@ -469,7 +449,7 @@ describe("TemplateComponent", function () {
                 'x-tpl': MyTplComponent
             },
             template: '<x-tpl person="{{person}}"/>'
-        })
+        });
 
         var myComponent = new MyComponent({
             data: {
@@ -488,7 +468,6 @@ describe("TemplateComponent", function () {
         var b = wrap.getElementsByTagName('b')[0];
         expect(b.innerHTML).toBe('errorrik');
 
-
         myComponent.data.set('person', null);
         myComponent.nextTick(function () {
             expect(wrap.getElementsByTagName('b').length).toBe(0);
@@ -499,7 +478,7 @@ describe("TemplateComponent", function () {
         });
     });
 
-    it("root element with if, no data when inited", function (done) {
+    it('root element with if, no data when inited', function (done) {
         var MyTplComponent = san.defineTemplateComponent({
             template: '<b s-if="person">{{person.name}}</b>'
         });
@@ -509,7 +488,7 @@ describe("TemplateComponent", function () {
                 'x-tpl': MyTplComponent
             },
             template: '<x-tpl person="{{person}}"/>'
-        })
+        });
 
         var myComponent = new MyComponent({});
 
@@ -534,7 +513,7 @@ describe("TemplateComponent", function () {
         });
     });
 
-    it("native bind click", function (done) {
+    it('native bind click', function (done) {
         var clicked = 0;
         var ChildComponent = san.defineTemplateComponent({
             template: '<h2>child</h2>'
@@ -542,10 +521,10 @@ describe("TemplateComponent", function () {
 
         var MyComponent = san.defineComponent({
             template:
-            '<div>' +
+                '<div>' +
                 '<child-component on-click="native:clicker"></child-component>' +
                 '<child-component></child-component>' +
-            '</div>',
+                '</div>',
             components: {
                 'child-component': ChildComponent
             },

@@ -1,8 +1,5 @@
-describe('San spec runner in browser', function() {
-
-    it('should passed', function() {
-
-
+describe('San spec runner in browser', function () {
+    it('should passed', function () {
         // open url
         browser.url('/test/?trigger=wd');
 
@@ -11,9 +8,8 @@ describe('San spec runner in browser', function() {
 
         // wait result
         browser.waitUntil(() => {
-
             // poll bridge data
-            var tick = browser.executeAsync(function(done) {
+            var tick = browser.executeAsync(function (done) {
                 window.WDBridge.nextTick(done);
             });
 
@@ -31,7 +27,6 @@ describe('San spec runner in browser', function() {
             var alert = browser.getText('.jasmine-alert');
 
             return !!alert;
-
         }, jasmine.DEFAULT_TIMEOUT_INTERVAL);
 
         // log result
@@ -41,9 +36,5 @@ describe('San spec runner in browser', function() {
         // check result
         var failures = browser.getText('.jasmine-failures');
         expect(failures).toBe('');
-
-
     });
-
-
 });
