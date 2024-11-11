@@ -250,7 +250,7 @@ function createShapeChecker(shapeTypes) {
             }
 
             for (var shapeKeyName in shapeTypes) {
-                /* istanbul ignore else  */
+                
                 if (shapeTypes.hasOwnProperty(shapeKeyName)) {
                     var checker = shapeTypes[shapeKeyName];
                     if (typeof checker === 'function') {
@@ -419,7 +419,7 @@ function createObjectOfChecker(typeChecker) {
             }
 
             for (var dataKeyName in dataValue) {
-                /* istanbul ignore else  */
+                
                 if (dataValue.hasOwnProperty(dataKeyName)) {
                     typeChecker(
                         dataValue,
@@ -480,7 +480,7 @@ function createExactChecker(shapeTypes) {
             // 保证 allKeys 的类型正确
 
             for (var key in allKeys) {
-                /* istanbul ignore else  */
+                
                 if (allKeys.hasOwnProperty(key)) {
                     var checker = shapeTypes[key];
 

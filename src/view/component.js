@@ -120,7 +120,7 @@ function Component(options) {
     var proto = clazz.prototype;
 
     // pre define components class
-    /* istanbul ignore else  */
+    
     if (!proto.hasOwnProperty('_cmptReady')) {
         preprocessComponents(clazz);
     }
