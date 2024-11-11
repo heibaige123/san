@@ -15,7 +15,7 @@
 function warn(message) {
     message = '[SAN WARNING] ' + message;
 
-    /* eslint-disable no-console */
+    
 
     if (typeof console === 'object' && console.warn) {
         console.warn(message);
@@ -25,7 +25,7 @@ function warn(message) {
             throw new Error(message);
         }, 0);
     }
-    /* eslint-enable no-console */
+    /*  */
 }
 
 exports = module.exports = warn;
