@@ -25,7 +25,7 @@ function getXPath(stack, currentTagName) {
     return path.join('>');
 }
 
-/* eslint-disable fecs-max-statements */
+
 
 /**
  * 解析 template

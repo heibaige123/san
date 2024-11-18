@@ -282,7 +282,7 @@ ForNode.prototype._createChildren = function () {
     }
 };
 
-/* eslint-disable fecs-max-statements */
+
 
 /**
  * 视图更新函数
