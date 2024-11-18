@@ -67,7 +67,7 @@
          */
         version: '##version##',
 
-        // #[begin] devtool
+        
         /**
          * 是否开启调试。开启调试时 devtool 会工作
          *
@@ -220,6 +220,6 @@
         root.san = san;
     }
 
-    // #[begin] devtool
+    
     emitDevtool.start(san);
 })(this);

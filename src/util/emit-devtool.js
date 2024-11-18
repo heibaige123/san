@@ -9,7 +9,7 @@
 
 var isBrowser = require('../browser/is-browser');
 
-// #[begin] devtool
+
 var san4devtool;
 
 /**

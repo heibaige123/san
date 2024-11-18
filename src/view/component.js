@@ -114,7 +114,7 @@ function Component(options) {
         named: {}
     };
 
-    // #[begin] devtool
+    
     this._toPhase('beforeCompile');
 
     var proto = clazz.prototype;
@@ -258,7 +258,7 @@ function Component(options) {
 
     this._toPhase('compiled');
 
-    // #[begin] devtool
+    
     this._toPhase('beforeInit');
 
     // init data
@@ -447,7 +447,7 @@ Component.prototype._toPhase = function (name) {
         this._afterLife = this.lifeCycle;
 
         // 通知devtool
-        // #[begin] devtool
+        
         emitDevtool('comp-' + name, this);
     }
 };
@@ -494,7 +494,7 @@ Component.prototype.un = function (name, listener) {
  */
 Component.prototype.fire = function (name, event) {
     var me = this;
-    // #[begin] devtool
+    
     emitDevtool('comp-event', {
         name: name,
         event: event,
@@ -569,7 +569,7 @@ Component.prototype.dispatch = function (name, value) {
         var handler =
             parentComponent.messages[name] || parentComponent.messages['*'];
         if (typeof handler === 'function') {
-            // #[begin] devtool
+            
             emitDevtool('comp-message', {
                 target: this,
                 value: value,
@@ -592,7 +592,7 @@ Component.prototype.dispatch = function (name, value) {
         parentComponent = parentComponent.parentComponent;
     }
 
-    // #[begin] devtool
+    
     emitDevtool('comp-message', { target: this, value: value, name: name });
 };
 
@@ -822,7 +822,7 @@ Component.prototype._update = function (changes) {
 
     var dataChanges = this._dataChanges;
     if (dataChanges) {
-        // #[begin] devtool
+        
         this._toPhase('beforeUpdate');
 
         this._dataChanges = null;
@@ -1067,13 +1067,13 @@ Component.prototype._getElAsRootNode = function () {
  */
 Component.prototype.attach = function (parentEl, beforeEl) {
     if (!this.lifeCycle.attached) {
-        // #[begin] devtool
+        
         this._toPhase('beforeAttach');
 
         var aNode = this.aNode;
 
         if (aNode.Clazz || this.components[aNode.tagName]) {
-            // #[begin] devtool
+            
             this._toPhase('beforeCreate');
 
             this._rootNode =
@@ -1084,7 +1084,7 @@ Component.prototype.attach = function (parentEl, beforeEl) {
             this._toPhase('created');
         } else {
             if (!this.el) {
-                // #[begin] devtool
+                
                 this._toPhase('beforeCreate');
 
                 var props;
@@ -1178,7 +1178,7 @@ Component.prototype._attached = elementOwnAttached;
 Component.prototype._leave = function () {
     if (this.leaveDispose) {
         if (!this.lifeCycle.disposed) {
-            // #[begin] devtool
+            
             this._toPhase('beforeDetach');
 
             this.data.unlisten();
@@ -1230,7 +1230,7 @@ Component.prototype._leave = function () {
 
             this._toPhase('detached');
 
-            // #[begin] devtool
+            
             this._toPhase('beforeDispose');
 
             this._rootNode = null;
@@ -1246,7 +1246,7 @@ Component.prototype._leave = function () {
             }
         }
     } else if (this.lifeCycle.attached) {
-        // #[begin] devtool
+        
         this._toPhase('beforeDetach');
 
         if (this._rootNode) {

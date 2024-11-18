@@ -226,13 +226,13 @@ TemplateComponent.prototype._initDataChanger = function () {
  */
 TemplateComponent.prototype.attach = function (parentEl, beforeEl) {
     if (!this.lifeCycle.attached) {
-        // #[begin] devtool
+        
         emitDevtool('comp-beforeAttach', this);
 
         var aNode = this.aNode;
 
         if (aNode.Clazz) {
-            // #[begin] devtool
+            
             emitDevtool('comp-beforeCreate', this);
 
             this._rootNode =
@@ -242,11 +242,11 @@ TemplateComponent.prototype.attach = function (parentEl, beforeEl) {
                 (this.el = this._rootNode._getElAsRootNode());
 
             this.lifeCycle = LifeCycle.created;
-            // #[begin] devtool
+            
             emitDevtool('comp-create', this);
         } else {
             if (!this.el) {
-                // #[begin] devtool
+                
                 emitDevtool('comp-beforeCreate', this);
 
                 var props;
@@ -288,7 +288,7 @@ TemplateComponent.prototype.attach = function (parentEl, beforeEl) {
                 }
 
                 this.lifeCycle = LifeCycle.created;
-                // #[begin] devtool
+                
                 emitDevtool('comp-create', this);
             }
 
@@ -328,7 +328,7 @@ TemplateComponent.prototype.attach = function (parentEl, beforeEl) {
         }
 
         this.lifeCycle = LifeCycle.attached;
-        // #[begin] devtool
+        
         emitDevtool('comp-attached', this);
     }
 };
@@ -470,7 +470,7 @@ TemplateComponent.prototype._update = function (changes) {
 
     var dataChanges = this._dataChanges;
     if (dataChanges) {
-        // #[begin] devtool
+        
         emitDevtool('comp-beforeUpdate', this);
 
         this._dataChanges = null;
@@ -673,7 +673,7 @@ TemplateComponent.prototype._repaintChildren = function () {
 TemplateComponent.prototype._leave = function () {
     if (this.leaveDispose) {
         if (!this.lifeCycle.disposed) {
-            // #[begin] devtool
+            
             emitDevtool('comp-beforeDetach', this);
 
             this.data.unlisten();
@@ -708,10 +708,10 @@ TemplateComponent.prototype._leave = function () {
             }
 
             this.lifeCycle = LifeCycle.detached;
-            // #[begin] devtool
+            
             emitDevtool('comp-detached', this);
 
-            // #[begin] devtool
+            
             emitDevtool('comp-beforeDispose', this);
 
             this._rootNode = null;
@@ -721,7 +721,7 @@ TemplateComponent.prototype._leave = function () {
             this.children = null;
 
             this.lifeCycle = LifeCycle.disposed;
-            // #[begin] devtool
+            
             emitDevtool('comp-disposed', this);
 
             if (this._ondisposed) {
@@ -729,7 +729,7 @@ TemplateComponent.prototype._leave = function () {
             }
         }
     } else if (this.lifeCycle.attached) {
-        // #[begin] devtool
+        
         emitDevtool('comp-beforeDetach', this);
 
         if (this._rootNode) {
@@ -744,7 +744,7 @@ TemplateComponent.prototype._leave = function () {
         }
 
         this.lifeCycle = LifeCycle.detached;
-        // #[begin] devtool
+        
         emitDevtool('comp-detached', this);
     }
 };
