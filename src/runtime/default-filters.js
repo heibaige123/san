@@ -7,7 +7,7 @@
  * @file 默认filter
  */
 
-/* eslint-disable fecs-camelcase */
+
 
 function defaultStyleFilter(source) {
     if (typeof source === 'object') {
