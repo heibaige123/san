@@ -365,6 +365,6 @@ function parseTemplate(source, options) {
     }
 }
 
-/* eslint-enable fecs-max-statements */
+
 
 exports = module.exports = parseTemplate;
