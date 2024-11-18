@@ -91,7 +91,7 @@
         defineComponent: defineComponent,
         defineTemplateComponent: defineTemplateComponent,
 
-        // #[begin] hydrate
+        
         /**
          * 组件反解
          *

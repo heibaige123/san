@@ -37,7 +37,7 @@ function IfNode(aNode, parent, scope, owner, hydrateWalker) {
     this.id = guid++;
     this.children = [];
 
-    // #[begin] hydrate
+    
     if (hydrateWalker) {
         if (
             evalExpr(this.aNode.directives['if'].value, this.scope, this.owner)

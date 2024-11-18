@@ -11,7 +11,7 @@ var Element = require('./element');
 var FragmentNode = require('./fragment-node');
 var AsyncComponent = require('./async-component');
 
-// #[begin] hydrate
+
 /**
  * 通过组件反解创建节点
  *

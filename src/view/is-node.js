@@ -35,7 +35,7 @@ function IsNode(aNode, parent, scope, owner, hydrateWalker) {
     this.id = guid++;
     this.children = [];
     this.tagName = this.aNode.tagName;
-    // #[begin] hydrate
+    
     if (hydrateWalker) {
         this.cmpt =
             evalExpr(this.aNode.directives.is.value, this.scope) ||

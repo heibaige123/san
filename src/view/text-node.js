@@ -34,7 +34,7 @@ function TextNode(aNode, parent, scope, owner, hydrateWalker) {
     this.scope = scope;
     this.parent = parent;
 
-    // #[begin] hydrate
+    
     if (hydrateWalker) {
         var currentNode = hydrateWalker.current;
         if (currentNode) {

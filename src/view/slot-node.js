@@ -107,7 +107,7 @@ function SlotNode(aNode, parent, scope, owner, hydrateWalker) {
 
     owner.slotChildren.push(this);
 
-    // #[begin] hydrate
+    
     if (hydrateWalker) {
         var currentNode = hydrateWalker.current;
         var hasFlagComment;

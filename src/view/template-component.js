@@ -167,7 +167,7 @@ function TemplateComponent(options) {
     );
     this.lifeCycle = LifeCycle.inited;
 
-    // #[begin] hydrate
+    
     var hydrateWalker = options.hydrateWalker;
     if (hydrateWalker) {
         if (this.aNode.Clazz) {

@@ -148,7 +148,7 @@ function Component(options) {
     preheatANode(this.source);
     proto.aNode._i++;
 
-    // #[begin] hydrate
+    
     // 组件反解，读取注入的组件数据
     if (this.el) {
         var firstCommentNode = this.el.firstChild;
@@ -319,7 +319,7 @@ function Component(options) {
     );
     this._toPhase('inited');
 
-    // #[begin] hydrate
+    
     var hydrateWalker = options.hydrateWalker;
     var aNode = this.aNode;
     if (hydrateWalker) {

@@ -10,7 +10,7 @@
 var DOMChildrenWalker = require('./dom-children-walker');
 var createHydrateNode = require('./create-hydrate-node');
 
-// #[begin] hydrate
+
 
 /**
  * 对元素的子节点进行反解

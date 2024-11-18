@@ -9,7 +9,7 @@
 
 var NodeType = require('./node-type');
 
-// #[begin] hydrate
+
 /**
  * 获取节点在组件树中的路径
  *

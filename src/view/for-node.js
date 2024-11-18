@@ -174,7 +174,7 @@ function ForNode(aNode, parent, scope, owner, hydrateWalker) {
         };
     }
 
-    // #[begin] hydrate
+    
     if (hydrateWalker) {
         this.listData = evalExpr(this.param.value, this.scope, this.owner);
         if (this.listData instanceof Array) {

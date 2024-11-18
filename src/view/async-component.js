@@ -26,7 +26,7 @@ function AsyncComponent(options, loader) {
     this.id = guid++;
     this.children = [];
 
-    // #[begin] hydrate
+    
     var hydrateWalker = options.hydrateWalker;
     if (hydrateWalker) {
         var PlaceholderComponent = this.loader.placeholder;

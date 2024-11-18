@@ -66,7 +66,7 @@ function Element(aNode, parent, scope, owner, tagName, hydrateWalker) {
     );
     this.lifeCycle = LifeCycle.inited;
 
-    // #[begin] hydrate
+    
     if (hydrateWalker) {
         var currentNode = hydrateWalker.current;
 

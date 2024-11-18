@@ -38,7 +38,7 @@ function FragmentNode(aNode, parent, scope, owner, hydrateWalker) {
     this.lifeCycle = LifeCycle.start;
     this.children = [];
 
-    // #[begin] hydrate
+    
     if (hydrateWalker) {
         var hasFlagComment;
 
